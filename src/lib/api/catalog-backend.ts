@@ -9,10 +9,13 @@ import {
 
 import { ApiError } from "./client";
 
-export const CATALOG_API_BASE = process.env.NEXT_PUBLIC_CATALOG_API_BASE ?? "";
+export const CATALOG_API_BASE =
+  process.env.NEXT_PUBLIC_CATALOG_API_BASE ??
+  process.env.NEXT_PUBLIC_API_BASE ??
+  "";
 
 export function isCatalogBackendEnabled(): boolean {
-  return Boolean(process.env.NEXT_PUBLIC_CATALOG_API_BASE);
+  return Boolean(CATALOG_API_BASE);
 }
 
 const slugify = (v: string) =>
@@ -181,8 +184,9 @@ export async function fetchCatalogProducts(): Promise<Product[]> {
 }
 
 export async function fetchCatalogProductBySku(sku: string): Promise<Product> {
+  const normalizedSku = sku.trim().toUpperCase();
   const item = await catalogFetch(
-    `/catalog/products/${encodeURIComponent(sku)}`,
+    `/catalog/products/${encodeURIComponent(normalizedSku)}`,
     BackendProductDetailSchema,
   );
   return adaptProduct(item);

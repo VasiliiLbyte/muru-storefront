@@ -1,11 +1,9 @@
 "use client";
 
 import { cn } from "@/lib/utils";
+import { useCartStore } from "@/stores/cart-store";
 
-/**
- * Заглушка кнопки «Добавить в корзину» на карточке товара.
- * Полная интеграция с useCart — отдельный промпт.
- */
+/** Кнопка «Добавить в корзину» на карточке товара в листинге каталога. */
 export function AddToCartButton({
   sku,
   className,
@@ -13,6 +11,8 @@ export function AddToCartButton({
   sku: string;
   className?: string;
 }) {
+  const addItem = useCartStore((s) => s.addItem);
+
   return (
     <button
       type="button"
@@ -24,6 +24,7 @@ export function AddToCartButton({
       onClick={(event) => {
         event.preventDefault();
         event.stopPropagation();
+        addItem(sku);
       }}
     >
       Добавить в корзину
