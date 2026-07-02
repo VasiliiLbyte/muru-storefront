@@ -1,0 +1,14 @@
+---
+description: Дизайн-система и токены
+alwaysApply: true
+---
+- Все цвета/типографика/отступы/радиусы/тени — через Tailwind @theme токены из docs/DESIGN.md и брендбука.
+- Шрифты — self-hosted через next/font. Семейства брать из DESIGN.md (computed font-family), НЕ угадывать.
+- Эстетика: editorial / slow-living (как в Mini App: Cormorant Garamond для дисплея, мягкая оливковая палитра,
+  тень типа cardSurface). Если muru.ru использует те же — переиспользуем для бренд-консистентности.
+- Микроанимации сдержанные, с обязательной поддержкой prefers-reduced-motion.
+- Запрещены произвольные «дефолтные» Tailwind-цвета вне токенов.
+
+---
+alwaysApply: true
+---

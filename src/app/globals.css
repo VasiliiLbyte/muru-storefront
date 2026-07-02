@@ -1,0 +1,177 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+@import "shadcn/tailwind.css";
+
+/*
+ * Дизайн-система MURU (Промпт 2).
+ * Источник истины токенов — docs/DESIGN.md (computed с живого muru.ru).
+ * Эстетика: editorial / slow-living. Палитра — мягкий оливковый бренд,
+ * светлый фон, бежевая поверхность. Радиусы интерактива — 0px (резкие углы).
+ * Глубина — плоская (без теней), кроме мягкой тени оверлеев/дропдаунов.
+ */
+
+/* ------------------------------------------------------------------ *
+ * Tailwind v4 @theme — генерирует utility-классы из MURU токенов.
+ * ------------------------------------------------------------------ */
+@theme {
+  /* — Бренд — */
+  --color-brand: #5d6b3a;
+  --color-brand-hover: #879650;
+
+  /* — Нейтральная шкала / поверхности — */
+  --color-background: #fcfbfb;
+  --color-surface: #f4f0e8;
+  --color-line: #d1cdcd;
+
+  /* — Текст — */
+  --color-text-primary: #555558;
+  --color-text-secondary: #5b5b5b;
+  --color-text-muted: #b8b8b8;
+  --color-text-inverse: #ffffff;
+  --color-text-heading: #2f2f2f;
+
+  /* — Системные состояния — */
+  --color-error: #e03a43;
+  --color-success: #2a4c39;
+  --color-warning: #ffc117;
+
+  /* — Шрифты (привязка к next/font, см. src/lib/fonts.ts) — */
+  --font-sans:
+    var(--font-sans), ui-sans-serif, system-ui, -apple-system, "Segoe UI",
+    Roboto, Arial, sans-serif;
+  --font-display: var(--font-sans);
+  --font-mono:
+    ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas,
+    "Liberation Mono", monospace;
+
+  /* — Типографика (size / line-height) — */
+  --text-display: 36px;
+  --text-display--line-height: 1.2;
+  --text-h2: 36px;
+  --text-h2--line-height: 1.2;
+  --text-body: 16px;
+  --text-body--line-height: 1.5;
+  --text-small: 14px;
+  --text-small--line-height: 1.5;
+  --text-caption: 14px;
+  --text-caption--line-height: 1.2;
+
+  /* — Радиусы — DESIGN.md: интерактив 0px, md/lg для декоративных форм — */
+  --radius-sm: 0px;
+  --radius-md: 50px;
+  --radius-lg: 100px;
+
+  /* — Сетка/лейаут — base 4px совпадает с дефолтом Tailwind — */
+  --spacing-gutter: 20px;
+  --spacing-section: 32px;
+  --container-page: 1564px;
+  --header-height: 170px;
+
+  /* — Движение (сдержанное, slow-living) — */
+  --ease-standard: ease-in-out;
+  --duration-fast: 0.3s;
+  --duration-base: 0.5s;
+  --duration-slow: 0.8s;
+
+  /* — Глубина — плоско по DESIGN.md; тень только у оверлеев/дропдаунов — */
+  --shadow-card: none;
+  --shadow-overlay: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+/* ------------------------------------------------------------------ *
+ * Мост к семантическим переменным shadcn / base-nova:
+ * компоненты shadcn читают эти --vars, поэтому маппим их на палитру MURU.
+ * ------------------------------------------------------------------ */
+@theme inline {
+  --color-foreground: var(--foreground);
+  --font-sans: var(--font-sans);
+  --font-mono: var(--font-mono);
+  --font-heading: var(--font-display);
+  --color-ring: var(--ring);
+  --color-input: var(--input);
+  --color-border: var(--border);
+  --color-destructive: var(--destructive);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-accent: var(--accent);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-muted: var(--muted);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-secondary: var(--secondary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-primary: var(--primary);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-popover: var(--popover);
+  --color-card-foreground: var(--card-foreground);
+  --color-card: var(--card);
+}
+
+:root {
+  /* Радиус-база для shadcn (base-nova считает sm/md/lg от --radius). 0 = резкие углы. */
+  --radius: 0px;
+  --header-height: 170px;
+
+  --background: #fcfbfb;
+  --foreground: var(--color-text-primary);
+
+  --card: var(--color-background);
+  --card-foreground: var(--color-text-primary);
+
+  --popover: var(--color-background);
+  --popover-foreground: var(--color-text-primary);
+
+  --primary: var(--color-brand);
+  --primary-foreground: var(--color-text-inverse);
+
+  --secondary: var(--color-surface);
+  --secondary-foreground: var(--color-text-primary);
+
+  --muted: var(--color-surface);
+  --muted-foreground: var(--color-text-muted);
+
+  --accent: var(--color-surface);
+  --accent-foreground: var(--color-text-heading);
+
+  --destructive: var(--color-error);
+
+  --border: var(--color-line);
+  --input: var(--color-line);
+  --ring: var(--color-brand);
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  body {
+    @apply bg-background text-foreground;
+    font-size: var(--text-body);
+    line-height: var(--text-body--line-height);
+    font-weight: 300;
+  }
+  html {
+    @apply font-sans;
+  }
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    color: var(--color-text-heading);
+    font-family: var(--font-display);
+    font-weight: 400;
+    line-height: 1.2;
+  }
+}
+
+/* Доступность: уважаем prefers-reduced-motion (правило 40-accessibility). */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}

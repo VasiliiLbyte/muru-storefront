@@ -1,0 +1,12 @@
+---
+description: SEO-требования (то, чего не было на Bitrix)
+alwaysApply: true
+---
+- Уникальные title/description на каждый маршрут через generateMetadata. Никаких заглушек "MURU/MURU".
+- Ровно один <h1> на страницу.
+- canonical, OpenGraph, Twitter — на всех публичных страницах.
+- JSON-LD: Organization (layout), Product (карточка), BreadcrumbList (каталог), ItemList (листинги).
+- Динамические sitemap.ts и robots.ts (из taxonomy + товаров).
+- trailingSlash: true (паритет с SEF-URL muru.ru для будущих 301).
+- redirects(): карта старых Bitrix-URL (/include/*.php и пр.) на новые чистые URL.
+- LCP-картинки — priority; никакого lazy на первый экран.

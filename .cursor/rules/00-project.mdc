@@ -1,0 +1,14 @@
+---
+description: Базовые принципы проекта muru-storefront
+alwaysApply: true
+---
+- Это headless-витрина MURU на Next.js 16 (App Router, TS strict). Заменяет сайт на Bitrix (muru.ru).
+- Цель: визуально практически 1:1 с muru.ru, но техоснова чистая. Дефекты muru.ru НЕ воспроизводим.
+- Источник истины: живой muru.ru (визуал) > docs/BRANDBOOK.pdf (бренд-константы) > docs/DESIGN.md (токены).
+- Перед версткой любой страницы — сверяйся с docs/reference-screenshots/ и docs/DESIGN.md.
+- Структуру маршрутов и таксономию бери из docs/muru-url-inventory.csv и src/lib/taxonomy.ts.
+- Никаких localStorage-запретов тут нет (это не sandbox-артефакт) — клиентское состояние корзины/избранного persist'ить в localStorage.
+
+---
+alwaysApply: true
+---
