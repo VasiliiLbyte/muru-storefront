@@ -1,0 +1,51 @@
+---
+description: Executor mode — follow orchestrator prompts, link to muru-docs hub
+alwaysApply: true
+---
+
+# MURU Storefront Executor Mode
+
+This repo is a **code executor** workspace. Work from orchestrator prompts (Plan mode in this repo). Platform memory lives in `muru-docs`.
+
+## Platform docs (read when prompt touches these areas)
+
+| Doc | Path |
+|---|---|
+| API contract | `/Users/vasilii/Desktop/code /muru-docs/API_CONTRACT.md` |
+| Progress / task context | `/Users/vasilii/Desktop/code /muru-docs/PROGRESS.md` |
+| Playbook / report template | `/Users/vasilii/Desktop/code /muru-docs/ORCHESTRATOR.md` §4 |
+
+Read `API_CONTRACT.md` before changing catalog fetch, checkout, CDEK, or payment client calls.
+
+## Execution rules
+
+- Follow the orchestrator prompt scope only — do not expand into unrelated refactors.
+- Plan mode: present plan → wait for approval → implement.
+- Preserve hybrid API mode: `NEXT_PUBLIC_API_BASE`, `NEXT_PUBLIC_CATALOG_API_BASE`, MSW passthrough in `src/lib/api/client.ts`.
+- Content pages (`collections`, `lookbooks`, `pages`) stay in `src/lib/content/` — not backend HTTP.
+- Zod schemas in `src/lib/schemas` must match `API_CONTRACT.md` when calling real backend.
+
+## Verify before reporting done
+
+```bash
+npm run build
+# or: npx tsc --noEmit
+```
+
+Manual: test with `NEXT_PUBLIC_API_BASE` and `NEXT_PUBLIC_CATALOG_API_BASE` pointing to `http://localhost:4000/api` when prompt requires real backend.
+
+## Model hint (tell user if prompt is high-risk)
+
+Use stronger than Auto for: checkout flow, payment integration, catalog-backend mapping, multi-route refactors.
+
+## Report back to orchestrator
+
+Reply with:
+1. Changed files (paths)
+2. Command output (build / tsc)
+3. Manual test result (if applicable)
+4. Risks / follow-ups
+
+Forward-port to `MURU_miniAPP` is usually **not** needed for storefront-only work.
+
+Existing rules in `.cursor/rules/00`–`50` still apply.

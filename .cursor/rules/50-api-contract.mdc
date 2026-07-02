@@ -6,6 +6,7 @@ alwaysApply: true
 - Поля 1С/CommerceML-ready: external_id, unit, sku присутствуют в моделях.
 - Любой фетч — через src/lib/api/*, с runtime-валидацией Zod.
 - Дев и тесты — на MSW. Переключение на реальный API — сменой base URL (NEXT_PUBLIC_API_BASE), без правок компонентов.
-- Источник истины по бэкенду — docs/MURU_CRM_Functional_Spec_v0.1.md; контракт схем держать в соответствии с ним.
+- Источник истины по CRM-модулям — docs/MURU_CRM_Functional_Spec_v0.1.md (north star, не HTTP API).
+- Канонический HTTP-контракт backend ↔ storefront — `/Users/vasilii/Desktop/code /muru-docs/API_CONTRACT.md` (держать Zod-схемы и api-клиент в соответствии).
 - Заказы бэкенд-центричны: createOrder шлёт {items:[{sku,qty}], promoCode}, БЕЗ цен — сервер пересчитывает сумму (CRM §7.2). Telegram — канал уведомлений (CRM §7.6), не способ оплаты.
 - Категории: различать каноническую (главная+подкатегория -> canonical URL) и дополнительные (мультипривязка) — CRM §5.2. Плоский categorySlugs временно; при росте контракта развести.
