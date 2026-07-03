@@ -13,6 +13,8 @@ module.exports = {
       env: {
         NODE_ENV: "production",
         PORT: 3000,
+        // Next.js читает NEXT_PUBLIC_* на сервере (RSC) в runtime — не только при build.
+        NEXT_PUBLIC_API_BASE: "https://murushop.ru/api",
       },
     },
   ],

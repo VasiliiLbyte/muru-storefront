@@ -51,6 +51,8 @@ pm2 save
 pm2 status
 ```
 
+`ecosystem.storefront.config.js` задаёт `NEXT_PUBLIC_API_BASE` в runtime (обязательно для SSR каталога). Файл `.env.production` нужен **только для `npm run build`**.
+
 Nginx (первый раз — **до** выпуска сертификата используй HTTP-only bootstrap, иначе `nginx -t` упадёт на отсутствующих SSL-файлах):
 
 ```bash
