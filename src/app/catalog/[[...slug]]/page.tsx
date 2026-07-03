@@ -248,7 +248,20 @@ export default async function CatalogPage({ params, searchParams }: PageProps) {
   }
 
   const backendLive = isCatalogBackendEnabled();
-  const variant = route.type === "category" ? "hub" : "listing";
+
+  const subcategories =
+    route.type === "category"
+      ? backendLive
+        ? allCategories
+            .filter((c) => c.parentSlug === route.slug)
+            .map((c) => ({ slug: c.slug, title: c.title }))
+        : route.children
+      : undefined;
+
+  const hasSubcategories = (subcategories?.length ?? 0) > 0;
+
+  const variant =
+    route.type === "category" && hasSubcategories ? "hub" : "listing";
 
   return (
     <main id="main" className="flex flex-1 flex-col pb-16">
@@ -257,15 +270,7 @@ export default async function CatalogPage({ params, searchParams }: PageProps) {
         variant={variant}
         title={title}
         breadcrumbs={breadcrumbs}
-        subcategories={
-          route.type === "category"
-            ? backendLive
-              ? allCategories
-                  .filter((c) => c.parentSlug === route.slug)
-                  .map((c) => ({ slug: c.slug, title: c.title }))
-              : route.children
-            : undefined
-        }
+        subcategories={subcategories}
         parentSlug={route.type === "category" ? route.slug : undefined}
         categories={allCategories}
         listing={listing}
