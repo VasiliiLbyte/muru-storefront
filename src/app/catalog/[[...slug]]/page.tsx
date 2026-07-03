@@ -191,7 +191,7 @@ export default async function CatalogPage({ params, searchParams }: PageProps) {
     pageSize: 8,
     category: isCatalogBackendEnabled()
       ? route.type === "subcategory"
-        ? route.subSlug
+        ? route.parentSlug
         : route.type === "category"
           ? route.slug
           : undefined
@@ -199,9 +199,7 @@ export default async function CatalogPage({ params, searchParams }: PageProps) {
         ? route.slug
         : undefined,
     subcategory:
-      !isCatalogBackendEnabled() && route.type === "subcategory"
-        ? route.subSlug
-        : undefined,
+      route.type === "subcategory" ? route.subSlug : undefined,
   });
 
   if (

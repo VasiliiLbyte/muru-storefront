@@ -41,6 +41,18 @@ export const BackendTreeNodeSchema: z.ZodType<BackendTreeNode> = z.lazy(() =>
     .passthrough(),
 );
 
+const WebSubcategoryRefSchema = z.object({
+  name: z.string(),
+  slug: z.string(),
+});
+
+const WebCrossPlacementRefSchema = z.object({
+  category: z.string(),
+  categorySlug: z.string(),
+  subcategoryName: z.string().optional(),
+  subcategorySlug: z.string().optional(),
+});
+
 export const BackendProductSchema = z
   .object({
     sku: z.string(),
@@ -54,6 +66,8 @@ export const BackendProductSchema = z
     category: z.string(),
     subcategory: z.string().optional(),
     subcategorySlug: z.string().optional(),
+    webPrimarySubcategory: WebSubcategoryRefSchema.optional(),
+    webCrossPlacement: WebCrossPlacementRefSchema.optional(),
     color: z.string().optional(),
     dimensionsLabel: z.string().optional(),
   })
@@ -101,8 +115,13 @@ export function adaptTree(nodes: BackendTreeNode[]): Category[] {
 }
 
 export function adaptProduct(b: BackendProduct | BackendProductDetail): Product {
-  const categorySlugs: string[] = [slugify(b.category)];
-  if (b.subcategorySlug) categorySlugs.push(b.subcategorySlug);
+  const slugs = new Set<string>([slugify(b.category)]);
+  const primarySub = b.webPrimarySubcategory?.slug ?? b.subcategorySlug;
+  if (primarySub) slugs.add(primarySub);
+  const cross = b.webCrossPlacement;
+  if (cross?.categorySlug) slugs.add(cross.categorySlug);
+  if (cross?.subcategorySlug) slugs.add(cross.subcategorySlug);
+  const categorySlugs = [...slugs];
 
   const detail = b as BackendProductDetail;
 
@@ -177,7 +196,7 @@ export async function fetchCatalogTree(): Promise<Category[]> {
 
 export async function fetchCatalogProducts(): Promise<Product[]> {
   const items = await catalogFetch(
-    "/catalog/products",
+    "/catalog/products?channel=web",
     z.array(BackendProductSchema),
   );
   return items.map(adaptProduct);
@@ -186,7 +205,7 @@ export async function fetchCatalogProducts(): Promise<Product[]> {
 export async function fetchCatalogProductBySku(sku: string): Promise<Product> {
   const normalizedSku = sku.trim().toUpperCase();
   const item = await catalogFetch(
-    `/catalog/products/${encodeURIComponent(normalizedSku)}`,
+    `/catalog/products/${encodeURIComponent(normalizedSku)}?channel=web`,
     BackendProductDetailSchema,
   );
   return adaptProduct(item);
