@@ -10,14 +10,26 @@ import { CatalogMenuPanel } from "./catalog-menu-panel";
  * Live-бэк: топ-категории из API. Mock: taxonomy верхнего уровня.
  */
 export async function CatalogMenu() {
-  const catalogItems = isCatalogBackendEnabled()
-    ? (await getCategories())
+  let catalogItems: { label: string; href: string }[];
+
+  if (isCatalogBackendEnabled()) {
+    try {
+      catalogItems = (await getCategories())
         .filter((c) => !c.parentSlug)
-        .map((c) => ({ label: c.title, href: catalogHref.top(c.slug) }))
-    : taxonomy.map((node) => ({
-        label: node.title,
-        href: catalogHref.top(node.slug),
-      }));
+        .map((c) => ({ label: c.title, href: catalogHref.top(c.slug) }));
+    } catch (err) {
+      console.warn(
+        "[catalog-menu] categories fetch failed, rendering empty menu",
+        err,
+      );
+      catalogItems = [];
+    }
+  } else {
+    catalogItems = taxonomy.map((node) => ({
+      label: node.title,
+      href: catalogHref.top(node.slug),
+    }));
+  }
 
   return <CatalogMenuPanel catalogItems={catalogItems} />;
 }
