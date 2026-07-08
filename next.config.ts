@@ -27,6 +27,7 @@ const nextConfig: NextConfig = {
     // Заготовка под будущий image-прокси / CDN. Конкретные хосты уточним,
     // когда поднимется реальный backend (NEXT_PUBLIC_API_BASE).
     remotePatterns: [
+      { protocol: "https", hostname: "murushop.ru" },
       { protocol: "https", hostname: "**.muru.ru" },
       { protocol: "https", hostname: "drive.google.com" },
       { protocol: "https", hostname: "lh3.googleusercontent.com" },
