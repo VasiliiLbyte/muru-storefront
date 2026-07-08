@@ -3,10 +3,10 @@ import { z, type ZodType } from "zod";
 /**
  * Базовая обёртка fetch с runtime-валидацией Zod.
  *
- * База берётся из NEXT_PUBLIC_API_BASE. В dev без API_BASE всё резолвится из
- * моков; при заданном API_BASE — гибрид: fallback-каталог из фикстур (сервер),
- * CDEK/payments и пр. — реальный fetch на бэкенд. Контент (collections,
- * lookbooks, pages) — статичный модуль lib/content, без HTTP.
+ * База берётся из NEXT_PUBLIC_API_BASE. В dev без API_BASE каталог резолвится
+ * из MSW-фикстур; при заданном API_BASE — гибрид: fallback-каталог (/categories,
+ * /products*) из фикстур на сервере, CDEK/payments и контент (/content/*) —
+ * реальный fetch на бэкенд с graceful fallback в endpoints.ts.
  */
 
 /** Fallback-пути каталога без NEXT_PUBLIC_CATALOG_API_BASE (MSW-фикстуры). */
@@ -45,8 +45,9 @@ export const API_BASE = resolveApiBase();
  * без HTTP: MSW не перехватывает fetch в RSC-рантайме Next.
  * При заданном NEXT_PUBLIC_API_BASE в dev fallback-каталог (/categories,
  * /products*) — resolveMock; остальные (/cdek/*, /payments/*) — реальный fetch.
- * На клиенте запросы идут по сети; browser-воркер MSW перехватывает контент,
- * onUnhandledRequest: "bypass" пропускает бэкенд-запросы.
+ * На клиенте запросы идут по сети; browser-воркер MSW перехватывает только
+ * каталог (/categories, /products); onUnhandledRequest: "bypass" пропускает
+ * бэкенд-запросы (/content/*, /cdek/*, /payments/*).
  */
 function shouldServerMock(path: string): boolean {
   if (typeof window !== "undefined") return false;

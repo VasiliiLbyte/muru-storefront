@@ -2,8 +2,8 @@ import type { Metadata } from "next";
 
 import { Hero } from "@/components/home/hero";
 import { HomeBanner } from "@/components/home/home-banner";
-import { getCollections, getLookbooks } from "@/lib/api/endpoints";
-import { catalogHref } from "@/lib/site";
+import { getHomeBanners } from "@/lib/api/endpoints";
+import { FALLBACK_ABOUT_BANNER_ID } from "@/lib/content/home-banners";
 
 import { buildPageMetadata } from "@/lib/seo/page-metadata";
 
@@ -24,50 +24,29 @@ export function generateMetadata(): Metadata {
 export const revalidate = 300;
 
 export default async function Home() {
-  const [collections, lookbooks] = await Promise.all([
-    getCollections(),
-    getLookbooks(),
-  ]);
-
-  const newsImage = collections[0]?.heroImage ?? "/placeholders/hero.svg";
-  const inspImage = lookbooks[0]?.cover ?? "/placeholders/hero.svg";
+  const banners = (await getHomeBanners()).sort(
+    (a, b) => a.sortOrder - b.sortOrder,
+  );
 
   return (
     <main id="main" className="flex flex-1 flex-col">
       <Hero />
 
-      <HomeBanner
-        title="Новинки"
-        subtitle="Свежие идеи вашего интерьера"
-        href="/landings/"
-        image={newsImage}
-        overlay="card"
-      />
+      {banners.map((banner) => {
+        const isAboutFallback = banner.id === FALLBACK_ABOUT_BANNER_ID;
 
-      <HomeBanner
-        title="Коллекции MURU"
-        subtitle="Аксессуары для дома, которые создают атмосферу"
-        href={catalogHref.root}
-        image="/placeholders/hero.svg"
-        overlay="card"
-      />
-
-      <HomeBanner
-        title="Вдохновение"
-        subtitle="Идеи для уюта и стильной сервировки"
-        href="/lookbooks/"
-        image={inspImage}
-        overlay="card"
-      />
-
-      <HomeBanner
-        title="О нас"
-        subtitle="MURU — интернет-магазин предметов декора для дома и эстетики пространства. Мы бережно собираем коллекции вещей: домашний текстиль, аксессуары для дома и композиции из сухоцветов. Всё то, что создаёт атмосферу уюта и спокойствия в вашем доме."
-        href="/company/"
-        image="/placeholders/hero.svg"
-        overlay="scrim"
-        ctaLabel="Подробнее"
-      />
+        return (
+          <HomeBanner
+            key={banner.id}
+            title={banner.title}
+            subtitle={banner.subtitle}
+            href={banner.href ?? "/"}
+            image={banner.image ?? "/placeholders/hero.svg"}
+            overlay={isAboutFallback ? "scrim" : "card"}
+            ctaLabel={isAboutFallback ? "Подробнее" : undefined}
+          />
+        );
+      })}
     </main>
   );
 }

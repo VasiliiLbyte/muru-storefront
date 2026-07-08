@@ -3,13 +3,8 @@ import { http, HttpResponse, passthrough, type RequestHandler } from "msw";
 import {
   categories,
   categoryBySlug,
-  collectionBySlug,
-  collections,
-  lookbookBySlug,
-  lookbooks,
   productBySku,
   productBySlug,
-  staticPageBySlug,
 } from "./fixtures";
 import { listProducts } from "./resolve";
 
@@ -44,26 +39,6 @@ export const handlers: RequestHandler[] = [
   http.get("*/products/:slug", ({ params }) => {
     const product = productBySlug.get(String(params.slug));
     return product ? HttpResponse.json(product) : notFound();
-  }),
-
-  // — Collections —
-  http.get("*/collections", () => HttpResponse.json(collections)),
-  http.get("*/collections/:slug", ({ params }) => {
-    const collection = collectionBySlug.get(String(params.slug));
-    return collection ? HttpResponse.json(collection) : notFound();
-  }),
-
-  // — Lookbooks —
-  http.get("*/lookbooks", () => HttpResponse.json(lookbooks)),
-  http.get("*/lookbooks/:slug", ({ params }) => {
-    const lookbook = lookbookBySlug.get(String(params.slug));
-    return lookbook ? HttpResponse.json(lookbook) : notFound();
-  }),
-
-  // — Static pages —
-  http.get("*/pages/:slug", ({ params }) => {
-    const page = staticPageBySlug.get(String(params.slug));
-    return page ? HttpResponse.json(page) : notFound();
   }),
 
 ];

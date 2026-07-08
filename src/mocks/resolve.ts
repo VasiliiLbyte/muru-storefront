@@ -9,15 +9,10 @@ import {
 import {
   categories,
   categoryBySlug,
-  collectionBySlug,
-  collections,
   descendantSlugs,
-  lookbookBySlug,
-  lookbooks,
   productBySku,
   productBySlug,
   products,
-  staticPageBySlug,
 } from "./fixtures";
 
 /**
@@ -159,12 +154,6 @@ export async function resolveMock(
       return slug ? categoryBySlug.get(slug) : categories;
     case "products":
       return slug ? productBySlug.get(slug) : listProducts(sp);
-    case "collections":
-      return slug ? collectionBySlug.get(slug) : collections;
-    case "lookbooks":
-      return slug ? lookbookBySlug.get(slug) : lookbooks;
-    case "pages":
-      return slug ? staticPageBySlug.get(slug) : undefined;
     default:
       return undefined;
   }

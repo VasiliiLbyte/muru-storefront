@@ -8,6 +8,7 @@ export * from "./product";
 export * from "./collection";
 export * from "./lookbook";
 export * from "./static-page";
+export * from "./banner";
 export * from "./cart";
 export * from "./cdek";
 export * from "./order";

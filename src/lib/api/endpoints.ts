@@ -1,6 +1,7 @@
 import { z } from "zod";
 
 import { applyProductListQuery } from "@/mocks/resolve";
+import { buildFallbackHomeBanners } from "@/lib/content/home-banners";
 import {
   collectionBySlug,
   collections,
@@ -26,6 +27,7 @@ import {
   type CdekCity,
   type CdekPvz,
   type Collection,
+  type HomeBanner,
   type Lookbook,
   type Product,
   type ProductListQueryInput,
@@ -42,6 +44,15 @@ import {
   fetchCatalogTree,
   isCatalogBackendEnabled,
 } from "./catalog-backend";
+import {
+  fetchContentBanners,
+  fetchContentCollection,
+  fetchContentCollections,
+  fetchContentLookbook,
+  fetchContentLookbooks,
+  fetchContentPage,
+  isContentBackendEnabled,
+} from "./content-backend";
 import { apiEnvelopeFetch, apiFetch, ApiError, buildQuery } from "./client";
 
 /** Все категории каталога. */
@@ -101,34 +112,100 @@ export function getProductBySku(sku: string): Promise<Product> {
 }
 
 /** Все коллекции/лендинги. */
-export function getCollections(): Promise<Collection[]> {
-  return Promise.resolve(collections);
+export async function getCollections(): Promise<Collection[]> {
+  if (isContentBackendEnabled()) {
+    try {
+      return await fetchContentCollections();
+    } catch (err) {
+      console.warn(
+        "[content] collections fetch failed, using static fallback",
+        err,
+      );
+    }
+  }
+  return collections;
 }
 
 /** Коллекция по slug. */
-export function getCollection(slug: string): Promise<Collection> {
+export async function getCollection(slug: string): Promise<Collection> {
+  if (isContentBackendEnabled()) {
+    try {
+      return await fetchContentCollection(slug);
+    } catch (err) {
+      console.warn(
+        `[content] collection "${slug}" fetch failed, using static fallback`,
+        err,
+      );
+    }
+  }
   const item = collectionBySlug.get(slug);
   if (!item) throw new ApiError(404, slug);
-  return Promise.resolve(item);
+  return item;
 }
 
 /** Все лукбуки. */
-export function getLookbooks(): Promise<Lookbook[]> {
-  return Promise.resolve(lookbooks);
+export async function getLookbooks(): Promise<Lookbook[]> {
+  if (isContentBackendEnabled()) {
+    try {
+      return await fetchContentLookbooks();
+    } catch (err) {
+      console.warn(
+        "[content] lookbooks fetch failed, using static fallback",
+        err,
+      );
+    }
+  }
+  return lookbooks;
 }
 
 /** Лукбук по slug. */
-export function getLookbook(slug: string): Promise<Lookbook> {
+export async function getLookbook(slug: string): Promise<Lookbook> {
+  if (isContentBackendEnabled()) {
+    try {
+      return await fetchContentLookbook(slug);
+    } catch (err) {
+      console.warn(
+        `[content] lookbook "${slug}" fetch failed, using static fallback`,
+        err,
+      );
+    }
+  }
   const item = lookbookBySlug.get(slug);
   if (!item) throw new ApiError(404, slug);
-  return Promise.resolve(item);
+  return item;
 }
 
 /** Статическая страница по slug. */
-export function getStaticPage(slug: string): Promise<StaticPage> {
+export async function getStaticPage(slug: string): Promise<StaticPage> {
+  if (isContentBackendEnabled()) {
+    try {
+      return await fetchContentPage(slug);
+    } catch (err) {
+      console.warn(
+        `[content] page "${slug}" fetch failed, using static fallback`,
+        err,
+      );
+    }
+  }
   const page = staticPageBySlug.get(slug);
   if (!page) throw new ApiError(404, slug);
-  return Promise.resolve(page);
+  return page;
+}
+
+/** Баннеры главной страницы. */
+export async function getHomeBanners(): Promise<HomeBanner[]> {
+  if (isContentBackendEnabled()) {
+    try {
+      const banners = await fetchContentBanners();
+      if (banners.length > 0) {
+        return banners;
+      }
+      console.warn("[content] banners API returned empty, using static fallback");
+    } catch (err) {
+      console.warn("[content] banners fetch failed, using static fallback", err);
+    }
+  }
+  return buildFallbackHomeBanners(collections, lookbooks);
 }
 
 /** Создать гостевой веб-платёж (ЮKassa + СДЭК). */
