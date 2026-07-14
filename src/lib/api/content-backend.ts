@@ -1,5 +1,6 @@
 import { z } from "zod";
 
+import { ASSETS_BASE, resolveAssetUrl } from "@/lib/assets-base";
 import {
   CollectionSchema,
   HomeBannerSchema,
@@ -13,18 +14,6 @@ import {
 } from "@/lib/schemas";
 
 import { apiEnvelopeFetch } from "./client";
-
-const API_BASE = process.env.NEXT_PUBLIC_API_BASE ?? "";
-
-export const ASSETS_BASE =
-  process.env.NEXT_PUBLIC_ASSETS_BASE || API_BASE.replace(/\/api\/?$/, "");
-
-export function resolveAssetUrl(url: string): string {
-  if (url.startsWith("/uploads/")) {
-    return `${ASSETS_BASE}${url}`;
-  }
-  return url;
-}
 
 function resolveImage(image: Image | undefined): Image | undefined {
   if (!image) return undefined;

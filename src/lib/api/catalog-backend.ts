@@ -7,6 +7,8 @@ import {
   type Product,
 } from "@/lib/schemas";
 
+import { resolveCatalogImageUrl } from "@/lib/images";
+
 import { ApiError } from "./client";
 
 export const CATALOG_API_BASE =
@@ -29,6 +31,7 @@ type BackendTreeNode = {
   name: string;
   slug: string;
   children: BackendTreeNode[];
+  coverImageUrl?: string | null;
 };
 
 export const BackendTreeNodeSchema: z.ZodType<BackendTreeNode> = z.lazy(() =>
@@ -88,6 +91,8 @@ function adaptTreeNode(
   sortOrder: number,
   parentSlug?: string,
 ): Category {
+  const coverUrl = resolveCatalogImageUrl(node.coverImageUrl);
+
   return CategorySchema.parse({
     id: node.slug,
     slug: node.slug,
@@ -95,6 +100,7 @@ function adaptTreeNode(
     parentSlug,
     sortOrder,
     seo: { title: node.name, description: node.name },
+    image: coverUrl ? { url: coverUrl, alt: node.name } : undefined,
   });
 }
 
@@ -139,7 +145,10 @@ export function adaptProduct(b: BackendProduct | BackendProductDetail): Product 
     inStock: b.inStock > 0,
     currency: "RUB",
     unit: "pcs",
-    images: b.imageUrls.map((url) => ({ url, alt: b.name })),
+    images: b.imageUrls
+      .map((url) => resolveCatalogImageUrl(url))
+      .filter((url): url is string => Boolean(url))
+      .map((url) => ({ url, alt: b.name })),
     categorySlugs,
     description: detail.description ?? undefined,
     attributes: {
