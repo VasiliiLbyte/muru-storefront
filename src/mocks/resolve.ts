@@ -89,6 +89,7 @@ export function applyProductListQuery(
   }
   if (query.inStock) list = list.filter((p) => p.inStock);
   if (query.onSale) list = list.filter((p) => p.isOnSale);
+  if (query.giftGuide) list = list.filter((p) => p.giftGuide);
   if (query.minPrice !== undefined)
     list = list.filter((p) => p.price >= query.minPrice!);
   if (query.maxPrice !== undefined)
@@ -118,6 +119,7 @@ export function listProducts(sp: URLSearchParams): ProductListResponse {
     pageSize: sp.get("pageSize") ?? undefined,
     inStock: sp.get("inStock") ?? undefined,
     onSale: sp.get("onSale") ?? undefined,
+    giftGuide: sp.get("giftGuide") ?? undefined,
     minPrice: sp.get("minPrice") ?? undefined,
     maxPrice: sp.get("maxPrice") ?? undefined,
     material: sp.get("material") ?? undefined,

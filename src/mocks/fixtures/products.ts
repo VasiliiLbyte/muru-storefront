@@ -119,6 +119,7 @@ function buildProduct(leaf: string, i: number): Product {
     categorySlugs,
     inStock: rng() < 0.9,
     isOnSale: onSale,
+    giftGuide: false,
     unit: unitFor(leaf),
     external_id: `1c-${sku}`,
     seo: {

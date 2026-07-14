@@ -142,6 +142,10 @@ export function adaptProduct(b: BackendProduct | BackendProductDetail): Product 
         ? Math.round(b.price / (1 - b.discountPercent / 100))
         : undefined,
     isOnSale: b.discountPercent > 0,
+    giftGuide: Boolean(
+      (b as { giftGuide?: boolean }).giftGuide ??
+        (b as { is_gift_guide?: boolean }).is_gift_guide,
+    ),
     inStock: b.inStock > 0,
     currency: "RUB",
     unit: "pcs",
