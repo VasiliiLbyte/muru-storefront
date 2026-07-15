@@ -14,6 +14,7 @@ export function MediaCard({
   title,
   subtitle,
   sizes = "(min-width: 1024px) 25vw, (min-width: 768px) 33vw, 50vw",
+  imageAspect = "aspect-[4/5]",
   priority = false,
   className,
 }: {
@@ -22,6 +23,7 @@ export function MediaCard({
   title: string;
   subtitle?: string;
   sizes?: string;
+  imageAspect?: string;
   priority?: boolean;
   className?: string;
 }) {
@@ -33,7 +35,7 @@ export function MediaCard({
         className,
       )}
     >
-      <div className="relative aspect-[4/5] overflow-hidden bg-surface">
+      <div className={cn("relative overflow-hidden bg-surface", imageAspect)}>
         {image ? (
           <Image
             src={image.url}

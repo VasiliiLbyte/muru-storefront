@@ -29,15 +29,15 @@ export default async function LookbooksPage() {
           href: "/lookbooks/",
         })}
       >
-        <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
+        <div className="grid w-full max-w-[1140px] grid-cols-2 gap-x-6 gap-y-8 sm:grid-cols-3">
           {lookbooks.map((lookbook) => (
             <MediaCard
               key={lookbook.slug}
               href={`/lookbooks/${lookbook.slug}/`}
               image={lookbook.cover}
               title={lookbook.title}
-              subtitle={lookbook.description}
-              sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"
+              imageAspect="aspect-square"
+              sizes="(min-width: 1024px) 380px, (min-width: 640px) 50vw, 100vw"
             />
           ))}
         </div>
