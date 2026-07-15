@@ -89,26 +89,13 @@ export default async function LookbookDetailPage({ params }: PageProps) {
           </p>
         ) : null}
 
-        {heroImage && hotspots.length > 0 ? (
+        {heroImage ? (
           <LookbookHeroHotspots
             cover={heroImage}
             title={lookbook.title}
             hotspots={hotspots}
             productsBySku={productsBySku}
           />
-        ) : heroImage ? (
-          <div className="relative mb-10 aspect-[21/9] w-full overflow-hidden bg-surface">
-            <Image
-              src={heroImage.url}
-              alt={heroImage.alt ?? lookbook.title}
-              fill
-              sizes="100vw"
-              priority
-              placeholder={heroImage.blurDataURL ? "blur" : undefined}
-              blurDataURL={heroImage.blurDataURL}
-              className="object-cover"
-            />
-          </div>
         ) : null}
 
         {products.length > 0 ? (

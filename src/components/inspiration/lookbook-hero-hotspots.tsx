@@ -3,6 +3,7 @@
 import Image from "next/image";
 import { useCallback, useEffect, useRef, useState } from "react";
 
+import { getCoverAspectRatio } from "@/lib/content/cover-aspect";
 import type { Hotspot, Image as ContentImage, Product } from "@/lib/schemas";
 import { cn } from "@/lib/utils";
 
@@ -59,24 +60,28 @@ export function LookbookHeroHotspots({
   }, [activeId, closePopover]);
 
   const activeHotspot = hotspots.find((h) => h.id === activeId);
+  const coverWidth = cover.width ?? 1920;
+  const coverHeight =
+    cover.height ?? Math.round(coverWidth / getCoverAspectRatio(cover));
 
   return (
     <div
       ref={containerRef}
       className={cn(
-        "relative mb-10 aspect-[21/9] w-full overflow-hidden bg-surface",
+        "relative mb-10 w-full overflow-hidden bg-surface",
         className,
       )}
     >
       <Image
         src={cover.url}
         alt={cover.alt ?? title}
-        fill
-        sizes="100vw"
+        width={coverWidth}
+        height={coverHeight}
+        sizes="(min-width: 1564px) 1564px, 100vw"
         priority
         placeholder={cover.blurDataURL ? "blur" : undefined}
         blurDataURL={cover.blurDataURL}
-        className="object-cover"
+        className="block h-auto w-full"
       />
 
       {hotspots.map((hotspot) => {
