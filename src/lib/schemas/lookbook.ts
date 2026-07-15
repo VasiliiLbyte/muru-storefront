@@ -32,6 +32,7 @@ export const LookbookSchema = z.object({
   title: z.string(),
   description: z.string().optional(),
   cover: ImageSchema.optional(),
+  banner: ImageSchema.optional(),
   images: z.array(ImageSchema),
   hotspots: z.array(HotspotSchema).optional(),
   seo: SeoSchema,

@@ -45,6 +45,7 @@ function resolveLookbook(dto: Lookbook): Lookbook {
   return {
     ...dto,
     cover: resolveImage(dto.cover),
+    banner: resolveImage(dto.banner),
     images: dto.images.map((image) => resolveImage(image)!),
     hotspots: dto.hotspots?.map(resolveHotspot),
   };

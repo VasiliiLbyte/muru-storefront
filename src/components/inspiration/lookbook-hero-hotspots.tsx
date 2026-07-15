@@ -10,7 +10,7 @@ import { cn } from "@/lib/utils";
 import { HotspotProductPopover } from "./hotspot-product-popover";
 
 export type LookbookHeroHotspotsProps = {
-  cover: ContentImage;
+  banner: ContentImage;
   title: string;
   hotspots: Hotspot[];
   productsBySku: Record<string, Product>;
@@ -18,24 +18,31 @@ export type LookbookHeroHotspotsProps = {
 };
 
 /**
- * Hero-cover лукбука с hotspot-маркерами («+») и click-toggle поповером.
+ * Hero-banner лукбука с hotspot-маркерами («+») и click-toggle поповером.
  */
 export function LookbookHeroHotspots({
-  cover,
+  banner,
   title,
   hotspots,
   productsBySku,
   className,
 }: LookbookHeroHotspotsProps) {
   const [activeId, setActiveId] = useState<string | null>(null);
+  const [anchorEl, setAnchorEl] = useState<HTMLElement | null>(null);
   const containerRef = useRef<HTMLDivElement>(null);
+  const markerRefs = useRef<Map<string, HTMLButtonElement>>(new Map());
 
   const toggleHotspot = useCallback((id: string) => {
-    setActiveId((prev) => (prev === id ? null : id));
+    setActiveId((prev) => {
+      const next = prev === id ? null : id;
+      setAnchorEl(next ? (markerRefs.current.get(next) ?? null) : null);
+      return next;
+    });
   }, []);
 
   const closePopover = useCallback(() => {
     setActiveId(null);
+    setAnchorEl(null);
   }, []);
 
   useEffect(() => {
@@ -48,6 +55,8 @@ export function LookbookHeroHotspots({
     const onPointerDown = (event: PointerEvent) => {
       const target = event.target as Node;
       if (containerRef.current?.contains(target)) return;
+      const popover = document.querySelector('[role="dialog"][aria-label^="Товар"]');
+      if (popover?.contains(target)) return;
       closePopover();
     };
 
@@ -60,27 +69,24 @@ export function LookbookHeroHotspots({
   }, [activeId, closePopover]);
 
   const activeHotspot = hotspots.find((h) => h.id === activeId);
-  const coverWidth = cover.width ?? 1920;
-  const coverHeight =
-    cover.height ?? Math.round(coverWidth / getCoverAspectRatio(cover));
+  const bannerWidth = banner.width ?? 1920;
+  const bannerHeight =
+    banner.height ?? Math.round(bannerWidth / getCoverAspectRatio(banner));
 
   return (
     <div
       ref={containerRef}
-      className={cn(
-        "relative mb-10 w-full overflow-hidden bg-surface",
-        className,
-      )}
+      className={cn("relative mb-10 w-full bg-surface", className)}
     >
       <Image
-        src={cover.url}
-        alt={cover.alt ?? title}
-        width={coverWidth}
-        height={coverHeight}
+        src={banner.url}
+        alt={banner.alt ?? title}
+        width={bannerWidth}
+        height={bannerHeight}
         sizes="(min-width: 1564px) 1564px, 100vw"
         priority
-        placeholder={cover.blurDataURL ? "blur" : undefined}
-        blurDataURL={cover.blurDataURL}
+        placeholder={banner.blurDataURL ? "blur" : undefined}
+        blurDataURL={banner.blurDataURL}
         className="block h-auto w-full"
       />
 
@@ -98,6 +104,10 @@ export function LookbookHeroHotspots({
             }}
           >
             <button
+              ref={(el) => {
+                if (el) markerRefs.current.set(hotspot.id, el);
+                else markerRefs.current.delete(hotspot.id);
+              }}
               type="button"
               aria-label={`Товар ${hotspot.product.sku}`}
               aria-expanded={isActive}
@@ -110,18 +120,18 @@ export function LookbookHeroHotspots({
             >
               +
             </button>
-
-            {isActive ? (
-              <HotspotProductPopover
-                hotspot={hotspot}
-                product={productsBySku[hotspot.product.sku]}
-                onClose={closePopover}
-                className="absolute top-full left-1/2 mt-2 -translate-x-1/2 sm:left-full sm:top-1/2 sm:mt-0 sm:ml-2 sm:translate-x-0 sm:-translate-y-1/2"
-              />
-            ) : null}
           </div>
         );
       })}
+
+      {activeHotspot ? (
+        <HotspotProductPopover
+          hotspot={activeHotspot}
+          product={productsBySku[activeHotspot.product.sku]}
+          anchorEl={anchorEl}
+          onClose={closePopover}
+        />
+      ) : null}
 
       {activeHotspot && (
         <button

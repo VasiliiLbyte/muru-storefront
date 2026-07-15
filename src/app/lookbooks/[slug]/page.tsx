@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import Image from "next/image";
 import { notFound } from "next/navigation";
 
 import { ProductGrid } from "@/components/catalog/product-grid";
@@ -39,7 +38,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
       title: lookbook.seo.title,
       description: lookbook.seo.description,
       path: `/lookbooks/${slug}/`,
-      ogImage: lookbook.cover?.url,
+      ogImage: lookbook.banner?.url ?? lookbook.cover?.url,
     });
   } catch {
     return { title: "Страница не найдена" };
@@ -56,7 +55,7 @@ export default async function LookbookDetailPage({ params }: PageProps) {
     notFound();
   }
 
-  const heroImage = lookbook.cover ?? lookbook.images[0];
+  const heroImage = lookbook.banner ?? lookbook.cover;
   const hotspots = lookbook.hotspots ?? [];
   const uniqueSkus = [...new Set(hotspots.map((h) => h.product.sku))];
 
@@ -91,7 +90,7 @@ export default async function LookbookDetailPage({ params }: PageProps) {
 
         {heroImage ? (
           <LookbookHeroHotspots
-            cover={heroImage}
+            banner={heroImage}
             title={lookbook.title}
             hotspots={hotspots}
             productsBySku={productsBySku}
@@ -106,26 +105,6 @@ export default async function LookbookDetailPage({ params }: PageProps) {
             <ProductGrid products={products} />
           </section>
         ) : null}
-
-        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
-          {lookbook.images.map((image, index) => (
-            <div
-              key={`${image.url}-${index}`}
-              className="relative aspect-[4/5] overflow-hidden bg-surface"
-            >
-              <Image
-                src={image.url}
-                alt={image.alt ?? `${lookbook.title} — кадр ${index + 1}`}
-                fill
-                sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"
-                priority={index === 0 && !heroImage}
-                placeholder={image.blurDataURL ? "blur" : undefined}
-                blurDataURL={image.blurDataURL}
-                className="object-cover"
-              />
-            </div>
-          ))}
-        </div>
       </ContentShell>
     </main>
   );
