@@ -46,7 +46,19 @@ const nextConfig: NextConfig = {
     ];
   },
   async redirects() {
-    return getBitrixRedirects();
+    return [
+      {
+        source: "/catalog/rasprodazha",
+        destination: "/catalog/распродажа/",
+        permanent: true,
+      },
+      {
+        source: "/catalog/rasprodazha/",
+        destination: "/catalog/распродажа/",
+        permanent: true,
+      },
+      ...getBitrixRedirects(),
+    ];
   },
 };
 

@@ -1,4 +1,5 @@
 import { taxonomy } from "@/lib/taxonomy";
+import { saleCategoryHref } from "@/lib/catalog/sale-category";
 
 /** Базовый URL витрины для canonical и JSON-LD. */
 export const siteUrl =
@@ -60,7 +61,7 @@ export const companyLinks: NavItem[] = [
   { label: "Коллекции", href: "/landings/" },
   { label: "Гид по подаркам", href: "/gifts/" },
   { label: "Клиентам", href: "/help/" },
-  { label: "Распродажа", href: catalogHref.top("rasprodazha") },
+  { label: "Распродажа", href: saleCategoryHref() },
   { label: "Реквизиты", href: "/company/requisites/" },
 ];
 

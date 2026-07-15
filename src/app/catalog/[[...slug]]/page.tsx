@@ -13,6 +13,7 @@ import { getCategories, getCategory, getProduct, getProducts } from "@/lib/api/e
 import { isCatalogBackendEnabled } from "@/lib/api/catalog-backend";
 import { buildProductBreadcrumbs } from "@/lib/catalog/product-breadcrumbs";
 import { parseListingSearchParams } from "@/lib/catalog/search-params";
+import { isSaleCategorySlug } from "@/lib/catalog/sale-category";
 import { resolveCatalogRoute } from "@/lib/catalog/resolve-route";
 import { productCategorySlugs, productHref, productPathMatches } from "@/lib/catalog/urls";
 import { breadcrumbJsonLd, itemListJsonLd, productJsonLd } from "@/lib/seo/jsonld";
@@ -186,21 +187,37 @@ export default async function CatalogPage({ params, searchParams }: PageProps) {
       ? catalogHref.top(route.slug)
       : catalogHref.sub(route.parentSlug, route.subSlug);
 
-  const listing = await getProducts({
-    ...listingQuery,
-    pageSize: 8,
-    category: isCatalogBackendEnabled()
-      ? route.type === "subcategory"
-        ? route.parentSlug
-        : route.type === "category"
-          ? route.slug
-          : undefined
-      : route.type === "category"
-        ? route.slug
-        : undefined,
-    subcategory:
-      route.type === "subcategory" ? route.subSlug : undefined,
-  });
+  const categorySlug =
+    route.type === "category"
+      ? route.slug
+      : route.type === "subcategory"
+        ? route.subSlug
+        : undefined;
+  const isSaleListing = categorySlug ? isSaleCategorySlug(categorySlug) : false;
+
+  const listing = await getProducts(
+    isSaleListing
+      ? {
+          ...listingQuery,
+          pageSize: 8,
+          onSale: true,
+        }
+      : {
+          ...listingQuery,
+          pageSize: 8,
+          category: isCatalogBackendEnabled()
+            ? route.type === "subcategory"
+              ? route.parentSlug
+              : route.type === "category"
+                ? route.slug
+                : undefined
+            : route.type === "category"
+              ? route.slug
+              : undefined,
+          subcategory:
+            route.type === "subcategory" ? route.subSlug : undefined,
+        },
+  );
 
   if (
     isCatalogBackendEnabled() &&

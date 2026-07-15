@@ -51,7 +51,7 @@ const NOUN_BY_LEAF: Record<string, string> = {
   svechi: "Свеча",
   sukhotsvety: "Букет сухоцветов",
   "podarochnye-karty": "Подарочная карта",
-  rasprodazha: "Товар со скидкой",
+  "распродажа": "Товар со скидкой",
   spalnya: "Текстиль для спальни",
   "gorshki-i-kashpo": "Кашпо",
   "floristicheskiy-instrument": "Флористический инструмент",
@@ -75,7 +75,7 @@ function buildProduct(leaf: string, i: number): Product {
   const sku = `MRU-${leaf.slice(0, 4).toUpperCase()}-${num}`;
 
   const isGiftCard = leaf === "podarochnye-karty";
-  const isSaleLeaf = leaf === "rasprodazha";
+  const isSaleLeaf = leaf === "распродажа";
   const onSale = isSaleLeaf || rng() < 0.3;
   const price = priceFor(rng);
   const oldPrice = onSale ? Math.round((price * 1.25) / 50) * 50 : undefined;
