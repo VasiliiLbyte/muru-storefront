@@ -1,6 +1,7 @@
 import { z } from "zod";
 
 import { ASSETS_BASE, resolveAssetUrl } from "@/lib/assets-base";
+import { resolveCatalogImageUrl } from "@/lib/images";
 import {
   CollectionSchema,
   HomeBannerSchema,
@@ -8,6 +9,7 @@ import {
   StaticPageSchema,
   type Collection,
   type HomeBanner,
+  type Hotspot,
   type Image,
   type Lookbook,
   type StaticPage,
@@ -27,11 +29,24 @@ function resolveCollection(dto: Collection): Collection {
   };
 }
 
+function resolveHotspot(h: Hotspot): Hotspot {
+  return {
+    ...h,
+    product: {
+      ...h.product,
+      image: h.product.image
+        ? (resolveCatalogImageUrl(h.product.image) ?? undefined)
+        : undefined,
+    },
+  };
+}
+
 function resolveLookbook(dto: Lookbook): Lookbook {
   return {
     ...dto,
     cover: resolveImage(dto.cover),
     images: dto.images.map((image) => resolveImage(image)!),
+    hotspots: dto.hotspots?.map(resolveHotspot),
   };
 }
 
