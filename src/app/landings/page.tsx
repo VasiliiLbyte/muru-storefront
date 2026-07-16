@@ -25,15 +25,15 @@ export default async function LandingsPage() {
         title="Коллекции"
         breadcrumbs={contentBreadcrumbs({ name: "Коллекции", href: "/landings/" })}
       >
-        <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
+        <div className="grid w-full max-w-[1140px] grid-cols-2 gap-x-6 gap-y-8 sm:grid-cols-3">
           {collections.map((collection) => (
             <MediaCard
               key={collection.slug}
               href={`/landings/${collection.slug}/`}
               image={collection.heroImage}
               title={collection.title}
-              subtitle={collection.subtitle}
-              sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"
+              imageAspect="aspect-square"
+              sizes="(min-width: 1024px) 380px, (min-width: 640px) 50vw, 100vw"
             />
           ))}
         </div>
