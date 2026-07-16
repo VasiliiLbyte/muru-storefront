@@ -24,6 +24,10 @@ const nextConfig: NextConfig = {
     optimizePackageImports: ["lucide-react", "@base-ui/react"],
   },
   images: {
+    loader: "custom",
+    loaderFile: "./src/lib/image-loader.ts",
+    deviceSizes: [320, 600, 1200],
+    imageSizes: [320, 600, 1200],
     // Заготовка под будущий image-прокси / CDN. Конкретные хосты уточним,
     // когда поднимется реальный backend (NEXT_PUBLIC_API_BASE).
     remotePatterns: [
