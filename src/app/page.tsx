@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
 
-import { Hero } from "@/components/home/hero";
 import { HomeBanner } from "@/components/home/home-banner";
 import { getHomeBanners } from "@/lib/api/endpoints";
 import { FALLBACK_ABOUT_BANNER_ID } from "@/lib/content/home-banners";
@@ -30,10 +29,9 @@ export default async function Home() {
 
   return (
     <main id="main" className="flex flex-1 flex-col">
-      <Hero />
-
-      {banners.map((banner) => {
+      {banners.map((banner, index) => {
         const isAboutFallback = banner.id === FALLBACK_ABOUT_BANNER_ID;
+        const isFirst = index === 0;
 
         return (
           <HomeBanner
@@ -44,6 +42,8 @@ export default async function Home() {
             image={banner.image ?? "/placeholders/hero.svg"}
             overlay={isAboutFallback ? "scrim" : "card"}
             ctaLabel={isAboutFallback ? "Подробнее" : undefined}
+            as={isFirst ? "h1" : "h2"}
+            priority={isFirst}
           />
         );
       })}
