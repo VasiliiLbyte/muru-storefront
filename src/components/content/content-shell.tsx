@@ -7,11 +7,13 @@ import { cn } from "@/lib/utils";
 export function ContentShell({
   title,
   breadcrumbs,
+  titleAlign = "left",
   className,
   children,
 }: {
   title: string;
   breadcrumbs: BreadcrumbItem[];
+  titleAlign?: "left" | "center";
   className?: string;
   children: ReactNode;
 }) {
@@ -23,7 +25,14 @@ export function ContentShell({
       )}
     >
       <Breadcrumbs items={breadcrumbs} className="mb-6 pt-8" />
-      <h1 className="mb-8 font-display text-display text-text-heading">{title}</h1>
+      <h1
+        className={cn(
+          "mb-8 font-display text-display text-text-heading",
+          titleAlign === "center" && "text-center",
+        )}
+      >
+        {title}
+      </h1>
       {children}
     </div>
   );

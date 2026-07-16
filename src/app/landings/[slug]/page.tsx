@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import Image from "next/image";
 import { notFound } from "next/navigation";
 
 import { ProductGrid } from "@/components/catalog/product-grid";
@@ -60,35 +59,19 @@ export default async function LandingDetailPage({ params }: PageProps) {
     <main id="main" className="flex flex-1 flex-col">
       <ContentShell
         title={collection.title}
+        titleAlign="center"
         breadcrumbs={contentBreadcrumbs(
           { name: "Коллекции", href: "/landings/" },
           { name: collection.title, href: `/landings/${slug}/` },
         )}
       >
-        {collection.heroImage ? (
-          <div className="relative mb-10 aspect-[21/9] w-full overflow-hidden bg-surface">
-            <Image
-              src={collection.heroImage.url}
-              alt={collection.heroImage.alt ?? collection.title}
-              fill
-              sizes="100vw"
-              priority
-              placeholder={
-                collection.heroImage.blurDataURL ? "blur" : undefined
-              }
-              blurDataURL={collection.heroImage.blurDataURL}
-              className="object-cover"
-            />
-          </div>
-        ) : null}
-
         {collection.description ? (
           <p className="mb-10 max-w-3xl text-body text-text-secondary">
             {collection.description}
           </p>
         ) : null}
 
-        <ProductGrid products={products} />
+        <ProductGrid products={products} className="lg:grid-cols-3" />
       </ContentShell>
     </main>
   );
