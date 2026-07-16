@@ -21,7 +21,7 @@ export function Header() {
   return (
     <>
       {/* Utility-строка — desktop, уезжает при скролле */}
-      <div className="hidden border-b border-border lg:block">
+      <div className="home-snap-origin hidden border-b border-border lg:block">
         <div className="mx-auto flex h-11 w-full max-w-[1564px] items-center justify-between px-4 sm:px-8">
           <HeaderTopNav />
           <a

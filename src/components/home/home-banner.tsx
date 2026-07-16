@@ -40,10 +40,10 @@ export function HomeBanner({
   return (
     <section
       className={cn(
-        "relative isolate flex items-center justify-center overflow-hidden lg:snap-start lg:snap-always",
+        "relative isolate flex items-center justify-center overflow-hidden",
         isFirst
           ? "h-[calc(100dvh-var(--home-offset-first))] min-h-[calc(100dvh-var(--home-offset-first))]"
-          : "h-[calc(100dvh-var(--home-offset-rest))] min-h-[calc(100dvh-var(--home-offset-rest))] lg:scroll-mt-[var(--home-offset-rest)]",
+          : "h-[calc(100dvh-var(--home-offset-rest))] min-h-[calc(100dvh-var(--home-offset-rest))] lg:snap-start lg:snap-always lg:scroll-mt-[var(--home-offset-rest)]",
       )}
     >
       <Image

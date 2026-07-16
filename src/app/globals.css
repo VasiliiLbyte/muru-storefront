@@ -179,6 +179,11 @@
     scroll-snap-type: y mandatory;
   }
 
+  html:has([data-home-snap]) .home-snap-origin {
+    scroll-snap-align: start;
+    scroll-snap-stop: always;
+  }
+
   html:has([data-home-snap]) footer {
     scroll-snap-align: start;
     scroll-snap-stop: always;
