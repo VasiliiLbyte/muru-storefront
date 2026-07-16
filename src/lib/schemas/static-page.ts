@@ -1,6 +1,6 @@
 import { z } from "zod";
 
-import { SeoSchema } from "./common";
+import { ImageSchema, SeoSchema } from "./common";
 
 /**
  * Статическая контентная страница (О нас, Реквизиты, Юр. страницы и т.п.).
@@ -10,6 +10,7 @@ export const StaticPageSchema = z.object({
   slug: z.string(),
   title: z.string(),
   body: z.string(),
+  heroImage: ImageSchema.nullable().optional(),
   seo: SeoSchema,
   updatedAt: z.string().datetime().optional(),
 });

@@ -1,7 +1,10 @@
 import type { Metadata } from "next";
 
+import { Breadcrumbs } from "@/components/catalog/breadcrumbs";
 import { ContentShell } from "@/components/content/content-shell";
-import { InfoTileGrid } from "@/components/content/info-tile-grid";
+import { HelpHero } from "@/components/content/help-hero";
+import { HelpTileGrid } from "@/components/content/help-tile-grid";
+import { StaticProse } from "@/components/content/static-prose";
 import { getStaticPage } from "@/lib/api/endpoints";
 import { contentBreadcrumbs } from "@/lib/content/breadcrumbs";
 import { buildPageMetadata } from "@/lib/seo/page-metadata";
@@ -9,24 +12,12 @@ import { buildPageMetadata } from "@/lib/seo/page-metadata";
 export const revalidate = 300;
 
 const HELP_TILES = [
-  { title: "Доставка", description: "Условия и сроки доставки", href: "#" },
-  { title: "Отзывы", description: "Мнения покупателей", href: "#" },
-  {
-    title: "Условия обслуживания",
-    description: "Правила работы с заказами",
-    href: "#",
-  },
-  {
-    title: "Корпоративные подарки",
-    description: "Подарки для компаний и мероприятий",
-    href: "#",
-  },
-  { title: "Возврат", description: "Порядок возврата товаров", href: "#" },
-  {
-    title: "Подарочные карты",
-    description: "Электронные и физические карты",
-    href: "#",
-  },
+  { title: "Доставка", href: "#" },
+  { title: "Отзывы", href: "#" },
+  { title: "Условия обслуживания", href: "#" },
+  { title: "Корпоративные подарки", href: "#" },
+  { title: "Возврат", href: "#" },
+  { title: "Подарочные карты", href: "#" },
 ] as const;
 
 export async function generateMetadata(): Promise<Metadata> {
@@ -35,25 +26,46 @@ export async function generateMetadata(): Promise<Metadata> {
     title: page.seo.title,
     description: page.seo.description,
     path: "/help/",
+    ogImage: page.heroImage?.url,
   });
 }
 
 export default async function HelpPage() {
   const page = await getStaticPage("help");
+  const hasHero = Boolean(page.heroImage?.url);
+  const breadcrumbs = contentBreadcrumbs({
+    name: page.title,
+    href: "/help/",
+  });
+
+  if (hasHero && page.heroImage) {
+    return (
+      <main id="main" className="flex flex-1 flex-col">
+        <div className="mx-auto w-full max-w-[1564px] px-4 sm:px-8">
+          <Breadcrumbs items={breadcrumbs} className="mb-6 pt-8" />
+        </div>
+        <HelpHero
+          title={page.title}
+          bodyHtml={page.body}
+          image={page.heroImage}
+        />
+        <ContentShell
+          title={page.title}
+          breadcrumbs={breadcrumbs}
+          showTitle={false}
+          showBreadcrumbs={false}
+        >
+          <HelpTileGrid className="mt-10" items={[...HELP_TILES]} />
+        </ContentShell>
+      </main>
+    );
+  }
 
   return (
     <main id="main" className="flex flex-1 flex-col">
-      <ContentShell
-        title={page.title}
-        breadcrumbs={contentBreadcrumbs({ name: page.title, href: "/help/" })}
-      >
-        <p className="mb-8 max-w-3xl text-body text-text-secondary">
-          В MURU мы стремимся сделать каждую покупку простой и приятной. На этой
-          странице собрана важная информация для клиентов: условия доставки и
-          обслуживания, отзывы, подарочные карты и корпоративные подарки.
-          Нейтральный текст-плейсхолдер.
-        </p>
-        <InfoTileGrid items={[...HELP_TILES]} />
+      <ContentShell title={page.title} breadcrumbs={breadcrumbs}>
+        <StaticProse html={page.body} className="mb-10" />
+        <HelpTileGrid items={[...HELP_TILES]} />
       </ContentShell>
     </main>
   );

@@ -22,6 +22,13 @@ function resolveImage(image: Image | undefined): Image | undefined {
   return { ...image, url: resolveAssetUrl(image.url) };
 }
 
+function resolveOptionalNullableImage(
+  image: Image | null | undefined,
+): Image | null | undefined {
+  if (image == null) return image;
+  return { ...image, url: resolveAssetUrl(image.url) };
+}
+
 function resolveCollection(dto: Collection): Collection {
   return {
     ...dto,
@@ -65,6 +72,7 @@ function resolvePage(dto: StaticPage): StaticPage {
       /src="\/uploads\//g,
       `src="${ASSETS_BASE}/uploads/`,
     ),
+    heroImage: resolveOptionalNullableImage(dto.heroImage),
   };
 }
 

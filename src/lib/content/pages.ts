@@ -73,6 +73,7 @@ export const staticPages: StaticPage[] = DEFS.map((def) => ({
   body:
     def.body ??
     `<h2>${def.title}</h2><p>${LOREM}</p><p>${LOREM}</p>`,
+  heroImage: null,
   seo: {
     title: `${def.title} — MURU`,
     description: `${def.title}: страница MURU.`,

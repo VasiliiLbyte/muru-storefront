@@ -29,7 +29,7 @@ export default async function ContactsPage() {
           { name: page.title, href: "/company/contacts/" },
         )}
       >
-        <ContactsPageContent />
+        <ContactsPageContent heroImage={page.heroImage} />
       </ContentShell>
     </main>
   );

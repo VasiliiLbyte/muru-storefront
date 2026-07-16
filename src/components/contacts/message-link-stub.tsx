@@ -9,14 +9,10 @@ export function MessageLinkStub() {
 
   return (
     <div className="flex flex-col gap-3">
-      <h2 className="text-caption font-medium tracking-[0.12em] text-text-heading uppercase">
-        Написать сообщение
-      </h2>
       <Button
         type="button"
-        variant="outline"
         size="lg"
-        className="h-11 w-full sm:w-auto sm:px-8"
+        className="h-11 w-full bg-brand px-8 text-body text-text-inverse hover:bg-brand-hover"
         onClick={() => setClicked(true)}
       >
         Написать сообщение
