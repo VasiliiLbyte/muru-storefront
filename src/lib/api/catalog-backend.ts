@@ -155,13 +155,23 @@ export function adaptProduct(b: BackendProduct | BackendProductDetail): Product 
       .map((url) => ({ url, alt: b.name })),
     categorySlugs,
     description: detail.description ?? undefined,
-    specs: detail.specs
-      ? Object.fromEntries(
-          Object.entries(detail.specs).filter(
-            ([, value]) => typeof value === "string" && value.trim() !== "",
-          ),
-        )
-      : undefined,
+    specs: (() => {
+      const specs: Record<string, string> = Object.fromEntries(
+        Object.entries(detail.specs ?? {}).filter(
+          ([, value]) => typeof value === "string" && value.trim() !== "",
+        ),
+      );
+      const hasSize = Object.keys(specs).some(
+        (k) => k.toLowerCase() === "размер",
+      );
+      if (!hasSize) {
+        const fromLabel = b.dimensionsLabel?.trim();
+        const fromSizes = b.sizes?.find((s) => s.trim())?.trim();
+        if (fromLabel) specs["Размер"] = fromLabel;
+        else if (fromSizes) specs["Размер"] = fromSizes;
+      }
+      return Object.keys(specs).length > 0 ? specs : undefined;
+    })(),
     attributes: {
       color: b.colors?.length
         ? b.colors
