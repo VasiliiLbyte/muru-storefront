@@ -110,6 +110,10 @@
   --radius: 0px;
   --header-height: 170px;
 
+  /* Home banners: mobile sticky ≈ py-4×2 + logo h-8 + gap-3 + search 45px + border ≈ 130px */
+  --home-offset-first: 8.125rem;
+  --home-offset-rest: 8.125rem;
+
   --background: #fcfbfb;
   --foreground: var(--color-text-primary);
 
@@ -164,6 +168,28 @@
   }
 }
 
+/* Home: desktop scroll-snap между баннерами и футером (только при data-home-snap). */
+@media (min-width: 1024px) {
+  :root {
+    --home-offset-first: var(--header-height);
+    --home-offset-rest: calc(var(--header-height) - 2.75rem);
+  }
+
+  html:has([data-home-snap]) {
+    scroll-snap-type: y mandatory;
+    scroll-padding-top: var(--home-offset-rest);
+  }
+
+  html:has([data-home-snap]) footer {
+    scroll-snap-align: start;
+    scroll-snap-stop: always;
+    min-height: calc(100dvh - var(--home-offset-rest));
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+  }
+}
+
 /* Доступность: уважаем prefers-reduced-motion (правило 40-accessibility). */
 @media (prefers-reduced-motion: reduce) {
   *,
@@ -173,5 +199,9 @@
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
     scroll-behavior: auto !important;
+  }
+
+  html:has([data-home-snap]) {
+    scroll-snap-type: none;
   }
 }

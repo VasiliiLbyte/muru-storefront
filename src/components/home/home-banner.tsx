@@ -13,12 +13,14 @@ export type HomeBannerProps = {
   ctaLabel?: string;
   priority?: boolean;
   overlay?: "card" | "scrim";
-  minHeightClass?: string;
+  /** Первый баннер: высота под полной шапкой (utility + sticky). */
+  isFirst?: boolean;
   as?: "h1" | "h2";
 };
 
 /**
  * Full-bleed баннер главной: фоновое фото + центрированная карточка с CTA.
+ * Высота = 100dvh − offset шапки; на lg+ — scroll-snap slide.
  */
 export function HomeBanner({
   image,
@@ -28,7 +30,7 @@ export function HomeBanner({
   ctaLabel = "Подробнее",
   priority = false,
   overlay = "card",
-  minHeightClass,
+  isFirst = false,
   as: HeadingTag = "h2",
 }: HomeBannerProps) {
   const src = typeof image === "string" ? image : image.url;
@@ -38,8 +40,10 @@ export function HomeBanner({
   return (
     <section
       className={cn(
-        "relative isolate flex items-center justify-center overflow-hidden",
-        minHeightClass ?? "min-h-[60vh] md:min-h-[72vh]",
+        "relative isolate flex items-center justify-center overflow-hidden lg:snap-start lg:snap-always",
+        isFirst
+          ? "h-[calc(100dvh-var(--home-offset-first))] min-h-[calc(100dvh-var(--home-offset-first))]"
+          : "h-[calc(100dvh-var(--home-offset-rest))] min-h-[calc(100dvh-var(--home-offset-rest))]",
       )}
     >
       <Image

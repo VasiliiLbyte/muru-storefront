@@ -28,7 +28,7 @@ export default async function Home() {
   );
 
   return (
-    <main id="main" className="flex flex-1 flex-col">
+    <main id="main" data-home-snap className="flex flex-1 flex-col">
       {banners.map((banner, index) => {
         const isAboutFallback = banner.id === FALLBACK_ABOUT_BANNER_ID;
         const isFirst = index === 0;
@@ -44,6 +44,7 @@ export default async function Home() {
             ctaLabel={isAboutFallback ? "Подробнее" : undefined}
             as={isFirst ? "h1" : "h2"}
             priority={isFirst}
+            isFirst={isFirst}
           />
         );
       })}
