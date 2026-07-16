@@ -155,8 +155,19 @@ export function adaptProduct(b: BackendProduct | BackendProductDetail): Product 
       .map((url) => ({ url, alt: b.name })),
     categorySlugs,
     description: detail.description ?? undefined,
+    specs: detail.specs
+      ? Object.fromEntries(
+          Object.entries(detail.specs).filter(
+            ([, value]) => typeof value === "string" && value.trim() !== "",
+          ),
+        )
+      : undefined,
     attributes: {
-      color: b.colors?.length ? b.colors : undefined,
+      color: b.colors?.length
+        ? b.colors
+        : b.color
+          ? [b.color]
+          : undefined,
       material: detail.specs?.["Материал"],
       weight: detail.weightGrams
         ? { value: detail.weightGrams, unit: "g" }

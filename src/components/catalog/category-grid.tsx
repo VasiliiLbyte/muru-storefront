@@ -23,7 +23,7 @@ export function CategoryGrid({
 
   return (
     <div className={cn("mb-10", className)}>
-      <div className="grid grid-cols-2 gap-5 md:grid-cols-3">
+      <div className="grid grid-cols-2 gap-5 lg:grid-cols-4">
         {subcategories.map((child, index) => {
           const image = imageBySlug.get(child.slug);
           return (
@@ -32,13 +32,13 @@ export function CategoryGrid({
               href={catalogHref.sub(parentSlug, child.slug)}
               className="group flex flex-col gap-3 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring"
             >
-              <div className="relative aspect-[4/5] overflow-hidden bg-surface">
+              <div className="relative aspect-square overflow-hidden bg-surface">
                 {image ? (
                   <Image
                     src={image.url}
                     alt={image.alt ?? child.title}
                     fill
-                    sizes="(min-width: 640px) 33vw, 50vw"
+                    sizes="(min-width: 1024px) 25vw, 50vw"
                     priority={index === 0}
                     placeholder={image.blurDataURL ? "blur" : undefined}
                     blurDataURL={image.blurDataURL}
@@ -46,7 +46,7 @@ export function CategoryGrid({
                   />
                 ) : null}
               </div>
-              <h3 className="font-display text-h2 text-text-heading transition-colors group-hover:text-brand">
+              <h3 className="font-display text-body tracking-[0.04em] text-text-heading uppercase transition-colors group-hover:text-brand">
                 {child.title}
               </h3>
             </Link>

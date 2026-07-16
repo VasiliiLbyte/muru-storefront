@@ -1,8 +1,8 @@
 import { Breadcrumbs } from "@/components/catalog/breadcrumbs";
-import { ProductAttributes } from "@/components/product/product-attributes";
 import { ProductDescription } from "@/components/product/product-description";
 import { ProductGallery } from "@/components/product/product-gallery";
 import { ProductPurchase } from "@/components/product/product-purchase";
+import { ProductSpecsAccordion } from "@/components/product/product-specs-accordion";
 import { RelatedProducts } from "@/components/product/related-products";
 import type { BreadcrumbItem } from "@/lib/seo/jsonld";
 import type { Product } from "@/lib/schemas";
@@ -32,7 +32,7 @@ export function ProductPdp({
         <ProductGallery images={product.images} title={product.title} />
         <div className="flex flex-col">
           <ProductPurchase product={product} />
-          <ProductAttributes product={product} />
+          <ProductSpecsAccordion product={product} />
         </div>
       </div>
 

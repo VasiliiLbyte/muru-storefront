@@ -4,7 +4,10 @@ import { useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 
 import { getWebPaymentStatus } from "@/lib/api/endpoints";
-import { PENDING_WEB_PAYMENT_ID_KEY } from "@/lib/checkout/constants";
+import {
+  PENDING_WEB_CHECKOUT_SOURCE_KEY,
+  PENDING_WEB_PAYMENT_ID_KEY,
+} from "@/lib/checkout/constants";
 import { useCartStore } from "@/stores/cart-store";
 
 type Status = "checking" | "succeeded" | "canceled" | "timeout" | "missing";
@@ -25,19 +28,27 @@ export default function CheckoutReturnPage() {
     let stopped = false;
     let timer: ReturnType<typeof setTimeout> | undefined;
 
+    const clearPendingKeys = () => {
+      sessionStorage.removeItem(PENDING_WEB_PAYMENT_ID_KEY);
+      sessionStorage.removeItem(PENDING_WEB_CHECKOUT_SOURCE_KEY);
+    };
+
     const poll = async () => {
       if (stopped) return;
       attemptsRef.current += 1;
       try {
         const res = await getWebPaymentStatus(paymentId);
         if (res.status === "succeeded") {
-          sessionStorage.removeItem(PENDING_WEB_PAYMENT_ID_KEY);
-          clearCart();
+          const source = sessionStorage.getItem(PENDING_WEB_CHECKOUT_SOURCE_KEY);
+          clearPendingKeys();
+          if (source !== "one-click") {
+            clearCart();
+          }
           setStatus("succeeded");
           return;
         }
         if (res.status === "canceled") {
-          sessionStorage.removeItem(PENDING_WEB_PAYMENT_ID_KEY);
+          clearPendingKeys();
           setStatus("canceled");
           return;
         }

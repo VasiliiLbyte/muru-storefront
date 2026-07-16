@@ -43,6 +43,8 @@ export const ProductSchema = z.object({
   shortDescription: z.string().optional(),
   description: z.string().optional(),
   attributes: ProductAttributesSchema.default({}),
+  /** CRM-характеристики (Материал, Бренд, Размер и т.д.). */
+  specs: z.record(z.string(), z.string()).optional(),
   categorySlugs: z.array(z.string()),
   inStock: z.boolean(),
   isOnSale: z.boolean(),

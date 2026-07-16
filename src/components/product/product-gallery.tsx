@@ -18,7 +18,7 @@ export function ProductGallery({
 
   if (!active) {
     return (
-      <div className="relative aspect-[4/5] w-full bg-surface" aria-hidden="true" />
+      <div className="relative aspect-square w-full bg-surface" aria-hidden="true" />
     );
   }
 
@@ -28,7 +28,7 @@ export function ProductGallery({
         id="product-gallery-main"
         role="tabpanel"
         aria-labelledby={`product-gallery-tab-${activeIndex}`}
-        className="relative aspect-[4/5] w-full overflow-hidden bg-surface"
+        className="relative aspect-square w-full overflow-hidden bg-surface"
       >
         <Image
           src={active.url}
