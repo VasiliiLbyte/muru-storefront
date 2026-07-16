@@ -121,7 +121,7 @@ export function ProductCardImages({
       <div
         ref={scrollRef}
         onScroll={updateActiveIndex}
-        className="flex h-full snap-x snap-mandatory overflow-x-auto [touch-action:pan-y] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
+        className="flex h-full snap-x snap-mandatory overflow-x-auto [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
       >
         {renderedSlides.map((image, index) => (
           <div
@@ -153,29 +153,26 @@ export function ProductCardImages({
 
       {extraSlidesMounted && renderedSlides.length > 1 ? (
         <>
-          <button
-            type="button"
-            aria-label="Предыдущее фото"
-            onClick={onArrowClick(-1)}
-            className={cn(
-              "absolute top-1/2 left-2 z-20 flex size-8 -translate-y-1/2 items-center justify-center rounded-full bg-background/70 text-body text-text-heading opacity-0 backdrop-blur-sm transition-opacity group-hover:opacity-100 focus-visible:opacity-100 focus-visible:ring-1 focus-visible:ring-ring focus-visible:outline-none",
-              activeIndex === 0 && "pointer-events-none opacity-0",
-            )}
-          >
-            ‹
-          </button>
-          <button
-            type="button"
-            aria-label="Следующее фото"
-            onClick={onArrowClick(1)}
-            className={cn(
-              "absolute top-1/2 right-2 z-20 flex size-8 -translate-y-1/2 items-center justify-center rounded-full bg-background/70 text-body text-text-heading opacity-0 backdrop-blur-sm transition-opacity group-hover:opacity-100 focus-visible:opacity-100 focus-visible:ring-1 focus-visible:ring-ring focus-visible:outline-none",
-              activeIndex === renderedSlides.length - 1 &&
-                "pointer-events-none opacity-0",
-            )}
-          >
-            ›
-          </button>
+          {activeIndex > 0 ? (
+            <button
+              type="button"
+              aria-label="Предыдущее фото"
+              onClick={onArrowClick(-1)}
+              className="absolute top-1/2 left-2 z-20 flex size-8 -translate-y-1/2 items-center justify-center rounded-full bg-background/70 text-body text-text-heading opacity-0 backdrop-blur-sm transition-opacity group-hover:opacity-100 focus-visible:opacity-100 focus-visible:ring-1 focus-visible:ring-ring focus-visible:outline-none"
+            >
+              ‹
+            </button>
+          ) : null}
+          {activeIndex < renderedSlides.length - 1 ? (
+            <button
+              type="button"
+              aria-label="Следующее фото"
+              onClick={onArrowClick(1)}
+              className="absolute top-1/2 right-2 z-20 flex size-8 -translate-y-1/2 items-center justify-center rounded-full bg-background/70 text-body text-text-heading opacity-0 backdrop-blur-sm transition-opacity group-hover:opacity-100 focus-visible:opacity-100 focus-visible:ring-1 focus-visible:ring-ring focus-visible:outline-none"
+            >
+              ›
+            </button>
+          ) : null}
         </>
       ) : null}
 
