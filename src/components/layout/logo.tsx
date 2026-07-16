@@ -21,6 +21,7 @@ export function Logo({ className }: { className?: string }) {
         alt="muru"
         width={165}
         height={32}
+        sizes="165px"
         className="h-8 w-auto"
       />
     </Link>

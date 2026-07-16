@@ -171,7 +171,7 @@ export default async function CatalogPage({ params, searchParams }: PageProps) {
                 href={catalogHref.top(category.slug)}
                 image={category.image}
                 title={category.title}
-                sizes="(min-width: 1024px) 25vw, (min-width: 768px) 33vw, 50vw"
+                sizes="(min-width: 1024px) 25vw, (min-width: 640px) 33vw, 50vw"
                 priority={index === 0}
               />
             ))}

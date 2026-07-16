@@ -38,7 +38,7 @@ export function CategoryGrid({
                     src={image.url}
                     alt={image.alt ?? child.title}
                     fill
-                    sizes="(min-width: 768px) 33vw, 50vw"
+                    sizes="(min-width: 640px) 33vw, 50vw"
                     priority={index === 0}
                     placeholder={image.blurDataURL ? "blur" : undefined}
                     blurDataURL={image.blurDataURL}
