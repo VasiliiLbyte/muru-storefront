@@ -177,12 +177,12 @@
 
   html:has([data-home-snap]) {
     scroll-snap-type: y mandatory;
-    scroll-padding-top: var(--home-offset-rest);
   }
 
   html:has([data-home-snap]) footer {
     scroll-snap-align: start;
     scroll-snap-stop: always;
+    scroll-margin-top: var(--home-offset-rest);
     min-height: calc(100dvh - var(--home-offset-rest));
     display: flex;
     flex-direction: column;
