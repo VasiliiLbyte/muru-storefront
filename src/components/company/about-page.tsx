@@ -153,18 +153,20 @@ function CompanyPromoSection({
             return (
               <div
                 key={card.key}
-                className="flex min-h-[307px] w-full max-w-[370px] flex-1 flex-col items-start bg-background p-6"
+                className="flex w-full max-w-[370px] flex-1 flex-col items-start gap-32 bg-white p-6 text-left max-lg:gap-16"
               >
                 <div className="flex flex-col gap-2">
-                  <h3 className="font-display text-h3 font-normal tracking-[0.08em] text-text-heading uppercase">
+                  <h3 className="text-[clamp(1.25rem,2vw,1.5rem)] leading-[calc(1em+8px)] font-light tracking-normal text-[#6B6B6B] uppercase">
                     {card.title}
                   </h3>
-                  <p className="text-body text-text-secondary">{card.text}</p>
+                  <p className="text-base leading-5 font-light text-[#5B5B5B]">
+                    {card.text}
+                  </p>
                 </div>
                 <Button
                   render={<Link href={href} />}
                   size="sm"
-                  className="mt-auto self-start"
+                  className="h-[38px] self-start rounded-none px-4 text-[15px] font-medium hover:bg-[#52602F]"
                 >
                   Подробнее
                 </Button>
