@@ -7,6 +7,7 @@ import {
   HomeBannerSchema,
   LookbookSchema,
   StaticPageSchema,
+  isPartnersSections,
   isVacancySections,
   type Collection,
   type CompanySections,
@@ -15,6 +16,7 @@ import {
   type Image,
   type Lookbook,
   type PageSections,
+  type PartnersSections,
   type StaticPage,
   type VacancySections,
 } from "@/lib/schemas";
@@ -108,12 +110,25 @@ function resolveVacancySections(sections: VacancySections): VacancySections {
   };
 }
 
+function resolvePartnersSections(sections: PartnersSections): PartnersSections {
+  return {
+    ...sections,
+    hero: {
+      ...sections.hero,
+      image: resolveOptionalNullableImage(sections.hero.image),
+    },
+  };
+}
+
 function resolvePageSections(
   sections: PageSections | null | undefined,
 ): PageSections | null | undefined {
   if (sections == null) return sections;
   if (isVacancySections(sections)) {
     return resolveVacancySections(sections);
+  }
+  if (isPartnersSections(sections)) {
+    return resolvePartnersSections(sections);
   }
   return resolveCompanySections(sections);
 }

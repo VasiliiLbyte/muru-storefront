@@ -63,11 +63,19 @@ export const VacancySectionsSchema = z.object({
 });
 export type VacancySections = z.infer<typeof VacancySectionsSchema>;
 
+/** Partners page sections — only `hero`; strict so company payloads don't match. */
+export const PartnersSectionsSchema = z
+  .object({ hero: CompanyHeroSectionSchema })
+  .strict();
+export type PartnersSections = z.infer<typeof PartnersSectionsSchema>;
+
 /**
  * Company first would strip vacancy `hr`/`vacancies`. Vacancy-first requires those keys.
+ * Partners (strict, hero-only) sits before Company so company `mission`/`promo` isn't stripped.
  */
 export const PageSectionsSchema = z.union([
   VacancySectionsSchema,
+  PartnersSectionsSchema,
   CompanySectionsSchema,
 ]);
 export type PageSections = z.infer<typeof PageSectionsSchema>;
@@ -83,10 +91,28 @@ export function isVacancySections(
   );
 }
 
+export function isPartnersSections(
+  sections: PageSections | null | undefined,
+): sections is PartnersSections {
+  return (
+    sections != null &&
+    typeof sections === "object" &&
+    "hero" in sections &&
+    !("hr" in sections) &&
+    !("vacancies" in sections) &&
+    !("mission" in sections) &&
+    !("promo" in sections)
+  );
+}
+
 export function isCompanySections(
   sections: PageSections | null | undefined,
 ): sections is CompanySections {
-  return sections != null && !isVacancySections(sections);
+  return (
+    sections != null &&
+    !isVacancySections(sections) &&
+    !isPartnersSections(sections)
+  );
 }
 
 /**
