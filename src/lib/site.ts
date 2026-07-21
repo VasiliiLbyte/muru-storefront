@@ -40,6 +40,7 @@ export type NavItem = {
 /** Верхнее меню (как на muru.ru). */
 export const mainNav: NavItem[] = [
   { label: "О нас", href: "/company/" },
+  { label: "Новинки", href: "/new/" },
   { label: "Вдохновение", href: "/lookbooks/" },
   { label: "Коллекции", href: "/landings/" },
   { label: "Гид по подаркам", href: "/gifts/" },
@@ -57,6 +58,7 @@ export const catalogHref = {
 /** Ссылки футера: компания (uppercase в CSS) и каталог. */
 export const companyLinks: NavItem[] = [
   { label: "О нас", href: "/company/" },
+  { label: "Новинки", href: "/new/" },
   { label: "Вдохновение", href: "/lookbooks/" },
   { label: "Коллекции", href: "/landings/" },
   { label: "Гид по подаркам", href: "/gifts/" },

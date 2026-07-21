@@ -146,6 +146,17 @@ export function adaptProduct(b: BackendProduct | BackendProductDetail): Product 
       (b as { giftGuide?: boolean }).giftGuide ??
         (b as { is_gift_guide?: boolean }).is_gift_guide,
     ),
+    newArrival: Boolean(
+      (b as { newArrival?: boolean }).newArrival ??
+        (b as { is_new_arrival?: boolean }).is_new_arrival ??
+        (b as { isNewArrival?: boolean }).isNewArrival,
+    ),
+    newArrivalAt: (() => {
+      const raw =
+        (b as { newArrivalAt?: string | null }).newArrivalAt ??
+        (b as { new_arrival_at?: string | null }).new_arrival_at;
+      return raw ?? null;
+    })(),
     inStock: b.inStock > 0,
     currency: "RUB",
     unit: "pcs",

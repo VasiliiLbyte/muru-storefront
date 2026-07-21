@@ -79,6 +79,12 @@ function buildProduct(leaf: string, i: number): Product {
   const onSale = isSaleLeaf || rng() < 0.3;
   const price = priceFor(rng);
   const oldPrice = onSale ? Math.round((price * 1.25) / 50) * 50 : undefined;
+  const newArrival = !isGiftCard && rng() < 0.2;
+  const newArrivalAt = newArrival
+    ? new Date(
+        Date.UTC(2026, 0, 1) + Math.floor(rng() * 180) * 86_400_000,
+      ).toISOString()
+    : null;
 
   const top = topCategoryOf(leaf);
   const categorySlugs = Array.from(new Set([leaf, top]));
@@ -120,6 +126,8 @@ function buildProduct(leaf: string, i: number): Product {
     inStock: rng() < 0.9,
     isOnSale: onSale,
     giftGuide: false,
+    newArrival,
+    newArrivalAt,
     unit: unitFor(leaf),
     external_id: `1c-${sku}`,
     seo: {

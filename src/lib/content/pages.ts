@@ -66,6 +66,7 @@ const DEFS: {
   { slug: "partners", title: "Стать партнёром" },
   { slug: "help", title: "Клиентам" },
   { slug: "gifts", title: "Гид по подаркам" },
+  { slug: "new", title: "Новинки" },
   {
     slug: "privacy",
     title: "Политика обработки персональных данных",

@@ -35,7 +35,18 @@ export function sortProducts(list: Product[], sort: string): Product[] {
           (a.oldPrice ? a.oldPrice - a.price : 0),
       );
     case "new":
-      return copy.sort((a, b) => b.slug.localeCompare(a.slug));
+      return copy.sort((a, b) => {
+        const aAt = a.newArrivalAt ?? null;
+        const bAt = b.newArrivalAt ?? null;
+        if (aAt === null && bAt === null) {
+          return a.slug.localeCompare(b.slug);
+        }
+        if (aAt === null) return 1;
+        if (bAt === null) return -1;
+        const byDate = bAt.localeCompare(aAt);
+        if (byDate !== 0) return byDate;
+        return a.slug.localeCompare(b.slug);
+      });
     case "popular":
     default:
       return copy.sort((a, b) => a.slug.localeCompare(b.slug));
@@ -90,6 +101,7 @@ export function applyProductListQuery(
   if (query.inStock) list = list.filter((p) => p.inStock);
   if (query.onSale) list = list.filter((p) => p.isOnSale);
   if (query.giftGuide) list = list.filter((p) => p.giftGuide);
+  if (query.newArrival) list = list.filter((p) => p.newArrival);
   if (query.minPrice !== undefined)
     list = list.filter((p) => p.price >= query.minPrice!);
   if (query.maxPrice !== undefined)
@@ -120,6 +132,7 @@ export function listProducts(sp: URLSearchParams): ProductListResponse {
     inStock: sp.get("inStock") ?? undefined,
     onSale: sp.get("onSale") ?? undefined,
     giftGuide: sp.get("giftGuide") ?? undefined,
+    newArrival: sp.get("newArrival") ?? undefined,
     minPrice: sp.get("minPrice") ?? undefined,
     maxPrice: sp.get("maxPrice") ?? undefined,
     material: sp.get("material") ?? undefined,

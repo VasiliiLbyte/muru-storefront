@@ -9,6 +9,7 @@ export const PUBLIC_STATIC_ROUTES = [
   "/company/partners/",
   "/help/",
   "/gifts/",
+  "/new/",
   "/landings/",
   "/lookbooks/",
   "/legal/privacy/",
