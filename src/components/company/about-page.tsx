@@ -44,8 +44,8 @@ function CatalogCta() {
 
 function CompanyHeroSection({
   heading,
-  body,
-  backgroundImage,
+  text,
+  image,
 }: NonNullable<CompanySections["hero"]>) {
   return (
     <section
@@ -53,10 +53,10 @@ function CompanyHeroSection({
         "relative flex min-h-[320px] w-full items-center justify-center overflow-hidden bg-surface aspect-[16/9] md:aspect-[21/9]",
       )}
     >
-      {backgroundImage?.url ? (
+      {image?.url ? (
         <Image
-          src={backgroundImage.url}
-          alt={backgroundImage.alt ?? ""}
+          src={image.url}
+          alt={image.alt ?? ""}
           fill
           priority
           sizes="100vw"
@@ -77,7 +77,7 @@ function CompanyHeroSection({
         <h2 className="font-display text-[clamp(1.25rem,2.5vw,1.75rem)] leading-[1.2] font-normal tracking-[0.08em] text-text-heading uppercase">
           {heading}
         </h2>
-        <StaticProse html={body} className="mt-4 text-left [&_p:last-child]:mb-0" />
+        <StaticProse html={text} className="mt-4 text-left [&_p:last-child]:mb-0" />
       </div>
     </section>
   );
@@ -86,7 +86,7 @@ function CompanyHeroSection({
 function CompanyMissionSection({
   label,
   heading,
-  body,
+  text,
   images,
 }: NonNullable<CompanySections["mission"]>) {
   return (
@@ -98,7 +98,7 @@ function CompanyMissionSection({
           </p>
         ) : null}
         <h2 className="mb-4 font-display text-h2 text-text-heading">{heading}</h2>
-        <StaticProse html={body} />
+        <StaticProse html={text} />
       </div>
       {images && images.length > 0 ? (
         <div className="grid grid-cols-2 gap-4">
@@ -127,22 +127,22 @@ function MissionImage({ image }: { image: ImageData }) {
 }
 
 function CompanyPromoSection({
-  backgroundImage,
+  image,
   cards,
 }: NonNullable<CompanySections["promo"]>) {
   const items = cards.map((card, index) => ({
     title: card.title,
-    description: card.description,
+    description: card.text,
     href: PROMO_HREFS[index] ?? PROMO_HREFS[PROMO_HREFS.length - 1],
   }));
 
   return (
     <section className="relative overflow-hidden py-8 md:py-12">
-      {backgroundImage?.url ? (
+      {image?.url ? (
         <>
           <Image
-            src={backgroundImage.url}
-            alt={backgroundImage.alt ?? ""}
+            src={image.url}
+            alt={image.alt ?? ""}
             fill
             sizes="100vw"
             className="object-cover"

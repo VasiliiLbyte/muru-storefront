@@ -4,24 +4,25 @@ import { ImageSchema, SeoSchema } from "./common";
 
 const CompanyHeroSectionSchema = z.object({
   heading: z.string(),
-  body: z.string(),
-  backgroundImage: ImageSchema.nullable().optional(),
+  text: z.string(),
+  image: ImageSchema.nullable().optional(),
 });
 
 const CompanyMissionSectionSchema = z.object({
   label: z.string().optional(),
   heading: z.string(),
-  body: z.string(),
+  text: z.string(),
   images: z.array(ImageSchema).max(2).optional(),
 });
 
 const CompanyPromoCardSchema = z.object({
+  key: z.string(),
   title: z.string(),
-  description: z.string(),
+  text: z.string(),
 });
 
 const CompanyPromoSectionSchema = z.object({
-  backgroundImage: ImageSchema.nullable().optional(),
+  image: ImageSchema.nullable().optional(),
   cards: z.array(CompanyPromoCardSchema),
 });
 

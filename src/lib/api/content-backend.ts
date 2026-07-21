@@ -75,9 +75,7 @@ function resolveCompanySections(
     hero: sections.hero
       ? {
           ...sections.hero,
-          backgroundImage: resolveOptionalNullableImage(
-            sections.hero.backgroundImage,
-          ),
+          image: resolveOptionalNullableImage(sections.hero.image),
         }
       : undefined,
     mission: sections.mission
@@ -89,9 +87,7 @@ function resolveCompanySections(
     promo: sections.promo
       ? {
           ...sections.promo,
-          backgroundImage: resolveOptionalNullableImage(
-            sections.promo.backgroundImage,
-          ),
+          image: resolveOptionalNullableImage(sections.promo.image),
         }
       : undefined,
   };
