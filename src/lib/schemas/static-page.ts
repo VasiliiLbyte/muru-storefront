@@ -33,6 +33,62 @@ export const CompanySectionsSchema = z.object({
 });
 export type CompanySections = z.infer<typeof CompanySectionsSchema>;
 
+const VacancyHrSchema = z.object({
+  heading: z.string(),
+  contactName: z.string(),
+  phone: z.string(),
+  email: z.string(),
+});
+
+const VacancyItemSchema = z.object({
+  id: z.string(),
+  title: z.string(),
+  city: z.string(),
+  experience: z.string(),
+  format: z.string(),
+  salary: z.string(),
+  description: z.string(),
+});
+
+const VacancyListSchema = z.object({
+  heading: z.string(),
+  items: z.array(VacancyItemSchema),
+});
+
+/** Vacancy page sections — `hr` + `vacancies` required for union discrimination. */
+export const VacancySectionsSchema = z.object({
+  hero: CompanyHeroSectionSchema.optional(),
+  hr: VacancyHrSchema,
+  vacancies: VacancyListSchema,
+});
+export type VacancySections = z.infer<typeof VacancySectionsSchema>;
+
+/**
+ * Company first would strip vacancy `hr`/`vacancies`. Vacancy-first requires those keys.
+ */
+export const PageSectionsSchema = z.union([
+  VacancySectionsSchema,
+  CompanySectionsSchema,
+]);
+export type PageSections = z.infer<typeof PageSectionsSchema>;
+
+export function isVacancySections(
+  sections: PageSections | null | undefined,
+): sections is VacancySections {
+  return (
+    sections != null &&
+    typeof sections === "object" &&
+    "hr" in sections &&
+    "vacancies" in sections
+  );
+}
+
+export function isCompanySections(
+  sections: PageSections | null | undefined,
+): sections is CompanySections {
+  return sections != null && !isVacancySections(sections);
+}
+
 /**
  * Статическая контентная страница (О нас, Реквизиты, Юр. страницы и т.п.).
  * body — HTML/Markdown-строка (наполнение из CMS/плейсхолдеров, не скрейп).
@@ -42,7 +98,7 @@ export const StaticPageSchema = z.object({
   title: z.string(),
   body: z.string(),
   heroImage: ImageSchema.nullable().optional(),
-  sections: CompanySectionsSchema.nullable().optional(),
+  sections: PageSectionsSchema.nullable().optional(),
   seo: SeoSchema,
   updatedAt: z.string().datetime().optional(),
 });

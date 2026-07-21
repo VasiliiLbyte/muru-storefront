@@ -1,11 +1,13 @@
 import type { Metadata } from "next";
 
 import { Breadcrumbs } from "@/components/catalog/breadcrumbs";
+import { VacancyPageContent } from "@/components/company/vacancy-page";
 import { ContentShell } from "@/components/content/content-shell";
 import { HelpHero } from "@/components/content/help-hero";
 import { StaticProse } from "@/components/content/static-prose";
 import { getStaticPage } from "@/lib/api/endpoints";
 import { companyCrumb, contentBreadcrumbs } from "@/lib/content/breadcrumbs";
+import { isVacancySections } from "@/lib/schemas";
 import { buildPageMetadata } from "@/lib/seo/page-metadata";
 
 export const revalidate = 300;
@@ -18,17 +20,33 @@ export async function generateMetadata(): Promise<Metadata> {
     title: page.seo.title,
     description: page.seo.description,
     path: PAGE_PATH,
-    ogImage: page.heroImage?.url,
+    ogImage:
+      page.heroImage?.url ??
+      (isVacancySections(page.sections)
+        ? page.sections.hero?.image?.url
+        : undefined),
   });
 }
 
 export default async function VacancyPage() {
   const page = await getStaticPage("vacancy");
-  const hasHero = Boolean(page.heroImage?.url);
   const breadcrumbs = contentBreadcrumbs(
     companyCrumb(),
     { name: page.title, href: PAGE_PATH },
   );
+
+  if (isVacancySections(page.sections)) {
+    return (
+      <main id="main" className="flex flex-1 flex-col">
+        <VacancyPageContent
+          sections={page.sections}
+          breadcrumbs={breadcrumbs}
+        />
+      </main>
+    );
+  }
+
+  const hasHero = Boolean(page.heroImage?.url);
 
   if (hasHero && page.heroImage) {
     return (

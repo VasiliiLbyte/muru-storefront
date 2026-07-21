@@ -7,13 +7,16 @@ import {
   HomeBannerSchema,
   LookbookSchema,
   StaticPageSchema,
+  isVacancySections,
   type Collection,
   type CompanySections,
   type HomeBanner,
   type Hotspot,
   type Image,
   type Lookbook,
+  type PageSections,
   type StaticPage,
+  type VacancySections,
 } from "@/lib/schemas";
 
 import { apiEnvelopeFetch } from "./client";
@@ -67,10 +70,8 @@ function resolveBanner(dto: HomeBanner): HomeBanner {
 }
 
 function resolveCompanySections(
-  sections: CompanySections | null | undefined,
-): CompanySections | null | undefined {
-  if (sections == null) return sections;
-
+  sections: CompanySections,
+): CompanySections {
   return {
     hero: sections.hero
       ? {
@@ -81,7 +82,9 @@ function resolveCompanySections(
     mission: sections.mission
       ? {
           ...sections.mission,
-          images: sections.mission.images?.map((img) => (img ? resolveImage(img)! : null)),
+          images: sections.mission.images?.map((img) =>
+            img ? resolveImage(img)! : null,
+          ),
         }
       : undefined,
     promo: sections.promo
@@ -93,6 +96,28 @@ function resolveCompanySections(
   };
 }
 
+function resolveVacancySections(sections: VacancySections): VacancySections {
+  return {
+    ...sections,
+    hero: sections.hero
+      ? {
+          ...sections.hero,
+          image: resolveOptionalNullableImage(sections.hero.image),
+        }
+      : undefined,
+  };
+}
+
+function resolvePageSections(
+  sections: PageSections | null | undefined,
+): PageSections | null | undefined {
+  if (sections == null) return sections;
+  if (isVacancySections(sections)) {
+    return resolveVacancySections(sections);
+  }
+  return resolveCompanySections(sections);
+}
+
 function resolvePage(dto: StaticPage): StaticPage {
   return {
     ...dto,
@@ -101,7 +126,7 @@ function resolvePage(dto: StaticPage): StaticPage {
       `src="${ASSETS_BASE}/uploads/`,
     ),
     heroImage: resolveOptionalNullableImage(dto.heroImage),
-    sections: resolveCompanySections(dto.sections),
+    sections: resolvePageSections(dto.sections),
   };
 }
 

@@ -3,6 +3,7 @@ import type { Metadata } from "next";
 import { AboutPage } from "@/components/company/about-page";
 import { getStaticPage } from "@/lib/api/endpoints";
 import { contentBreadcrumbs } from "@/lib/content/breadcrumbs";
+import { isCompanySections } from "@/lib/schemas";
 import { buildPageMetadata } from "@/lib/seo/page-metadata";
 
 export const revalidate = 300;
@@ -22,10 +23,11 @@ export default async function CompanyPage() {
     name: page.title,
     href: "/company/",
   });
+  const sections = isCompanySections(page.sections) ? page.sections : null;
 
   return (
     <main id="main" className="flex flex-1 flex-col">
-      <AboutPage sections={page.sections} breadcrumbs={breadcrumbs} />
+      <AboutPage sections={sections} breadcrumbs={breadcrumbs} />
     </main>
   );
 }
