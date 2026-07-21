@@ -8,6 +8,7 @@ import {
   LookbookSchema,
   StaticPageSchema,
   type Collection,
+  type CompanySections,
   type HomeBanner,
   type Hotspot,
   type Image,
@@ -65,6 +66,37 @@ function resolveBanner(dto: HomeBanner): HomeBanner {
   };
 }
 
+function resolveCompanySections(
+  sections: CompanySections | null | undefined,
+): CompanySections | null | undefined {
+  if (sections == null) return sections;
+
+  return {
+    hero: sections.hero
+      ? {
+          ...sections.hero,
+          backgroundImage: resolveOptionalNullableImage(
+            sections.hero.backgroundImage,
+          ),
+        }
+      : undefined,
+    mission: sections.mission
+      ? {
+          ...sections.mission,
+          images: sections.mission.images?.map((image) => resolveImage(image)!),
+        }
+      : undefined,
+    promo: sections.promo
+      ? {
+          ...sections.promo,
+          backgroundImage: resolveOptionalNullableImage(
+            sections.promo.backgroundImage,
+          ),
+        }
+      : undefined,
+  };
+}
+
 function resolvePage(dto: StaticPage): StaticPage {
   return {
     ...dto,
@@ -73,6 +105,7 @@ function resolvePage(dto: StaticPage): StaticPage {
       `src="${ASSETS_BASE}/uploads/`,
     ),
     heroImage: resolveOptionalNullableImage(dto.heroImage),
+    sections: resolveCompanySections(dto.sections),
   };
 }
 

@@ -26,7 +26,7 @@ export default async function CompanyPage() {
         title={page.title}
         breadcrumbs={contentBreadcrumbs({ name: page.title, href: "/company/" })}
       >
-        <AboutPage />
+        <AboutPage sections={page.sections} />
       </ContentShell>
     </main>
   );

@@ -53,10 +53,17 @@ const LEGAL_OFFER_BODY = `
 <p>${LOREM}</p>
 `.trim();
 
-const DEFS: { slug: string; title: string; body?: string }[] = [
-  { slug: "company", title: "О нас" },
+const DEFS: {
+  slug: string;
+  title: string;
+  body?: string;
+  sections?: StaticPage["sections"];
+}[] = [
+  { slug: "company", title: "О нас", sections: null },
   { slug: "contacts", title: "Контакты" },
   { slug: "requisites", title: "Реквизиты" },
+  { slug: "vacancy", title: "Вакансии" },
+  { slug: "partners", title: "Стать партнёром" },
   { slug: "help", title: "Клиентам" },
   { slug: "gifts", title: "Гид по подаркам" },
   {
@@ -74,6 +81,7 @@ export const staticPages: StaticPage[] = DEFS.map((def) => ({
     def.body ??
     `<h2>${def.title}</h2><p>${LOREM}</p><p>${LOREM}</p>`,
   heroImage: null,
+  sections: def.sections,
   seo: {
     title: `${def.title} — MURU`,
     description: `${def.title}: страница MURU.`,

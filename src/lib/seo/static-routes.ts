@@ -5,6 +5,8 @@ export const PUBLIC_STATIC_ROUTES = [
   "/company/",
   "/company/contacts/",
   "/company/requisites/",
+  "/company/vacancy/",
+  "/company/partners/",
   "/help/",
   "/gifts/",
   "/landings/",
