@@ -81,7 +81,7 @@ function resolveCompanySections(
     mission: sections.mission
       ? {
           ...sections.mission,
-          images: sections.mission.images?.map((image) => resolveImage(image)!),
+          images: sections.mission.images?.map((img) => (img ? resolveImage(img)! : null)),
         }
       : undefined,
     promo: sections.promo

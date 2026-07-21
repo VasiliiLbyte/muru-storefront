@@ -77,7 +77,7 @@ function CompanyHeroSection({
         <h2 className="font-display text-[clamp(1.25rem,2.5vw,1.75rem)] leading-[1.2] font-normal tracking-[0.08em] text-text-heading uppercase">
           {heading}
         </h2>
-        <StaticProse html={text} className="mt-4 text-left [&_p:last-child]:mb-0" />
+        <StaticProse html={text} className="mt-4 text-center [&_p:last-child]:mb-0" />
       </div>
     </section>
   );
@@ -89,20 +89,23 @@ function CompanyMissionSection({
   text,
   images,
 }: NonNullable<CompanySections["mission"]>) {
+  const shown =
+    images?.filter((i): i is ImageData => Boolean(i?.url)) ?? [];
+
   return (
-    <section className="grid gap-8 lg:grid-cols-[minmax(0,1fr)_minmax(0,1fr)] lg:items-center lg:gap-12">
-      <div className="max-w-3xl">
+    <section className="grid gap-8 lg:grid-cols-[minmax(0,1fr)_minmax(0,1fr)] lg:items-start lg:gap-12">
+      <div className="max-w-xl">
         {label ? (
           <p className="mb-3 text-caption font-medium tracking-[0.12em] text-text-muted uppercase">
             {label}
           </p>
         ) : null}
-        <h2 className="mb-4 font-display text-h2 text-text-heading">{heading}</h2>
+        <h2 className="mb-4 font-display text-h3 text-text-heading">{heading}</h2>
         <StaticProse html={text} />
       </div>
-      {images && images.length > 0 ? (
+      {shown.length > 0 ? (
         <div className="grid grid-cols-2 gap-4">
-          {images.map((image, index) => (
+          {shown.map((image, index) => (
             <MissionImage key={`${image.url}-${index}`} image={image} />
           ))}
         </div>
@@ -113,15 +116,17 @@ function CompanyMissionSection({
 
 function MissionImage({ image }: { image: ImageData }) {
   return (
-    <div className="relative aspect-[4/5] overflow-hidden bg-surface">
-      <Image
-        src={image.url}
-        alt={image.alt ?? ""}
-        fill
-        sizes="(max-width: 1024px) 50vw, 25vw"
-        className="object-cover"
-        {...staticBlurProps()}
-      />
+    <div className="bg-surface p-2">
+      <div className="relative aspect-[4/3] overflow-hidden">
+        <Image
+          src={image.url}
+          alt={image.alt ?? ""}
+          fill
+          sizes="(max-width: 1024px) 50vw, 25vw"
+          className="object-cover"
+          {...staticBlurProps()}
+        />
+      </div>
     </div>
   );
 }
@@ -130,12 +135,6 @@ function CompanyPromoSection({
   image,
   cards,
 }: NonNullable<CompanySections["promo"]>) {
-  const items = cards.map((card, index) => ({
-    title: card.title,
-    description: card.text,
-    href: PROMO_HREFS[index] ?? PROMO_HREFS[PROMO_HREFS.length - 1],
-  }));
-
   return (
     <section className="relative overflow-hidden py-8 md:py-12">
       {image?.url ? (
@@ -151,8 +150,29 @@ function CompanyPromoSection({
           <div className="absolute inset-0 bg-background/80" aria-hidden />
         </>
       ) : null}
-      <div className="relative z-10">
-        <InfoTileGrid items={items} />
+      <div className="relative z-10 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
+        {cards.map((card, index) => {
+          const href =
+            PROMO_HREFS[index] ?? PROMO_HREFS[PROMO_HREFS.length - 1];
+          return (
+            <div
+              key={card.key}
+              className="flex flex-col gap-3 bg-background p-8"
+            >
+              <h3 className="font-display text-h3 font-normal tracking-[0.08em] text-text-heading uppercase">
+                {card.title}
+              </h3>
+              <p className="text-body text-text-secondary">{card.text}</p>
+              <Button
+                render={<Link href={href} />}
+                size="sm"
+                className="mt-auto self-start"
+              >
+                Подробнее
+              </Button>
+            </div>
+          );
+        })}
       </div>
     </section>
   );

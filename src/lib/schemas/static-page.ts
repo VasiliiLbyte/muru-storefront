@@ -12,7 +12,7 @@ const CompanyMissionSectionSchema = z.object({
   label: z.string().optional(),
   heading: z.string(),
   text: z.string(),
-  images: z.array(ImageSchema).max(2).optional(),
+  images: z.array(ImageSchema.nullable()).max(2).optional(),
 });
 
 const CompanyPromoCardSchema = z.object({
