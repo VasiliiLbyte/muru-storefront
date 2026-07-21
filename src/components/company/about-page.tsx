@@ -34,16 +34,6 @@ const FALLBACK_PROMO_TILES = [
   },
 ] as const;
 
-function CatalogCta() {
-  return (
-    <div>
-      <Button render={<Link href="/catalog/" />} size="lg" className="h-11 px-8">
-        Перейти в каталог
-      </Button>
-    </div>
-  );
-}
-
 function CompanyHeroSection({
   heading,
   text,
@@ -78,10 +68,10 @@ function CompanyHeroSection({
           className="object-cover"
         />
       )}
-      <div className="absolute top-0 left-0 z-10 w-full max-w-[1564px] px-4 pt-8 sm:px-8">
+      <div className="absolute top-0 left-0 z-10 w-full max-w-[1564px] px-4 pt-8 sm:px-8 [&_ol]:text-white [&_a]:text-white/90 [&_a:hover]:text-white [&_span]:text-white [text-shadow:0_1px_2px_rgba(0,0,0,0.55)]">
         <Breadcrumbs items={breadcrumbs} />
       </div>
-      <div className="relative z-10 mx-4 w-full max-w-xl bg-background px-8 py-10 text-center sm:px-12 sm:py-12">
+      <div className="relative z-10 mx-4 w-full max-w-[560px] bg-background px-10 py-12 text-center sm:px-14 sm:py-16">
         <h1 className="font-display text-[clamp(1.25rem,2.5vw,1.75rem)] leading-[1.2] font-normal tracking-[0.08em] text-text-heading uppercase">
           {heading}
         </h1>
@@ -144,7 +134,7 @@ function CompanyPromoSection({
   cards,
 }: NonNullable<CompanySections["promo"]>) {
   return (
-    <section className="relative w-full overflow-hidden py-12 md:py-16">
+    <section className="relative flex w-full min-h-[70vh] items-center overflow-hidden lg:min-h-[75vh]">
       {image?.url ? (
         <Image
           src={image.url}
@@ -155,29 +145,31 @@ function CompanyPromoSection({
           {...staticBlurProps()}
         />
       ) : null}
-      <div className="relative z-10 mx-auto grid max-w-[1564px] grid-cols-1 gap-6 px-4 sm:grid-cols-2 sm:px-8 lg:grid-cols-3">
-        {cards.map((card, index) => {
-          const href =
-            PROMO_HREFS[index] ?? PROMO_HREFS[PROMO_HREFS.length - 1];
-          return (
-            <div
-              key={card.key}
-              className="flex min-h-[240px] flex-col gap-3 bg-background p-8"
-            >
-              <h3 className="font-display text-h3 font-normal tracking-[0.08em] text-text-heading uppercase">
-                {card.title}
-              </h3>
-              <p className="text-body text-text-secondary">{card.text}</p>
-              <Button
-                render={<Link href={href} />}
-                size="sm"
-                className="mt-auto self-start"
+      <div className="relative z-10 mx-auto w-full max-w-[1564px] px-4 sm:px-8">
+        <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
+          {cards.map((card, index) => {
+            const href =
+              PROMO_HREFS[index] ?? PROMO_HREFS[PROMO_HREFS.length - 1];
+            return (
+              <div
+                key={card.key}
+                className="flex min-h-[240px] flex-col gap-3 bg-background p-8"
               >
-                Подробнее
-              </Button>
-            </div>
-          );
-        })}
+                <h3 className="font-display text-h3 font-normal tracking-[0.08em] text-text-heading uppercase">
+                  {card.title}
+                </h3>
+                <p className="text-body text-text-secondary">{card.text}</p>
+                <Button
+                  render={<Link href={href} />}
+                  size="sm"
+                  className="mt-auto self-start"
+                >
+                  Подробнее
+                </Button>
+              </div>
+            );
+          })}
+        </div>
       </div>
     </section>
   );
@@ -231,7 +223,6 @@ function AboutPageFallback({
       </section>
 
       <InfoTileGrid items={[...FALLBACK_PROMO_TILES]} />
-      <CatalogCta />
     </div>
   );
 }
@@ -257,14 +248,11 @@ export function AboutPage({
         </div>
       )}
       {sections.mission ? (
-        <div className="mx-auto w-full max-w-[1564px] px-4 pt-12 sm:px-8 md:pt-16">
+        <div className="mx-auto w-full max-w-[1564px] px-4 pt-12 pb-16 sm:px-8 md:pt-16">
           <CompanyMissionSection {...sections.mission} />
         </div>
       ) : null}
       {sections.promo ? <CompanyPromoSection {...sections.promo} /> : null}
-      <div className="mx-auto w-full max-w-[1564px] px-4 pb-16 sm:px-8">
-        <CatalogCta />
-      </div>
     </div>
   );
 }
