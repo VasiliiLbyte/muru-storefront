@@ -10,7 +10,7 @@ import type { BreadcrumbItem } from "@/lib/seo/jsonld";
 import { cn } from "@/lib/utils";
 
 const RESUME_BTN_CLASS =
-  "h-[38px] self-start rounded-none px-4 text-[15px] font-medium hover:bg-[#52602F]";
+  "h-[45px] self-start rounded-none px-8 text-base font-medium hover:bg-brand-hover";
 
 function ResumeMailtoButton({
   email,
@@ -60,13 +60,36 @@ function VacancyHero({
         <div className="absolute top-0 left-0 z-10 w-full max-w-[1564px] px-4 pt-8 sm:px-8 [&_ol]:text-white [&_a]:text-white/90 [&_a:hover]:text-white [&_span]:text-white [text-shadow:0_1px_2px_rgba(0,0,0,0.55)]">
           <Breadcrumbs items={breadcrumbs} />
         </div>
-      </div>
-      <div className="relative z-10 mx-auto -mt-[75px] flex w-full max-w-[700px] flex-col gap-4 bg-background px-[70px] py-10 text-center max-sm:mx-4 max-sm:max-w-none max-sm:px-8 max-sm:py-8">
-        <h1 className="font-display text-[clamp(1.25rem,2.5vw,1.75rem)] leading-[1.2] font-normal tracking-[0.08em] text-text-heading uppercase">
-          {hero.heading}
-        </h1>
+        <div className="absolute top-1/2 left-1/2 z-10 flex w-[calc(100%-2rem)] max-w-[700px] -translate-x-1/2 -translate-y-1/2 flex-col items-center gap-4 bg-background px-[70px] py-10 text-center max-md:px-8 max-md:py-8 max-sm:static max-sm:mx-auto max-sm:w-full max-sm:translate-x-0 max-sm:translate-y-0">
+          <h1 className="text-[24px] leading-[29px] font-light tracking-normal text-[#6B6B6B] uppercase">
+            {hero.heading}
+          </h1>
+          {hero.text ? (
+            <StaticProse
+              html={hero.text}
+              className="text-center text-[#5B5B5B] [&_p:last-child]:mb-0"
+            />
+          ) : null}
+        </div>
       </div>
     </section>
+  );
+}
+
+function VacancyHrCell({
+  label,
+  children,
+}: {
+  label: string;
+  children: React.ReactNode;
+}) {
+  return (
+    <div className="flex flex-col gap-1">
+      <span className="text-[18px] leading-[22px] font-normal text-[#2F2F2F]">
+        {label}
+      </span>
+      <span className="text-[#5B5B5B]">{children}</span>
+    </div>
   );
 }
 
@@ -80,50 +103,37 @@ function VacancyHrBlock({
   const name = hr.contactName.trim();
 
   return (
-    <section className="flex flex-col gap-6 border-y border-black/30 py-8">
+    <section className="flex flex-col gap-6 border-y border-[#E6E8EB] py-8">
       {hr.heading ? (
-        <h2 className="font-display text-h3 text-text-heading">{hr.heading}</h2>
+        <h2 className="text-[24px] font-medium text-[#2F2F2F] uppercase">
+          {hr.heading}
+        </h2>
       ) : null}
-      <dl className="flex flex-col gap-6">
+      <div className="flex w-full flex-col gap-6 sm:flex-row sm:justify-between">
         {name ? (
-          <div className="flex flex-col gap-1 sm:flex-row sm:gap-6">
-            <dt className="text-small text-text-muted sm:min-w-[160px]">
-              Контактное лицо
-            </dt>
-            <dd className="text-body text-text-heading">{name}</dd>
-          </div>
+          <VacancyHrCell label="Контактное лицо">{name}</VacancyHrCell>
         ) : null}
         {phone ? (
-          <div className="flex flex-col gap-1 sm:flex-row sm:gap-6">
-            <dt className="text-small text-text-muted sm:min-w-[160px]">
-              Телефон
-            </dt>
-            <dd>
-              <a
-                href={`tel:${phone.replace(/[^\d+]/g, "")}`}
-                className="text-body text-text-heading transition-colors hover:text-brand focus-visible:ring-1 focus-visible:ring-ring focus-visible:outline-none"
-              >
-                {phone}
-              </a>
-            </dd>
-          </div>
+          <VacancyHrCell label="Телефон">
+            <a
+              href={`tel:${phone.replace(/[^\d+]/g, "")}`}
+              className="transition-colors hover:text-brand focus-visible:ring-1 focus-visible:ring-ring focus-visible:outline-none"
+            >
+              {phone}
+            </a>
+          </VacancyHrCell>
         ) : null}
         {email ? (
-          <div className="flex flex-col gap-1 sm:flex-row sm:gap-6">
-            <dt className="text-small text-text-muted sm:min-w-[160px]">
-              E-mail
-            </dt>
-            <dd>
-              <a
-                href={`mailto:${email}`}
-                className="text-body text-text-heading transition-colors hover:text-brand focus-visible:ring-1 focus-visible:ring-ring focus-visible:outline-none"
-              >
-                {email}
-              </a>
-            </dd>
-          </div>
+          <VacancyHrCell label="E-mail">
+            <a
+              href={`mailto:${email}`}
+              className="transition-colors hover:text-brand focus-visible:ring-1 focus-visible:ring-ring focus-visible:outline-none"
+            >
+              {email}
+            </a>
+          </VacancyHrCell>
         ) : null}
-      </dl>
+      </div>
       <ResumeMailtoButton email={hr.email} />
     </section>
   );
@@ -133,24 +143,21 @@ function VacancyMetaRow({
   city,
   experience,
   format,
-  salary,
 }: {
   city: string;
   experience: string;
   format: string;
-  salary: string;
 }) {
   const cells = [
     { key: "city", value: city },
     { key: "experience", value: experience },
     { key: "format", value: format },
-    { key: "salary", value: salary },
   ].filter((c) => c.value.trim());
 
   if (cells.length === 0) return null;
 
   return (
-    <div className="flex flex-wrap gap-6 text-small text-text-secondary">
+    <div className="flex flex-wrap gap-6 text-[#5B5B5B]">
       {cells.map((cell) => (
         <span key={cell.key}>{cell.value.trim()}</span>
       ))}
@@ -166,55 +173,57 @@ function VacancyList({
   resumeEmail: string;
 }) {
   return (
-    <section className="flex flex-col gap-6">
+    <section className="flex flex-col gap-8">
       {vacancies.heading ? (
-        <h2 className="font-display text-h3 text-text-heading">
+        <h2 className="text-[24px] font-semibold text-[#2F2F2F] uppercase">
           {vacancies.heading}
         </h2>
       ) : null}
       <ul className="flex flex-col gap-6">
-        {vacancies.items.map((item) => (
-          <li key={item.id}>
-            <details
-              className={cn(
-                "group border border-black/30 rounded-none transition-colors",
-                "hover:border-brand-hover open:border-brand",
-              )}
-            >
-              <summary className="flex cursor-pointer list-none items-start justify-between gap-4 p-8 focus-visible:ring-1 focus-visible:ring-ring focus-visible:outline-none [&::-webkit-details-marker]:hidden">
-                <div className="flex min-w-0 flex-1 flex-col gap-4">
-                  <span className="text-body font-medium text-text-heading">
-                    {item.title}
+        {vacancies.items.map((item) => {
+          const salary = item.salary.trim();
+          return (
+            <li key={item.id}>
+              <details className="group rounded-none border border-[#E6E8EB] transition-colors hover:border-brand-hover open:border-brand-hover">
+                <summary className="relative flex cursor-pointer list-none items-start justify-between gap-4 p-8 focus-visible:ring-1 focus-visible:ring-ring focus-visible:outline-none [&::-webkit-details-marker]:hidden">
+                  <div className="flex min-w-0 flex-1 flex-col gap-3">
+                    <span className="text-[20px] leading-[24px] font-medium text-[#2F2F2F] uppercase">
+                      {item.title}
+                    </span>
+                    <VacancyMetaRow
+                      city={item.city}
+                      experience={item.experience}
+                      format={item.format}
+                    />
+                  </div>
+                  {salary ? (
+                    <span className="shrink-0 pr-8 text-base font-medium text-[#2F2F2F]">
+                      {salary}
+                    </span>
+                  ) : null}
+                  <span
+                    className="absolute top-[38px] right-8 text-[16px] leading-none text-[#5B5B5B] group-open:hidden"
+                    aria-hidden
+                  >
+                    +
                   </span>
-                  <VacancyMetaRow
-                    city={item.city}
-                    experience={item.experience}
-                    format={item.format}
-                    salary={item.salary}
-                  />
+                  <span
+                    className="absolute top-[38px] right-8 hidden text-[16px] leading-none text-[#5B5B5B] group-open:inline"
+                    aria-hidden
+                  >
+                    −
+                  </span>
+                </summary>
+                <div className="flex flex-col gap-6 border-t border-[#E6E8EB] px-8 pt-6 pb-8 group-open:border-brand-hover/40">
+                  {item.description ? (
+                    <StaticProse html={item.description} className="text-[15px]" />
+                  ) : null}
+                  <ResumeMailtoButton email={resumeEmail} />
                 </div>
-                <span
-                  className="shrink-0 text-h2 leading-none font-light text-text-secondary group-open:hidden"
-                  aria-hidden
-                >
-                  +
-                </span>
-                <span
-                  className="hidden shrink-0 text-h2 leading-none font-light text-text-secondary group-open:inline"
-                  aria-hidden
-                >
-                  −
-                </span>
-              </summary>
-              <div className="flex flex-col gap-4 border-t border-black/30 p-8 pt-6 group-open:border-brand/30">
-                {item.description ? (
-                  <StaticProse html={item.description} />
-                ) : null}
-                <ResumeMailtoButton email={resumeEmail} />
-              </div>
-            </details>
-          </li>
-        ))}
+              </details>
+            </li>
+          );
+        })}
       </ul>
     </section>
   );
@@ -227,8 +236,6 @@ export function VacancyPageContent({
   sections: VacancySections;
   breadcrumbs: BreadcrumbItem[];
 }) {
-  const workHtml = sections.hero?.text?.trim();
-
   return (
     <div className="flex flex-col pb-16">
       {sections.hero ? (
@@ -238,8 +245,7 @@ export function VacancyPageContent({
           <Breadcrumbs items={breadcrumbs} />
         </div>
       )}
-      <div className="mx-auto flex w-full max-w-[1564px] flex-col gap-12 px-4 pt-12 sm:px-8 md:gap-16 md:pt-16">
-        {workHtml ? <StaticProse html={workHtml} className="max-w-3xl" /> : null}
+      <div className="mx-auto flex w-full max-w-[1564px] flex-col gap-12 px-4 pt-[clamp(40px,5vw,64px)] sm:px-8 md:gap-16">
         <VacancyHrBlock hr={sections.hr} />
         <VacancyList
           vacancies={sections.vacancies}
