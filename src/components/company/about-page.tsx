@@ -1,11 +1,13 @@
 import Image from "next/image";
 import Link from "next/link";
 
+import { Breadcrumbs } from "@/components/catalog/breadcrumbs";
 import { InfoTileGrid } from "@/components/content/info-tile-grid";
 import { StaticProse } from "@/components/content/static-prose";
 import { Button } from "@/components/ui/button";
 import { staticBlurProps } from "@/lib/images";
 import type { CompanySections, Image as ImageData } from "@/lib/schemas";
+import type { BreadcrumbItem } from "@/lib/seo/jsonld";
 import { cn } from "@/lib/utils";
 
 const PROMO_HREFS = [
@@ -46,11 +48,14 @@ function CompanyHeroSection({
   heading,
   text,
   image,
-}: NonNullable<CompanySections["hero"]>) {
+  breadcrumbs,
+}: NonNullable<CompanySections["hero"]> & {
+  breadcrumbs: BreadcrumbItem[];
+}) {
   return (
     <section
       className={cn(
-        "relative flex min-h-[320px] w-full items-center justify-center overflow-hidden bg-surface aspect-[16/9] md:aspect-[21/9]",
+        "relative flex w-full min-h-[70vh] items-center justify-center overflow-hidden bg-surface lg:min-h-[80vh]",
       )}
     >
       {image?.url ? (
@@ -73,10 +78,13 @@ function CompanyHeroSection({
           className="object-cover"
         />
       )}
+      <div className="absolute top-0 left-0 z-10 w-full max-w-[1564px] px-4 pt-8 sm:px-8">
+        <Breadcrumbs items={breadcrumbs} />
+      </div>
       <div className="relative z-10 mx-4 w-full max-w-xl bg-background px-8 py-10 text-center sm:px-12 sm:py-12">
-        <h2 className="font-display text-[clamp(1.25rem,2.5vw,1.75rem)] leading-[1.2] font-normal tracking-[0.08em] text-text-heading uppercase">
+        <h1 className="font-display text-[clamp(1.25rem,2.5vw,1.75rem)] leading-[1.2] font-normal tracking-[0.08em] text-text-heading uppercase">
           {heading}
-        </h2>
+        </h1>
         <StaticProse html={text} className="mt-4 text-center [&_p:last-child]:mb-0" />
       </div>
     </section>
@@ -136,28 +144,25 @@ function CompanyPromoSection({
   cards,
 }: NonNullable<CompanySections["promo"]>) {
   return (
-    <section className="relative overflow-hidden py-8 md:py-12">
+    <section className="relative w-full overflow-hidden py-12 md:py-16">
       {image?.url ? (
-        <>
-          <Image
-            src={image.url}
-            alt={image.alt ?? ""}
-            fill
-            sizes="100vw"
-            className="object-cover"
-            {...staticBlurProps()}
-          />
-          <div className="absolute inset-0 bg-background/80" aria-hidden />
-        </>
+        <Image
+          src={image.url}
+          alt={image.alt ?? ""}
+          fill
+          sizes="100vw"
+          className="object-cover"
+          {...staticBlurProps()}
+        />
       ) : null}
-      <div className="relative z-10 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
+      <div className="relative z-10 mx-auto grid max-w-[1564px] grid-cols-1 gap-6 px-4 sm:grid-cols-2 sm:px-8 lg:grid-cols-3">
         {cards.map((card, index) => {
           const href =
             PROMO_HREFS[index] ?? PROMO_HREFS[PROMO_HREFS.length - 1];
           return (
             <div
               key={card.key}
-              className="flex flex-col gap-3 bg-background p-8"
+              className="flex min-h-[240px] flex-col gap-3 bg-background p-8"
             >
               <h3 className="font-display text-h3 font-normal tracking-[0.08em] text-text-heading uppercase">
                 {card.title}
@@ -178,9 +183,14 @@ function CompanyPromoSection({
   );
 }
 
-function AboutPageFallback() {
+function AboutPageFallback({
+  breadcrumbs,
+}: {
+  breadcrumbs: BreadcrumbItem[];
+}) {
   return (
-    <div className="flex flex-col gap-12 md:gap-16">
+    <div className="mx-auto flex w-full max-w-[1564px] flex-col gap-12 px-4 pb-16 sm:px-8 md:gap-16">
+      <Breadcrumbs items={breadcrumbs} className="pt-8" />
       <div className="relative aspect-[16/9] w-full overflow-hidden bg-surface md:aspect-[21/9]">
         <Image
           src="/placeholders/hero.svg"
@@ -193,7 +203,7 @@ function AboutPageFallback() {
       </div>
 
       <section className="max-w-3xl">
-        <h2 className="mb-4 font-display text-h2 text-text-heading">О нас</h2>
+        <h1 className="mb-4 font-display text-h2 text-text-heading">О нас</h1>
         <p className="mb-4 text-body text-text-secondary">
           MURU — интернет-магазин декора и предметов для дома, где каждый элемент
           выбран с вниманием к деталям. Нейтральный текст-плейсхолдер той же
@@ -228,19 +238,33 @@ function AboutPageFallback() {
 
 export function AboutPage({
   sections,
+  breadcrumbs,
 }: {
   sections?: CompanySections | null;
+  breadcrumbs: BreadcrumbItem[];
 }) {
   if (!sections) {
-    return <AboutPageFallback />;
+    return <AboutPageFallback breadcrumbs={breadcrumbs} />;
   }
 
   return (
-    <div className="flex flex-col gap-12 md:gap-16">
-      {sections.hero ? <CompanyHeroSection {...sections.hero} /> : null}
-      {sections.mission ? <CompanyMissionSection {...sections.mission} /> : null}
+    <div className="flex flex-col">
+      {sections.hero ? (
+        <CompanyHeroSection {...sections.hero} breadcrumbs={breadcrumbs} />
+      ) : (
+        <div className="mx-auto w-full max-w-[1564px] px-4 pt-8 sm:px-8">
+          <Breadcrumbs items={breadcrumbs} />
+        </div>
+      )}
+      {sections.mission ? (
+        <div className="mx-auto w-full max-w-[1564px] px-4 pt-12 sm:px-8 md:pt-16">
+          <CompanyMissionSection {...sections.mission} />
+        </div>
+      ) : null}
       {sections.promo ? <CompanyPromoSection {...sections.promo} /> : null}
-      <CatalogCta />
+      <div className="mx-auto w-full max-w-[1564px] px-4 pb-16 sm:px-8">
+        <CatalogCta />
+      </div>
     </div>
   );
 }
