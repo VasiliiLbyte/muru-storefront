@@ -45,7 +45,7 @@ function CompanyHeroSection({
   return (
     <section
       className={cn(
-        "relative flex w-full min-h-[70vh] items-center justify-center overflow-hidden bg-surface lg:min-h-[80vh]",
+        "relative flex w-full aspect-video items-center justify-center overflow-hidden bg-surface max-lg:aspect-auto max-lg:min-h-[70vh]",
       )}
     >
       {image?.url ? (
@@ -134,7 +134,7 @@ function CompanyPromoSection({
   cards,
 }: NonNullable<CompanySections["promo"]>) {
   return (
-    <section className="relative w-full aspect-square overflow-hidden">
+    <section className="relative w-full aspect-video overflow-hidden max-lg:aspect-auto max-lg:py-12">
       {image?.url ? (
         <Image
           src={image.url}
@@ -145,7 +145,7 @@ function CompanyPromoSection({
           {...staticBlurProps()}
         />
       ) : null}
-      <div className="absolute inset-0 z-10 flex items-center justify-center">
+      <div className="absolute inset-0 z-10 flex items-center justify-center max-lg:relative max-lg:inset-auto">
         <div className="flex w-full max-w-[1564px] flex-row flex-wrap justify-center gap-5 px-8">
           {cards.map((card, index) => {
             const href =
