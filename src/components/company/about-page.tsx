@@ -134,7 +134,7 @@ function CompanyPromoSection({
   cards,
 }: NonNullable<CompanySections["promo"]>) {
   return (
-    <section className="relative flex w-full min-h-[70vh] items-center overflow-hidden lg:min-h-[75vh]">
+    <section className="relative flex w-full min-h-[70vh] items-center overflow-hidden lg:min-h-[80vh]">
       {image?.url ? (
         <Image
           src={image.url}
@@ -145,15 +145,15 @@ function CompanyPromoSection({
           {...staticBlurProps()}
         />
       ) : null}
-      <div className="relative z-10 mx-auto w-full max-w-[1564px] px-4 sm:px-8">
-        <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
+      <div className="relative z-10 mx-auto w-full max-w-[1080px] px-4 sm:px-8">
+        <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
           {cards.map((card, index) => {
             const href =
               PROMO_HREFS[index] ?? PROMO_HREFS[PROMO_HREFS.length - 1];
             return (
               <div
                 key={card.key}
-                className="flex min-h-[240px] flex-col gap-3 bg-background p-8"
+                className="flex aspect-[5/4] flex-col gap-3 bg-background p-6 sm:p-8"
               >
                 <h3 className="font-display text-h3 font-normal tracking-[0.08em] text-text-heading uppercase">
                   {card.title}
