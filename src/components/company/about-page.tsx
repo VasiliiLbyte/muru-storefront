@@ -8,7 +8,6 @@ import { Button } from "@/components/ui/button";
 import { staticBlurProps } from "@/lib/images";
 import type { CompanySections, Image as ImageData } from "@/lib/schemas";
 import type { BreadcrumbItem } from "@/lib/seo/jsonld";
-import { cn } from "@/lib/utils";
 
 const PROMO_HREFS = [
   "/company/vacancy/",
@@ -43,39 +42,36 @@ function CompanyHeroSection({
   breadcrumbs: BreadcrumbItem[];
 }) {
   return (
-    <section
-      className={cn(
-        "relative flex w-full aspect-video items-center justify-center overflow-hidden bg-surface max-lg:aspect-auto max-lg:min-h-[70vh]",
-      )}
-    >
-      {image?.url ? (
-        <Image
-          src={image.url}
-          alt={image.alt ?? ""}
-          fill
-          priority
-          sizes="100vw"
-          className="object-cover"
-          {...staticBlurProps()}
-        />
-      ) : (
-        <Image
-          src="/placeholders/hero.svg"
-          alt=""
-          fill
-          sizes="100vw"
-          {...staticBlurProps()}
-          className="object-cover"
-        />
-      )}
-      <div className="absolute top-0 left-0 z-10 w-full max-w-[1564px] px-4 pt-8 sm:px-8 [&_ol]:text-white [&_a]:text-white/90 [&_a:hover]:text-white [&_span]:text-white [text-shadow:0_1px_2px_rgba(0,0,0,0.55)]">
-        <Breadcrumbs items={breadcrumbs} />
-      </div>
-      <div className="relative z-10 mx-4 w-full max-w-[560px] bg-background px-10 py-12 text-center sm:px-14 sm:py-16">
-        <h1 className="font-display text-[clamp(1.25rem,2.5vw,1.75rem)] leading-[1.2] font-normal tracking-[0.08em] text-text-heading uppercase">
-          {heading}
-        </h1>
-        <StaticProse html={text} className="mt-4 text-center [&_p:last-child]:mb-0" />
+    <section className="relative w-full bg-surface">
+      <div className="relative w-full">
+        {image?.url ? (
+          <Image
+            src={image.url}
+            alt={image.alt ?? ""}
+            width={image.width ?? 1920}
+            height={image.height ?? 1080}
+            priority
+            sizes="100vw"
+            className="h-auto w-full object-contain"
+            {...staticBlurProps()}
+          />
+        ) : (
+          <div className="aspect-video w-full bg-surface" aria-hidden />
+        )}
+        <div className="absolute top-0 left-0 z-10 w-full max-w-[1564px] px-4 pt-8 sm:px-8 [&_ol]:text-white [&_a]:text-white/90 [&_a:hover]:text-white [&_span]:text-white [text-shadow:0_1px_2px_rgba(0,0,0,0.55)]">
+          <Breadcrumbs items={breadcrumbs} />
+        </div>
+        <div className="absolute top-1/2 left-1/2 z-10 flex w-[calc(100%-2rem)] max-w-[700px] -translate-x-1/2 -translate-y-1/2 flex-col items-center gap-4 bg-background px-[70px] py-10 text-center max-md:px-8 max-md:py-8 max-sm:static max-sm:mx-auto max-sm:w-full max-sm:translate-x-0 max-sm:translate-y-0">
+          <h1 className="text-[24px] leading-[29px] font-light tracking-normal text-[#6B6B6B] uppercase">
+            {heading}
+          </h1>
+          {text ? (
+            <StaticProse
+              html={text}
+              className="text-center text-[#5B5B5B] [&_p:last-child]:mb-0"
+            />
+          ) : null}
+        </div>
       </div>
     </section>
   );
