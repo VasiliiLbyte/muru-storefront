@@ -134,7 +134,7 @@ function CompanyPromoSection({
   cards,
 }: NonNullable<CompanySections["promo"]>) {
   return (
-    <section className="relative flex w-full min-h-[70vh] items-center overflow-hidden lg:min-h-[80vh]">
+    <section className="relative w-full aspect-square overflow-hidden">
       {image?.url ? (
         <Image
           src={image.url}
@@ -145,20 +145,22 @@ function CompanyPromoSection({
           {...staticBlurProps()}
         />
       ) : null}
-      <div className="relative z-10 mx-auto w-full max-w-[1080px] px-4 sm:px-8">
-        <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
+      <div className="absolute inset-0 z-10 flex items-center justify-center">
+        <div className="flex w-full max-w-[1564px] flex-row flex-wrap justify-center gap-5 px-8">
           {cards.map((card, index) => {
             const href =
               PROMO_HREFS[index] ?? PROMO_HREFS[PROMO_HREFS.length - 1];
             return (
               <div
                 key={card.key}
-                className="flex aspect-[5/4] flex-col gap-3 bg-background p-6 sm:p-8"
+                className="flex min-h-[307px] w-full max-w-[370px] flex-1 flex-col items-start bg-background p-6"
               >
-                <h3 className="font-display text-h3 font-normal tracking-[0.08em] text-text-heading uppercase">
-                  {card.title}
-                </h3>
-                <p className="text-body text-text-secondary">{card.text}</p>
+                <div className="flex flex-col gap-2">
+                  <h3 className="font-display text-h3 font-normal tracking-[0.08em] text-text-heading uppercase">
+                    {card.title}
+                  </h3>
+                  <p className="text-body text-text-secondary">{card.text}</p>
+                </div>
                 <Button
                   render={<Link href={href} />}
                   size="sm"
