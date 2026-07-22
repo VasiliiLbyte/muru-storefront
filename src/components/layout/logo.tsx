@@ -19,10 +19,10 @@ export function Logo({ className }: { className?: string }) {
       <Image
         src="/brand/muru-logo.svg"
         alt="muru"
-        width={165}
-        height={32}
-        sizes="165px"
-        className="h-8 w-auto"
+        width={206}
+        height={40}
+        sizes="206px"
+        className="h-10 w-auto"
       />
     </Link>
   );

@@ -29,7 +29,7 @@ export function NavLink({
       aria-current={isActive ? "page" : undefined}
       onClick={onClick}
       className={cn(
-        "text-caption font-medium tracking-wide transition-colors focus-visible:ring-1 focus-visible:ring-ring focus-visible:outline-none",
+        "text-[14px] font-medium tracking-normal transition-colors focus-visible:ring-1 focus-visible:ring-ring focus-visible:outline-none",
         isActive ? "text-brand" : "text-text-muted hover:text-text-primary",
         className,
       )}

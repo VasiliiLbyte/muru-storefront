@@ -59,9 +59,9 @@ function AuthenticatedAccountMenu({
           <User className="size-5" />
         </span>
         {!compact ? (
-          <span className="max-w-[5.5rem] truncate text-[11px] leading-none text-text-secondary">
-            {firstName}
-          </span>
+            <span className="max-w-[5.5rem] truncate text-[12px] leading-none text-text-secondary">
+              {firstName}
+            </span>
         ) : null}
       </Menu.Trigger>
 

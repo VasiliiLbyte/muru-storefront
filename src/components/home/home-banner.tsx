@@ -58,14 +58,13 @@ export function HomeBanner({
       <div className="mx-auto w-full max-w-[1564px] px-4 py-16 sm:px-8">
         <div
           className={cn(
-            isScrim
-              ? "mx-auto max-w-xl bg-black/35 px-8 py-10 text-center backdrop-blur-[1px] sm:px-12 sm:py-12"
-              : "mx-auto max-w-lg bg-background px-8 py-10 text-center sm:px-12 sm:py-12",
+            "mx-auto flex w-full max-w-[568px] flex-col items-center gap-1 px-8 py-10 text-center sm:px-16",
+            isScrim ? "bg-black/35 backdrop-blur-[1px]" : "bg-white",
           )}
         >
           <HeadingTag
             className={cn(
-              "font-display text-[clamp(1.5rem,3.2vw,2.25rem)] leading-[1.15] font-normal tracking-[0.08em] uppercase",
+              "font-display text-[36px] leading-[44px] font-light tracking-normal uppercase",
               isScrim ? "text-text-inverse" : "text-text-heading",
             )}
           >
@@ -74,7 +73,7 @@ export function HomeBanner({
           {subtitle ? (
             <p
               className={cn(
-                "mt-3 text-body",
+                "text-[16px] leading-5 font-light",
                 isScrim ? "text-text-inverse/90" : "text-text-secondary",
               )}
             >
@@ -83,8 +82,7 @@ export function HomeBanner({
           ) : null}
           <Button
             render={<Link href={href} />}
-            size="lg"
-            className="mt-8 h-12 px-10"
+            className="mt-4 h-[45px] px-8 text-[14px] leading-[17px] font-light"
           >
             {ctaLabel}
           </Button>

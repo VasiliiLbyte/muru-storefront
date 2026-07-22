@@ -36,8 +36,8 @@ export function Header() {
       {/* Нижний бар — sticky на всю страницу (containing block = body) */}
       <header className="sticky top-0 z-40 border-b border-border bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/80">
         <div className="mx-auto w-full max-w-[1564px] px-4 sm:px-8">
-          <div className="flex flex-col gap-3 py-4 lg:min-h-[calc(var(--header-height)-2.75rem)] lg:flex-row lg:items-center lg:gap-4 lg:py-6">
-            <div className="flex items-center gap-3 lg:gap-4">
+          <div className="flex flex-col gap-3 py-4 lg:min-h-[calc(var(--header-height)-2.75rem)] lg:flex-row lg:items-center lg:gap-4 lg:py-2">
+            <div className="flex items-center gap-3 lg:gap-8">
               <div className="lg:hidden">
                 <MobileMenu />
               </div>

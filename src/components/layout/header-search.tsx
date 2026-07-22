@@ -33,7 +33,7 @@ export function HeaderSearch({ className }: { className?: string }) {
         onChange={(e) => setQuery(e.target.value)}
         placeholder="Поиск по каталогу"
         autoComplete="off"
-        className="h-[45px] w-full rounded-none border border-[#d7d8da] bg-background py-2 pr-24 pl-4 text-body text-text-primary placeholder:text-text-secondary focus-visible:border-ring focus-visible:ring-1 focus-visible:ring-ring focus-visible:outline-none"
+        className="h-[45px] w-full rounded-none border border-[#d7d8da] bg-background py-2.5 pr-24 pl-8 text-[15px] font-normal text-text-primary placeholder:text-text-secondary focus-visible:border-ring focus-visible:ring-1 focus-visible:ring-ring focus-visible:outline-none"
       />
       <div className="absolute top-1/2 right-3 flex -translate-y-1/2 items-center gap-2.5 text-text-muted">
         <button

@@ -12,7 +12,7 @@ export function HeaderTopNav({ className }: { className?: string }) {
         <NavLink
           key={item.href}
           href={item.href}
-          className="uppercase text-caption font-medium text-text-muted hover:text-text-primary"
+          className="px-4 py-3 uppercase"
         >
           {item.label}
         </NavLink>

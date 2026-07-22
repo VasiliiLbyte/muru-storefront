@@ -81,7 +81,7 @@ export function MiniCart({
           ) : null}
         </span>
         {!compact ? (
-          <span className="text-[11px] leading-none text-text-secondary">Корзина</span>
+          <span className="text-[12px] leading-none text-text-secondary">Корзина</span>
         ) : null}
       </SheetTrigger>
 

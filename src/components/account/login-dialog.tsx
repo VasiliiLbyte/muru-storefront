@@ -73,7 +73,7 @@ export function LoginDialogGuest({ compact = false }: { compact?: boolean }) {
           <User className="size-5" />
         </span>
         {!compact ? (
-          <span className="text-[11px] leading-none text-text-secondary">
+          <span className="text-[12px] leading-none text-text-secondary">
             Войти
           </span>
         ) : null}

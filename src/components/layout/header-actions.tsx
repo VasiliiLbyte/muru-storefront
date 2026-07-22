@@ -44,7 +44,7 @@ function HeaderActionLink({
         ) : null}
       </span>
       {!compact ? (
-        <span className="text-[11px] leading-none text-text-secondary">{label}</span>
+        <span className="text-[12px] leading-none text-text-secondary">{label}</span>
       ) : null}
     </Link>
   );
@@ -60,7 +60,7 @@ export function HeaderActions({
   const favorites = useFavoriteCount();
 
   return (
-    <div className={cn("flex items-start gap-1 sm:gap-2", className)}>
+    <div className={cn("flex items-start gap-1 sm:gap-2 lg:gap-8", className)}>
       <HeaderAccount compact={compact} />
       <AuthSuccessToast />
       <HeaderActionLink
