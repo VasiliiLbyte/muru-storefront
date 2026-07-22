@@ -23,7 +23,7 @@ export default function LoginPage() {
         breadcrumbs={contentBreadcrumbs({ name: "Вход", href: "/login/" })}
       >
         <Suspense fallback={<p className="text-body text-text-muted">Загрузка…</p>}>
-          <LoginForm />
+          <LoginForm variant="page" />
         </Suspense>
       </ContentShell>
     </main>

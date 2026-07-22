@@ -2,8 +2,9 @@
 
 import type { ReactNode } from "react";
 import Link from "next/link";
-import { Heart, User } from "lucide-react";
+import { Heart } from "lucide-react";
 
+import { LoginDialog } from "@/components/account/login-dialog";
 import { MiniCart } from "@/components/layout/mini-cart";
 import { useFavoriteCount } from "@/stores/favorites-store";
 import { cn } from "@/lib/utils";
@@ -59,9 +60,7 @@ export function HeaderActions({
 
   return (
     <div className={cn("flex items-start gap-1 sm:gap-2", className)}>
-      <HeaderActionLink href="/login/" label="Войти" compact={compact}>
-        <User className="size-5" />
-      </HeaderActionLink>
+      <LoginDialog compact={compact} />
       <HeaderActionLink
         href="/personal/favorite/"
         label="Избранное"

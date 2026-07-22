@@ -64,10 +64,6 @@ export function loginRedirectUrl(
   return url.toString();
 }
 
-export function accountHomeUrl(origin: string): string {
-  return new URL("/account/", origin).toString();
-}
-
 export type GuardDecision =
   | { type: "next" }
   | { type: "redirect"; location: string };
@@ -88,12 +84,7 @@ export function decideAccountGuard(input: {
     };
   }
 
-  if (isPublicAuthPath(input.pathname) && hasSession) {
-    return {
-      type: "redirect",
-      location: accountHomeUrl(input.origin),
-    };
-  }
-
+  // Variant A: do not bounce auth pages to /account/ when cookie is present
+  // (dead cookie must not trap users off /login/).
   return { type: "next" };
 }

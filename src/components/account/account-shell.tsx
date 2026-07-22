@@ -2,7 +2,7 @@
 
 import type { ReactNode } from "react";
 import Link from "next/link";
-import { usePathname, useRouter } from "next/navigation";
+import { usePathname } from "next/navigation";
 
 import { ContentShell } from "@/components/content/content-shell";
 import { Button } from "@/components/ui/button";
@@ -27,7 +27,6 @@ export function AccountShell({
   children: ReactNode;
 }) {
   const pathname = usePathname();
-  const router = useRouter();
 
   async function logout() {
     try {
@@ -38,7 +37,8 @@ export function AccountShell({
       // clear local session anyway
     }
     clearSession();
-    router.replace("/login/");
+    // Hard nav so Set-Cookie clear applies and soft RSC/guard traps cannot stick.
+    window.location.assign("/");
   }
 
   return (

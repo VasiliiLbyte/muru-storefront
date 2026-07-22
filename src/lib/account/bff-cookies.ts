@@ -34,6 +34,7 @@ export function serializeClearRefreshCookie(
     "HttpOnly",
     "SameSite=Lax",
     "Max-Age=0",
+    "Expires=Thu, 01 Jan 1970 00:00:00 GMT",
   ];
   if (secure) parts.push("Secure");
   return parts.join("; ");

@@ -56,17 +56,14 @@ describe("decideAccountGuard", () => {
     expect(decision.type).toBe("redirect");
   });
 
-  it("redirects auth page with cookie to /account/", () => {
+  it("allows auth page with cookie (Variant A — no bounce to account)", () => {
     const decision = decideAccountGuard({
       pathname: "/login/",
       search: "",
       origin: "http://localhost:3000",
       cookieHeader: "muru_customer_rt=abc",
     });
-    expect(decision).toEqual({
-      type: "redirect",
-      location: "http://localhost:3000/account/",
-    });
+    expect(decision).toEqual({ type: "next" });
   });
 
   it("allows private path when cookie present", () => {

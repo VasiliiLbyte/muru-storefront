@@ -84,11 +84,13 @@ async function handleAccountProxy(
     bodyText = JSON.stringify(parsed);
   }
 
+  const isLogout = pathKey === "logout" && method === "POST";
+
   let upstreamUrl: string;
   try {
     upstreamUrl = buildUpstreamAccountUrl(pathSegments, url.search);
   } catch {
-    return NextResponse.json(
+    const res = NextResponse.json(
       {
         success: false,
         data: null,
@@ -99,6 +101,10 @@ async function handleAccountProxy(
       },
       { status: 503 },
     );
+    if (isLogout) {
+      res.headers.append("Set-Cookie", serializeClearRefreshCookie());
+    }
+    return res;
   }
 
   const hasBody = bodyText !== null && bodyText.length > 0;
@@ -112,7 +118,7 @@ async function handleAccountProxy(
       body: hasBody ? bodyText : null,
     });
   } catch {
-    return NextResponse.json(
+    const res = NextResponse.json(
       {
         success: false,
         data: null,
@@ -120,6 +126,10 @@ async function handleAccountProxy(
       },
       { status: 502 },
     );
+    if (isLogout) {
+      res.headers.append("Set-Cookie", serializeClearRefreshCookie());
+    }
+    return res;
   }
 
   const contentType = upstream.headers.get("content-type") ?? "";
@@ -138,7 +148,7 @@ async function handleAccountProxy(
   try {
     payload = await upstream.json();
   } catch {
-    return NextResponse.json(
+    const res = NextResponse.json(
       {
         success: false,
         data: null,
@@ -146,6 +156,10 @@ async function handleAccountProxy(
       },
       { status: 502 },
     );
+    if (isLogout) {
+      res.headers.append("Set-Cookie", serializeClearRefreshCookie());
+    }
+    return res;
   }
 
   const shouldHandleTokens =

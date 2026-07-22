@@ -3,7 +3,9 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 
+import { openLoginDialog } from "@/components/account/login-dialog";
 import { AccountShell } from "@/components/account/account-shell";
+import { Button } from "@/components/ui/button";
 import {
   AccountApiError,
   accountFetchJson,
@@ -21,10 +23,25 @@ import { z } from "zod";
 
 const OrdersSchema = z.array(CustomerOrderSummarySchema);
 
+const AUTH_FAIL_MESSAGE =
+  "Сессия истекла или вход не подтверждён. Войдите снова.";
+
+function isAuthFailure(err: unknown): boolean {
+  if (!(err instanceof AccountApiError)) return false;
+  if (err.status === 401 || err.status === 403) return true;
+  const msg = err.message.toLowerCase();
+  return (
+    msg.includes("authorization") ||
+    msg.includes("unauthorized") ||
+    msg.includes("token")
+  );
+}
+
 export function AccountHomeView() {
   const [customer, setCustomer] = useState<Customer | null>(null);
   const [orders, setOrders] = useState<CustomerOrderSummary[]>([]);
   const [error, setError] = useState<string | null>(null);
+  const [authFailed, setAuthFailed] = useState(false);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -57,11 +74,16 @@ export function AccountHomeView() {
         setOrders(ordersParsed.orders);
       } catch (err) {
         if (!cancelled) {
-          setError(
-            err instanceof AccountApiError
-              ? err.message
-              : "Не удалось загрузить кабинет",
-          );
+          if (isAuthFailure(err)) {
+            setAuthFailed(true);
+            setError(AUTH_FAIL_MESSAGE);
+          } else {
+            setError(
+              err instanceof AccountApiError
+                ? err.message
+                : "Не удалось загрузить кабинет",
+            );
+          }
         }
       } finally {
         if (!cancelled) setLoading(false);
@@ -79,9 +101,22 @@ export function AccountHomeView() {
       {loading ? (
         <p className="text-body text-text-muted">Загрузка…</p>
       ) : error ? (
-        <p className="text-body text-destructive" role="alert">
-          {error}
-        </p>
+        <div className="space-y-4" role="alert">
+          <p className="text-body text-destructive">{error}</p>
+          {authFailed ? (
+            <div className="flex flex-wrap items-center gap-3">
+              <Button type="button" onClick={() => openLoginDialog()}>
+                Войти
+              </Button>
+              <Link
+                href="/login/"
+                className="text-small text-text-secondary underline-offset-2 hover:text-text-heading hover:underline"
+              >
+                Страница входа
+              </Link>
+            </div>
+          ) : null}
+        </div>
       ) : customer ? (
         <div className="space-y-10">
           <section className="space-y-2">

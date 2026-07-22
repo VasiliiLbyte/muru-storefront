@@ -16,20 +16,35 @@ import {
   AccountApiError,
   accountFetchJson,
 } from "@/lib/account/account-fetch";
-import { safeNextPath } from "@/lib/account/safe-next";
 import { mergeLocalFavoritesToAccount } from "@/lib/account/merge-favorites";
+import { safeNextPath } from "@/lib/account/safe-next";
 import { setAccessToken } from "@/lib/account/session";
 import { AuthTokensSchema } from "@/lib/schemas/account";
 
 const GENERIC_ERROR = "Неверный email или пароль";
 
-export function LoginForm() {
+export type LoginFormVariant = "page" | "modal";
+
+export function LoginForm({
+  variant = "page",
+  onSuccess,
+  onDismiss,
+}: {
+  variant?: LoginFormVariant;
+  onSuccess?: () => void;
+  /** Close modal when following forgot/register links. */
+  onDismiss?: () => void;
+}) {
   const router = useRouter();
   const searchParams = useSearchParams();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
+
+  const emailId = variant === "modal" ? "login-email-modal" : "login-email";
+  const passwordId =
+    variant === "modal" ? "login-password-modal" : "login-password";
 
   async function onSubmit(e: React.FormEvent) {
     e.preventDefault();
@@ -51,6 +66,10 @@ export function LoginForm() {
       } catch {
         // merge must never block login
       }
+      if (variant === "modal") {
+        onSuccess?.();
+        return;
+      }
       const next = safeNextPath(searchParams.get("next")) ?? "/account/";
       router.replace(next);
     } catch (err) {
@@ -69,11 +88,11 @@ export function LoginForm() {
   return (
     <form className={formStackClassName} onSubmit={onSubmit} noValidate>
       <div>
-        <label htmlFor="login-email" className={fieldLabelClassName}>
+        <label htmlFor={emailId} className={fieldLabelClassName}>
           Email
         </label>
         <Input
-          id="login-email"
+          id={emailId}
           name="email"
           type="email"
           autoComplete="email"
@@ -84,11 +103,11 @@ export function LoginForm() {
         />
       </div>
       <div>
-        <label htmlFor="login-password" className={fieldLabelClassName}>
+        <label htmlFor={passwordId} className={fieldLabelClassName}>
           Пароль
         </label>
         <Input
-          id="login-password"
+          id={passwordId}
           name="password"
           type="password"
           autoComplete="current-password"
@@ -110,10 +129,18 @@ export function LoginForm() {
       </Button>
 
       <div className="flex flex-col gap-2 text-small text-text-muted">
-        <Link href="/password/forgot/" className="hover:text-text-heading hover:underline">
+        <Link
+          href="/password/forgot/"
+          className="hover:text-text-heading hover:underline"
+          onClick={() => onDismiss?.()}
+        >
           Забыли пароль?
         </Link>
-        <Link href="/register/" className="hover:text-text-heading hover:underline">
+        <Link
+          href="/register/"
+          className="hover:text-text-heading hover:underline"
+          onClick={() => onDismiss?.()}
+        >
           Создать аккаунт
         </Link>
       </div>

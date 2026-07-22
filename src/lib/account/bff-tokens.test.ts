@@ -60,9 +60,13 @@ describe("serializeRefreshCookie", () => {
     expect(cookie).not.toContain("Secure");
   });
 
-  it("clear cookie has Max-Age=0", () => {
+  it("clear cookie has Max-Age=0 and epoch Expires", () => {
     const cookie = serializeClearRefreshCookie(false);
     expect(cookie).toContain("Max-Age=0");
+    expect(cookie).toContain("Expires=Thu, 01 Jan 1970 00:00:00 GMT");
     expect(cookie).toContain("muru_customer_rt=");
+    expect(cookie).toContain("Path=/");
+    expect(cookie).toContain("HttpOnly");
+    expect(cookie).toContain("SameSite=Lax");
   });
 });
