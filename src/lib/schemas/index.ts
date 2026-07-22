@@ -12,3 +12,4 @@ export * from "./banner";
 export * from "./cart";
 export * from "./cdek";
 export * from "./order";
+export * from "./account";

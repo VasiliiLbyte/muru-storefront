@@ -5,6 +5,7 @@ type FavoritesState = {
   skus: string[];
   toggle: (sku: string) => void;
   remove: (sku: string) => void;
+  clear: () => void;
 };
 
 export const useFavoritesStore = create<FavoritesState>()(
@@ -21,6 +22,9 @@ export const useFavoritesStore = create<FavoritesState>()(
       },
       remove: (sku) => {
         set({ skus: get().skus.filter((s) => s !== sku) });
+      },
+      clear: () => {
+        set({ skus: [] });
       },
     }),
     {

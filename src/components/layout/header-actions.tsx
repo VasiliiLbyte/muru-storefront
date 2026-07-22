@@ -59,7 +59,7 @@ export function HeaderActions({
 
   return (
     <div className={cn("flex items-start gap-1 sm:gap-2", className)}>
-      <HeaderActionLink href="/personal/" label="Войти" compact={compact}>
+      <HeaderActionLink href="/login/" label="Войти" compact={compact}>
         <User className="size-5" />
       </HeaderActionLink>
       <HeaderActionLink

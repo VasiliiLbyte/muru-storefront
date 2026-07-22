@@ -1,5 +1,6 @@
 import { z } from "zod";
 
+import { getAccessToken } from "@/lib/account/session";
 import { applyProductListQuery } from "@/mocks/resolve";
 import { buildFallbackHomeBanners } from "@/lib/content/home-banners";
 import {
@@ -54,6 +55,7 @@ import {
   isContentBackendEnabled,
 } from "./content-backend";
 import { apiEnvelopeFetch, apiFetch, ApiError, buildQuery } from "./client";
+import { buildWebPaymentRequestInit } from "./web-payment-auth";
 
 /** Все категории каталога. */
 export function getCategories(): Promise<Category[]> {
@@ -208,7 +210,7 @@ export async function getHomeBanners(): Promise<HomeBanner[]> {
   return buildFallbackHomeBanners(collections, lookbooks);
 }
 
-/** Создать гостевой веб-платёж (ЮKassa + СДЭК). */
+/** Создать веб-платёж (ЮKassa + СДЭК). Bearer — если покупатель залогинен. */
 export function createWebPayment(
   payload: WebCheckoutInput,
 ): Promise<WebPaymentCreateResponse> {
@@ -216,10 +218,7 @@ export function createWebPayment(
   return apiEnvelopeFetch(
     "/payments/web/create",
     WebPaymentCreateResponseSchema,
-    {
-      method: "POST",
-      body: JSON.stringify(body),
-    },
+    buildWebPaymentRequestInit(JSON.stringify(body), getAccessToken()),
   );
 }
 
