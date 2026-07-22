@@ -6,8 +6,7 @@ import { usePathname } from "next/navigation";
 
 import { ContentShell } from "@/components/content/content-shell";
 import { Button } from "@/components/ui/button";
-import { accountFetch } from "@/lib/account/account-fetch";
-import { clearSession } from "@/lib/account/session";
+import { logoutCustomer } from "@/lib/account/logout";
 import { contentBreadcrumbs } from "@/lib/content/breadcrumbs";
 import { cn } from "@/lib/utils";
 
@@ -27,19 +26,6 @@ export function AccountShell({
   children: ReactNode;
 }) {
   const pathname = usePathname();
-
-  async function logout() {
-    try {
-      await accountFetch("logout", { method: "POST", body: "{}" }, {
-        skipAuth: true,
-      });
-    } catch {
-      // clear local session anyway
-    }
-    clearSession();
-    // Hard nav so Set-Cookie clear applies and soft RSC/guard traps cannot stick.
-    window.location.assign("/");
-  }
 
   return (
     <main id="main" className="flex flex-1 flex-col">
@@ -76,7 +62,7 @@ export function AccountShell({
               type="button"
               variant="ghost"
               className="mt-4 justify-start px-3 text-text-secondary"
-              onClick={() => void logout()}
+              onClick={() => void logoutCustomer()}
             >
               Выйти
             </Button>

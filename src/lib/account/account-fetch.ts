@@ -1,3 +1,5 @@
+import { useCustomerSessionStore } from "@/stores/customer-session-store";
+
 import { clearSession, getAccessToken, setAccessToken } from "./session";
 
 export class AccountApiError extends Error {
@@ -47,6 +49,28 @@ function clearSessionIfNoAccess(): void {
   }
 }
 
+function syncStoreAfterRefresh(data: {
+  accessToken?: string;
+  customer?: { fullName?: string; email?: string } | null;
+}): void {
+  const store = useCustomerSessionStore.getState();
+  const customer = data.customer;
+  if (
+    customer &&
+    typeof customer.fullName === "string" &&
+    typeof customer.email === "string"
+  ) {
+    store.setAuthenticated({
+      fullName: customer.fullName,
+      email: customer.email,
+    });
+    return;
+  }
+  if (store.status === "authenticated") return;
+  // Bootstrap without /me: complete unknown → authenticated with empty names.
+  store.setAuthenticated({ fullName: "", email: "" });
+}
+
 async function doRefreshAccessToken(): Promise<boolean> {
   const res = await fetch(accountUrl("refresh"), {
     method: "POST",
@@ -58,9 +82,13 @@ async function doRefreshAccessToken(): Promise<boolean> {
     clearSessionIfNoAccess();
     return false;
   }
-  const data = body?.data as { accessToken?: string } | undefined;
+  const data = body?.data as {
+    accessToken?: string;
+    customer?: { fullName?: string; email?: string } | null;
+  } | undefined;
   if (typeof data?.accessToken === "string") {
     setAccessToken(data.accessToken);
+    syncStoreAfterRefresh(data);
     return true;
   }
   clearSessionIfNoAccess();
@@ -85,6 +113,7 @@ export async function ensureAccessToken(): Promise<boolean> {
 export function __resetAccountFetchForTests(): void {
   refreshInFlight = null;
   clearSession();
+  useCustomerSessionStore.getState().reset();
 }
 
 /**

@@ -20,6 +20,7 @@ import { mergeLocalFavoritesToAccount } from "@/lib/account/merge-favorites";
 import { safeNextPath } from "@/lib/account/safe-next";
 import { setAccessToken } from "@/lib/account/session";
 import { AuthTokensSchema } from "@/lib/schemas/account";
+import { useCustomerSessionStore } from "@/stores/customer-session-store";
 
 const GENERIC_ERROR = "Неверный email или пароль";
 
@@ -61,6 +62,18 @@ export function LoginForm({
       );
       const tokens = AuthTokensSchema.parse(data);
       setAccessToken(tokens.accessToken);
+      const store = useCustomerSessionStore.getState();
+      if (tokens.customer) {
+        store.setAuthenticated({
+          fullName: tokens.customer.fullName,
+          email: tokens.customer.email,
+        });
+        store.showAuthToast(tokens.customer.email);
+      } else {
+        const formEmail = email.trim();
+        store.setAuthenticated({ fullName: "", email: formEmail });
+        store.showAuthToast(formEmail);
+      }
       try {
         await mergeLocalFavoritesToAccount();
       } catch {

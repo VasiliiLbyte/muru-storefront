@@ -13,19 +13,25 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { cn } from "@/lib/utils";
+import { useCustomerSessionStore } from "@/stores/customer-session-store";
 
 export const OPEN_LOGIN_EVENT = "muru:open-login";
+export const GO_ACCOUNT_EVENT = "muru:go-account";
 
+/** Open login modal, or navigate to account when already authenticated. */
 export function openLoginDialog() {
   if (typeof window === "undefined") return;
+  if (useCustomerSessionStore.getState().status === "authenticated") {
+    window.dispatchEvent(new CustomEvent(GO_ACCOUNT_EVENT));
+    return;
+  }
   window.dispatchEvent(new CustomEvent(OPEN_LOGIN_EVENT));
 }
 
 /**
- * Header login control + centered dialog. Also opens on `muru:open-login`
- * and optional `?login=1` query.
+ * Guest login control + centered dialog. Opens on `muru:open-login` and `?login=1`.
  */
-export function LoginDialog({ compact = false }: { compact?: boolean }) {
+export function LoginDialogGuest({ compact = false }: { compact?: boolean }) {
   const router = useRouter();
   const [open, setOpen] = useState(false);
 
@@ -90,4 +96,9 @@ export function LoginDialog({ compact = false }: { compact?: boolean }) {
       </DialogContent>
     </Dialog>
   );
+}
+
+/** @deprecated Use LoginDialogGuest or HeaderAccount */
+export function LoginDialog({ compact = false }: { compact?: boolean }) {
+  return <LoginDialogGuest compact={compact} />;
 }
