@@ -51,17 +51,21 @@ export function RegisterForm() {
     if (!validate()) return;
     setSubmitting(true);
     try {
-      await accountFetchJson("register", {
-        method: "POST",
-        body: JSON.stringify({
-          fullName: fullName.trim(),
-          email: email.trim(),
-          phone: phone.trim() || undefined,
-          password,
-          consentAccepted: true,
-          captchaToken: captchaToken || undefined,
-        }),
-      });
+      await accountFetchJson(
+        "register",
+        {
+          method: "POST",
+          body: JSON.stringify({
+            fullName: fullName.trim(),
+            email: email.trim(),
+            phone: phone.trim() || undefined,
+            password,
+            consentAccepted: true,
+            captchaToken: captchaToken || undefined,
+          }),
+        },
+        { skipAuth: true },
+      );
       setDone(true);
     } catch (err) {
       setError(

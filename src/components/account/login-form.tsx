@@ -36,10 +36,14 @@ export function LoginForm() {
     setError(null);
     setSubmitting(true);
     try {
-      const data = await accountFetchJson("login", {
-        method: "POST",
-        body: JSON.stringify({ email: email.trim(), password }),
-      });
+      const data = await accountFetchJson(
+        "login",
+        {
+          method: "POST",
+          body: JSON.stringify({ email: email.trim(), password }),
+        },
+        { skipAuth: true },
+      );
       const tokens = AuthTokensSchema.parse(data);
       setAccessToken(tokens.accessToken);
       try {

@@ -43,10 +43,14 @@ export function ResetPasswordForm() {
 
     setSubmitting(true);
     try {
-      await accountFetchJson("password/reset", {
-        method: "POST",
-        body: JSON.stringify({ token, password }),
-      });
+      await accountFetchJson(
+        "password/reset",
+        {
+          method: "POST",
+          body: JSON.stringify({ token, password }),
+        },
+        { skipAuth: true },
+      );
       setDone(true);
     } catch (err) {
       setError(

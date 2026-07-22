@@ -12,11 +12,19 @@ export class AccountApiError extends Error {
   }
 }
 
+export type AccountFetchOptions = {
+  skipAuth?: boolean;
+  retry?: boolean;
+};
+
 type Envelope = {
   success?: boolean;
   data?: unknown;
   error?: { message?: string; code?: string } | null;
 };
+
+/** In-flight refresh shared by parallel 401 handlers (rotate-on-use RT). */
+let refreshInFlight: Promise<boolean> | null = null;
 
 function accountUrl(path: string): string {
   const normalized = path.startsWith("/") ? path.slice(1) : path;
@@ -33,7 +41,13 @@ async function parseJson(res: Response): Promise<unknown> {
   }
 }
 
-async function refreshAccessToken(): Promise<boolean> {
+function clearSessionIfNoAccess(): void {
+  if (getAccessToken() == null) {
+    clearSession();
+  }
+}
+
+async function doRefreshAccessToken(): Promise<boolean> {
   const res = await fetch(accountUrl("refresh"), {
     method: "POST",
     headers: { Accept: "application/json" },
@@ -41,7 +55,7 @@ async function refreshAccessToken(): Promise<boolean> {
   });
   const body = (await parseJson(res)) as Envelope | null;
   if (!res.ok) {
-    clearSession();
+    clearSessionIfNoAccess();
     return false;
   }
   const data = body?.data as { accessToken?: string } | undefined;
@@ -49,18 +63,38 @@ async function refreshAccessToken(): Promise<boolean> {
     setAccessToken(data.accessToken);
     return true;
   }
-  clearSession();
+  clearSessionIfNoAccess();
   return false;
 }
 
 /**
+ * Ensure an in-memory access token exists (refresh via BFF cookie if needed).
+ * Single-flight: parallel callers share one POST /api/account/refresh.
+ */
+export async function ensureAccessToken(): Promise<boolean> {
+  if (getAccessToken()) return true;
+  if (refreshInFlight) return refreshInFlight;
+
+  refreshInFlight = doRefreshAccessToken().finally(() => {
+    refreshInFlight = null;
+  });
+  return refreshInFlight;
+}
+
+/** @internal test helper — reset single-flight state between vitest cases. */
+export function __resetAccountFetchForTests(): void {
+  refreshInFlight = null;
+  clearSession();
+}
+
+/**
  * Same-origin fetch to /api/account/*. Attaches Bearer access token.
- * On 401: one refresh retry via BFF cookie, then fail and clear session.
+ * On 401: single-flight refresh via BFF cookie, then one retry.
  */
 export async function accountFetch(
   path: string,
   init: RequestInit = {},
-  options?: { skipAuth?: boolean; retry?: boolean },
+  options?: AccountFetchOptions,
 ): Promise<Response> {
   const headers = new Headers(init.headers);
   headers.set("Accept", "application/json");
@@ -80,7 +114,7 @@ export async function accountFetch(
   });
 
   if (res.status === 401 && options?.retry !== false && !options?.skipAuth) {
-    const refreshed = await refreshAccessToken();
+    const refreshed = await ensureAccessToken();
     if (refreshed) {
       return accountFetch(path, init, { ...options, retry: false });
     }
@@ -93,8 +127,9 @@ export async function accountFetch(
 export async function accountFetchJson<T = unknown>(
   path: string,
   init?: RequestInit,
+  options?: AccountFetchOptions,
 ): Promise<T> {
-  const res = await accountFetch(path, init);
+  const res = await accountFetch(path, init, options);
   const body = (await parseJson(res)) as Envelope | null;
   if (!res.ok) {
     throw new AccountApiError(

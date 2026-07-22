@@ -27,6 +27,7 @@ export function VerifyPanel() {
         await accountFetchJson(
           `verify?token=${encodeURIComponent(token)}`,
           { method: "GET" },
+          { skipAuth: true },
         );
         if (!cancelled) {
           setStatus("ok");

@@ -22,13 +22,17 @@ export function ForgotPasswordForm() {
     e.preventDefault();
     setSubmitting(true);
     try {
-      await accountFetchJson("password/forgot", {
-        method: "POST",
-        body: JSON.stringify({
-          email: email.trim(),
-          captchaToken: captchaToken || undefined,
-        }),
-      });
+      await accountFetchJson(
+        "password/forgot",
+        {
+          method: "POST",
+          body: JSON.stringify({
+            email: email.trim(),
+            captchaToken: captchaToken || undefined,
+          }),
+        },
+        { skipAuth: true },
+      );
     } catch {
       // Always success UX — no enumeration
     } finally {

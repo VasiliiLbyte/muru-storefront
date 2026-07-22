@@ -7,7 +7,9 @@ import { AccountShell } from "@/components/account/account-shell";
 import {
   AccountApiError,
   accountFetchJson,
+  ensureAccessToken,
 } from "@/lib/account/account-fetch";
+import { getAccessToken } from "@/lib/account/session";
 import {
   CustomerOrderSummarySchema,
   CustomerSchema,
@@ -29,6 +31,17 @@ export function AccountHomeView() {
     let cancelled = false;
     (async () => {
       try {
+        if (!getAccessToken()) {
+          const ok = await ensureAccessToken();
+          if (!ok) {
+            throw new AccountApiError(
+              401,
+              null,
+              "Authorization token is required",
+            );
+          }
+        }
+        if (cancelled) return;
         const [meRaw, ordersRaw] = await Promise.all([
           accountFetchJson("me"),
           accountFetchJson("orders"),
