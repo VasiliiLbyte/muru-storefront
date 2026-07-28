@@ -13,6 +13,7 @@
     "format": "prettier --write .",
     "format:check": "prettier --check .",
     "audit:a11y": "playwright test e2e/a11y.spec.ts",
+    "test:e2e:mobile": "playwright test e2e/mobile-*.spec.ts --project=mobile-375 --project=mobile-393 --project=mobile-412 --workers=1",
     "audit:lighthouse": "node scripts/lighthouse-audit.mjs",
     "audit:lighthouse:ci": "node scripts/lighthouse-audit.mjs --ci",
     "postinstall": "playwright install chromium"
