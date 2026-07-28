@@ -14,8 +14,9 @@ function CatalogMenuFallback() {
 }
 
 /**
- * Двухстрочная шапка (~170px desktop): utility — прокручиваемый div;
- * нижний бар — семантический sticky header (containing block = body).
+ * Utility-строка (desktop) + sticky нижний бар.
+ * &lt;lg: одна строка ~60px — бургер | лого | поиск-иконка | actions.
+ * ≥lg: лого | каталог | инлайн-поиск | actions (без регрессий).
  */
 export function Header() {
   return (
@@ -34,29 +35,24 @@ export function Header() {
       </div>
 
       {/* Нижний бар — sticky на всю страницу (containing block = body) */}
-      <header className="sticky top-0 z-40 border-b border-border bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/80">
-        <div className="mx-auto w-full max-w-[1564px] px-4 sm:px-8">
-          <div className="flex flex-col gap-3 py-4 lg:min-h-[calc(var(--header-height)-2.75rem)] lg:flex-row lg:items-center lg:gap-4 lg:py-2">
-            <div className="flex items-center gap-3 lg:gap-8">
-              <div className="lg:hidden">
-                <MobileMenu />
-              </div>
-              <Logo className="shrink-0" />
-              <div className="hidden lg:block">
-                <Suspense fallback={<CatalogMenuFallback />}>
-                  <CatalogMenu />
-                </Suspense>
-              </div>
-              <div className="ml-auto flex lg:hidden">
-                <HeaderActions compact />
-              </div>
+      <header className="sticky top-0 z-40 border-b border-border bg-background/95 pt-safe-header backdrop-blur supports-[backdrop-filter]:bg-background/80">
+        <div className="mx-auto w-full max-w-[1564px] px-2 sm:px-4 lg:px-8">
+          <div className="flex h-14 items-center gap-1 lg:min-h-[calc(var(--header-height)-2.75rem)] lg:gap-4 lg:py-2">
+            <div className="lg:hidden">
+              <MobileMenu />
             </div>
 
-            <HeaderSearch className="w-full lg:flex-1" />
+            <Logo className="min-w-0 max-w-[4.5rem] shrink lg:max-w-none lg:shrink-0 [&_img]:h-7 [&_img]:w-auto lg:[&_img]:h-10" />
 
-            <div className="hidden lg:flex">
-              <HeaderActions />
+            <div className="hidden lg:block">
+              <Suspense fallback={<CatalogMenuFallback />}>
+                <CatalogMenu />
+              </Suspense>
             </div>
+
+            <HeaderSearch className="lg:flex-1" />
+
+            <HeaderActions className="ml-auto shrink-0 lg:ml-0" />
           </div>
         </div>
       </header>

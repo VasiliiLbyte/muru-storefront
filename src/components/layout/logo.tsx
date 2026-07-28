@@ -12,9 +12,10 @@ export function Logo({ className }: { className?: string }) {
       href="/"
       aria-label="MURU — на главную"
       className={cn(
-        "inline-flex shrink-0 items-center transition-opacity hover:opacity-80 focus-visible:ring-1 focus-visible:ring-ring focus-visible:outline-none",
+        "inline-flex min-h-11 min-w-11 shrink-0 items-center transition-opacity hover:opacity-80 focus-visible:ring-1 focus-visible:ring-ring focus-visible:outline-none",
         className,
       )}
+      style={{ minHeight: 44, minWidth: 44 }}
     >
       <Image
         src="/brand/muru-logo.svg"

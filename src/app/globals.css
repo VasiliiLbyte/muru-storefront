@@ -132,9 +132,9 @@
   --radius: 0px;
   --header-height: 170px;
 
-  /* Home banners: mobile sticky ≈ py-4×2 + logo h-8 + gap-3 + search 45px + border ≈ 130px */
-  --home-offset-first: 8.125rem;
-  --home-offset-rest: 8.125rem;
+  /* Home banners: mobile sticky single-row ~60px + safe-area */
+  --home-offset-first: calc(3.75rem + env(safe-area-inset-top, 0px));
+  --home-offset-rest: calc(3.75rem + env(safe-area-inset-top, 0px));
 
   --background: #fcfbfb;
   --foreground: var(--color-text-primary);
@@ -176,6 +176,7 @@
   }
   html {
     @apply font-sans;
+    scrollbar-gutter: stable;
   }
   h1,
   h2,

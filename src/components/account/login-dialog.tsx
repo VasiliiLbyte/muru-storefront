@@ -12,7 +12,6 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
-import { cn } from "@/lib/utils";
 import { useCustomerSessionStore } from "@/stores/customer-session-store";
 
 export const OPEN_LOGIN_EVENT = "muru:open-login";
@@ -32,6 +31,7 @@ export function openLoginDialog() {
  * Guest login control + centered dialog. Opens on `muru:open-login` and `?login=1`.
  */
 export function LoginDialogGuest({ compact = false }: { compact?: boolean }) {
+  void compact;
   const router = useRouter();
   const [open, setOpen] = useState(false);
 
@@ -64,19 +64,15 @@ export function LoginDialogGuest({ compact = false }: { compact?: boolean }) {
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger
         aria-label="Войти"
-        className={cn(
-          "relative flex flex-col items-center gap-1 text-text-secondary transition-colors hover:text-text-heading focus-visible:ring-1 focus-visible:ring-ring focus-visible:outline-none",
-          compact ? "min-w-10 px-1" : "min-w-[3.5rem] px-2",
-        )}
+        className="relative inline-flex flex-col items-center justify-center text-text-secondary transition-colors hover:text-text-heading focus-visible:ring-1 focus-visible:ring-ring focus-visible:outline-none lg:min-h-0 lg:min-w-[3.5rem] lg:w-auto lg:gap-1 lg:px-2"
+        style={{ width: 44, height: 44, minWidth: 44, minHeight: 44 }}
       >
         <span className="relative inline-flex size-6 items-center justify-center">
           <User className="size-5" />
         </span>
-        {!compact ? (
-          <span className="text-[12px] leading-none text-text-secondary">
-            Войти
-          </span>
-        ) : null}
+        <span className="hidden text-[12px] leading-none text-text-secondary lg:block">
+          Войти
+        </span>
       </DialogTrigger>
       <DialogContent className="w-[min(100vw-1.5rem,28rem)] p-6 sm:p-8">
         <DialogHeader className="mb-6">

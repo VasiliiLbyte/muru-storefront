@@ -31,6 +31,7 @@ export function MiniCart({
   className?: string;
   compact?: boolean;
 }) {
+  void compact;
   const [open, setOpen] = useState(false);
   const count = useCartCount();
   const items = useCartItems();
@@ -64,25 +65,25 @@ export function MiniCart({
       <SheetTrigger
         aria-label={count ? `Корзина (${count})` : "Корзина"}
         className={cn(
-          "relative flex flex-col items-center gap-1 text-text-secondary transition-colors hover:text-text-heading focus-visible:ring-1 focus-visible:ring-ring focus-visible:outline-none",
-          compact ? "min-w-10 px-1" : "min-w-[3.5rem] px-2",
+          "relative inline-flex flex-col items-center justify-center text-text-secondary transition-colors hover:text-text-heading focus-visible:ring-1 focus-visible:ring-ring focus-visible:outline-none lg:min-h-0 lg:min-w-[3.5rem] lg:w-auto lg:gap-1 lg:px-2",
           className,
         )}
+        style={{ width: 44, height: 44, minWidth: 44, minHeight: 44 }}
       >
         <span className="relative inline-flex size-6 items-center justify-center">
           <ShoppingBag className="size-5" />
           {count ? (
             <span
               aria-hidden="true"
-              className="absolute -top-1.5 -right-2 inline-flex min-w-4 items-center justify-center bg-brand px-1 text-[10px] leading-4 font-medium text-text-inverse"
+              className="absolute -top-0.5 -right-0.5 inline-flex min-w-5 items-center justify-center bg-brand px-1 text-[11px] leading-5 font-medium text-text-inverse lg:-top-1.5 lg:-right-2"
             >
               {count}
             </span>
           ) : null}
         </span>
-        {!compact ? (
-          <span className="text-[12px] leading-none text-text-secondary">Корзина</span>
-        ) : null}
+        <span className="hidden text-[12px] leading-none text-text-secondary lg:block">
+          Корзина
+        </span>
       </SheetTrigger>
 
       <SheetContent side="right" className="gap-4">

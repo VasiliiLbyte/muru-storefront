@@ -69,7 +69,7 @@ function SheetContent({
         {showClose ? (
           <SheetPrimitive.Close
             aria-label="Закрыть меню"
-            className="absolute top-4 right-4 inline-flex size-9 items-center justify-center rounded-sm text-text-secondary transition-colors hover:text-text-heading focus-visible:ring-1 focus-visible:ring-ring focus-visible:outline-none"
+            className="absolute top-4 right-4 inline-flex size-11 items-center justify-center rounded-sm text-text-secondary transition-colors hover:text-text-heading focus-visible:ring-1 focus-visible:ring-ring focus-visible:outline-none"
           >
             <X className="size-5" />
           </SheetPrimitive.Close>

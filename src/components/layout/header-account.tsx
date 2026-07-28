@@ -31,10 +31,8 @@ const MENU_ITEMS = [
 ] as const;
 
 function AuthenticatedAccountMenu({
-  compact,
   firstName,
 }: {
-  compact?: boolean;
   firstName: string;
 }) {
   return (
@@ -48,21 +46,17 @@ function AuthenticatedAccountMenu({
             href="/account/"
             aria-label={`Личный кабинет, ${firstName}`}
             aria-haspopup="menu"
-            className={cn(
-              "relative flex flex-col items-center gap-1 text-text-secondary transition-colors hover:text-text-heading focus-visible:ring-1 focus-visible:ring-ring focus-visible:outline-none",
-              compact ? "min-w-10 px-1" : "min-w-[3.5rem] px-2",
-            )}
+            className="relative inline-flex flex-col items-center justify-center text-text-secondary transition-colors hover:text-text-heading focus-visible:ring-1 focus-visible:ring-ring focus-visible:outline-none lg:min-h-0 lg:min-w-[3.5rem] lg:w-auto lg:gap-1 lg:px-2"
+            style={{ width: 44, height: 44, minWidth: 44, minHeight: 44 }}
           />
         }
       >
         <span className="relative inline-flex size-6 items-center justify-center">
           <User className="size-5" />
         </span>
-        {!compact ? (
-            <span className="max-w-[5.5rem] truncate text-[12px] leading-none text-text-secondary">
-              {firstName}
-            </span>
-        ) : null}
+        <span className="hidden max-w-[5.5rem] truncate text-[12px] leading-none text-text-secondary lg:block">
+          {firstName}
+        </span>
       </Menu.Trigger>
 
       <Menu.Portal>
@@ -110,6 +104,7 @@ function AuthenticatedAccountMenu({
  * Bootstraps session once when status is unknown.
  */
 export function HeaderAccount({ compact = false }: { compact?: boolean }) {
+  void compact;
   const router = useRouter();
   const status = useCustomerSessionStatus();
   const customer = useCustomerSessionCustomer();
@@ -149,8 +144,8 @@ export function HeaderAccount({ compact = false }: { compact?: boolean }) {
 
   if (status === "authenticated") {
     const firstName = customerFirstName(customer?.fullName ?? "");
-    return <AuthenticatedAccountMenu compact={compact} firstName={firstName} />;
+    return <AuthenticatedAccountMenu firstName={firstName} />;
   }
 
-  return <LoginDialogGuest compact={compact} />;
+  return <LoginDialogGuest />;
 }
