@@ -31,11 +31,16 @@ export function MediaCard({
     <Link
       href={href}
       className={cn(
-        "group flex flex-col gap-3 focus-visible:outline-none",
+        "group flex max-w-full flex-col gap-3 focus-visible:outline-none",
         className,
       )}
     >
-      <div className={cn("relative overflow-hidden bg-surface", imageAspect)}>
+      <div
+        className={cn(
+          "relative max-w-full overflow-hidden bg-surface",
+          imageAspect,
+        )}
+      >
         {image ? (
           <Image
             src={image.url}
@@ -45,7 +50,7 @@ export function MediaCard({
             priority={priority}
             placeholder={image.blurDataURL ? "blur" : undefined}
             blurDataURL={image.blurDataURL}
-            className="object-cover transition-transform duration-500 ease-in-out group-hover:scale-[1.03] motion-reduce:transition-none motion-reduce:group-hover:scale-100"
+            className="max-w-full object-cover transition-transform duration-500 ease-in-out group-hover:scale-[1.03] motion-reduce:transition-none motion-reduce:group-hover:scale-100"
           />
         ) : null}
       </div>

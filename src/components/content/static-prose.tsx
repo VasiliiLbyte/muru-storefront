@@ -20,6 +20,8 @@ export function StaticProse({
         "[&_ul]:mb-4 [&_ul]:list-disc [&_ul]:pl-6 [&_ul]:leading-relaxed",
         "[&_ol]:mb-4 [&_ol]:list-decimal [&_ol]:pl-6 [&_ol]:leading-relaxed",
         "[&_li]:mb-2",
+        "[&_img]:h-auto [&_img]:max-w-full",
+        "[&_table]:block [&_table]:max-w-full [&_table]:overflow-x-auto",
         className,
       )}
       dangerouslySetInnerHTML={{ __html: html }}

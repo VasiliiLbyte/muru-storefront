@@ -58,7 +58,7 @@ export function HomeBanner({
       <div className="mx-auto w-full max-w-[1564px] px-4 py-16 sm:px-8">
         <div
           className={cn(
-            "mx-auto flex w-full max-w-[568px] flex-col items-center gap-1 px-8 py-10 text-center sm:px-16",
+            "mx-auto flex w-full max-w-[568px] flex-col items-center gap-1 px-4 py-8 text-center sm:px-16 sm:py-10",
             isScrim ? "bg-black/35 backdrop-blur-[1px]" : "bg-white",
           )}
         >

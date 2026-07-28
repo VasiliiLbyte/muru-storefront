@@ -14,6 +14,19 @@ const TEXT_LINK_RELAX_SELECTORS = [
   /* utility / footer text links: tall hit area but narrow width */
   "footer a",
   "nav[aria-label='Верхнее меню'] a",
+  /* intentional text crumbs — height ≥44 via min-h-11 */
+  "nav[aria-label='Хлебные крошки'] a",
+] as const;
+
+/**
+ * Hard-exclude Next.js / Turbopack dev overlays and the visually-hidden skip link
+ * (1×1 until focused — not a real mobile tap target in the resting UI).
+ */
+const HARD_EXCLUDE_SELECTORS = [
+  "nextjs-portal",
+  "#__next-build-watcher",
+  "#next-logo",
+  'a[href="#main"]',
 ] as const;
 
 type TapViolation = {
@@ -22,6 +35,26 @@ type TapViolation = {
   width: number;
   height: number;
 };
+
+async function isHardExcluded(el: Locator): Promise<boolean> {
+  return el
+    .evaluate((node, sels) => {
+      for (const sel of sels) {
+        if (node.matches(sel) || node.closest(sel)) return true;
+      }
+      // Next.js / Turbopack floating "Issues" badge (not always under nextjs-portal)
+      const aria = (node.getAttribute("aria-label") ?? "").toLowerCase();
+      if (
+        aria.includes("issues overlay") ||
+        aria.includes("issues badge") ||
+        aria.includes("next.js")
+      ) {
+        return true;
+      }
+      return false;
+    }, [...HARD_EXCLUDE_SELECTORS])
+    .catch(() => false);
+}
 
 async function isVisibleInteractive(el: Locator): Promise<boolean> {
   if (!(await el.isVisible().catch(() => false))) return false;
@@ -65,6 +98,7 @@ async function collectTapViolations(
 
   for (let i = 0; i < count; i += 1) {
     const el = locator.nth(i);
+    if (await isHardExcluded(el)) continue;
     if (!(await isVisibleInteractive(el))) continue;
 
     const box = await el.boundingBox();

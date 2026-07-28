@@ -61,7 +61,7 @@ function CompanyHeroSection({
         <div className="absolute top-0 left-0 z-10 w-full max-w-[1564px] px-4 pt-8 sm:px-8 [&_ol]:text-white [&_a]:text-white/90 [&_a:hover]:text-white [&_span]:text-white [text-shadow:0_1px_2px_rgba(0,0,0,0.55)]">
           <Breadcrumbs items={breadcrumbs} />
         </div>
-        <div className="absolute top-1/2 left-1/2 z-10 flex w-[calc(100%-2rem)] max-w-[700px] -translate-x-1/2 -translate-y-1/2 flex-col items-center gap-4 bg-background px-[70px] py-10 text-center max-md:px-8 max-md:py-8 max-sm:static max-sm:mx-auto max-sm:w-full max-sm:translate-x-0 max-sm:translate-y-0">
+        <div className="absolute top-1/2 left-1/2 z-10 flex w-[calc(100%-2rem)] max-w-[700px] -translate-x-1/2 -translate-y-1/2 flex-col items-center gap-4 bg-background px-[70px] py-10 text-center max-md:px-4 max-md:py-8 max-sm:static max-sm:mx-auto max-sm:w-full max-sm:translate-x-0 max-sm:translate-y-0">
           <h1 className="text-[24px] leading-[29px] font-light tracking-normal text-[#6B6B6B] uppercase">
             {heading}
           </h1>
@@ -142,7 +142,7 @@ function CompanyPromoSection({
         />
       ) : null}
       <div className="absolute inset-0 z-10 flex items-center justify-center max-lg:relative max-lg:inset-auto">
-        <div className="flex w-full max-w-[1564px] flex-row flex-wrap justify-center gap-5 px-8">
+        <div className="flex w-full max-w-[1564px] flex-row flex-wrap justify-center gap-5 px-4 sm:px-8">
           {cards.map((card, index) => {
             const href =
               PROMO_HREFS[index] ?? PROMO_HREFS[PROMO_HREFS.length - 1];

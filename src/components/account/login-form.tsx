@@ -147,17 +147,17 @@ export function LoginForm({
         {submitting ? "Вход…" : "Войти"}
       </Button>
 
-      <div className="flex flex-col gap-2 text-small text-text-muted">
+      <div className="flex flex-col gap-1 text-small text-text-muted">
         <Link
           href="/password/forgot/"
-          className="hover:text-text-heading hover:underline"
+          className="inline-flex min-h-11 items-center hover:text-text-heading hover:underline"
           onClick={() => onDismiss?.()}
         >
           Забыли пароль?
         </Link>
         <Link
           href="/register/"
-          className="hover:text-text-heading hover:underline"
+          className="inline-flex min-h-11 items-center hover:text-text-heading hover:underline"
           onClick={() => onDismiss?.()}
         >
           Создать аккаунт

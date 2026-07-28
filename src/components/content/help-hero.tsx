@@ -49,7 +49,7 @@ export function HelpHero({
         className="object-cover"
         {...staticBlurProps()}
       />
-      <div className="relative z-10 mx-4 w-full max-w-xl bg-background px-8 py-10 text-center sm:px-12 sm:py-12">
+      <div className="relative z-10 mx-4 w-full max-w-xl bg-background px-4 py-10 text-center sm:px-12 sm:py-12">
         <h1 className="font-display text-[clamp(1.25rem,2.5vw,1.75rem)] leading-[1.2] font-normal tracking-[0.08em] text-text-heading uppercase">
           {title}
         </h1>

@@ -35,7 +35,7 @@ export function FavoriteToggle({
         toggle(sku);
       }}
       className={cn(
-        "inline-flex size-9 items-center justify-center rounded-sm bg-background/80 text-text-secondary backdrop-blur-sm transition-colors hover:text-brand focus-visible:ring-1 focus-visible:ring-ring focus-visible:outline-none",
+        "inline-flex size-11 items-center justify-center rounded-sm bg-background/80 text-text-secondary backdrop-blur-sm transition-colors hover:text-brand focus-visible:ring-1 focus-visible:ring-ring focus-visible:outline-none",
         active && "text-brand",
         className,
       )}

@@ -4,7 +4,7 @@ import { Logo } from "./logo";
 import { catalogLinks, companyLinks, legalNav, siteContacts } from "@/lib/site";
 
 const footerLinkClass =
-  "text-body font-light text-text-secondary transition-colors hover:text-brand";
+  "inline-flex min-h-11 items-center text-body font-light text-text-secondary transition-colors hover:text-brand";
 
 /**
  * Подвал: две группы ссылок + контакты + юр. ссылки + копирайт.
@@ -21,7 +21,7 @@ export function Footer() {
         </div>
         <div className="grid grid-cols-1 gap-8 md:grid-cols-3">
           <nav aria-label="Компания">
-            <ul className="flex flex-col gap-y-2.5">
+            <ul className="flex flex-col gap-y-0.5">
               {companyLinks.map((item) => (
                 <li key={item.href}>
                   <Link href={item.href} className={footerLinkClass}>
@@ -33,7 +33,7 @@ export function Footer() {
           </nav>
 
           <nav aria-label="Каталог">
-            <ul className="flex flex-col gap-y-2.5">
+            <ul className="flex flex-col gap-y-0.5">
               {catalogLinks.map((item) => (
                 <li key={item.href}>
                   <Link href={item.href} className={footerLinkClass}>
@@ -46,33 +46,33 @@ export function Footer() {
 
           <address
             aria-label="Контакты"
-            className="flex flex-col gap-2 text-small text-text-secondary not-italic"
+            className="flex flex-col gap-1 text-small text-text-secondary not-italic"
           >
-            <span>{siteContacts.address}</span>
+            <span className="py-2">{siteContacts.address}</span>
             <a
               href={siteContacts.phoneHref}
-              className="font-medium text-text-primary transition-colors hover:text-brand"
+              className="inline-flex min-h-11 items-center font-medium text-text-primary transition-colors hover:text-brand"
             >
               {siteContacts.phoneDisplay}
             </a>
             <a
               href={siteContacts.emailHref}
-              className="transition-colors hover:text-brand"
+              className="inline-flex min-h-11 items-center transition-colors hover:text-brand"
             >
               {siteContacts.email}
             </a>
-            <span className="text-text-secondary">{siteContacts.hours}</span>
+            <span className="py-2 text-text-secondary">{siteContacts.hours}</span>
           </address>
         </div>
 
         <div className="mt-10 flex flex-col gap-4 border-t border-border pt-6 sm:flex-row sm:items-center sm:justify-between">
           <p className="text-small text-text-secondary">© {year} MURU</p>
-          <ul className="flex flex-wrap gap-x-6 gap-y-2">
+          <ul className="flex flex-wrap gap-x-6 gap-y-1">
             {legalNav.map((item) => (
               <li key={item.href}>
                 <Link
                   href={item.href}
-                  className="text-small text-text-secondary transition-colors hover:text-text-primary"
+                  className="inline-flex min-h-11 items-center text-small text-text-secondary transition-colors hover:text-text-primary"
                 >
                   {item.label}
                 </Link>
