@@ -12,6 +12,7 @@ export function HeaderTopNav({ className }: { className?: string }) {
         <NavLink
           key={item.href}
           href={item.href}
+          accent={item.accent}
           className="px-4 py-3 uppercase"
         >
           {item.label}

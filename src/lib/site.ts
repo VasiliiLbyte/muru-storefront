@@ -35,12 +35,14 @@ export const siteContacts = {
 export type NavItem = {
   label: string;
   href: string;
+  /** Always brand color in desktop top-nav (e.g. Новинки). */
+  accent?: boolean;
 };
 
 /** Верхнее меню (как на muru.ru). */
 export const mainNav: NavItem[] = [
   { label: "О нас", href: "/company/" },
-  { label: "Новинки", href: "/new/" },
+  { label: "Новинки", href: "/new/", accent: true },
   { label: "Вдохновение", href: "/lookbooks/" },
   { label: "Коллекции", href: "/landings/" },
   { label: "Гид по подаркам", href: "/gifts/" },

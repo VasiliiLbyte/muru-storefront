@@ -10,10 +10,18 @@ import {
   SheetTitle,
   SheetTrigger,
 } from "@/components/ui/sheet";
+import { isSaleCategorySlug } from "@/lib/catalog/sale-category";
 import { mainNav } from "@/lib/site";
+import { cn } from "@/lib/utils";
 
 const linkClass =
   "text-body font-light text-text-secondary transition-colors hover:text-text-primary";
+
+function catalogSlugFromHref(href: string): string {
+  const path = href.split("?")[0] ?? href;
+  const parts = path.split("/").filter(Boolean);
+  return parts[0] === "catalog" ? decodeURIComponent(parts[1] ?? "") : "";
+}
 
 type CatalogMenuPanelProps = {
   catalogItems: { label: string; href: string }[];
@@ -49,13 +57,23 @@ export function CatalogMenuPanel({ catalogItems }: CatalogMenuPanelProps) {
           </nav>
           <nav aria-label="Каталог">
             <ul className="flex flex-col gap-y-3">
-              {catalogItems.map((item) => (
-                <li key={item.href}>
-                  <Link href={item.href} onClick={close} className={linkClass}>
-                    {item.label}
-                  </Link>
-                </li>
-              ))}
+              {catalogItems.map((item) => {
+                const sale = isSaleCategorySlug(catalogSlugFromHref(item.href));
+                return (
+                  <li key={item.href}>
+                    <Link
+                      href={item.href}
+                      onClick={close}
+                      className={cn(
+                        linkClass,
+                        sale && "text-brand hover:text-brand",
+                      )}
+                    >
+                      {item.label}
+                    </Link>
+                  </li>
+                );
+              })}
             </ul>
           </nav>
         </div>
