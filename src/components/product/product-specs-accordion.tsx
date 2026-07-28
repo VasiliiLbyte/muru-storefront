@@ -57,7 +57,7 @@ export function ProductSpecsAccordion({
 
       {rows.length > 0 ? (
         <details className="group border-t border-border pt-4">
-          <summary className="flex cursor-pointer list-none items-center justify-between gap-4 text-body text-text-heading focus-visible:ring-1 focus-visible:ring-ring focus-visible:outline-none [&::-webkit-details-marker]:hidden">
+          <summary className="flex min-h-11 cursor-pointer list-none items-center justify-between gap-4 text-body text-text-heading focus-visible:ring-1 focus-visible:ring-ring focus-visible:outline-none [&::-webkit-details-marker]:hidden">
             <span>Характеристики</span>
             <span
               className="text-h2 leading-none font-light text-text-secondary group-open:hidden"

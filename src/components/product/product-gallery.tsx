@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { useState } from "react";
+import { useCallback, useRef, useState } from "react";
 
 import type { Image as ImageData } from "@/lib/schemas";
 import { cn } from "@/lib/utils";
@@ -14,7 +14,15 @@ export function ProductGallery({
   title: string;
 }) {
   const [activeIndex, setActiveIndex] = useState(0);
+  const scrollRef = useRef<HTMLDivElement>(null);
   const active = images[activeIndex] ?? images[0];
+
+  const updateActiveFromScroll = useCallback(() => {
+    const el = scrollRef.current;
+    if (!el || el.clientWidth === 0) return;
+    const index = Math.round(el.scrollLeft / el.clientWidth);
+    setActiveIndex(Math.min(Math.max(index, 0), images.length - 1));
+  }, [images.length]);
 
   if (!active) {
     return (
@@ -24,11 +32,61 @@ export function ProductGallery({
 
   return (
     <div className="flex flex-col gap-4">
+      {/* Mobile: horizontal snap carousel */}
+      <div className="relative lg:hidden">
+        <div
+          ref={scrollRef}
+          onScroll={updateActiveFromScroll}
+          className="flex snap-x snap-mandatory overflow-x-auto [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
+          aria-label={`Галерея: изображение ${activeIndex + 1} из ${images.length}`}
+        >
+          {images.map((image, index) => (
+            <div
+              key={`${image.url}-${index}`}
+              className="relative aspect-square min-w-full shrink-0 snap-center overflow-hidden bg-surface"
+            >
+              <Image
+                src={image.url}
+                alt={image.alt ?? title}
+                fill
+                priority={index === 0}
+                sizes="100vw"
+                placeholder={image.blurDataURL ? "blur" : undefined}
+                blurDataURL={image.blurDataURL}
+                className="object-cover"
+              />
+            </div>
+          ))}
+        </div>
+        {images.length > 1 ? (
+          <div
+            className="mt-3 flex items-center justify-center gap-2"
+            aria-hidden
+          >
+            <div className="flex gap-1.5">
+              {images.map((image, index) => (
+                <span
+                  key={`dot-${image.url}-${index}`}
+                  className={cn(
+                    "size-1.5 rounded-full transition-colors",
+                    index === activeIndex ? "bg-brand" : "bg-brand/35",
+                  )}
+                />
+              ))}
+            </div>
+            <span className="text-caption text-text-secondary">
+              {activeIndex + 1}/{images.length}
+            </span>
+          </div>
+        ) : null}
+      </div>
+
+      {/* Desktop: main + thumbs */}
       <div
         id="product-gallery-main"
         role="tabpanel"
         aria-labelledby={`product-gallery-tab-${activeIndex}`}
-        className="relative aspect-square w-full overflow-hidden bg-surface"
+        className="relative hidden aspect-square w-full overflow-hidden bg-surface lg:block"
       >
         <Image
           src={active.url}
@@ -44,7 +102,7 @@ export function ProductGallery({
 
       {images.length > 1 ? (
         <div
-          className="flex flex-wrap gap-2"
+          className="hidden flex-wrap gap-2 lg:flex"
           role="tablist"
           aria-label="Миниатюры изображений"
         >

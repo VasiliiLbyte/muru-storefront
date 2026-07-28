@@ -1,3 +1,4 @@
+import { ProductCard } from "@/components/catalog/product-card";
 import { ProductGrid } from "@/components/catalog/product-grid";
 import type { Product } from "@/lib/schemas";
 import { cn } from "@/lib/utils";
@@ -14,7 +15,26 @@ export function RelatedProducts({
   return (
     <section className={cn("flex flex-col gap-8", className)}>
       <h2 className="font-display text-h2 text-text-heading">Похожие товары</h2>
-      <ProductGrid products={products} prioritizeLcp={false} />
+
+      {/* Mobile: horizontal snap carousel */}
+      <div
+        className="-mx-4 flex gap-3 overflow-x-auto px-4 snap-x snap-mandatory [scrollbar-width:none] [&::-webkit-scrollbar]:hidden lg:hidden"
+        aria-label="Похожие товары"
+      >
+        {products.map((product) => (
+          <ProductCard
+            key={product.id}
+            product={product}
+            priority={false}
+            className="w-[75vw] max-w-sm min-w-[75vw] shrink-0 snap-start"
+          />
+        ))}
+      </div>
+
+      {/* Desktop: grid */}
+      <div className="hidden lg:block">
+        <ProductGrid products={products} prioritizeLcp={false} />
+      </div>
     </section>
   );
 }

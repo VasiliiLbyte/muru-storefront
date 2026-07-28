@@ -1,9 +1,10 @@
 "use client";
 
-import { useState } from "react";
+import { useRef, useState } from "react";
 
 import { FavoriteToggle } from "@/components/catalog/favorite-toggle";
 import { OneClickBuyDialog } from "@/components/product/one-click-buy-dialog";
+import { ProductStickyBuyBar } from "@/components/product/product-sticky-buy-bar";
 import { Button } from "@/components/ui/button";
 import { discountPercent, formatPrice } from "@/lib/format";
 import type { Product } from "@/lib/schemas";
@@ -19,6 +20,7 @@ export function ProductPurchase({
 }) {
   const addItem = useCartStore((s) => s.addItem);
   const [oneClickOpen, setOneClickOpen] = useState(false);
+  const cartCtaRef = useRef<HTMLDivElement>(null);
   const showSale = product.isOnSale && product.oldPrice;
   const discount = showSale
     ? discountPercent(product.price, product.oldPrice!)
@@ -64,33 +66,38 @@ export function ProductPurchase({
       </p>
 
       {product.inStock ? (
-        <div className="flex flex-wrap gap-3">
+        <div className="flex flex-col gap-3 lg:flex-row lg:flex-wrap">
           <Button
             type="button"
             variant="outline"
             size="lg"
-            className="h-11 px-6 text-body"
+            className="min-h-12 w-full px-6 text-body lg:h-11 lg:w-auto"
             onClick={() => setOneClickOpen(true)}
           >
             Купить в 1 клик
           </Button>
-          <Button
-            type="button"
-            size="lg"
-            className="h-11 bg-brand px-6 text-body text-text-inverse hover:bg-brand-hover"
-            onClick={() => addItem(product.sku)}
-          >
-            В корзину
-          </Button>
+          <div ref={cartCtaRef} className="w-full lg:w-auto">
+            <Button
+              type="button"
+              size="lg"
+              className="min-h-12 w-full bg-brand px-6 text-body text-text-inverse hover:bg-brand-hover lg:h-11 lg:w-auto"
+              onClick={() => addItem(product.sku)}
+            >
+              В корзину
+            </Button>
+          </div>
         </div>
       ) : null}
 
       {product.inStock ? (
-        <OneClickBuyDialog
-          product={product}
-          open={oneClickOpen}
-          onOpenChange={setOneClickOpen}
-        />
+        <>
+          <OneClickBuyDialog
+            product={product}
+            open={oneClickOpen}
+            onOpenChange={setOneClickOpen}
+          />
+          <ProductStickyBuyBar product={product} cartCtaRef={cartCtaRef} />
+        </>
       ) : null}
     </div>
   );

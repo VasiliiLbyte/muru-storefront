@@ -22,7 +22,7 @@ export function ProductPdp({
   return (
     <div
       className={cn(
-        "mx-auto w-full max-w-[1564px] px-4 pb-16 sm:px-8",
+        "mx-auto w-full max-w-[1564px] px-4 pb-16 max-lg:pb-28 sm:px-8",
         className,
       )}
     >
