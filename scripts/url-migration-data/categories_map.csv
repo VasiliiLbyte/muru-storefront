@@ -1,0 +1,11 @@
+level,crm_name,current_slug,muru_slug,final_slug,source,in_public_tree
+category,Без категории,без-категории,,bez-kategorii,autotranslit (no muru.ru counterpart),no
+category,Вазы и аксессуары,вазы-и-аксессуары,vazy-i-aksessuary,vazy-i-aksessuary,muru.ru exact title,yes
+category,Интерьер,интерьер,interer,interer,muru.ru exact title,yes
+category,Комплексные наборы,комплексные-наборы,kompleksnye-nabory,kompleksnye-nabory,muru.ru exact title,yes
+category,Кухня и столовая,кухня-и-столовая,kukhnya-i-stolovaya,kukhnya-i-stolovaya,muru.ru exact title,yes
+category,Натуральный декор,натуральный-декор,naturalnyy-dekor,naturalnyy-dekor,muru.ru exact title,yes
+category,Подарочные карты,подарочные-карты,podarochnye-karty,podarochnye-karty,muru.ru exact title,no
+category,Распродажа,распродажа,rasprodazha,rasprodazha,muru.ru exact title,yes
+category,Текстиль,текстиль,tekstil,tekstil,muru.ru exact title,yes
+category,Флористика,флористика,floristika-dlya-doma,floristika-dlya-doma,muru.ru title containment (renamed in CRM),yes
