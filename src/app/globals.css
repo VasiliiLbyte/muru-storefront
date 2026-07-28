@@ -45,9 +45,9 @@
     "Liberation Mono", monospace;
 
   /* — Типографика (size / line-height) — */
-  --text-display: 36px;
+  --text-display: clamp(28px, 6vw, 36px);
   --text-display--line-height: 1.2;
-  --text-h2: 36px;
+  --text-h2: clamp(24px, 5vw, 36px);
   --text-h2--line-height: 1.2;
   --text-body: 16px;
   --text-body--line-height: 1.5;
@@ -62,6 +62,8 @@
   --radius-lg: 100px;
 
   /* — Сетка/лейаут — base 4px совпадает с дефолтом Tailwind — */
+  /* xs only; do not override default sm/md/lg/xl/2xl */
+  --breakpoint-xs: 30rem;
   --spacing-gutter: 20px;
   --spacing-section: 32px;
   --container-page: 1564px;
@@ -103,6 +105,26 @@
   --color-popover: var(--popover);
   --color-card-foreground: var(--card-foreground);
   --color-card: var(--card);
+}
+
+/* Hover utilities only on hover-capable pointers (M1 mobile). */
+@custom-variant hover (@media (hover: hover));
+
+/* Safe-area insets (ready for M2 sticky header). */
+@utility pt-safe {
+  padding-top: env(safe-area-inset-top);
+}
+@utility pb-safe {
+  padding-bottom: env(safe-area-inset-bottom);
+}
+@utility pl-safe {
+  padding-left: env(safe-area-inset-left);
+}
+@utility pr-safe {
+  padding-right: env(safe-area-inset-right);
+}
+@utility pt-safe-header {
+  padding-top: env(safe-area-inset-top);
 }
 
 :root {

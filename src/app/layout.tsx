@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { fontVariables } from "@/lib/fonts";
 import { MSWProvider } from "@/components/msw-provider";
 import { Header } from "@/components/layout/header";
@@ -12,6 +12,12 @@ export const metadata: Metadata = {
     default: "MURU",
     template: "%s — MURU",
   },
+};
+
+export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
+  viewportFit: "cover",
 };
 
 export default function RootLayout({

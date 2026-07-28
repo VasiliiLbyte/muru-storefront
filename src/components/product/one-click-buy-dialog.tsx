@@ -26,7 +26,7 @@ import { staticBlurProps } from "@/lib/images";
 import type { Product } from "@/lib/schemas";
 
 const textareaClassName =
-  "flex min-h-20 w-full min-w-0 rounded-sm border border-input bg-background px-2 py-2 text-body text-foreground transition-[color,border-color,box-shadow] outline-none placeholder:text-muted-foreground focus-visible:border-ring focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-70";
+  "flex min-h-20 w-full min-w-0 rounded-sm border border-input bg-background px-2 py-2 text-base text-foreground transition-[color,border-color,box-shadow] outline-none placeholder:text-muted-foreground focus-visible:border-ring focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-70";
 
 function isEmailValid(value: string): boolean {
   const trimmed = value.trim();

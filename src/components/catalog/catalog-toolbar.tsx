@@ -69,7 +69,7 @@ export function CatalogToolbar({
           <select
             value={sort}
             onChange={(e) => updateParams({ sort: e.target.value })}
-            className="h-9 rounded-sm border border-input bg-background px-2 text-body text-foreground focus-visible:border-ring focus-visible:ring-1 focus-visible:ring-ring focus-visible:outline-none"
+            className="h-11 rounded-sm border border-input bg-background px-2 text-base text-foreground focus-visible:border-ring focus-visible:ring-1 focus-visible:ring-ring focus-visible:outline-none sm:h-9"
           >
             {SORT_OPTIONS.map((opt) => (
               <option key={opt.value} value={opt.value}>
@@ -115,7 +115,7 @@ export function CatalogToolbar({
               onChange={(e) =>
                 updateParams({ material: e.target.value || null })
               }
-              className="h-9 min-w-[140px] rounded-sm border border-input bg-background px-2 text-body text-foreground focus-visible:border-ring focus-visible:ring-1 focus-visible:ring-ring focus-visible:outline-none"
+              className="h-11 min-w-[140px] rounded-sm border border-input bg-background px-2 text-base text-foreground focus-visible:border-ring focus-visible:ring-1 focus-visible:ring-ring focus-visible:outline-none sm:h-9"
             >
               <option value="">Все</option>
               {materialFacet.options.map((opt) => (
@@ -133,7 +133,7 @@ export function CatalogToolbar({
             <select
               value={color}
               onChange={(e) => updateParams({ color: e.target.value || null })}
-              className="h-9 min-w-[140px] rounded-sm border border-input bg-background px-2 text-body text-foreground focus-visible:border-ring focus-visible:ring-1 focus-visible:ring-ring focus-visible:outline-none"
+              className="h-11 min-w-[140px] rounded-sm border border-input bg-background px-2 text-base text-foreground focus-visible:border-ring focus-visible:ring-1 focus-visible:ring-ring focus-visible:outline-none sm:h-9"
             >
               <option value="">Все</option>
               {colorFacet.options.map((opt) => (
