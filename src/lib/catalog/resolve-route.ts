@@ -1,20 +1,26 @@
-import { isCatalogBackendEnabled } from "@/lib/api/catalog-backend";
-import { findNodeBySlug, taxonomy, type TaxonomyNode } from "@/lib/taxonomy";
+import { getCategories } from "@/lib/api/endpoints";
+import {
+  categoriesToNavTree,
+  childNavOf,
+  findNavNodeBySlug,
+  isTopLevelNavSlug,
+  type CatalogNavNode,
+} from "@/lib/catalog/catalog-nav";
 
 export type CatalogRoute =
   | { type: "root" }
   | {
       type: "category";
       slug: string;
-      node: TaxonomyNode;
-      children: TaxonomyNode[];
+      node: CatalogNavNode;
+      children: CatalogNavNode[];
     }
   | {
       type: "subcategory";
       parentSlug: string;
-      parentNode: TaxonomyNode;
+      parentNode: CatalogNavNode;
       subSlug: string;
-      node: TaxonomyNode;
+      node: CatalogNavNode;
     }
   | {
       type: "product";
@@ -23,20 +29,14 @@ export type CatalogRoute =
       productSlug: string;
     };
 
-function isTopLevel(slug: string): boolean {
-  return taxonomy.some((n) => n.slug === slug);
-}
-
-function childOf(parentSlug: string, childSlug: string): TaxonomyNode | undefined {
-  const parent = findNodeBySlug(parentSlug);
-  return parent?.children?.find((c) => c.slug === childSlug);
-}
-
 /**
  * Резолвит catch-all slug каталога в тип страницы.
- * @throws never — невалидные пути возвращают null (→ notFound).
+ * Валидирует сегменты против дерева категорий (API или MSW-фикстуры).
+ * Невалидные пути → null (→ notFound).
  */
-export function resolveCatalogRoute(slug: string[] | undefined): CatalogRoute | null {
+export async function resolveCatalogRoute(
+  slug: string[] | undefined,
+): Promise<CatalogRoute | null> {
   const segments = (slug ?? []).map((s) => {
     try {
       return decodeURIComponent(s).normalize("NFC");
@@ -49,41 +49,16 @@ export function resolveCatalogRoute(slug: string[] | undefined): CatalogRoute | 
     return { type: "root" };
   }
 
-  if (isCatalogBackendEnabled()) {
-    if (segments.length === 1) {
-      return {
-        type: "category",
-        slug: segments[0],
-        node: { slug: segments[0], title: segments[0], children: [] },
-        children: [],
-      };
-    }
-
-    if (segments.length === 2) {
-      return {
-        type: "subcategory",
-        parentSlug: segments[0],
-        parentNode: { slug: segments[0], title: segments[0], children: [] },
-        subSlug: segments[1],
-        node: { slug: segments[1], title: segments[1], children: [] },
-      };
-    }
-
-    if (segments.length === 3) {
-      return {
-        type: "product",
-        parentSlug: segments[0],
-        subSlug: segments[1],
-        productSlug: segments[2],
-      };
-    }
-
+  let tree: CatalogNavNode[];
+  try {
+    tree = categoriesToNavTree(await getCategories());
+  } catch {
     return null;
   }
 
   if (segments.length === 1) {
-    const node = findNodeBySlug(segments[0]);
-    if (!node || !isTopLevel(segments[0])) return null;
+    const node = findNavNodeBySlug(segments[0], tree);
+    if (!node || !isTopLevelNavSlug(segments[0], tree)) return null;
     return {
       type: "category",
       slug: segments[0],
@@ -95,9 +70,11 @@ export function resolveCatalogRoute(slug: string[] | undefined): CatalogRoute | 
   if (segments.length === 2) {
     const parentSlug = segments[0];
     const subSlug = segments[1];
-    const parentNode = findNodeBySlug(parentSlug);
-    const subNode = childOf(parentSlug, subSlug);
-    if (!parentNode || !subNode || !isTopLevel(parentSlug)) return null;
+    const parentNode = tree.find((n) => n.slug === parentSlug);
+    const subNode = childNavOf(parentSlug, subSlug, tree);
+    if (!parentNode || !subNode || !isTopLevelNavSlug(parentSlug, tree)) {
+      return null;
+    }
     return {
       type: "subcategory",
       parentSlug,
@@ -111,9 +88,10 @@ export function resolveCatalogRoute(slug: string[] | undefined): CatalogRoute | 
     const parentSlug = segments[0];
     const subSlug = segments[1];
     const productSlug = segments[2];
-    if (!isTopLevel(parentSlug)) return null;
-    const subNode = childOf(parentSlug, subSlug);
-    const isTopLeaf = parentSlug === subSlug && findNodeBySlug(parentSlug);
+    if (!isTopLevelNavSlug(parentSlug, tree)) return null;
+    const subNode = childNavOf(parentSlug, subSlug, tree);
+    const isTopLeaf =
+      parentSlug === subSlug && findNavNodeBySlug(parentSlug, tree);
     if (!subNode && !isTopLeaf) return null;
     return { type: "product", parentSlug, subSlug, productSlug };
   }

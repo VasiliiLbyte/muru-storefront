@@ -1,5 +1,6 @@
 import { test, expect } from "@playwright/test";
 import AxeBuilder from "@axe-core/playwright";
+import { E2E_PRODUCT_PDP_PATH } from "./mobile-routes";
 
 const KEY_PAGES = [
   { name: "home", path: "/" },
@@ -10,7 +11,7 @@ const KEY_PAGES = [
   },
   {
     name: "product-pdp",
-    path: "/catalog/vazy-i-aksessuary/vazy-i-kuvshiny/vazy-i-kuvshiny-01/",
+    path: E2E_PRODUCT_PDP_PATH,
   },
   { name: "basket", path: "/basket/" },
   { name: "search", path: "/search/" },

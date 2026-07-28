@@ -1,34 +1,24 @@
 import { getCategories } from "@/lib/api/endpoints";
-import { isCatalogBackendEnabled } from "@/lib/api/catalog-backend";
 import { catalogHref } from "@/lib/site";
-import { taxonomy } from "@/lib/taxonomy";
 
 import { CatalogMenuPanel } from "./catalog-menu-panel";
 
 /**
- * Десктопное меню «Каталог».
- * Live-бэк: топ-категории из API. Mock: taxonomy верхнего уровня.
+ * Десктопное меню «Каталог» — топ-категории из API / MSW.
  */
 export async function CatalogMenu() {
-  let catalogItems: { label: string; href: string }[];
+  let catalogItems: { label: string; href: string }[] = [];
 
-  if (isCatalogBackendEnabled()) {
-    try {
-      catalogItems = (await getCategories())
-        .filter((c) => !c.parentSlug)
-        .map((c) => ({ label: c.title, href: catalogHref.top(c.slug) }));
-    } catch (err) {
-      console.warn(
-        "[catalog-menu] categories fetch failed, rendering empty menu",
-        err,
-      );
-      catalogItems = [];
-    }
-  } else {
-    catalogItems = taxonomy.map((node) => ({
-      label: node.title,
-      href: catalogHref.top(node.slug),
-    }));
+  try {
+    catalogItems = (await getCategories())
+      .filter((c) => !c.parentSlug)
+      .sort((a, b) => a.sortOrder - b.sortOrder)
+      .map((c) => ({ label: c.title, href: catalogHref.top(c.slug) }));
+  } catch (err) {
+    console.warn(
+      "[catalog-menu] categories fetch failed, rendering empty menu",
+      err,
+    );
   }
 
   return <CatalogMenuPanel catalogItems={catalogItems} />;

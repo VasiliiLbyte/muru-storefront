@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 
-import { absoluteUrl } from "@/lib/site";
+import { absoluteUrl, isSiteNoindex } from "@/lib/site";
 
 type PageMetadataInput = {
   title: string;
@@ -29,12 +29,15 @@ export function buildPageMetadata({
       : absoluteUrl(ogImage)
     : undefined;
   const ogTitle = title.includes("MURU") ? title : `${pageTitle} — MURU`;
+  const resolvedRobots =
+    robots ??
+    (isSiteNoindex() ? { index: false, follow: false } : undefined);
 
   return {
     title: titleAbsolute ? { absolute: title } : pageTitle,
     description,
     alternates: { canonical },
-    robots,
+    robots: resolvedRobots,
     openGraph: {
       title: ogTitle,
       description,

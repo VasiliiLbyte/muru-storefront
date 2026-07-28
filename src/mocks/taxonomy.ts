@@ -69,7 +69,7 @@ export const taxonomy: TaxonomyNode[] = [
     title: "Подарочные карты",
   },
   {
-    slug: "распродажа",
+    slug: "rasprodazha",
     title: "Распродажа",
   },
   {

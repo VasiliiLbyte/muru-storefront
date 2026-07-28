@@ -1,11 +1,21 @@
-/** Routes for M0 mobile baseline (trailing slash parity with SEF / a11y). */
+/**
+ * Routes for M0 mobile baseline (trailing slash parity with SEF / a11y).
+ *
+ * Catalog paths use Latin API/mock slugs. PDP default is MSW fixture
+ * `vazy-i-kuvshiny-01`. When e2e hits live catalog API (:4000), override via
+ * `E2E_PDP_PATH` (full path with trailing slash from by-slug product URL).
+ */
+
+const LIVE_PDP =
+  process.env.E2E_PDP_PATH?.replace(/\/?$/, "/") ??
+  "/catalog/vazy-i-aksessuary/vazy-i-kuvshiny/vazy-i-kuvshiny-01/";
 
 export const MOBILE_OVERFLOW_ROUTES = [
   "/",
   "/catalog/",
   "/catalog/vazy-i-aksessuary/",
   "/catalog/vazy-i-aksessuary/vazy-i-kuvshiny/",
-  "/catalog/vazy-i-aksessuary/vazy-i-kuvshiny/vazy-i-kuvshiny-01/",
+  LIVE_PDP,
   "/basket/",
   "/checkout/",
   "/search/?q=ваза",
@@ -26,7 +36,7 @@ export const MOBILE_OVERFLOW_ROUTES = [
 export const KEY_MOBILE_ROUTES = [
   "/",
   "/catalog/",
-  "/catalog/vazy-i-aksessuary/vazy-i-kuvshiny/vazy-i-kuvshiny-01/",
+  LIVE_PDP,
   "/basket/",
   "/login/",
   "/search/?q=ваза",
@@ -40,3 +50,5 @@ export const IOS_ZOOM_ROUTES = [
   "/search/?q=ваза",
   "/basket/",
 ] as const;
+
+export { LIVE_PDP as E2E_PRODUCT_PDP_PATH };

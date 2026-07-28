@@ -1,5 +1,5 @@
 import type { Category } from "@/lib/schemas";
-import { taxonomy, topCategoryOf, type TaxonomyNode } from "@/lib/taxonomy";
+import { taxonomy, topCategoryOf, type TaxonomyNode } from "@/mocks/taxonomy";
 
 import { makeImage } from "./placeholders";
 

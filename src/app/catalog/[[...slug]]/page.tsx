@@ -10,17 +10,27 @@ import { CatalogListingShell } from "@/components/catalog/catalog-listing-shell"
 import { ProductPdp } from "@/components/product/product-pdp";
 import { MediaCard } from "@/components/home/media-card";
 import { JsonLdScript } from "@/components/seo/jsonld-script";
-import { getCategories, getCategory, getProduct, getProducts } from "@/lib/api/endpoints";
+import {
+  getCategories,
+  getCategory,
+  getProduct,
+  getProducts,
+} from "@/lib/api/endpoints";
 import { isCatalogBackendEnabled } from "@/lib/api/catalog-backend";
+import { categoriesToNavTree } from "@/lib/catalog/catalog-nav";
 import { buildProductBreadcrumbs } from "@/lib/catalog/product-breadcrumbs";
 import { parseListingSearchParams } from "@/lib/catalog/search-params";
 import { isSaleCategorySlug } from "@/lib/catalog/sale-category";
 import { resolveCatalogRoute } from "@/lib/catalog/resolve-route";
-import { productCategorySlugs, productHref, productPathMatches } from "@/lib/catalog/urls";
+import {
+  productCategorySlugs,
+  productHref,
+  productPathMatches,
+} from "@/lib/catalog/urls";
 import { breadcrumbJsonLd, itemListJsonLd, productJsonLd } from "@/lib/seo/jsonld";
 import { buildPageMetadata } from "@/lib/seo/page-metadata";
 import { catalogHref } from "@/lib/site";
-import { taxonomy } from "@/lib/taxonomy";
+import { categories as mockCategories } from "@/mocks/fixtures/categories";
 
 export const revalidate = 300;
 export const dynamic = "force-dynamic";
@@ -30,12 +40,13 @@ type PageProps = {
   searchParams: Promise<Record<string, string | string[] | undefined>>;
 };
 
-export function generateStaticParams() {
+export async function generateStaticParams() {
   if (isCatalogBackendEnabled()) return [{}];
 
   const params: { slug?: string[] }[] = [{}];
+  const tree = categoriesToNavTree(mockCategories);
 
-  for (const node of taxonomy) {
+  for (const node of tree) {
     params.push({ slug: [node.slug] });
     for (const child of node.children ?? []) {
       params.push({ slug: [node.slug, child.slug] });
@@ -55,7 +66,7 @@ export async function generateMetadata({
 }: PageProps): Promise<Metadata> {
   const { slug } = await params;
   const decodedSlug = slug?.map((s) => decodeURIComponent(s).normalize("NFC"));
-  const route = resolveCatalogRoute(decodedSlug);
+  const route = await resolveCatalogRoute(decodedSlug);
 
   if (!route) {
     return { title: "Страница не найдена" };
@@ -112,16 +123,21 @@ export default async function CatalogPage({ params, searchParams }: PageProps) {
   const { slug } = await params;
   const sp = await searchParams;
   const decodedSlug = slug?.map((s) => decodeURIComponent(s).normalize("NFC"));
-  const route = resolveCatalogRoute(decodedSlug);
+  const route = await resolveCatalogRoute(decodedSlug);
 
   if (!route) notFound();
 
   if (route.type === "product") {
-    const product = await getProduct(route.productSlug);
+    let product;
+    try {
+      product = await getProduct(route.productSlug);
+    } catch {
+      notFound();
+    }
     if (!decodedSlug || !productPathMatches(product, decodedSlug)) notFound();
 
     const allCategories = await getCategories();
-    const { leaf } = productCategorySlugs(product);
+    const { leaf } = productCategorySlugs(product, allCategories);
     const related = await getProducts({
       subcategory: leaf,
       pageSize: 8,
@@ -164,7 +180,9 @@ export default async function CatalogPage({ params, searchParams }: PageProps) {
         <JsonLdScript data={breadcrumbJsonLd(breadcrumbs)} />
         <div className="mx-auto w-full max-w-[1564px] px-4 sm:px-8">
           <Breadcrumbs items={breadcrumbs} className="mb-6 pt-8" />
-          <h1 className="mb-8 font-display text-display text-text-heading">Каталог</h1>
+          <h1 className="mb-8 font-display text-display text-text-heading">
+            Каталог
+          </h1>
           <div className={CATALOG_PRODUCT_GRID_CLASS}>
             {topCategories.map((category, index) => (
               <MediaCard
@@ -221,59 +239,35 @@ export default async function CatalogPage({ params, searchParams }: PageProps) {
         },
   );
 
-  if (
-    isCatalogBackendEnabled() &&
-    route.type === "category" &&
-    !allCategories.some((c) => c.slug === route.slug)
-  ) {
-    notFound();
-  }
-
   const breadcrumbs = catalogBreadcrumbBase();
 
   if (route.type === "category") {
-    const liveTitle =
-      allCategories.find((c) => c.slug === route.slug)?.title ??
-      route.node.title;
     breadcrumbs.push({
-      name: liveTitle,
+      name: route.node.title,
       href: catalogHref.top(route.slug),
     });
   } else {
-    const parentTitle =
-      allCategories.find((c) => c.slug === route.parentSlug)?.title ??
-      route.parentNode.title;
-    const subTitle =
-      allCategories.find((c) => c.slug === route.subSlug)?.title ??
-      route.node.title;
     breadcrumbs.push(
-      { name: parentTitle, href: catalogHref.top(route.parentSlug) },
-      { name: subTitle, href: catalogHref.sub(route.parentSlug, route.subSlug) },
+      {
+        name: route.parentNode.title,
+        href: catalogHref.top(route.parentSlug),
+      },
+      {
+        name: route.node.title,
+        href: catalogHref.sub(route.parentSlug, route.subSlug),
+      },
     );
   }
 
-  const title =
-    route.type === "category"
-      ? (allCategories.find((c) => c.slug === route.slug)?.title ??
-        route.node.title)
-      : (allCategories.find((c) => c.slug === route.subSlug)?.title ??
-        route.node.title);
+  const title = route.node.title;
 
   const jsonLd: Record<string, unknown>[] = [breadcrumbJsonLd(breadcrumbs)];
   if (listing.items.length > 0) {
     jsonLd.push(itemListJsonLd(listing.items, pathname));
   }
 
-  const backendLive = isCatalogBackendEnabled();
-
   const subcategories =
-    route.type === "category"
-      ? backendLive
-        ? allCategories
-            .filter((c) => c.parentSlug === route.slug)
-            .map((c) => ({ slug: c.slug, title: c.title }))
-        : route.children
-      : undefined;
+    route.type === "category" ? route.children : undefined;
 
   const hasSubcategories = (subcategories?.length ?? 0) > 0;
 

@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Link from "next/link";
 import { Accordion } from "@base-ui/react/accordion";
 import { ChevronDown, Heart, LogOut, Menu, ShoppingBag, User } from "lucide-react";
@@ -14,8 +14,12 @@ import {
   SheetTrigger,
 } from "@/components/ui/sheet";
 import { logoutCustomer } from "@/lib/account/logout";
+import { getCategories } from "@/lib/api/endpoints";
+import {
+  categoriesToNavTree,
+  type CatalogNavNode,
+} from "@/lib/catalog/catalog-nav";
 import { catalogHref, mainNav, siteContacts } from "@/lib/site";
-import { taxonomy } from "@/lib/taxonomy";
 import { useCartCount } from "@/stores/cart-store";
 import {
   customerFirstName,
@@ -26,16 +30,31 @@ import { useFavoriteCount } from "@/stores/favorites-store";
 
 /**
  * Мобильное меню через Sheet (boost shadcn/base-ui Dialog).
- * Каталог — Accordion (осознанное отклонение от Aspro drill-down).
+ * Каталог — Accordion из API / MSW.
  */
 export function MobileMenu() {
   const [open, setOpen] = useState(false);
+  const [catalogTree, setCatalogTree] = useState<CatalogNavNode[]>([]);
   const close = () => setOpen(false);
   const status = useCustomerSessionStatus();
   const customer = useCustomerSessionCustomer();
   const favorites = useFavoriteCount();
   const cartCount = useCartCount();
   const firstName = customerFirstName(customer?.fullName ?? "");
+
+  useEffect(() => {
+    let cancelled = false;
+    getCategories()
+      .then((cats) => {
+        if (!cancelled) setCatalogTree(categoriesToNavTree(cats));
+      })
+      .catch((err) => {
+        console.warn("[mobile-menu] categories fetch failed", err);
+      });
+    return () => {
+      cancelled = true;
+    };
+  }, []);
 
   function handleLogin() {
     close();
@@ -146,7 +165,7 @@ export function MobileMenu() {
             Каталог
           </p>
           <Accordion.Root className="flex flex-col">
-            {taxonomy.map((top) => (
+            {catalogTree.map((top) => (
               <Accordion.Item
                 key={top.slug}
                 className="border-b border-border"

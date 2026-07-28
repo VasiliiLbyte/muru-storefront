@@ -44,13 +44,23 @@ const nextConfig: NextConfig = {
   async redirects() {
     return [
       {
-        source: "/catalog/rasprodazha",
-        destination: "/catalog/распродажа/",
+        source: "/catalog/%D1%80%D0%B0%D1%81%D0%BF%D1%80%D0%BE%D0%B4%D0%B0%D0%B6%D0%B0",
+        destination: "/catalog/rasprodazha/",
         permanent: true,
       },
       {
-        source: "/catalog/rasprodazha/",
-        destination: "/catalog/распродажа/",
+        source: "/catalog/%D1%80%D0%B0%D1%81%D0%BF%D1%80%D0%BE%D0%B4%D0%B0%D0%B6%D0%B0/",
+        destination: "/catalog/rasprodazha/",
+        permanent: true,
+      },
+      {
+        source: "/catalog/распродажа",
+        destination: "/catalog/rasprodazha/",
+        permanent: true,
+      },
+      {
+        source: "/catalog/распродажа/",
+        destination: "/catalog/rasprodazha/",
         permanent: true,
       },
       ...getBitrixRedirects(),

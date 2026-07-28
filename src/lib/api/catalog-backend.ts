@@ -20,14 +20,7 @@ export function isCatalogBackendEnabled(): boolean {
   return Boolean(CATALOG_API_BASE);
 }
 
-const slugify = (v: string) =>
-  (v
-    .toLowerCase()
-    .trim()
-    .replace(/\s+/g, "-")
-    .replace(/[^a-z0-9а-яё-]/gi, "") || "bez-kategorii");
-
-type BackendTreeNode = {
+export type BackendTreeNode = {
   name: string;
   slug: string;
   children: BackendTreeNode[];
@@ -59,6 +52,7 @@ const WebCrossPlacementRefSchema = z.object({
 export const BackendProductSchema = z
   .object({
     sku: z.string(),
+    slug: z.string(),
     name: z.string(),
     price: z.number(),
     discountPercent: z.number(),
@@ -85,6 +79,31 @@ export const BackendProductDetailSchema = BackendProductSchema.extend({
 
 export type BackendProduct = z.infer<typeof BackendProductSchema>;
 export type BackendProductDetail = z.infer<typeof BackendProductDetailSchema>;
+
+export type CategorySlugMaps = {
+  /** leaf slug → top slug */
+  topByLeaf: Map<string, string>;
+  /** lowercased category name → top slug */
+  topByName: Map<string, string>;
+};
+
+export function buildCategorySlugMaps(
+  nodes: BackendTreeNode[],
+): CategorySlugMaps {
+  const topByLeaf = new Map<string, string>();
+  const topByName = new Map<string, string>();
+
+  for (const top of nodes) {
+    topByName.set(top.name.trim().toLowerCase(), top.slug);
+    topByLeaf.set(top.slug, top.slug);
+    for (const child of top.children) {
+      topByLeaf.set(child.slug, top.slug);
+      topByName.set(child.name.trim().toLowerCase(), top.slug);
+    }
+  }
+
+  return { topByLeaf, topByName };
+}
 
 function adaptTreeNode(
   node: BackendTreeNode,
@@ -120,21 +139,49 @@ export function adaptTree(nodes: BackendTreeNode[]): Category[] {
   return result;
 }
 
-export function adaptProduct(b: BackendProduct | BackendProductDetail): Product {
-  const slugs = new Set<string>([slugify(b.category)]);
-  const primarySub = b.webPrimarySubcategory?.slug ?? b.subcategorySlug;
-  if (primarySub) slugs.add(primarySub);
-  const cross = b.webCrossPlacement;
-  if (cross?.categorySlug) slugs.add(cross.categorySlug);
-  if (cross?.subcategorySlug) slugs.add(cross.subcategorySlug);
-  const categorySlugs = [...slugs];
+function resolveCategorySlugs(
+  b: BackendProduct | BackendProductDetail,
+  maps?: CategorySlugMaps,
+): string[] {
+  const leaf = b.webPrimarySubcategory?.slug ?? b.subcategorySlug;
+  const topFromLeaf =
+    leaf && maps ? maps.topByLeaf.get(leaf) : undefined;
+  const topFromName = maps
+    ? maps.topByName.get(b.category.trim().toLowerCase())
+    : undefined;
+  const top =
+    topFromLeaf ??
+    topFromName ??
+    b.webCrossPlacement?.categorySlug ??
+    undefined;
 
+  const ordered: string[] = [];
+  const seen = new Set<string>();
+  const add = (s: string | undefined) => {
+    if (!s || seen.has(s)) return;
+    seen.add(s);
+    ordered.push(s);
+  };
+
+  add(top);
+  add(leaf);
+  add(b.webCrossPlacement?.categorySlug);
+  add(b.webCrossPlacement?.subcategorySlug);
+
+  return ordered;
+}
+
+export function adaptProduct(
+  b: BackendProduct | BackendProductDetail,
+  maps?: CategorySlugMaps,
+): Product {
+  const categorySlugs = resolveCategorySlugs(b, maps);
   const detail = b as BackendProductDetail;
 
   return ProductSchema.parse({
     id: b.sku,
     sku: b.sku,
-    slug: b.sku,
+    slug: b.slug,
     title: b.name,
     price: b.price,
     oldPrice:
@@ -231,27 +278,53 @@ async function catalogFetch<T>(
   return schema.parse(payload);
 }
 
-export async function fetchCatalogTree(): Promise<Category[]> {
-  const nodes = await catalogFetch(
+async function fetchRawTree(): Promise<BackendTreeNode[]> {
+  return catalogFetch(
     "/catalog/tree?subcategories=1",
     z.array(BackendTreeNodeSchema),
   );
+}
+
+export async function fetchCatalogTree(): Promise<Category[]> {
+  const nodes = await fetchRawTree();
   return adaptTree(nodes);
 }
 
 export async function fetchCatalogProducts(): Promise<Product[]> {
-  const items = await catalogFetch(
-    "/catalog/products?channel=web",
-    z.array(BackendProductSchema),
-  );
-  return items.map(adaptProduct);
+  const [nodes, items] = await Promise.all([
+    fetchRawTree(),
+    catalogFetch(
+      "/catalog/products?channel=web",
+      z.array(BackendProductSchema),
+    ),
+  ]);
+  const maps = buildCategorySlugMaps(nodes);
+  return items.map((item) => adaptProduct(item, maps));
 }
 
 export async function fetchCatalogProductBySku(sku: string): Promise<Product> {
   const normalizedSku = sku.trim().toUpperCase();
-  const item = await catalogFetch(
-    `/catalog/products/${encodeURIComponent(normalizedSku)}?channel=web`,
-    BackendProductDetailSchema,
-  );
-  return adaptProduct(item);
+  const [nodes, item] = await Promise.all([
+    fetchRawTree(),
+    catalogFetch(
+      `/catalog/products/${encodeURIComponent(normalizedSku)}?channel=web`,
+      BackendProductDetailSchema,
+    ),
+  ]);
+  return adaptProduct(item, buildCategorySlugMaps(nodes));
+}
+
+/** Public PDP lookup by latin URL slug. */
+export async function fetchCatalogProductBySlug(
+  slug: string,
+): Promise<Product> {
+  const normalized = slug.trim();
+  const [nodes, item] = await Promise.all([
+    fetchRawTree(),
+    catalogFetch(
+      `/catalog/products/by-slug/${encodeURIComponent(normalized)}?channel=web`,
+      BackendProductDetailSchema,
+    ),
+  ]);
+  return adaptProduct(item, buildCategorySlugMaps(nodes));
 }

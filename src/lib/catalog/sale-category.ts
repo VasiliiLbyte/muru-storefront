@@ -1,5 +1,5 @@
-export const SALE_CATEGORY_SLUG = "распродажа";
-export const LEGACY_SALE_CATEGORY_SLUG = "rasprodazha";
+export const SALE_CATEGORY_SLUG = "rasprodazha";
+export const LEGACY_SALE_CATEGORY_SLUG = "распродажа";
 
 export function isSaleCategorySlug(slug: string): boolean {
   const n = slug.normalize("NFC");

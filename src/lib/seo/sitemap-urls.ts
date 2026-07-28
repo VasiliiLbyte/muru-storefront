@@ -1,14 +1,15 @@
 import type { MetadataRoute } from "next";
 
 import {
+  getCategories,
   getCollections,
   getLookbooks,
   getProducts,
 } from "@/lib/api/endpoints";
-import { productHref } from "@/lib/catalog/urls";
+import { categoriesToNavTree } from "@/lib/catalog/catalog-nav";
+import { productHref, productPathMatches } from "@/lib/catalog/urls";
 import { PUBLIC_STATIC_ROUTES } from "@/lib/seo/static-routes";
 import { absoluteUrl, catalogHref } from "@/lib/site";
-import { taxonomy } from "@/lib/taxonomy";
 
 function sitemapEntry(path: string): MetadataRoute.Sitemap[number] {
   return {
@@ -19,7 +20,11 @@ function sitemapEntry(path: string): MetadataRoute.Sitemap[number] {
   };
 }
 
-/** Собирает все индексируемые URL витрины для sitemap.xml. */
+/**
+ * Собирает индексируемые URL витрины для sitemap.xml.
+ * Категории и товары — только из API / MSW (латинские слаги).
+ * При ошибке API пробрасывает исключение (route → 503).
+ */
 export async function collectSitemapUrls(): Promise<MetadataRoute.Sitemap> {
   const entries: MetadataRoute.Sitemap = [];
 
@@ -27,7 +32,10 @@ export async function collectSitemapUrls(): Promise<MetadataRoute.Sitemap> {
     entries.push(sitemapEntry(path));
   }
 
-  for (const top of taxonomy) {
+  const categories = await getCategories();
+  const tree = categoriesToNavTree(categories);
+
+  for (const top of tree) {
     entries.push(sitemapEntry(catalogHref.top(top.slug)));
     for (const sub of top.children ?? []) {
       entries.push(sitemapEntry(catalogHref.sub(top.slug, sub.slug)));
@@ -55,8 +63,12 @@ export async function collectSitemapUrls(): Promise<MetadataRoute.Sitemap> {
     total = listing.total;
 
     for (const product of listing.items) {
+      const href = productHref(product, categories);
+      const segments = href.replace(/^\/catalog\//, "").replace(/\/$/, "").split("/");
+      if (!productPathMatches(product, segments, categories)) continue;
+
       entries.push({
-        ...sitemapEntry(productHref(product)),
+        ...sitemapEntry(href),
         changeFrequency: "daily",
         priority: 0.8,
       });

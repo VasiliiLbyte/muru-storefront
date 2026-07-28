@@ -11,7 +11,7 @@ import { ProductGrid } from "@/components/catalog/product-grid";
 import type { ProductListQueryInput, ProductListResponse } from "@/lib/schemas";
 import type { Category } from "@/lib/schemas";
 import type { BreadcrumbItem } from "@/lib/seo/jsonld";
-import type { TaxonomyNode } from "@/lib/taxonomy";
+import type { CatalogNavNode } from "@/lib/catalog/catalog-nav";
 import { cn } from "@/lib/utils";
 
 export function CatalogListingShell({
@@ -29,7 +29,7 @@ export function CatalogListingShell({
   variant: "hub" | "listing";
   title: string;
   breadcrumbs: BreadcrumbItem[];
-  subcategories?: TaxonomyNode[];
+  subcategories?: CatalogNavNode[];
   parentSlug?: string;
   categories: Category[];
   listing: ProductListResponse;

@@ -1,17 +1,34 @@
 import Link from "next/link";
 
+import { getCategories } from "@/lib/api/endpoints";
 import { Logo } from "./logo";
-import { catalogLinks, companyLinks, legalNav, siteContacts } from "@/lib/site";
+import {
+  catalogHref,
+  companyLinks,
+  legalNav,
+  siteContacts,
+  type NavItem,
+} from "@/lib/site";
 
 const footerLinkClass =
   "inline-flex min-h-11 items-center text-body font-light text-text-secondary transition-colors hover:text-brand";
 
 /**
  * Подвал: две группы ссылок + контакты + юр. ссылки + копирайт.
- * Без упоминания разработчика/CMS.
+ * Каталог — топ-категории из API (или MSW-фикстур).
  */
-export function Footer() {
+export async function Footer() {
   const year = new Date().getFullYear();
+
+  let catalogLinks: NavItem[] = [];
+  try {
+    catalogLinks = (await getCategories())
+      .filter((c) => !c.parentSlug)
+      .sort((a, b) => a.sortOrder - b.sortOrder)
+      .map((c) => ({ label: c.title, href: catalogHref.top(c.slug) }));
+  } catch (err) {
+    console.warn("[footer] categories fetch failed", err);
+  }
 
   return (
     <footer className="mt-auto border-t border-border bg-surface">

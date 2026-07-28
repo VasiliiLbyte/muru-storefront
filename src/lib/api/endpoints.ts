@@ -41,6 +41,7 @@ import {
 
 import {
   fetchCatalogProductBySku,
+  fetchCatalogProductBySlug,
   fetchCatalogProducts,
   fetchCatalogTree,
   isCatalogBackendEnabled,
@@ -94,10 +95,10 @@ export async function getProducts(
   );
 }
 
-/** Товар по slug. */
+/** Товар по slug (публичный URL). */
 export function getProduct(slug: string): Promise<Product> {
   if (isCatalogBackendEnabled()) {
-    return fetchCatalogProductBySku(slug);
+    return fetchCatalogProductBySlug(slug);
   }
   return apiFetch(`/products/${encodeURIComponent(slug)}`, ProductSchema);
 }

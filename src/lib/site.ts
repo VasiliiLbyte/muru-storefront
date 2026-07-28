@@ -1,10 +1,27 @@
-import { taxonomy } from "@/lib/taxonomy";
 import { saleCategoryHref } from "@/lib/catalog/sale-category";
 
+function resolveSiteUrl(): string {
+  const fromEnv = process.env.NEXT_PUBLIC_SITE_URL?.replace(/\/$/, "");
+  if (fromEnv) return fromEnv;
+  // Production/staging builds must set NEXT_PUBLIC_SITE_URL (no muru.ru fallback).
+  if (process.env.NODE_ENV === "production") {
+    throw new Error(
+      "NEXT_PUBLIC_SITE_URL is required in production/staging builds",
+    );
+  }
+  return "http://127.0.0.1:3000";
+}
+
 /** Базовый URL витрины для canonical и JSON-LD. */
-export const siteUrl =
-  process.env.NEXT_PUBLIC_SITE_URL?.replace(/\/$/, "") ??
-  "https://muru.ru";
+export const siteUrl = resolveSiteUrl();
+
+/** Staging / preview: noindex when NEXT_PUBLIC_NOINDEX or SITE_NOINDEX is true. */
+export function isSiteNoindex(): boolean {
+  return (
+    process.env.NEXT_PUBLIC_NOINDEX === "true" ||
+    process.env.SITE_NOINDEX === "true"
+  );
+}
 
 /** Абсолютный URL пути (с trailing slash, как у SEF). */
 export function absoluteUrl(path: string): string {
@@ -68,11 +85,6 @@ export const companyLinks: NavItem[] = [
   { label: "Распродажа", href: saleCategoryHref() },
   { label: "Реквизиты", href: "/company/requisites/" },
 ];
-
-export const catalogLinks: NavItem[] = taxonomy.map((node) => ({
-  label: node.title,
-  href: catalogHref.top(node.slug),
-}));
 
 /** Юридические ссылки (чистые URL; 301 с Bitrix — Промпт 12). */
 export const legalNav: NavItem[] = [

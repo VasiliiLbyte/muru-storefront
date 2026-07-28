@@ -3,7 +3,7 @@ import { z } from "zod";
 import { ImageSchema, SeoSchema } from "./common";
 
 /**
- * Категория каталога. Дерево (parentSlug) зеркалит taxonomy.
+ * Категория каталога. Дерево через parentSlug.
  * external_id — мост к 1С/CommerceML (идентификатор раздела в учётной системе).
  */
 export const CategorySchema = z.object({

@@ -5,6 +5,7 @@ import { Header } from "@/components/layout/header";
 import { Footer } from "@/components/layout/footer";
 import { JsonLdScript } from "@/components/seo/jsonld-script";
 import { organizationJsonLd } from "@/lib/seo/jsonld";
+import { isSiteNoindex } from "@/lib/site";
 import "./globals.css";
 
 export const metadata: Metadata = {
@@ -12,6 +13,9 @@ export const metadata: Metadata = {
     default: "MURU",
     template: "%s — MURU",
   },
+  ...(isSiteNoindex()
+    ? { robots: { index: false, follow: false } }
+    : {}),
 };
 
 export const viewport: Viewport = {

@@ -3,7 +3,7 @@ import Link from "next/link";
 
 import type { Category } from "@/lib/schemas";
 import { catalogHref } from "@/lib/site";
-import type { TaxonomyNode } from "@/lib/taxonomy";
+import type { CatalogNavNode } from "@/lib/catalog/catalog-nav";
 import { cn } from "@/lib/utils";
 
 import { CATALOG_PRODUCT_GRID_CLASS } from "./catalog-grid-class";
@@ -15,7 +15,7 @@ export function CategoryGrid({
   className,
 }: {
   parentSlug: string;
-  subcategories: TaxonomyNode[];
+  subcategories: CatalogNavNode[];
   categories: Category[];
   className?: string;
 }) {
