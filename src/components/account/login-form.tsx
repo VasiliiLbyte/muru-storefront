@@ -109,6 +109,7 @@ export function LoginForm({
           name="email"
           type="email"
           autoComplete="email"
+          inputMode="email"
           required
           value={email}
           onChange={(e) => setEmail(e.target.value)}
@@ -137,7 +138,12 @@ export function LoginForm({
         </p>
       ) : null}
 
-      <Button type="submit" size="lg" disabled={submitting} className="w-full">
+      <Button
+        type="submit"
+        size="lg"
+        disabled={submitting}
+        className="min-h-11 w-full"
+      >
         {submitting ? "Вход…" : "Войти"}
       </Button>
 

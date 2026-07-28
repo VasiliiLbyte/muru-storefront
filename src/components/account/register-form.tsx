@@ -125,6 +125,7 @@ export function RegisterForm() {
           name="email"
           type="email"
           autoComplete="email"
+          inputMode="email"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
           {...fieldInvalidProps(Boolean(fieldErrors.email))}
@@ -145,6 +146,7 @@ export function RegisterForm() {
           name="phone"
           type="tel"
           autoComplete="tel"
+          inputMode="tel"
           value={phone}
           onChange={(e) => setPhone(e.target.value)}
         />
@@ -230,7 +232,12 @@ export function RegisterForm() {
         </p>
       ) : null}
 
-      <Button type="submit" size="lg" disabled={submitting} className="w-full">
+      <Button
+        type="submit"
+        size="lg"
+        disabled={submitting}
+        className="min-h-11 w-full"
+      >
         {submitting ? "Отправка…" : "Зарегистрироваться"}
       </Button>
 

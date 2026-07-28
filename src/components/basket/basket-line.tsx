@@ -56,7 +56,7 @@ export function BasketLine({
       <div className="flex min-w-0 flex-col gap-3">
         <Link
           href={productHref(product)}
-          className="text-body text-text-heading transition-colors hover:text-brand"
+          className="truncate text-body text-text-heading transition-colors hover:text-brand"
         >
           {product.title}
         </Link>
@@ -74,7 +74,7 @@ export function BasketLine({
               type="button"
               aria-label="Уменьшить количество"
               onClick={() => updateQty(item.sku, item.qty - 1)}
-              className="inline-flex size-9 items-center justify-center text-text-secondary transition-colors hover:text-brand focus-visible:ring-1 focus-visible:ring-ring focus-visible:outline-none"
+              className="inline-flex size-11 items-center justify-center text-text-secondary transition-colors hover:text-brand focus-visible:ring-1 focus-visible:ring-ring focus-visible:outline-none"
             >
               <Minus className="size-4" />
             </button>
@@ -92,13 +92,13 @@ export function BasketLine({
               onKeyDown={(e) => {
                 if (e.key === "Enter") commitQty(e.currentTarget.value);
               }}
-              className="h-9 w-12 border-x border-border bg-background text-center text-body text-foreground focus-visible:ring-1 focus-visible:ring-ring focus-visible:outline-none"
+              className="min-h-11 w-12 border-x border-border bg-background text-center text-base text-foreground focus-visible:ring-1 focus-visible:ring-ring focus-visible:outline-none"
             />
             <button
               type="button"
               aria-label="Увеличить количество"
               onClick={() => updateQty(item.sku, item.qty + 1)}
-              className="inline-flex size-9 items-center justify-center text-text-secondary transition-colors hover:text-brand focus-visible:ring-1 focus-visible:ring-ring focus-visible:outline-none"
+              className="inline-flex size-11 items-center justify-center text-text-secondary transition-colors hover:text-brand focus-visible:ring-1 focus-visible:ring-ring focus-visible:outline-none"
             >
               <Plus className="size-4" />
             </button>

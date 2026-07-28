@@ -165,9 +165,9 @@ export function AccountAddressesView() {
               {items.map((addr) => (
                 <li
                   key={addr.id}
-                  className="flex flex-wrap items-start justify-between gap-3 border border-border px-4 py-3"
+                  className="flex min-w-0 flex-col gap-3 border border-border px-4 py-3 sm:flex-row sm:flex-wrap sm:items-start sm:justify-between"
                 >
-                  <div>
+                  <div className="min-w-0">
                     <p className="text-body text-text-heading">
                       {addr.label || "Адрес"}
                       {addr.isDefault ? (
@@ -176,7 +176,7 @@ export function AccountAddressesView() {
                         </span>
                       ) : null}
                     </p>
-                    <p className="text-body text-text-secondary">
+                    <p className="break-words text-body text-text-secondary">
                       {addr.city}, {addr.address}
                     </p>
                   </div>

@@ -172,7 +172,7 @@ export function CheckoutView() {
   }
 
   return (
-    <div className="mx-auto w-full max-w-[1564px] px-4 pb-16 sm:px-8">
+    <div className="mx-auto w-full max-w-[1564px] px-4 pb-16 max-lg:pb-28 sm:px-8">
       <h1 className="mb-8 pt-8 font-display text-display text-text-heading">
         Оформление заказа
       </h1>
@@ -217,6 +217,7 @@ export function CheckoutView() {
                 name="recipientPhone"
                 type="tel"
                 autoComplete="tel"
+                inputMode="tel"
                 required
                 value={recipientPhone}
                 onChange={(e) => setRecipientPhone(e.target.value)}
@@ -235,6 +236,7 @@ export function CheckoutView() {
                 name="email"
                 type="email"
                 autoComplete="email"
+                inputMode="email"
                 required
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
@@ -283,16 +285,20 @@ export function CheckoutView() {
                 {submitError}
               </p>
             ) : null}
+          </form>
 
+          {/* Mobile sticky pay */}
+          <div className="fixed inset-x-0 bottom-0 z-30 border-t border-border bg-background p-4 pb-safe lg:hidden">
             <Button
               type="submit"
+              form="checkout-form"
               size="lg"
               disabled={!canSubmit}
-              className="h-11 w-full lg:hidden"
+              className="min-h-11 w-full"
             >
               {submitting ? "Переход к оплате…" : "Оплатить"}
             </Button>
-          </form>
+          </div>
 
           <aside
             className={cn(

@@ -36,8 +36,17 @@ export function AccountShell({
           href: "/account/",
         })}
       >
-        <div className="grid gap-10 lg:grid-cols-[220px_minmax(0,1fr)]">
-          <nav aria-label="Разделы кабинета" className="flex flex-col gap-1">
+        <div className="grid gap-6 lg:grid-cols-[220px_minmax(0,1fr)] lg:gap-10">
+          <nav
+            aria-label="Разделы кабинета"
+            className={cn(
+              "flex gap-1",
+              // Mobile: horizontal scroll
+              "max-lg:-mx-4 max-lg:flex-nowrap max-lg:overflow-x-auto max-lg:px-4 max-lg:[scrollbar-width:none] max-lg:[&::-webkit-scrollbar]:hidden",
+              // Desktop: vertical
+              "lg:flex-col",
+            )}
+          >
             {NAV.map((item) => {
               const active =
                 pathname === item.href ||
@@ -47,7 +56,7 @@ export function AccountShell({
                   key={item.href}
                   href={item.href}
                   className={cn(
-                    "px-3 py-2 text-body transition-colors focus-visible:ring-1 focus-visible:ring-ring focus-visible:outline-none",
+                    "inline-flex min-h-11 shrink-0 items-center px-3 py-2 text-body transition-colors focus-visible:ring-1 focus-visible:ring-ring focus-visible:outline-none",
                     active
                       ? "bg-surface text-text-heading"
                       : "text-text-secondary hover:text-text-heading",
@@ -61,7 +70,7 @@ export function AccountShell({
             <Button
               type="button"
               variant="ghost"
-              className="mt-4 justify-start px-3 text-text-secondary"
+              className="mt-0 min-h-11 shrink-0 justify-start px-3 text-text-secondary lg:mt-4"
               onClick={() => void logoutCustomer()}
             >
               Выйти

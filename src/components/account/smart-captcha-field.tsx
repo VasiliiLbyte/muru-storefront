@@ -22,7 +22,7 @@ export function SmartCaptchaField({
   }
 
   return (
-    <div className="min-h-[100px]">
+    <div className="w-full min-w-0 max-w-full overflow-x-auto min-h-[100px]">
       <SmartCaptcha
         sitekey={sitekey}
         language="ru"

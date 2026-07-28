@@ -131,7 +131,12 @@ export function ResetPasswordForm() {
           {error}
         </p>
       ) : null}
-      <Button type="submit" size="lg" disabled={submitting} className="w-full">
+      <Button
+        type="submit"
+        size="lg"
+        disabled={submitting}
+        className="min-h-11 w-full"
+      >
         {submitting ? "Сохранение…" : "Сохранить пароль"}
       </Button>
     </form>

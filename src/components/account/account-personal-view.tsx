@@ -154,6 +154,7 @@ export function AccountPersonalView() {
               </label>
               <Input
                 id="pers-name"
+                autoComplete="name"
                 value={fullName}
                 onChange={(e) => setFullName(e.target.value)}
                 {...fieldInvalidProps(Boolean(fieldErrors.fullName))}
@@ -171,6 +172,8 @@ export function AccountPersonalView() {
               <Input
                 id="pers-phone"
                 type="tel"
+                autoComplete="tel"
+                inputMode="tel"
                 value={phone}
                 onChange={(e) => setPhone(e.target.value)}
                 {...fieldInvalidProps(Boolean(fieldErrors.phone))}

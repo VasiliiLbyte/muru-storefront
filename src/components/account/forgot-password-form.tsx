@@ -69,13 +69,19 @@ export function ForgotPasswordForm() {
           name="email"
           type="email"
           autoComplete="email"
+          inputMode="email"
           required
           value={email}
           onChange={(e) => setEmail(e.target.value)}
         />
       </div>
       <SmartCaptchaField onToken={setCaptchaToken} />
-      <Button type="submit" size="lg" disabled={submitting} className="w-full">
+      <Button
+        type="submit"
+        size="lg"
+        disabled={submitting}
+        className="min-h-11 w-full"
+      >
         {submitting ? "Отправка…" : "Отправить ссылку"}
       </Button>
       <Link href="/login/" className="text-small text-text-muted hover:underline">

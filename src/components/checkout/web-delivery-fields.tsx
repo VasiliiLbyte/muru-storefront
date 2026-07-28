@@ -210,7 +210,12 @@ export function WebDeliveryFields({
                   {pvzList.some(
                     (p) => p.location.latitude && p.location.longitude,
                   ) ? (
-                    <div className={cn("min-h-[240px]", mapClassName)}>
+                    <div
+                      className={cn(
+                        "min-h-[240px] min-w-0 max-w-full overflow-x-auto",
+                        mapClassName,
+                      )}
+                    >
                       <PvzMap
                         points={pvzList}
                         selectedCode={selectedPvz?.code ?? null}

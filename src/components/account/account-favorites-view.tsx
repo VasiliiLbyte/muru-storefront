@@ -75,8 +75,8 @@ export function AccountFavoritesView() {
                     />
                   ) : null}
                 </div>
-                <div className="space-y-1 p-3">
-                  <p className="text-body text-text-heading">{item.name}</p>
+                <div className="min-w-0 space-y-1 p-3">
+                  <p className="truncate text-body text-text-heading">{item.name}</p>
                   <p className="text-small text-text-secondary">
                     {item.price.toLocaleString("ru-RU")} ₽
                   </p>

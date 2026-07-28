@@ -52,7 +52,7 @@ export function BasketView() {
   const visibleItems = items.filter((i) => activeProducts.has(i.sku));
 
   return (
-    <div className="mx-auto w-full max-w-[1564px] px-4 pb-16 sm:px-8">
+    <div className="mx-auto w-full max-w-[1564px] px-4 pb-16 max-lg:pb-36 sm:px-8">
       <h1 className="mb-8 pt-8 font-display text-display text-text-heading">
         Корзина
       </h1>
