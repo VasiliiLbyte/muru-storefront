@@ -53,7 +53,7 @@ export function CatalogPagination({
           {page > 1 ? (
             <Link
               href={hrefFor(page - 1)}
-              className="inline-flex h-9 min-w-9 items-center justify-center px-2 text-small text-text-secondary transition-colors hover:text-brand focus-visible:ring-1 focus-visible:ring-ring focus-visible:outline-none"
+              className="inline-flex min-h-11 min-w-11 items-center justify-center px-2 text-small text-text-secondary transition-colors hover:text-brand focus-visible:ring-1 focus-visible:ring-ring focus-visible:outline-none"
               rel="prev"
             >
               Назад
@@ -61,7 +61,7 @@ export function CatalogPagination({
           ) : (
             <span
               aria-hidden="true"
-              className="inline-flex h-9 min-w-9 items-center justify-center px-2 text-small text-text-secondary"
+              className="inline-flex min-h-11 min-w-11 items-center justify-center px-2 text-small text-text-secondary"
             >
               Назад
             </span>
@@ -80,14 +80,14 @@ export function CatalogPagination({
               {p === page ? (
                 <span
                   aria-current="page"
-                  className="inline-flex h-9 min-w-9 items-center justify-center bg-brand px-2 text-small font-medium text-text-inverse"
+                  className="inline-flex min-h-11 min-w-11 items-center justify-center bg-brand px-2 text-small font-medium text-text-inverse"
                 >
                   {p}
                 </span>
               ) : (
                 <Link
                   href={hrefFor(p)}
-                  className="inline-flex h-9 min-w-9 items-center justify-center px-2 text-small text-text-secondary transition-colors hover:text-brand focus-visible:ring-1 focus-visible:ring-ring focus-visible:outline-none"
+                  className="inline-flex min-h-11 min-w-11 items-center justify-center px-2 text-small text-text-secondary transition-colors hover:text-brand focus-visible:ring-1 focus-visible:ring-ring focus-visible:outline-none"
                 >
                   {p}
                 </Link>
@@ -99,7 +99,7 @@ export function CatalogPagination({
           {page < totalPages ? (
             <Link
               href={hrefFor(page + 1)}
-              className="inline-flex h-9 min-w-9 items-center justify-center px-2 text-small text-text-secondary transition-colors hover:text-brand focus-visible:ring-1 focus-visible:ring-ring focus-visible:outline-none"
+              className="inline-flex min-h-11 min-w-11 items-center justify-center px-2 text-small text-text-secondary transition-colors hover:text-brand focus-visible:ring-1 focus-visible:ring-ring focus-visible:outline-none"
               rel="next"
             >
               Вперёд
@@ -107,7 +107,7 @@ export function CatalogPagination({
           ) : (
             <span
               aria-hidden="true"
-              className="inline-flex h-9 min-w-9 items-center justify-center px-2 text-small text-text-secondary"
+              className="inline-flex min-h-11 min-w-11 items-center justify-center px-2 text-small text-text-secondary"
             >
               Вперёд
             </span>

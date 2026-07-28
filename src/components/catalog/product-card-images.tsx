@@ -14,7 +14,7 @@ import type { Image as ImageData } from "@/lib/schemas";
 import { cn } from "@/lib/utils";
 
 const CARD_IMAGE_SIZES =
-  "(min-width: 1024px) 25vw, (min-width: 640px) 33vw, 50vw";
+  "(min-width: 1280px) 25vw, (min-width: 1024px) 33vw, 50vw";
 
 const MAX_CAROUSEL_SLIDES = 3;
 

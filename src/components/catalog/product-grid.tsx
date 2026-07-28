@@ -1,6 +1,7 @@
 import type { Product } from "@/lib/schemas";
 import { cn } from "@/lib/utils";
 
+import { CATALOG_PRODUCT_GRID_CLASS } from "./catalog-grid-class";
 import { ProductCard } from "./product-card";
 
 export function ProductGrid({
@@ -21,12 +22,7 @@ export function ProductGrid({
   }
 
   return (
-    <div
-      className={cn(
-        "grid grid-cols-2 gap-5 md:grid-cols-3 lg:grid-cols-4",
-        className,
-      )}
-    >
+    <div className={cn(CATALOG_PRODUCT_GRID_CLASS, className)}>
       {products.map((product, index) => (
         <ProductCard
           key={product.id}

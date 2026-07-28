@@ -13,11 +13,16 @@ export function Breadcrumbs({
 }) {
   return (
     <nav aria-label="Хлебные крошки" className={cn("text-small", className)}>
-      <ol className="flex flex-wrap items-center gap-1 text-text-secondary">
+      <ol
+        className={cn(
+          "flex flex-nowrap items-center gap-1 overflow-x-auto text-text-secondary",
+          "[scrollbar-width:none] [&::-webkit-scrollbar]:hidden",
+        )}
+      >
         {items.map((item, index) => {
           const isLast = index === items.length - 1;
           return (
-            <li key={item.href} className="flex items-center gap-1">
+            <li key={item.href} className="flex shrink-0 items-center gap-1">
               {index > 0 ? (
                 <span aria-hidden="true" className="text-text-muted">
                   /

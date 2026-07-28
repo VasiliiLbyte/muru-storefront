@@ -71,7 +71,7 @@ export default async function LandingDetailPage({ params }: PageProps) {
           </p>
         ) : null}
 
-        <ProductGrid products={products} className="lg:grid-cols-3" />
+        <ProductGrid products={products} className="lg:grid-cols-3 xl:grid-cols-3" />
       </ContentShell>
     </main>
   );

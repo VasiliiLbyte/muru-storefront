@@ -6,6 +6,8 @@ import { catalogHref } from "@/lib/site";
 import type { TaxonomyNode } from "@/lib/taxonomy";
 import { cn } from "@/lib/utils";
 
+import { CATALOG_PRODUCT_GRID_CLASS } from "./catalog-grid-class";
+
 export function CategoryGrid({
   parentSlug,
   subcategories,
@@ -23,7 +25,7 @@ export function CategoryGrid({
 
   return (
     <div className={cn("mb-10", className)}>
-      <div className="grid grid-cols-2 gap-5 lg:grid-cols-4">
+      <div className={CATALOG_PRODUCT_GRID_CLASS}>
         {subcategories.map((child, index) => {
           const image = imageBySlug.get(child.slug);
           return (
@@ -38,7 +40,7 @@ export function CategoryGrid({
                     src={image.url}
                     alt={image.alt ?? child.title}
                     fill
-                    sizes="(min-width: 1024px) 25vw, 50vw"
+                    sizes="(min-width: 1280px) 25vw, (min-width: 1024px) 33vw, 50vw"
                     priority={index === 0}
                     placeholder={image.blurDataURL ? "blur" : undefined}
                     blurDataURL={image.blurDataURL}

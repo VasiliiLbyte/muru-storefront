@@ -1,5 +1,7 @@
 import { cn } from "@/lib/utils";
 
+import { CATALOG_PRODUCT_GRID_CLASS } from "./catalog-grid-class";
+
 function SkeletonBar({ className }: { className?: string }) {
   return (
     <div
@@ -40,7 +42,7 @@ export function CatalogSkeleton({ className }: { className?: string }) {
 
       <SkeletonBar className="mb-8 h-10 w-64 max-w-full" />
 
-      <div className="grid grid-cols-2 gap-5 md:grid-cols-3 lg:grid-cols-4">
+      <div className={CATALOG_PRODUCT_GRID_CLASS}>
         {Array.from({ length: 8 }, (_, i) => (
           <SkeletonCard key={i} />
         ))}

@@ -5,6 +5,7 @@ import {
   Breadcrumbs,
   catalogBreadcrumbBase,
 } from "@/components/catalog/breadcrumbs";
+import { CATALOG_PRODUCT_GRID_CLASS } from "@/components/catalog/catalog-grid-class";
 import { CatalogListingShell } from "@/components/catalog/catalog-listing-shell";
 import { ProductPdp } from "@/components/product/product-pdp";
 import { MediaCard } from "@/components/home/media-card";
@@ -164,7 +165,7 @@ export default async function CatalogPage({ params, searchParams }: PageProps) {
         <div className="mx-auto w-full max-w-[1564px] px-4 sm:px-8">
           <Breadcrumbs items={breadcrumbs} className="mb-6 pt-8" />
           <h1 className="mb-8 font-display text-display text-text-heading">Каталог</h1>
-          <div className="grid grid-cols-2 gap-5 md:grid-cols-3 lg:grid-cols-4">
+          <div className={CATALOG_PRODUCT_GRID_CLASS}>
             {topCategories.map((category, index) => (
               <MediaCard
                 key={category.slug}
@@ -172,7 +173,7 @@ export default async function CatalogPage({ params, searchParams }: PageProps) {
                 image={category.image}
                 title={category.title}
                 imageAspect="aspect-square"
-                sizes="(min-width: 1024px) 25vw, (min-width: 640px) 33vw, 50vw"
+                sizes="(min-width: 1280px) 25vw, (min-width: 1024px) 33vw, 50vw"
                 priority={index === 0}
               />
             ))}

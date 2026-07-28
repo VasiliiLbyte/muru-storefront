@@ -24,7 +24,7 @@ export function ProductCard({
 
   return (
     <article className={cn("group relative flex flex-col gap-3", className)}>
-      <div className="relative aspect-[4/5] overflow-hidden bg-surface">
+      <div className="relative aspect-square overflow-hidden bg-surface">
         <ProductCardImages
           images={product.images}
           href={productHref(product)}
@@ -46,14 +46,14 @@ export function ProductCard({
       </div>
       <Link
         href={productHref(product)}
-        className="flex flex-col gap-1 focus-visible:ring-1 focus-visible:ring-ring focus-visible:outline-none"
+        className="flex min-w-0 flex-col gap-1 focus-visible:ring-1 focus-visible:ring-ring focus-visible:outline-none"
       >
         {product.inStock ? (
           <span className="text-caption text-text-secondary lowercase">
             в наличии
           </span>
         ) : null}
-        <h3 className="text-body text-text-heading transition-colors group-hover:text-brand">
+        <h3 className="line-clamp-2 text-body text-text-heading transition-colors group-hover:text-brand">
           {product.title}
         </h3>
         <div className="flex flex-wrap items-baseline gap-2">
