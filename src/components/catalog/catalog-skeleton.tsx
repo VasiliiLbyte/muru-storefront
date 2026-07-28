@@ -12,7 +12,7 @@ function SkeletonBar({ className }: { className?: string }) {
 function SkeletonCard() {
   return (
     <div className="flex flex-col gap-3" aria-hidden="true">
-      <div className="aspect-[4/5] animate-pulse bg-surface" />
+      <div className="aspect-square animate-pulse bg-surface" />
       <SkeletonBar className="h-4 w-3/4" />
       <SkeletonBar className="h-4 w-1/3" />
     </div>
