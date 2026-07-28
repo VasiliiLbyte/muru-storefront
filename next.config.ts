@@ -1,19 +1,11 @@
 import type { NextConfig } from "next";
 
 import { getBitrixRedirects } from "@/lib/seo/bitrix-redirects";
+import { buildSecurityHeaders } from "@/lib/security/csp-report-only";
 
-const securityHeaders = [
-  { key: "X-Content-Type-Options", value: "nosniff" },
-  { key: "Referrer-Policy", value: "strict-origin-when-cross-origin" },
-  { key: "X-Frame-Options", value: "SAMEORIGIN" },
-  {
-    key: "Permissions-Policy",
-    value: "camera=(), microphone=(), geolocation=()",
-  },
-  // Заготовка под раздел hardening (Промпт 15): здесь позже добавим
-  // Content-Security-Policy (с учётом Leaflet / шрифтов / Telegram) и HSTS.
-  // Сейчас не включаем, чтобы не ломать dev до подключения всех внешних источников.
-];
+// Report-Only CSP is intentional (step 1). Enforcing Content-Security-Policy
+// comes after collecting violations — do not flip the header name yet.
+const securityHeaders = buildSecurityHeaders();
 
 const nextConfig: NextConfig = {
   // Паритет с SEF-URL muru.ru (под будущие 301-редиректы Bitrix → чистые URL).

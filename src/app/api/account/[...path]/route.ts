@@ -6,6 +6,8 @@ import {
   serializeRefreshCookie,
 } from "@/lib/account/bff-cookies";
 import {
+  AccountPathNotAllowedError,
+  assertAllowedAccountPath,
   buildUpstreamAccountUrl,
   buildUpstreamHeaders,
   proxyToUpstream,
@@ -23,6 +25,23 @@ async function handleAccountProxy(
   context: RouteContext,
 ): Promise<Response> {
   const { path: pathSegments = [] } = await context.params;
+
+  try {
+    assertAllowedAccountPath(pathSegments);
+  } catch (err) {
+    if (err instanceof AccountPathNotAllowedError) {
+      return NextResponse.json(
+        {
+          success: false,
+          data: null,
+          error: { message: "Not found", code: "NOT_FOUND" },
+        },
+        { status: 404 },
+      );
+    }
+    throw err;
+  }
+
   const pathKey = pathSegments.join("/");
   const url = new URL(request.url);
   const method = request.method.toUpperCase();
@@ -89,7 +108,17 @@ async function handleAccountProxy(
   let upstreamUrl: string;
   try {
     upstreamUrl = buildUpstreamAccountUrl(pathSegments, url.search);
-  } catch {
+  } catch (err) {
+    if (err instanceof AccountPathNotAllowedError) {
+      return NextResponse.json(
+        {
+          success: false,
+          data: null,
+          error: { message: "Not found", code: "NOT_FOUND" },
+        },
+        { status: 404 },
+      );
+    }
     const res = NextResponse.json(
       {
         success: false,
