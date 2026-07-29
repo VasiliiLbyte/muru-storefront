@@ -2,26 +2,28 @@ import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
 
 import { decideAccountGuard } from "@/lib/account/route-guard";
-import { normalizeRedirectPath } from "@/lib/seo/normalize-redirect-path";
-import { GONE_PATHS, REDIRECT_MAP } from "@/lib/seo/redirect-map.generated";
+import { decideCatalogRedirect } from "@/lib/seo/decide-catalog-redirect";
 
 /**
  * Next.js 16 Proxy (formerly Middleware):
  * 1) O(1) URL migration 301 / 410 for catalog legacy paths
- * 2) Cookie-based account route guard
+ *    (incl. no-slash → map target in one hop; case canonicalize)
+ * 2) Trailing-slash / latin-case canonicalize for non-map paths
+ *    (requires skipTrailingSlashRedirect in next.config)
+ * 3) Cookie-based account route guard
  */
 export function proxy(request: NextRequest) {
   const pathname = request.nextUrl.pathname;
-  const key = normalizeRedirectPath(pathname);
 
-  const dest = REDIRECT_MAP.get(key);
-  if (dest) {
-    const url = request.nextUrl.clone();
-    url.pathname = dest;
-    return NextResponse.redirect(url, 301);
+  const catalogDecision = decideCatalogRedirect(pathname);
+  if (catalogDecision.type === "redirect") {
+    // Build Location via URL() so trailing slash on destination is preserved
+    // under skipTrailingSlashRedirect (nextUrl.pathname assignment strips it).
+    const url = new URL(catalogDecision.location, request.nextUrl.origin);
+    url.search = request.nextUrl.search;
+    return NextResponse.redirect(url, catalogDecision.status);
   }
-
-  if (GONE_PATHS.has(key)) {
+  if (catalogDecision.type === "gone") {
     return new NextResponse(null, { status: 410 });
   }
 
@@ -40,20 +42,10 @@ export function proxy(request: NextRequest) {
 }
 
 export const config = {
+  // Broad matcher so trailing-slash handling works after skipTrailingSlashRedirect.
+  // Exclude Next internals, API, and static files with extensions.
   matcher: [
-    "/catalog",
-    "/catalog/:path*",
-    "/account",
-    "/account/:path*",
-    "/login",
-    "/login/:path*",
-    "/register",
-    "/register/:path*",
-    "/password/forgot",
-    "/password/forgot/:path*",
-    "/password/reset",
-    "/password/reset/:path*",
-    "/verify",
-    "/verify/:path*",
+    "/((?!_next/static|_next/image|favicon.ico|api/|.*\\..*).*)",
+    "/",
   ],
 };

@@ -7,9 +7,20 @@ import { buildSecurityHeaders } from "@/lib/security/csp-report-only";
 // comes after collecting violations — do not flip the header name yet.
 const securityHeaders = buildSecurityHeaders();
 
+// X-Robots-Tag (D5): build-time. ON if NOINDEX_HEADER || SITE_NOINDEX || NEXT_PUBLIC_NOINDEX === "true".
+// Independent of meta robots (isSiteNoindex); OR so staging meta noindex also emits the header.
+// Env must be in .env.production before `next build` (headers() is not runtime PM2).
+const noindexHeader =
+  process.env.NOINDEX_HEADER === "true" ||
+  process.env.SITE_NOINDEX === "true" ||
+  process.env.NEXT_PUBLIC_NOINDEX === "true";
+
 const nextConfig: NextConfig = {
   // Паритет с SEF-URL muru.ru (под будущие 301-редиректы Bitrix → чистые URL).
   trailingSlash: true,
+  // Let src/proxy.ts own slash/case canonicalization so catalog map hits
+  // without a trailing slash are one hop (D3), not Next 308 then 301.
+  skipTrailingSlashRedirect: true,
   // React Compiler 1.0 (stable в Next 16). Требует babel-plugin-react-compiler.
   reactCompiler: true,
   experimental: {
@@ -34,10 +45,14 @@ const nextConfig: NextConfig = {
     contentDispositionType: "attachment",
   },
   async headers() {
+    const headersList = [...securityHeaders];
+    if (noindexHeader) {
+      headersList.push({ key: "X-Robots-Tag", value: "noindex, nofollow" });
+    }
     return [
       {
         source: "/:path*",
-        headers: securityHeaders,
+        headers: headersList,
       },
     ];
   },
