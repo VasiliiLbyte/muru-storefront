@@ -102,13 +102,7 @@ export function HeaderSearch({ className }: { className?: string }) {
 
   return (
     <>
-      <div
-        className={cn(
-          "relative max-lg:pointer-events-none max-lg:absolute max-lg:h-0 max-lg:w-0 max-lg:overflow-hidden max-lg:opacity-0",
-          "lg:relative lg:block lg:h-auto lg:w-auto lg:overflow-visible lg:opacity-100",
-          className,
-        )}
-      >
+      <div className={cn("hidden lg:block", className)}>
         <SearchFormFields
           id={desktopId}
           query={query}

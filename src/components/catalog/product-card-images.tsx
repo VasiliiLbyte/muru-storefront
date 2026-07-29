@@ -178,7 +178,7 @@ export function ProductCardImages({
 
       {isCarousel ? (
         <div
-          className="pointer-events-none absolute bottom-12 left-1/2 z-20 flex -translate-x-1/2 gap-1.5"
+          className="pointer-events-none absolute bottom-2 left-1/2 z-20 flex -translate-x-1/2 gap-1.5 lg:bottom-12"
           aria-hidden
         >
           {slides.map((image, index) => (

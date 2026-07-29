@@ -42,7 +42,7 @@ export function ProductCard({
         <div className="absolute top-2 right-2 z-10">
           <FavoriteToggle sku={product.sku} productTitle={product.title} />
         </div>
-        <AddToCartButton sku={product.sku} />
+        <AddToCartButton sku={product.sku} productTitle={product.title} />
       </div>
       <Link
         href={productHref(product)}

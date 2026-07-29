@@ -39,8 +39,10 @@ export function CatalogListingShell({
 }) {
   return (
     <div className={cn("mx-auto w-full max-w-[1564px] px-4 sm:px-8", className)}>
-      <Breadcrumbs items={breadcrumbs} className="mb-6 pt-8" />
-      <h1 className="mb-8 font-display text-display text-text-heading">{title}</h1>
+      <Breadcrumbs items={breadcrumbs} className="mb-3 pt-4 lg:mb-6 lg:pt-8" />
+      <h1 className="mb-4 font-display text-h2 text-text-heading lg:mb-8 lg:text-display">
+        {title}
+      </h1>
 
       {variant === "hub" ? (
         subcategories && parentSlug && subcategories.length > 0 ? (
@@ -56,24 +58,20 @@ export function CatalogListingShell({
         )
       ) : (
         <>
-          <div className="mb-10 flex flex-col gap-8">
-            <ProductGrid
-              products={listing.items}
-              className="order-1 lg:order-2"
-            />
-            <Suspense
-              fallback={
-                <div
-                  className="order-2 h-24 animate-pulse rounded-sm bg-surface lg:order-1"
-                  aria-hidden="true"
-                />
-              }
-            >
-              <CatalogToolbar
-                facets={listing.facets}
-                className="order-2 lg:order-1"
+          {/* Toolbar above grid in DOM (mobile sticky CB = this shell, not a short flex). */}
+          <Suspense
+            fallback={
+              <div
+                className="mb-4 min-h-11 animate-pulse rounded-sm bg-surface lg:mb-8"
+                aria-hidden="true"
               />
-            </Suspense>
+            }
+          >
+            <CatalogToolbar facets={listing.facets} />
+          </Suspense>
+
+          <div className="mb-10">
+            <ProductGrid products={listing.items} />
           </div>
 
           <CatalogPagination

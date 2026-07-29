@@ -1,0 +1,64 @@
+{
+  "viewport": {
+    "width": 393,
+    "height": 852
+  },
+  "env": {
+    "NEXT_PUBLIC_API_BASE": "https://murushop.ru/api",
+    "MURU_API_BASE": "https://murushop.ru/api"
+  },
+  "note": "STOP-1 baseline (pre M7-1…M7-6). Do not overwrite with after measures.",
+  "A": {
+    "listing": "/catalog/vazy-i-aksessuary/vazy-i-kuvshiny/",
+    "cardTopDoc": 222.59375,
+    "headerBottomDoc": 57,
+    "gapHeaderToCard_doc": 165.59375,
+    "gapHeaderToCard_viewport": 165.59375,
+    "serviceBlockHeight": 133.59375,
+    "headerHeight": 57
+  },
+  "B": {
+    "cardHeight": 285.296875,
+    "addToCart": {
+      "width": 176.5,
+      "height": 48,
+      "text": "Добавить в корзину"
+    },
+    "image": {
+      "width": 176.5,
+      "height": 176.5
+    },
+    "overlayHeightPx": 48
+  },
+  "C": {
+    "toolbarBelowGrid": true,
+    "filtersText": "Фильтры"
+  },
+  "D": {
+    "realTabOrderInHeader": [
+      "button:Открыть меню",
+      "a:MURU — на главную",
+      "input:q",
+      "button:Голосовой поиск",
+      "button:Найти",
+      "button:Открыть поиск",
+      "button:Войти",
+      "a:Избранное",
+      "button:Корзина"
+    ]
+  },
+  "E": {
+    "roleSearchCountListing": 1,
+    "roleSearchCountHome": 1,
+    "roleSearchCountLogin": 1
+  },
+  "F": {
+    "productLinkCount": 0,
+    "note": "STOP-1: no home product rail; T3 was red"
+  },
+  "G": {
+    "h1Count": 1,
+    "h1Texts": ["ЛЕТО В ДОМЕ"],
+    "firstSectionHeading": "ЛЕТО В ДОМЕ"
+  }
+}

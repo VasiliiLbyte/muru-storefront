@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 
 import { HomeBanner } from "@/components/home/home-banner";
+import { HomeProductRail } from "@/components/home/home-product-rail";
 import { getHomeBanners } from "@/lib/api/endpoints";
 import { FALLBACK_ABOUT_BANNER_ID } from "@/lib/content/home-banners";
 
@@ -27,12 +28,34 @@ export default async function Home() {
     (a, b) => a.sortOrder - b.sortOrder,
   );
 
+  const [firstBanner, ...restBanners] = banners;
+
   return (
     <main id="main" data-home-snap className="flex flex-1 flex-col">
-      {banners.map((banner, index) => {
+      <h1 className="sr-only">{HOME_TITLE}</h1>
+      {firstBanner ? (
+        <HomeBanner
+          key={firstBanner.id}
+          title={firstBanner.title}
+          subtitle={firstBanner.subtitle}
+          href={firstBanner.href ?? "/"}
+          image={firstBanner.image ?? "/placeholders/hero.svg"}
+          overlay={
+            firstBanner.id === FALLBACK_ABOUT_BANNER_ID ? "scrim" : "card"
+          }
+          ctaLabel={
+            firstBanner.id === FALLBACK_ABOUT_BANNER_ID
+              ? "Подробнее"
+              : undefined
+          }
+          as="h2"
+          priority
+          isFirst
+        />
+      ) : null}
+      <HomeProductRail />
+      {restBanners.map((banner) => {
         const isAboutFallback = banner.id === FALLBACK_ABOUT_BANNER_ID;
-        const isFirst = index === 0;
-
         return (
           <HomeBanner
             key={banner.id}
@@ -42,9 +65,9 @@ export default async function Home() {
             image={banner.image ?? "/placeholders/hero.svg"}
             overlay={isAboutFallback ? "scrim" : "card"}
             ctaLabel={isAboutFallback ? "Подробнее" : undefined}
-            as={isFirst ? "h1" : "h2"}
-            priority={isFirst}
-            isFirst={isFirst}
+            as="h2"
+            priority={false}
+            isFirst={false}
           />
         );
       })}
