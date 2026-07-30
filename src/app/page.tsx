@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import type { ReactNode } from "react";
 
 import { HomeBanner } from "@/components/home/home-banner";
 import { HomeProductRail } from "@/components/home/home-product-rail";
@@ -28,49 +29,47 @@ export default async function Home() {
     (a, b) => a.sortOrder - b.sortOrder,
   );
 
-  const [firstBanner, ...restBanners] = banners;
+  const novinkiIndex = banners.findIndex((b) => /новинк/i.test(b.title));
+  const railAfterIndex = novinkiIndex >= 0 ? novinkiIndex : 0;
+  const railHeadingSrOnly = novinkiIndex >= 0;
+
+  const nodes: ReactNode[] = [];
+  banners.forEach((banner, index) => {
+    const isAboutFallback = banner.id === FALLBACK_ABOUT_BANNER_ID;
+    const isFirst = index === 0;
+    nodes.push(
+      <HomeBanner
+        key={banner.id}
+        title={banner.title}
+        subtitle={banner.subtitle}
+        href={banner.href ?? "/"}
+        image={banner.image ?? "/placeholders/hero.svg"}
+        overlay={isAboutFallback ? "scrim" : "card"}
+        ctaLabel={isAboutFallback ? "Подробнее" : undefined}
+        as="h2"
+        priority={isFirst}
+        isFirst={isFirst}
+      />,
+    );
+    if (index === railAfterIndex) {
+      nodes.push(
+        <HomeProductRail
+          key="home-novinki-rail"
+          headingSrOnly={railHeadingSrOnly}
+        />,
+      );
+    }
+  });
+
+  // No banners — still show rail if API products exist
+  if (banners.length === 0) {
+    nodes.push(<HomeProductRail key="home-novinki-rail" />);
+  }
 
   return (
     <main id="main" data-home-snap className="flex flex-1 flex-col">
       <h1 className="sr-only">{HOME_TITLE}</h1>
-      {firstBanner ? (
-        <HomeBanner
-          key={firstBanner.id}
-          title={firstBanner.title}
-          subtitle={firstBanner.subtitle}
-          href={firstBanner.href ?? "/"}
-          image={firstBanner.image ?? "/placeholders/hero.svg"}
-          overlay={
-            firstBanner.id === FALLBACK_ABOUT_BANNER_ID ? "scrim" : "card"
-          }
-          ctaLabel={
-            firstBanner.id === FALLBACK_ABOUT_BANNER_ID
-              ? "Подробнее"
-              : undefined
-          }
-          as="h2"
-          priority
-          isFirst
-        />
-      ) : null}
-      <HomeProductRail />
-      {restBanners.map((banner) => {
-        const isAboutFallback = banner.id === FALLBACK_ABOUT_BANNER_ID;
-        return (
-          <HomeBanner
-            key={banner.id}
-            title={banner.title}
-            subtitle={banner.subtitle}
-            href={banner.href ?? "/"}
-            image={banner.image ?? "/placeholders/hero.svg"}
-            overlay={isAboutFallback ? "scrim" : "card"}
-            ctaLabel={isAboutFallback ? "Подробнее" : undefined}
-            as="h2"
-            priority={false}
-            isFirst={false}
-          />
-        );
-      })}
+      {nodes}
     </main>
   );
 }

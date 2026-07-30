@@ -39,8 +39,14 @@ export function CatalogListingShell({
 }) {
   return (
     <div className={cn("mx-auto w-full max-w-[1564px] px-4 sm:px-8", className)}>
-      <Breadcrumbs items={breadcrumbs} className="mb-3 pt-4 lg:mb-6 lg:pt-8" />
-      <h1 className="mb-4 font-display text-h2 text-text-heading lg:mb-8 lg:text-display">
+      <Breadcrumbs items={breadcrumbs} className="mb-1 pt-2 lg:mb-6 lg:pt-8" />
+      <h1
+        className={cn(
+          // parity: muru.ru mobile h1.switcher-title — 24px / 300 / uppercase
+          "mb-2 font-display text-[24px] leading-[29px] font-light text-text-heading uppercase",
+          "lg:mb-8 lg:text-display lg:leading-[var(--text-display--line-height)] lg:normal-case",
+        )}
+      >
         {title}
       </h1>
 
@@ -62,7 +68,7 @@ export function CatalogListingShell({
           <Suspense
             fallback={
               <div
-                className="mb-4 min-h-11 animate-pulse rounded-sm bg-surface lg:mb-8"
+                className="mb-1 min-h-[57px] animate-pulse rounded-sm bg-surface lg:mb-8 lg:min-h-[138px]"
                 aria-hidden="true"
               />
             }

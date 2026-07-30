@@ -71,7 +71,7 @@ export function MobileMenu() {
       >
         <Menu className="size-6" />
       </SheetTrigger>
-      <SheetContent side="left">
+      <SheetContent side="left" className="bg-background">
         <SheetHeader>
           <SheetTitle className="font-display text-[22px] tracking-[0.18em] text-text-heading uppercase">
             MURU
@@ -153,7 +153,7 @@ export function MobileMenu() {
               key={item.href}
               href={item.href}
               onClick={close}
-              className="min-h-11 py-2 text-body text-text-primary transition-colors hover:text-brand"
+          className="min-h-11 py-2 text-body text-text-primary uppercase transition-colors hover:text-brand"
             >
               {item.label}
             </Link>

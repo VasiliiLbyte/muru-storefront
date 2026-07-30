@@ -1,7 +1,5 @@
 "use client";
 
-import { ShoppingBag } from "lucide-react";
-
 import { cn } from "@/lib/utils";
 import { useCartStore } from "@/stores/cart-store";
 
@@ -25,10 +23,8 @@ export function AddToCartButton({
       type="button"
       aria-label={label}
       className={cn(
-        // Mobile: compact icon in bottom-right of image
-        "absolute right-2 bottom-2 z-20 inline-flex size-11 items-center justify-center bg-background/85 text-text-heading backdrop-blur-sm transition-colors hover:text-brand focus-visible:ring-1 focus-visible:ring-ring focus-visible:outline-none",
-        // Desktop: full-bleed brand bar (parity with pre-M7)
-        "lg:inset-x-0 lg:right-auto lg:bottom-0 lg:size-auto lg:w-full lg:bg-brand lg:py-3 lg:text-center lg:text-body lg:text-text-inverse lg:backdrop-blur-none lg:hover:bg-brand-hover lg:hover:text-text-inverse",
+        // parity: muru.ru mobile button.to_cart — full-bleed bar, 36px / 14px / brand
+        "absolute inset-x-0 bottom-0 z-20 inline-flex h-9 w-full items-center justify-center bg-brand text-[14px] leading-[17px] font-light text-text-inverse transition-colors hover:bg-brand-hover focus-visible:ring-1 focus-visible:ring-ring focus-visible:outline-none",
         className,
       )}
       onClick={(event) => {
@@ -37,8 +33,7 @@ export function AddToCartButton({
         addItem(sku);
       }}
     >
-      <ShoppingBag className="size-5 lg:hidden" aria-hidden />
-      <span className="hidden lg:inline">Добавить в корзину</span>
+      Добавить в корзину
     </button>
   );
 }

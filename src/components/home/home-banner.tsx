@@ -13,14 +13,89 @@ export type HomeBannerProps = {
   ctaLabel?: string;
   priority?: boolean;
   overlay?: "card" | "scrim";
-  /** Первый баннер: высота под полной шапкой (utility + sticky). */
+  /** Первый баннер: высота под полной шапкой (utility + sticky) — desktop only. */
   isFirst?: boolean;
   as?: "h1" | "h2";
 };
 
+function BannerCopy({
+  title,
+  subtitle,
+  href,
+  ctaLabel,
+  HeadingTag,
+  isScrim,
+  variant,
+}: {
+  title: string;
+  subtitle?: string;
+  href: string;
+  ctaLabel: string;
+  HeadingTag: "h1" | "h2";
+  isScrim: boolean;
+  variant: "mobile" | "desktop";
+}) {
+  const isMobile = variant === "mobile";
+  return (
+    <div
+      className={cn(
+        "mx-auto flex w-full flex-col items-center gap-1 text-center",
+        isMobile
+          ? // parity: muru.ru mobile .mp-front-wrapper — padding 24px, white, full width
+            "bg-white px-6 py-6"
+          : cn(
+              "max-w-[568px] px-4 py-8 sm:px-16 sm:py-10",
+              isScrim ? "bg-black/35 backdrop-blur-[1px]" : "bg-white",
+            ),
+      )}
+    >
+      <HeadingTag
+        className={cn(
+          "font-display font-light tracking-normal uppercase",
+          isMobile
+            ? // parity: muru.ru mobile h2.font_36 — ~26px / 300 / uppercase
+              "text-[26px] leading-[34px] text-text-heading"
+            : cn(
+                "text-[36px] leading-[44px]",
+                isScrim ? "text-text-inverse" : "text-text-heading",
+              ),
+        )}
+      >
+        {title}
+      </HeadingTag>
+      {subtitle ? (
+        <p
+          className={cn(
+            "text-[16px] leading-5 font-light",
+            isMobile
+              ? "text-text-secondary"
+              : isScrim
+                ? "text-text-inverse/90"
+                : "text-text-secondary",
+          )}
+        >
+          {subtitle}
+        </p>
+      ) : null}
+      <Button
+        render={<Link href={href} />}
+        className={cn(
+          "mt-4 h-[45px] text-[14px] leading-[17px] font-light",
+          // parity: muru.ru mobile a.btn.btn-lg — ~141×45 / 14px
+          isMobile ? "min-w-[141px] px-8" : "px-8",
+        )}
+      >
+        {ctaLabel}
+      </Button>
+    </div>
+  );
+}
+
 /**
- * Full-bleed баннер главной: фоновое фото + центрированная карточка с CTA.
- * Высота = 100dvh − offset шапки; на lg+ — scroll-snap slide.
+ * Full-bleed баннер главной.
+ * Mobile (&lt;lg): stacked photo (1:1) + text below (E3 / M8-4).
+ * Desktop (≥lg): overlay card + scroll-snap (byte-stable).
+ * Single Image — one LCP preload when priority.
  */
 export function HomeBanner({
   image,
@@ -40,53 +115,56 @@ export function HomeBanner({
   return (
     <section
       className={cn(
-        "relative isolate flex items-center justify-center overflow-hidden",
+        "relative isolate overflow-hidden",
+        "flex flex-col",
+        "lg:block",
         isFirst
-          ? "h-[calc(100dvh-var(--home-offset-first))] min-h-[calc(100dvh-var(--home-offset-first))]"
-          : "h-[calc(100dvh-var(--home-offset-rest))] min-h-[calc(100dvh-var(--home-offset-rest))] lg:snap-start lg:snap-always lg:scroll-mt-[var(--home-offset-rest)]",
+          ? "lg:h-[calc(100dvh-var(--home-offset-first))] lg:min-h-[calc(100dvh-var(--home-offset-first))]"
+          : "lg:h-[calc(100dvh-var(--home-offset-rest))] lg:min-h-[calc(100dvh-var(--home-offset-rest))] lg:snap-start lg:snap-always lg:scroll-mt-[var(--home-offset-rest)]",
       )}
     >
-      <Image
-        src={src}
-        alt={alt}
-        fill
-        priority={priority}
-        sizes="100vw"
-        {...staticBlurProps()}
-        className="-z-10 object-cover"
-      />
-      <div className="mx-auto w-full max-w-[1564px] px-4 py-16 sm:px-8">
-        <div
-          className={cn(
-            "mx-auto flex w-full max-w-[568px] flex-col items-center gap-1 px-4 py-8 text-center sm:px-16 sm:py-10",
-            isScrim ? "bg-black/35 backdrop-blur-[1px]" : "bg-white",
-          )}
-        >
-          <HeadingTag
-            className={cn(
-              "font-display text-[36px] leading-[44px] font-light tracking-normal uppercase",
-              isScrim ? "text-text-inverse" : "text-text-heading",
-            )}
-          >
-            {title}
-          </HeadingTag>
-          {subtitle ? (
-            <p
-              className={cn(
-                "text-[16px] leading-5 font-light",
-                isScrim ? "text-text-inverse/90" : "text-text-secondary",
-              )}
-            >
-              {subtitle}
-            </p>
-          ) : null}
-          <Button
-            render={<Link href={href} />}
-            className="mt-4 h-[45px] px-8 text-[14px] leading-[17px] font-light"
-          >
-            {ctaLabel}
-          </Button>
-        </div>
+      {/* Shared media: square on mobile, fill section on desktop */}
+      <div
+        className={cn(
+          "relative aspect-square w-full shrink-0",
+          "lg:absolute lg:inset-0 lg:aspect-auto lg:h-full",
+        )}
+      >
+        <Image
+          src={src}
+          alt={alt}
+          fill
+          priority={priority}
+          sizes="100vw"
+          {...staticBlurProps()}
+          className="object-cover"
+        />
+      </div>
+
+      {/* Mobile text under photo */}
+      <div className="relative z-10 w-full lg:hidden">
+        <BannerCopy
+          title={title}
+          subtitle={subtitle}
+          href={href}
+          ctaLabel={ctaLabel}
+          HeadingTag={HeadingTag}
+          isScrim={isScrim}
+          variant="mobile"
+        />
+      </div>
+
+      {/* Desktop overlay card centered in viewport slide */}
+      <div className="relative z-10 mx-auto hidden h-full w-full max-w-[1564px] items-center px-4 py-16 sm:px-8 lg:flex">
+        <BannerCopy
+          title={title}
+          subtitle={subtitle}
+          href={href}
+          ctaLabel={ctaLabel}
+          HeadingTag={HeadingTag}
+          isScrim={isScrim}
+          variant="desktop"
+        />
       </div>
     </section>
   );

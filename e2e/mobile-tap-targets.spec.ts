@@ -19,6 +19,14 @@ const TEXT_LINK_RELAX_SELECTORS = [
 ] as const;
 
 /**
+ * Catalog ATC bar — muru.ru E2 is 36px tall × full image width (M8-1 parity).
+ * Allowed: height ≥36 and width ≥44 (full-bleed strip).
+ */
+const CATALOG_ATC_RELAX_SELECTORS = [
+  'article button[aria-label*="корзин"]',
+] as const;
+
+/**
  * Hard-exclude Next.js / Turbopack dev overlays and the visually-hidden skip link
  * (1×1 until focused — not a real mobile tap target in the resting UI).
  */
@@ -67,12 +75,19 @@ async function isVisibleInteractive(el: Locator): Promise<boolean> {
   return opacity > 0;
 }
 
-async function matchesRelaxAllowList(el: Locator): Promise<boolean> {
+async function matchesRelaxAllowList(el: Locator): Promise<"text" | "atc" | false> {
   for (const sel of TEXT_LINK_RELAX_SELECTORS) {
     if (
       await el.evaluate((node, s) => node.matches(s), sel).catch(() => false)
     ) {
-      return true;
+      return "text";
+    }
+  }
+  for (const sel of CATALOG_ATC_RELAX_SELECTORS) {
+    if (
+      await el.evaluate((node, s) => node.matches(s), sel).catch(() => false)
+    ) {
+      return "atc";
     }
   }
   return false;
@@ -81,10 +96,12 @@ async function matchesRelaxAllowList(el: Locator): Promise<boolean> {
 function passesTapTarget(
   width: number,
   height: number,
-  relaxed: boolean,
+  relaxed: "text" | "atc" | false,
 ): boolean {
   if (width >= 44 && height >= 44) return true;
-  if (relaxed && height >= 44 && width >= 24) return true;
+  if (relaxed === "text" && height >= 44 && width >= 24) return true;
+  // parity: muru.ru button.to_cart — 36× full image width
+  if (relaxed === "atc" && height >= 36 && width >= 44) return true;
   return false;
 }
 

@@ -6,6 +6,7 @@ import { Heart } from "lucide-react";
 
 import { AuthSuccessToast } from "@/components/account/auth-success-toast";
 import { HeaderAccount } from "@/components/layout/header-account";
+import { HeaderMobileSearch } from "@/components/layout/header-search";
 import { MiniCart } from "@/components/layout/mini-cart";
 import { useFavoriteCount } from "@/stores/favorites-store";
 import { cn } from "@/lib/utils";
@@ -61,6 +62,8 @@ export function HeaderActions({ className }: { className?: string }) {
 
   return (
     <div className={cn("flex items-center gap-0.5 sm:gap-1 lg:items-start lg:gap-8", className)}>
+      {/* Mobile: search → account → favorites → cart (M8-8) */}
+      <HeaderMobileSearch />
       <HeaderAccount />
       <AuthSuccessToast />
       <HeaderActionLink

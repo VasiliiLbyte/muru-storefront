@@ -284,7 +284,7 @@ export function CatalogToolbar({
   return (
     <div
       className={cn(
-        "mb-8 border-b border-border pb-6",
+        "mb-1 border-b border-border pb-1 lg:mb-8 lg:pb-6",
         // Sticky under mobile header; self-start so flex stretch doesn't kill sticky.
         // lg:static restores desktop flow (no sticky on desktop toolbar).
         "sticky z-30 w-full self-start top-[calc(3.5rem+env(safe-area-inset-top)+1px)] lg:static lg:z-auto lg:top-auto lg:self-auto",
@@ -295,7 +295,7 @@ export function CatalogToolbar({
       )}
     >
       {/* Mobile compact row */}
-      <div className="flex items-center gap-2 py-2 lg:hidden">
+      <div className="flex items-center gap-2 py-1 lg:hidden">
         <button
           type="button"
           onClick={openSheet}

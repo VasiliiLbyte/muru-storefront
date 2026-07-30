@@ -9,9 +9,14 @@ import {
   siteContacts,
   type NavItem,
 } from "@/lib/site";
+import { cn } from "@/lib/utils";
 
-const footerLinkClass =
-  "inline-flex min-h-11 items-center text-body font-light text-text-secondary transition-colors hover:text-brand";
+const footerLinkClass = cn(
+  "inline-flex min-h-11 items-center font-light text-text-secondary transition-colors hover:text-brand",
+  // parity: muru.ru mobile footer links — uppercase 16px / LH 20
+  "max-lg:text-[16px] max-lg:leading-5 max-lg:uppercase",
+  "lg:text-body",
+);
 
 /**
  * Подвал: две группы ссылок + контакты + юр. ссылки + копирайт.
@@ -33,9 +38,11 @@ export async function Footer() {
   return (
     <footer className="mt-auto border-t border-border bg-surface">
       <div className="mx-auto w-full max-w-[1564px] px-4 py-12 sm:px-8">
-        <div className="mb-10">
-          <Logo className="h-10 w-auto opacity-50" />
+        {/* parity: muru.ru footer svg ~206×40 color #555558 */}
+        <div className="mb-6 border-b border-border pb-6">
+          <Logo className="h-10 w-auto [&_img]:grayscale [&_img]:brightness-[0.55]" />
         </div>
+
         <div className="grid grid-cols-1 gap-8 md:grid-cols-3">
           <nav aria-label="Компания">
             <ul className="flex flex-col gap-y-0.5">

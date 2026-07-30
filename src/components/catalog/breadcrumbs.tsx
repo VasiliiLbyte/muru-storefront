@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { ChevronLeft } from "lucide-react";
 
 import { catalogHref } from "@/lib/site";
 import type { BreadcrumbItem } from "@/lib/seo/jsonld";
@@ -11,11 +12,26 @@ export function Breadcrumbs({
   items: BreadcrumbItem[];
   className?: string;
 }) {
+  const parent =
+    items.length >= 2
+      ? items[items.length - 2]
+      : { name: "Каталог", href: catalogHref.root };
+
   return (
     <nav aria-label="Хлебные крошки" className={cn("text-small", className)}>
+      {/* Mobile back-link — parity: muru.ru .breadcrumbs__item--mobile (one parent) */}
+      <Link
+        href={parent.href}
+        className="inline-flex min-h-11 items-center gap-1 text-[12px] leading-4 text-text-secondary transition-colors hover:text-brand focus-visible:ring-1 focus-visible:ring-ring focus-visible:outline-none lg:hidden"
+      >
+        <ChevronLeft className="size-4 shrink-0" aria-hidden />
+        <span>{parent.name}</span>
+      </Link>
+
+      {/* Desktop full trail (unchanged) */}
       <ol
         className={cn(
-          "flex flex-nowrap items-center gap-1 overflow-x-auto text-text-secondary",
+          "hidden flex-nowrap items-center gap-1 overflow-x-auto text-text-secondary lg:flex",
           "[scrollbar-width:none] [&::-webkit-scrollbar]:hidden",
         )}
       >

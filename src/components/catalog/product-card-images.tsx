@@ -178,7 +178,8 @@ export function ProductCardImages({
 
       {isCarousel ? (
         <div
-          className="pointer-events-none absolute bottom-2 left-1/2 z-20 flex -translate-x-1/2 gap-1.5 lg:bottom-12"
+          // parity: muru.ru mobile .section-gallery-nav bottom:16px
+          className="pointer-events-none absolute bottom-4 left-1/2 z-20 flex -translate-x-1/2 gap-1.5"
           aria-hidden
         >
           {slides.map((image, index) => (

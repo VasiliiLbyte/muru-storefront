@@ -1,5 +1,5 @@
 /**
- * M7 visual polish T1–T6 (STOP-2: expect PASS after M7-1…M7-6).
+ * M7 visual polish T2–T6 (T1 removed with M8-1 — inverted by e2e/m8 T1').
  * Chromium 393×852 + --disable-http2 for live prod API.
  */
 import { test, expect, type Page, type Locator } from "@playwright/test";
@@ -35,43 +35,7 @@ function firstCard(page: Page): Locator {
   return page.locator("article").first();
 }
 
-test.describe("M7 visual polish T1–T6", () => {
-  test("T1: compact add-to-cart — no visible label, width≤56, not full-bleed on image", async ({
-    page,
-  }) => {
-    await page.goto(LISTING, { waitUntil: "domcontentloaded" });
-    await settle(page);
-    const card = firstCard(page);
-    await expect(card).toBeVisible({ timeout: 20000 });
-
-    const addBtn = card.getByRole("button", { name: /корзин/i });
-    await expect(addBtn, "add-to-cart control must exist").toBeVisible();
-
-    // Label may remain in DOM (hidden lg:inline) — assert no *visible* caption
-    const visibleLabel = card.getByText("Добавить в корзину", { exact: true });
-    await expect(
-      visibleLabel,
-      "T1: visible «Добавить в корзину» caption must be hidden on mobile",
-    ).toBeHidden();
-
-    const btnBox = await addBtn.boundingBox();
-    const imgBox = await card.locator(".aspect-square").first().boundingBox();
-    expect(btnBox, "T1: add button bbox").not.toBeNull();
-    expect(imgBox, "T1: image bbox").not.toBeNull();
-
-    expect(
-      btnBox!.width,
-      `T1: add button width must be ≤56px (got ${btnBox!.width})`,
-    ).toBeLessThanOrEqual(56);
-
-    // Must not cover the full image width along the bottom edge
-    const widthRatio = btnBox!.width / imgBox!.width;
-    expect(
-      widthRatio,
-      `T1: add button must not span full image width (ratio=${widthRatio.toFixed(2)})`,
-    ).toBeLessThan(0.5);
-  });
-
+test.describe("M7 visual polish T2–T6", () => {
   test("T2: filters row stays near header after scroll", async ({ page }) => {
     await page.goto(LISTING, { waitUntil: "domcontentloaded" });
     await settle(page);

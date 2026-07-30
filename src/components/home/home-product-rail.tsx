@@ -3,13 +3,19 @@ import Link from "next/link";
 import { ProductCard } from "@/components/catalog/product-card";
 import { getProducts } from "@/lib/api/endpoints";
 import { ProductListQuerySchema, type Product } from "@/lib/schemas";
+import { cn } from "@/lib/utils";
 
 /**
- * Mobile-only «Новинки» rail on the home page (M7-4).
+ * Mobile-only «Новинки» rail on the home page (M7-4 / M8-5).
  * Prefers newArrival; falls back to sort=new if fewer than 4 items.
  * Empty → null. Hidden from lg up (desktop backlog DEP-045).
  */
-export async function HomeProductRail() {
+export async function HomeProductRail({
+  headingSrOnly = false,
+}: {
+  /** When rail follows a «Новинки» banner — hide duplicate h2, keep «Все новинки». */
+  headingSrOnly?: boolean;
+} = {}) {
   let items: Product[] = [];
   try {
     const primary = await getProducts(
@@ -33,7 +39,8 @@ export async function HomeProductRail() {
         items = fallback.items;
       }
     }
-  } catch {
+  } catch (e) {
+    console.error("[home-rail]", e);
     return null;
   }
 
@@ -47,7 +54,11 @@ export async function HomeProductRail() {
       <div className="flex items-end justify-between gap-4">
         <h2
           id="home-novinki-heading"
-          className="font-display text-h2 text-text-heading"
+          className={cn(
+            // parity: muru.ru mobile section titles uppercase
+            "font-display text-h2 text-text-heading uppercase",
+            headingSrOnly && "sr-only",
+          )}
         >
           Новинки
         </h2>
@@ -63,11 +74,11 @@ export async function HomeProductRail() {
         className="-mx-4 flex gap-3 overflow-x-auto px-4 snap-x snap-mandatory [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
         aria-label="Новинки"
       >
-        {items.map((product, index) => (
+        {items.map((product) => (
           <ProductCard
             key={product.id}
             product={product}
-            priority={index === 0}
+            priority={false}
             className="w-[75vw] max-w-sm min-w-[75vw] shrink-0 snap-start"
           />
         ))}

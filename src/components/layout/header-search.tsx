@@ -76,12 +76,37 @@ function SearchFormFields({
 }
 
 /**
- * Desktop: инлайн-поле. Mobile: иконка → fullscreen Dialog overlay.
- * Один публичный API; overlay всегда в дереве (open state).
+ * Desktop inline search (hidden below lg). Does not render the mobile trigger.
  */
 export function HeaderSearch({ className }: { className?: string }) {
   const router = useRouter();
   const desktopId = useId();
+  const [query, setQuery] = useState("");
+
+  const submit = (e: FormEvent) => {
+    e.preventDefault();
+    const q = query.trim();
+    router.push(q ? `/search/?q=${encodeURIComponent(q)}` : "/search/");
+  };
+
+  return (
+    <div className={cn("hidden lg:block", className)}>
+      <SearchFormFields
+        id={desktopId}
+        query={query}
+        setQuery={setQuery}
+        onSubmit={submit}
+      />
+    </div>
+  );
+}
+
+/**
+ * Mobile search icon → fullscreen dialog.
+ * Rendered in the right action group (before account) — M8-8.
+ */
+export function HeaderMobileSearch() {
+  const router = useRouter();
   const mobileId = useId();
   const [query, setQuery] = useState("");
   const [open, setOpen] = useState(false);
@@ -101,55 +126,43 @@ export function HeaderSearch({ className }: { className?: string }) {
   }, [open]);
 
   return (
-    <>
-      <div className={cn("hidden lg:block", className)}>
-        <SearchFormFields
-          id={desktopId}
-          query={query}
-          setQuery={setQuery}
-          onSubmit={submit}
-        />
-      </div>
-
-      <Dialog open={open} onOpenChange={setOpen}>
-        <button
-          type="button"
-          aria-label="Открыть поиск"
-          className="inline-flex shrink-0 items-center justify-center text-text-secondary transition-colors hover:text-text-heading focus-visible:ring-1 focus-visible:ring-ring focus-visible:outline-none lg:hidden"
-          style={{ width: 44, height: 44, minWidth: 44, minHeight: 44 }}
-          onClick={() => setOpen(true)}
+    <Dialog open={open} onOpenChange={setOpen}>
+      <button
+        type="button"
+        aria-label="Открыть поиск"
+        className="inline-flex shrink-0 items-center justify-center text-text-secondary transition-colors hover:text-text-heading focus-visible:ring-1 focus-visible:ring-ring focus-visible:outline-none lg:hidden"
+        style={{ width: 44, height: 44, minWidth: 44, minHeight: 44 }}
+        onClick={() => setOpen(true)}
+      >
+        <Search className="size-5" aria-hidden />
+      </button>
+      {open ? (
+        <DialogContent
+          variant="fullscreen"
+          showClose={false}
+          className="gap-0 p-0"
         >
-          <Search className="size-5" aria-hidden />
-        </button>
-        {/* Popup only while open — closed portal kept opacity:0 inputs that zoom e2e still measured */}
-        {open ? (
-          <DialogContent
-            variant="fullscreen"
-            showClose={false}
-            className="gap-0 p-0"
-          >
-            <DialogTitle className="sr-only">Поиск по каталогу</DialogTitle>
-            <div className="flex items-center gap-1 border-b border-border px-2 py-2">
-              <div className="min-w-0 flex-1">
-                <SearchFormFields
-                  id={mobileId}
-                  query={query}
-                  setQuery={setQuery}
-                  onSubmit={submit}
-                  inputRef={mobileInputRef}
-                  inputClassName="lg:text-[16px]"
-                />
-              </div>
-              <DialogClose
-                aria-label="Закрыть поиск"
-                className="inline-flex size-11 shrink-0 items-center justify-center text-text-secondary transition-colors hover:text-text-heading focus-visible:ring-1 focus-visible:ring-ring focus-visible:outline-none"
-              >
-                <X className="size-5" aria-hidden />
-              </DialogClose>
+          <DialogTitle className="sr-only">Поиск по каталогу</DialogTitle>
+          <div className="flex items-center gap-1 border-b border-border px-2 py-2">
+            <div className="min-w-0 flex-1">
+              <SearchFormFields
+                id={mobileId}
+                query={query}
+                setQuery={setQuery}
+                onSubmit={submit}
+                inputRef={mobileInputRef}
+                inputClassName="lg:text-[16px]"
+              />
             </div>
-          </DialogContent>
-        ) : null}
-      </Dialog>
-    </>
+            <DialogClose
+              aria-label="Закрыть поиск"
+              className="inline-flex size-11 shrink-0 items-center justify-center text-text-secondary transition-colors hover:text-text-heading focus-visible:ring-1 focus-visible:ring-ring focus-visible:outline-none"
+            >
+              <X className="size-5" aria-hidden />
+            </DialogClose>
+          </div>
+        </DialogContent>
+      ) : null}
+    </Dialog>
   );
 }
