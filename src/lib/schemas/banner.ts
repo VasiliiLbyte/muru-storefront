@@ -9,6 +9,16 @@ export const HomeBannerSchema = z.object({
   subtitle: z.string().optional(),
   href: z.string().optional(),
   image: ImageSchema.optional(),
+  /** Optional looping background video; `image` is the poster. */
+  video: z
+    .object({
+      url: z.string(),
+      width: z.number().optional(),
+      height: z.number().optional(),
+      durationSec: z.number().optional(),
+      mime: z.string().optional(),
+    })
+    .optional(),
   sortOrder: z.number().int(),
 });
 export type HomeBanner = z.infer<typeof HomeBannerSchema>;

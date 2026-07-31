@@ -1,12 +1,13 @@
-import Image from "next/image";
 import Link from "next/link";
 
+import { HomeBannerMedia } from "@/components/home/home-banner-media";
 import { Button } from "@/components/ui/button";
-import { staticBlurProps } from "@/lib/images";
 import { cn } from "@/lib/utils";
 
 export type HomeBannerProps = {
   image: { url: string; alt?: string } | string;
+  /** Optional background video; `image` is used as poster / reduced-motion fallback. */
+  video?: { url: string } | null;
   title: string;
   subtitle?: string;
   href: string;
@@ -95,10 +96,11 @@ function BannerCopy({
  * Full-bleed баннер главной.
  * Mobile (&lt;lg): stacked photo (1:1) + text below (E3 / M8-4).
  * Desktop (≥lg): overlay card + scroll-snap (byte-stable).
- * Single Image — one LCP preload when priority.
+ * Media: Image or muted looping video (client) with same object-cover crop.
  */
 export function HomeBanner({
   image,
+  video,
   title,
   subtitle,
   href,
@@ -130,14 +132,11 @@ export function HomeBanner({
           "lg:absolute lg:inset-0 lg:aspect-auto lg:h-full",
         )}
       >
-        <Image
-          src={src}
+        <HomeBannerMedia
+          imageUrl={src}
           alt={alt}
-          fill
+          videoUrl={video?.url}
           priority={priority}
-          sizes="100vw"
-          {...staticBlurProps()}
-          className="object-cover"
         />
       </div>
 

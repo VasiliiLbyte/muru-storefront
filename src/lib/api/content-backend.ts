@@ -68,6 +68,9 @@ function resolveBanner(dto: HomeBanner): HomeBanner {
   return {
     ...dto,
     image: resolveImage(dto.image),
+    video: dto.video
+      ? { ...dto.video, url: resolveAssetUrl(dto.video.url) }
+      : undefined,
   };
 }
 

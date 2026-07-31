@@ -44,6 +44,7 @@ export default async function Home() {
         subtitle={banner.subtitle}
         href={banner.href ?? "/"}
         image={banner.image ?? "/placeholders/hero.svg"}
+        video={banner.video}
         overlay={isAboutFallback ? "scrim" : "card"}
         ctaLabel={isAboutFallback ? "Подробнее" : undefined}
         as="h2"
