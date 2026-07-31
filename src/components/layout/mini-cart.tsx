@@ -6,6 +6,7 @@ import Link from "next/link";
 import { ShoppingBag } from "lucide-react";
 
 import { buttonVariants } from "@/components/ui/button";
+import { badgeClass } from "@/components/layout/header-actions";
 import {
   Sheet,
   SheetContent,
@@ -73,10 +74,7 @@ export function MiniCart({
         <span className="relative inline-flex size-6 items-center justify-center">
           <ShoppingBag className="size-5" />
           {count ? (
-            <span
-              aria-hidden="true"
-              className="absolute -top-0.5 -right-0.5 inline-flex min-w-5 items-center justify-center bg-brand px-1 text-[11px] leading-5 font-medium text-text-inverse lg:-top-1.5 lg:-right-2"
-            >
+            <span aria-hidden="true" className={badgeClass}>
               {count}
             </span>
           ) : null}

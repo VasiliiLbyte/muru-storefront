@@ -22,7 +22,7 @@ const actionTriggerStyle = {
 } as const;
 
 const badgeClass =
-  "absolute -top-0.5 -right-0.5 inline-flex min-w-5 items-center justify-center bg-brand px-1 text-[11px] leading-5 font-medium text-text-inverse lg:-top-1.5 lg:-right-2";
+  "absolute -top-1 -right-1 inline-flex h-4 min-w-4 items-center justify-center rounded-full bg-brand px-0.5 text-[10px] leading-none font-medium text-text-inverse";
 
 function HeaderActionLink({
   href,
