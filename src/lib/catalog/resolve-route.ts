@@ -30,35 +30,21 @@ export type CatalogRoute =
     };
 
 /**
- * Резолвит catch-all slug каталога в тип страницы.
- * Валидирует сегменты против дерева категорий (API или MSW-фикстуры).
- * Невалидные пути → null (→ notFound).
+ * Pure segment → route resolve against an already-built nav tree.
+ * Single-segment paths use top-level lookup only (not DFS) so a top
+ * category is not shadowed by a same-slug leaf under another parent.
  */
-export async function resolveCatalogRoute(
-  slug: string[] | undefined,
-): Promise<CatalogRoute | null> {
-  const segments = (slug ?? []).map((s) => {
-    try {
-      return decodeURIComponent(s).normalize("NFC");
-    } catch {
-      return s.normalize("NFC");
-    }
-  });
-
+export function resolveCatalogSegments(
+  segments: string[],
+  tree: CatalogNavNode[],
+): CatalogRoute | null {
   if (segments.length === 0) {
     return { type: "root" };
   }
 
-  let tree: CatalogNavNode[];
-  try {
-    tree = categoriesToNavTree(await getCategories());
-  } catch {
-    return null;
-  }
-
   if (segments.length === 1) {
-    const node = findNavNodeBySlug(segments[0], tree);
-    if (!node || !isTopLevelNavSlug(segments[0], tree)) return null;
+    const node = tree.find((n) => n.slug === segments[0]);
+    if (!node) return null;
     return {
       type: "category",
       slug: segments[0],
@@ -97,4 +83,30 @@ export async function resolveCatalogRoute(
   }
 
   return null;
+}
+
+/**
+ * Резолвит catch-all slug каталога в тип страницы.
+ * Валидирует сегменты против дерева категорий (API или MSW-фикстуры).
+ * Невалидные пути → null (→ notFound).
+ */
+export async function resolveCatalogRoute(
+  slug: string[] | undefined,
+): Promise<CatalogRoute | null> {
+  const segments = (slug ?? []).map((s) => {
+    try {
+      return decodeURIComponent(s).normalize("NFC");
+    } catch {
+      return s.normalize("NFC");
+    }
+  });
+
+  let tree: CatalogNavNode[];
+  try {
+    tree = categoriesToNavTree(await getCategories());
+  } catch {
+    return null;
+  }
+
+  return resolveCatalogSegments(segments, tree);
 }

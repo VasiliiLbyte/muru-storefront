@@ -23,6 +23,12 @@ export function categoriesToNavTree(categories: Category[]): CatalogNavNode[] {
   }));
 }
 
+/**
+ * DFS lookup by slug anywhere in the tree.
+ * Do **not** use for top-level catalog URLs (`/catalog/{slug}/`) when the same
+ * slug may also appear as a child under another parent — prefer `tree.find` /
+ * {@link isTopLevelNavSlug} so the top node wins.
+ */
 export function findNavNodeBySlug(
   slug: string,
   nodes: CatalogNavNode[],

@@ -3,7 +3,7 @@ import { notFound } from "next/navigation";
 
 import { ProductGrid } from "@/components/catalog/product-grid";
 import { ContentShell } from "@/components/content/content-shell";
-import { getCollection, getProduct } from "@/lib/api/endpoints";
+import { getCollection, getProductBySku } from "@/lib/api/endpoints";
 import { contentBreadcrumbs } from "@/lib/content/breadcrumbs";
 import { collections } from "@/mocks/fixtures/collections";
 import { buildPageMetadata } from "@/lib/seo/page-metadata";
@@ -43,11 +43,12 @@ export default async function LandingDetailPage({ params }: PageProps) {
     notFound();
   }
 
+  // productSlugs historically holds SKU values (CRM), not URL slugs.
   const products = (
     await Promise.all(
-      (collection.productSlugs ?? []).map(async (productSlug) => {
+      (collection.productSlugs ?? []).map(async (sku) => {
         try {
-          return await getProduct(productSlug);
+          return await getProductBySku(sku);
         } catch {
           return null;
         }

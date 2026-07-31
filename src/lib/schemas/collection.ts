@@ -4,7 +4,8 @@ import { ImageSchema, SeoSchema } from "./common";
 
 /**
  * Коллекция / лендинг ("Коллекции MURU").
- * Связь с товарами — через productSlugs (резолвится в API/моках).
+ * Связь с товарами — через productSlugs: исторически массив SKU (не URL-slug),
+ * резолвится через getProductBySku.
  */
 export const CollectionSchema = z.object({
   id: z.string(),
