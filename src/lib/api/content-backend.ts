@@ -6,6 +6,8 @@ import {
   CollectionSchema,
   HomeBannerSchema,
   LookbookSchema,
+  PublicRequisitesSchema,
+  PublicSiteContactsSchema,
   StaticPageSchema,
   isPartnersSections,
   isVacancySections,
@@ -17,6 +19,8 @@ import {
   type Lookbook,
   type PageSections,
   type PartnersSections,
+  type PublicRequisites,
+  type PublicSiteContacts,
   type StaticPage,
   type VacancySections,
 } from "@/lib/schemas";
@@ -198,4 +202,18 @@ export async function fetchContentBanners(): Promise<HomeBanner[]> {
     z.array(HomeBannerSchema),
   );
   return items.map(resolveBanner);
+}
+
+/** Публичные контакты сайта (CMS site_settings). */
+export async function fetchSiteContacts(): Promise<PublicSiteContacts> {
+  return apiEnvelopeFetch("/content/site-contacts", PublicSiteContactsSchema, {
+    next: { revalidate: 300 },
+  });
+}
+
+/** Публичные реквизиты (CMS site_settings). */
+export async function fetchRequisites(): Promise<PublicRequisites> {
+  return apiEnvelopeFetch("/content/requisites", PublicRequisitesSchema, {
+    next: { revalidate: 300 },
+  });
 }

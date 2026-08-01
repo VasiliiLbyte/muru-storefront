@@ -1,4 +1,5 @@
 import { z } from "zod";
+import { cache } from "react";
 
 import { getAccessToken } from "@/lib/account/session";
 import { applyProductListQuery } from "@/mocks/resolve";
@@ -33,11 +34,17 @@ import {
   type Product,
   type ProductListQueryInput,
   type ProductListResponse,
+  type PublicRequisites,
+  type PublicSiteContacts,
   type StaticPage,
   type WebCheckoutInput,
   type WebPaymentCreateResponse,
   type WebPaymentStatusResponse,
 } from "@/lib/schemas";
+import {
+  SITE_CONTACTS_FALLBACK,
+  type SiteContacts,
+} from "@/lib/site";
 
 import {
   fetchCatalogProductBySku,
@@ -53,6 +60,8 @@ import {
   fetchContentLookbook,
   fetchContentLookbooks,
   fetchContentPage,
+  fetchRequisites,
+  fetchSiteContacts,
   isContentBackendEnabled,
 } from "./content-backend";
 import { apiEnvelopeFetch, apiFetch, ApiError, buildQuery } from "./client";
@@ -210,6 +219,123 @@ export async function getHomeBanners(): Promise<HomeBanner[]> {
   }
   return buildFallbackHomeBanners(collections, lookbooks);
 }
+
+function coalesceString(
+  value: string | null | undefined,
+  fallback: string,
+): string {
+  if (value == null) return fallback;
+  const trimmed = value.trim();
+  return trimmed.length > 0 ? trimmed : fallback;
+}
+
+function adaptPublicSiteContacts(dto: PublicSiteContacts): SiteContacts {
+  const fb = SITE_CONTACTS_FALLBACK;
+  const email = coalesceString(dto.contactEmail, fb.email);
+  const lat = dto.contactMapLat;
+  const lng = dto.contactMapLng;
+  return {
+    address: coalesceString(dto.contactAddress, fb.address),
+    phoneDisplay: coalesceString(dto.contactPhoneDisplay, fb.phoneDisplay),
+    phoneHref: coalesceString(dto.contactPhoneHref, fb.phoneHref),
+    email,
+    emailHref: email ? `mailto:${email}` : fb.emailHref,
+    hours: coalesceString(dto.contactHours, fb.hours),
+    coordinates:
+      lat != null && lng != null
+        ? { lat, lng }
+        : { ...fb.coordinates },
+    mapZoom: dto.contactMapZoom ?? fb.mapZoom,
+  };
+}
+
+/**
+ * Контакты сайта: API при NEXT_PUBLIC_API_BASE, иначе / при ошибке — fallback.
+ * Per-field coalesce: null/пустые поля не стирают fallback.
+ * React.cache — дедуп layout + footer в одном RSC-запросе.
+ */
+export const getSiteContacts = cache(async (): Promise<SiteContacts> => {
+  if (isContentBackendEnabled()) {
+    try {
+      const dto = await fetchSiteContacts();
+      return adaptPublicSiteContacts(dto);
+    } catch (err) {
+      console.warn(
+        "[content] site-contacts fetch failed, using static fallback",
+        err,
+      );
+    }
+  }
+  return { ...SITE_CONTACTS_FALLBACK, coordinates: { ...SITE_CONTACTS_FALLBACK.coordinates } };
+});
+
+export type RequisiteRow = { label: string; value: string };
+
+/** Статический fallback — нейтральные плейсхолдеры (как в прежней таблице). */
+const REQUISITES_FALLBACK: RequisiteRow[] = [
+  { label: "Полное наименование", value: "Индивидуальный предприниматель Плейсхолдер А. А." },
+  { label: "Сокращённое наименование", value: "ИП Плейсхолдер" },
+  { label: "ИНН", value: "000000000000" },
+  { label: "ОГРНИП", value: "000000000000000" },
+  {
+    label: "Юридический адрес",
+    value: "000000, г. Санкт-Петербург, ул. Примерная, д. 1, кв. 1",
+  },
+  {
+    label: "Фактический адрес",
+    value: "192102, г. Санкт-Петербург, ул. Дубровская д.13, литера А, пом.27",
+  },
+  { label: "Телефон, факс", value: "+7 (812) 000-00-00" },
+  { label: "Электронная почта", value: "hello@muru.ru" },
+  { label: "Сайт", value: "muru.ru" },
+  {
+    label: "Банковские реквизиты",
+    value:
+      "БИК 000000000 Р/с №00000000000000000000 в Банк-плейсхолдер, Кор/счёт 00000000000000000000",
+  },
+];
+
+const REQUISITE_FIELD_BY_LABEL: Record<string, keyof PublicRequisites> = {
+  "Полное наименование": "reqFullName",
+  "Сокращённое наименование": "reqShortName",
+  ИНН: "reqInn",
+  ОГРНИП: "reqOgrnip",
+  "Юридический адрес": "reqLegalAddress",
+  "Фактический адрес": "reqActualAddress",
+  "Телефон, факс": "reqPhone",
+  "Электронная почта": "reqEmail",
+  Сайт: "reqSite",
+  "Банковские реквизиты": "reqBankDetails",
+};
+
+function adaptPublicRequisites(dto: PublicRequisites): RequisiteRow[] {
+  return REQUISITES_FALLBACK.map((row) => {
+    const field = REQUISITE_FIELD_BY_LABEL[row.label];
+    return {
+      label: row.label,
+      value: field ? coalesceString(dto[field], row.value) : row.value,
+    };
+  });
+}
+
+/**
+ * Реквизиты: API при NEXT_PUBLIC_API_BASE, иначе / при ошибке — fallback.
+ * Labels и порядок фиксированы; values — per-field coalesce.
+ */
+export const getRequisites = cache(async (): Promise<RequisiteRow[]> => {
+  if (isContentBackendEnabled()) {
+    try {
+      const dto = await fetchRequisites();
+      return adaptPublicRequisites(dto);
+    } catch (err) {
+      console.warn(
+        "[content] requisites fetch failed, using static fallback",
+        err,
+      );
+    }
+  }
+  return REQUISITES_FALLBACK.map((row) => ({ ...row }));
+});
 
 /** Создать веб-платёж (ЮKassa + СДЭК). Bearer — если покупатель залогинен. */
 export function createWebPayment(

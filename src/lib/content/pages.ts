@@ -73,6 +73,13 @@ const DEFS: {
     body: LEGAL_PRIVACY_BODY,
   },
   { slug: "offer", title: "Публичная оферта", body: LEGAL_OFFER_BODY },
+  { slug: "delivery", title: "Доставка" },
+  { slug: "refund", title: "Возврат" },
+  { slug: "terms", title: "Условия обслуживания" },
+  {
+    slug: "consent",
+    title: "Согласие на обработку персональных данных",
+  },
 ];
 
 export const staticPages: StaticPage[] = DEFS.map((def) => ({

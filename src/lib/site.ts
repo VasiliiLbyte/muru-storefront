@@ -31,23 +31,34 @@ export function absoluteUrl(path: string): string {
 }
 
 /**
- * Конфигурация витрины: контакты, навигация, ссылки.
+ * Контакты витрины (UI-форма). Источник — getSiteContacts() → API с fallback.
  *
- * Телефон и e-mail — НЕЙТРАЛЬНЫЕ ПЛЕЙСХОЛДЕРЫ (на живом muru.ru они
- * рендерятся через JS и недоступны). Адрес и режим работы — фактические
- * (с muru.ru/company/contacts/). Заменить плейсхолдеры на реальные значения.
+ * Телефон и e-mail в fallback — НЕЙТРАЛЬНЫЕ ПЛЕЙСХОЛДЕРЫ. Адрес и режим
+ * работы — фактические (с muru.ru/company/contacts/).
  */
-export const siteContacts = {
+export type SiteContacts = {
+  address: string;
+  phoneDisplay: string;
+  phoneHref: string;
+  email: string;
+  emailHref: string;
+  hours: string;
+  /** Координаты офиса для Leaflet-карты. */
+  coordinates: { lat: number; lng: number };
+  mapZoom: number;
+};
+
+/** Статический fallback при выключенном backend / ошибке / null-полях API. */
+export const SITE_CONTACTS_FALLBACK: SiteContacts = {
   address: "192102, г. Санкт-Петербург, ул. Дубровская д.13, литера А, пом.27",
   phoneDisplay: "+7 (812) 000-00-00",
   phoneHref: "tel:+78120000000",
   email: "hello@muru.ru",
   emailHref: "mailto:hello@muru.ru",
   hours: "Пн–Пт: 9:00–18:00",
-  /** Координаты офиса (ул. Дубровская 13) для Leaflet-карты. */
   coordinates: { lat: 59.9072, lng: 30.3184 },
   mapZoom: 16,
-} as const;
+};
 
 export type NavItem = {
   label: string;

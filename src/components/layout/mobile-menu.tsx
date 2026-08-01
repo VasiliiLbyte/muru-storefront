@@ -19,7 +19,7 @@ import {
   categoriesToNavTree,
   type CatalogNavNode,
 } from "@/lib/catalog/catalog-nav";
-import { catalogHref, mainNav, siteContacts } from "@/lib/site";
+import { catalogHref, mainNav, type SiteContacts } from "@/lib/site";
 import { useCartCount } from "@/stores/cart-store";
 import {
   customerFirstName,
@@ -32,7 +32,7 @@ import { useFavoriteCount } from "@/stores/favorites-store";
  * Мобильное меню через Sheet (boost shadcn/base-ui Dialog).
  * Каталог — Accordion из API / MSW.
  */
-export function MobileMenu() {
+export function MobileMenu({ contacts }: { contacts: SiteContacts }) {
   const [open, setOpen] = useState(false);
   const [catalogTree, setCatalogTree] = useState<CatalogNavNode[]>([]);
   const close = () => setOpen(false);
@@ -219,18 +219,18 @@ export function MobileMenu() {
 
         <div className="mt-auto flex flex-col gap-1 border-t border-border pt-4 text-small text-text-secondary">
           <a
-            href={siteContacts.phoneHref}
+            href={contacts.phoneHref}
             className="font-medium text-text-primary transition-colors hover:text-brand"
           >
-            {siteContacts.phoneDisplay}
+            {contacts.phoneDisplay}
           </a>
           <a
-            href={siteContacts.emailHref}
+            href={contacts.emailHref}
             className="transition-colors hover:text-brand"
           >
-            {siteContacts.email}
+            {contacts.email}
           </a>
-          <p className="text-text-secondary">{siteContacts.hours}</p>
+          <p className="text-text-secondary">{contacts.hours}</p>
         </div>
       </SheetContent>
     </Sheet>

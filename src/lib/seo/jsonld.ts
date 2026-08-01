@@ -1,6 +1,11 @@
 import type { Product } from "@/lib/schemas";
 import { productHref } from "@/lib/catalog/urls";
-import { absoluteUrl, siteContacts, siteUrl } from "@/lib/site";
+import {
+  absoluteUrl,
+  SITE_CONTACTS_FALLBACK,
+  siteUrl,
+  type SiteContacts,
+} from "@/lib/site";
 
 export type BreadcrumbItem = {
   name: string;
@@ -40,7 +45,7 @@ export function itemListJsonLd(products: Product[], listUrl: string) {
   };
 }
 
-export function organizationJsonLd() {
+export function organizationJsonLd(contacts: SiteContacts = SITE_CONTACTS_FALLBACK) {
   return {
     "@context": "https://schema.org",
     "@type": "Organization",
@@ -49,12 +54,12 @@ export function organizationJsonLd() {
     logo: absoluteUrl("/brand/muru-logo.svg"),
     address: {
       "@type": "PostalAddress",
-      streetAddress: siteContacts.address,
+      streetAddress: contacts.address,
       addressLocality: "Санкт-Петербург",
       addressCountry: "RU",
     },
-    telephone: siteContacts.phoneDisplay,
-    email: siteContacts.email,
+    telephone: contacts.phoneDisplay,
+    email: contacts.email,
   };
 }
 

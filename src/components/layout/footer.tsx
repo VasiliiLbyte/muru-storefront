@@ -6,8 +6,8 @@ import {
   catalogHref,
   companyLinks,
   legalNav,
-  siteContacts,
   type NavItem,
+  type SiteContacts,
 } from "@/lib/site";
 import { cn } from "@/lib/utils";
 
@@ -22,7 +22,7 @@ const footerLinkClass = cn(
  * Подвал: две группы ссылок + контакты + юр. ссылки + копирайт.
  * Каталог — топ-категории из API (или MSW-фикстур).
  */
-export async function Footer() {
+export async function Footer({ contacts }: { contacts: SiteContacts }) {
   const year = new Date().getFullYear();
 
   let catalogLinks: NavItem[] = [];
@@ -72,20 +72,20 @@ export async function Footer() {
             aria-label="Контакты"
             className="flex flex-col gap-1 text-small text-text-secondary not-italic"
           >
-            <span className="py-2">{siteContacts.address}</span>
+            <span className="py-2">{contacts.address}</span>
             <a
-              href={siteContacts.phoneHref}
+              href={contacts.phoneHref}
               className="inline-flex min-h-11 items-center font-medium text-text-primary transition-colors hover:text-brand"
             >
-              {siteContacts.phoneDisplay}
+              {contacts.phoneDisplay}
             </a>
             <a
-              href={siteContacts.emailHref}
+              href={contacts.emailHref}
               className="inline-flex min-h-11 items-center transition-colors hover:text-brand"
             >
-              {siteContacts.email}
+              {contacts.email}
             </a>
-            <span className="py-2 text-text-secondary">{siteContacts.hours}</span>
+            <span className="py-2 text-text-secondary">{contacts.hours}</span>
           </address>
         </div>
 

@@ -4,6 +4,7 @@ import { MSWProvider } from "@/components/msw-provider";
 import { Header } from "@/components/layout/header";
 import { Footer } from "@/components/layout/footer";
 import { JsonLdScript } from "@/components/seo/jsonld-script";
+import { getSiteContacts } from "@/lib/api/endpoints";
 import { organizationJsonLd } from "@/lib/seo/jsonld";
 import { isSiteNoindex } from "@/lib/site";
 import "./globals.css";
@@ -24,15 +25,17 @@ export const viewport: Viewport = {
   viewportFit: "cover",
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const contacts = await getSiteContacts();
+
   return (
     <html lang="ru" className={`${fontVariables} h-full antialiased`}>
       <head>
-        <JsonLdScript data={organizationJsonLd()} />
+        <JsonLdScript data={organizationJsonLd(contacts)} />
       </head>
       <body className="flex min-h-full flex-col">
         <a
@@ -42,9 +45,9 @@ export default function RootLayout({
           Перейти к содержимому
         </a>
         <MSWProvider>
-          <Header />
+          <Header contacts={contacts} />
           {children}
-          <Footer />
+          <Footer contacts={contacts} />
         </MSWProvider>
       </body>
     </html>

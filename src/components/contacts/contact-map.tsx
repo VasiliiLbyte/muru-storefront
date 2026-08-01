@@ -3,12 +3,25 @@
 import type { Map as LeafletMap } from "leaflet";
 import { useEffect, useRef, useState } from "react";
 
-import { siteContacts } from "@/lib/site";
 import { cn } from "@/lib/utils";
 
 import "leaflet/dist/leaflet.css";
 
-export function ContactMap({ className }: { className?: string }) {
+export type ContactMapProps = {
+  className?: string;
+  lat: number;
+  lng: number;
+  mapZoom: number;
+  address: string;
+};
+
+export function ContactMap({
+  className,
+  lat,
+  lng,
+  mapZoom,
+  address,
+}: ContactMapProps) {
   const containerRef = useRef<HTMLDivElement>(null);
   const mapRef = useRef<LeafletMap | null>(null);
   const [ready, setReady] = useState(false);
@@ -41,10 +54,9 @@ export function ContactMap({ className }: { className?: string }) {
     void import("leaflet").then((L) => {
       if (cancelled || !containerRef.current) return;
 
-      const { lat, lng } = siteContacts.coordinates;
       const map = L.map(containerRef.current, {
         scrollWheelZoom: false,
-      }).setView([lat, lng], siteContacts.mapZoom);
+      }).setView([lat, lng], mapZoom);
 
       L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
         attribution:
@@ -72,19 +84,19 @@ export function ContactMap({ className }: { className?: string }) {
       mapRef.current?.remove();
       mapRef.current = null;
     };
-  }, [visible]);
+  }, [visible, lat, lng, mapZoom]);
 
   return (
     <div className={cn("relative", className)}>
       <div
         ref={containerRef}
         role="region"
-        aria-label={`Карта: ${siteContacts.address}`}
+        aria-label={`Карта: ${address}`}
         aria-busy={visible && !ready}
         className="h-[min(60vh,28rem)] w-full border border-border bg-surface"
       />
       <noscript>
-        <p className="mt-2 text-small text-text-muted">{siteContacts.address}</p>
+        <p className="mt-2 text-small text-text-muted">{address}</p>
       </noscript>
     </div>
   );

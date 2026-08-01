@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 
 import { ContactsPageContent } from "@/components/contacts/contacts-page-content";
 import { ContentShell } from "@/components/content/content-shell";
-import { getStaticPage } from "@/lib/api/endpoints";
+import { getSiteContacts, getStaticPage } from "@/lib/api/endpoints";
 import { companyCrumb, contentBreadcrumbs } from "@/lib/content/breadcrumbs";
 import { buildPageMetadata } from "@/lib/seo/page-metadata";
 
@@ -18,7 +18,10 @@ export async function generateMetadata(): Promise<Metadata> {
 }
 
 export default async function ContactsPage() {
-  const page = await getStaticPage("contacts");
+  const [page, contacts] = await Promise.all([
+    getStaticPage("contacts"),
+    getSiteContacts(),
+  ]);
 
   return (
     <main id="main" className="flex flex-1 flex-col">
@@ -29,7 +32,7 @@ export default async function ContactsPage() {
           { name: page.title, href: "/company/contacts/" },
         )}
       >
-        <ContactsPageContent heroImage={page.heroImage} />
+        <ContactsPageContent heroImage={page.heroImage} contacts={contacts} />
       </ContentShell>
     </main>
   );

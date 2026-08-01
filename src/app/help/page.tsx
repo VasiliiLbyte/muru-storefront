@@ -12,11 +12,11 @@ import { buildPageMetadata } from "@/lib/seo/page-metadata";
 export const revalidate = 300;
 
 const HELP_TILES = [
-  { title: "Доставка", href: "#" },
+  { title: "Доставка", href: "/help/delivery/" },
   { title: "Отзывы", href: "#" },
-  { title: "Условия обслуживания", href: "#" },
+  { title: "Условия обслуживания", href: "/help/terms/" },
   { title: "Корпоративные подарки", href: "#" },
-  { title: "Возврат", href: "#" },
+  { title: "Возврат", href: "/help/refund/" },
   { title: "Подарочные карты", href: "#" },
 ] as const;
 

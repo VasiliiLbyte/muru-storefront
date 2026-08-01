@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 
 import { RequisitesTable } from "@/components/company/requisites-table";
 import { ContentShell } from "@/components/content/content-shell";
-import { getStaticPage } from "@/lib/api/endpoints";
+import { getRequisites, getStaticPage } from "@/lib/api/endpoints";
 import { companyCrumb, contentBreadcrumbs } from "@/lib/content/breadcrumbs";
 import { buildPageMetadata } from "@/lib/seo/page-metadata";
 
@@ -18,7 +18,10 @@ export async function generateMetadata(): Promise<Metadata> {
 }
 
 export default async function RequisitesPage() {
-  const page = await getStaticPage("requisites");
+  const [page, rows] = await Promise.all([
+    getStaticPage("requisites"),
+    getRequisites(),
+  ]);
 
   return (
     <main id="main" className="flex flex-1 flex-col">
@@ -29,7 +32,7 @@ export default async function RequisitesPage() {
           { name: page.title, href: "/company/requisites/" },
         )}
       >
-        <RequisitesTable />
+        <RequisitesTable rows={rows} />
       </ContentShell>
     </main>
   );

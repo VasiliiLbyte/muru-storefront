@@ -1,5 +1,5 @@
 import { catalogTriggerClass } from "@/components/layout/catalog-trigger-class";
-import { siteContacts } from "@/lib/site";
+import type { SiteContacts } from "@/lib/site";
 import { Suspense } from "react";
 
 import { CatalogMenu } from "./catalog-menu";
@@ -18,7 +18,7 @@ function CatalogMenuFallback() {
  * &lt;lg: одна строка ~60px — бургер | лого | поиск-иконка | actions.
  * ≥lg: лого | каталог | инлайн-поиск | actions (без регрессий).
  */
-export function Header() {
+export function Header({ contacts }: { contacts: SiteContacts }) {
   return (
     <>
       {/* Utility-строка — desktop, уезжает при скролле */}
@@ -26,10 +26,10 @@ export function Header() {
         <div className="mx-auto flex h-11 w-full max-w-[1564px] items-center justify-between px-4 sm:px-8">
           <HeaderTopNav />
           <a
-            href={siteContacts.phoneHref}
+            href={contacts.phoneHref}
             className="text-body font-light text-text-secondary transition-colors hover:text-brand focus-visible:ring-1 focus-visible:ring-ring focus-visible:outline-none"
           >
-            {siteContacts.phoneDisplay}
+            {contacts.phoneDisplay}
           </a>
         </div>
       </div>
@@ -39,7 +39,7 @@ export function Header() {
         <div className="mx-auto w-full max-w-[1564px] px-2 sm:px-4 lg:px-8">
           <div className="flex h-14 items-center gap-1 lg:min-h-[calc(var(--header-height)-2.75rem)] lg:gap-4 lg:py-2">
             <div className="lg:hidden">
-              <MobileMenu />
+              <MobileMenu contacts={contacts} />
             </div>
 
             <Logo className="min-w-0 max-w-[4.5rem] shrink lg:max-w-none lg:shrink-0 [&_img]:h-7 [&_img]:w-auto lg:[&_img]:h-10" />
