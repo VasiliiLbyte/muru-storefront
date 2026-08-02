@@ -43,7 +43,7 @@ export type SiteContacts = {
   email: string;
   emailHref: string;
   hours: string;
-  /** Координаты офиса для Leaflet-карты. */
+  /** Координаты офиса для карты на Контактах. */
   coordinates: { lat: number; lng: number };
   mapZoom: number;
 };

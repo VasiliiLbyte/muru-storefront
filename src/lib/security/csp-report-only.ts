@@ -11,10 +11,18 @@ export const YANDEX_SMARTCAPTCHA_HOSTS = [
   "https://smartcaptcha.yandexcloud.net",
 ] as const;
 
+/** Origins for Yandex Maps embed iframe on /company/contacts/. */
+export const YANDEX_MAP_FRAME_HOSTS = [
+  "https://yandex.ru",
+  "https://api-maps.yandex.ru",
+  "https://yandex.com",
+] as const;
+
 export const CSP_REPORT_ONLY_HEADER = "Content-Security-Policy-Report-Only";
 
 export function buildCspReportOnlyPolicy(): string {
   const captcha = YANDEX_SMARTCAPTCHA_HOSTS.join(" ");
+  const maps = YANDEX_MAP_FRAME_HOSTS.join(" ");
 
   return [
     "default-src 'self'",
@@ -23,7 +31,7 @@ export function buildCspReportOnlyPolicy(): string {
     "img-src 'self' data: blob: https:",
     "font-src 'self' data:",
     "connect-src 'self' https: http://localhost:* http://127.0.0.1:*",
-    `frame-src 'self' ${captcha}`,
+    `frame-src 'self' ${captcha} ${maps}`,
     "object-src 'none'",
     "base-uri 'self'",
     "form-action 'self'",

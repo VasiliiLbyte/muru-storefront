@@ -11,15 +11,23 @@ import {
 } from "@/lib/site";
 import { cn } from "@/lib/utils";
 
-const footerLinkClass = cn(
+const companyLinkClass = cn(
   "inline-flex min-h-11 items-center font-light text-text-secondary transition-colors hover:text-brand",
-  // parity: muru.ru mobile footer links — uppercase 16px / LH 20
+  "max-lg:text-[16px] max-lg:leading-5 max-lg:uppercase",
+  "lg:text-body lg:uppercase",
+);
+
+const catalogLinkClass = cn(
+  "inline-flex min-h-11 items-center font-light text-text-secondary transition-colors hover:text-brand",
   "max-lg:text-[16px] max-lg:leading-5 max-lg:uppercase",
   "lg:text-body",
 );
 
+const columnHeadingClass =
+  "mb-3 text-small font-medium tracking-[0.08em] text-text-heading uppercase";
+
 /**
- * Подвал: две группы ссылок + контакты + юр. ссылки + копирайт.
+ * Подвал ≈ old.bitrix: watermark logo, 3 колонки, копирайт + legal.
  * Каталог — топ-категории из API (или MSW-фикстур).
  */
 export async function Footer({ contacts }: { contacts: SiteContacts }) {
@@ -38,17 +46,22 @@ export async function Footer({ contacts }: { contacts: SiteContacts }) {
   return (
     <footer className="mt-auto border-t border-border bg-surface">
       <div className="mx-auto w-full max-w-[1564px] px-4 py-12 sm:px-8">
-        {/* parity: muru.ru footer svg ~206×40 color #555558 */}
-        <div className="mb-6 border-b border-border pb-6">
-          <Logo className="h-10 w-auto [&_img]:grayscale [&_img]:brightness-[0.55]" />
+        <div className="mb-10 flex justify-center">
+          <Logo
+            className={cn(
+              "h-auto opacity-40 [&_img]:h-14 [&_img]:w-auto sm:[&_img]:h-16",
+              "[&_img]:grayscale [&_img]:brightness-[0.55]",
+            )}
+          />
         </div>
 
-        <div className="grid grid-cols-1 gap-8 md:grid-cols-3">
+        <div className="grid grid-cols-1 gap-10 md:grid-cols-3 md:gap-8">
           <nav aria-label="Компания">
+            <p className={columnHeadingClass}>Компания</p>
             <ul className="flex flex-col gap-y-0.5">
               {companyLinks.map((item) => (
                 <li key={item.href}>
-                  <Link href={item.href} className={footerLinkClass}>
+                  <Link href={item.href} className={companyLinkClass}>
                     {item.label}
                   </Link>
                 </li>
@@ -57,10 +70,11 @@ export async function Footer({ contacts }: { contacts: SiteContacts }) {
           </nav>
 
           <nav aria-label="Каталог">
+            <p className={columnHeadingClass}>Каталог</p>
             <ul className="flex flex-col gap-y-0.5">
               {catalogLinks.map((item) => (
                 <li key={item.href}>
-                  <Link href={item.href} className={footerLinkClass}>
+                  <Link href={item.href} className={catalogLinkClass}>
                     {item.label}
                   </Link>
                 </li>
@@ -72,6 +86,7 @@ export async function Footer({ contacts }: { contacts: SiteContacts }) {
             aria-label="Контакты"
             className="flex flex-col gap-1 text-small text-text-secondary not-italic"
           >
+            <p className={columnHeadingClass}>Контакты</p>
             <span className="py-2">{contacts.address}</span>
             <a
               href={contacts.phoneHref}

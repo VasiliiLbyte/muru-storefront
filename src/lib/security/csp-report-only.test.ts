@@ -2,6 +2,7 @@ import { describe, expect, it } from "vitest";
 
 import {
   CSP_REPORT_ONLY_HEADER,
+  YANDEX_MAP_FRAME_HOSTS,
   YANDEX_SMARTCAPTCHA_HOSTS,
   buildCspReportOnlyPolicy,
   buildSecurityHeaders,
@@ -20,7 +21,7 @@ describe("buildCspReportOnlyPolicy / buildSecurityHeaders", () => {
     expect(csp!.value).toBe(buildCspReportOnlyPolicy());
   });
 
-  it("includes baseline directives and SmartCaptcha hosts", () => {
+  it("includes baseline directives, SmartCaptcha and Yandex Maps hosts", () => {
     const policy = buildCspReportOnlyPolicy();
 
     expect(policy).toContain("default-src 'self'");
@@ -37,5 +38,9 @@ describe("buildCspReportOnlyPolicy / buildSecurityHeaders", () => {
     for (const host of YANDEX_SMARTCAPTCHA_HOSTS) {
       expect(policy).toContain(host);
     }
+    for (const host of YANDEX_MAP_FRAME_HOSTS) {
+      expect(policy).toContain(host);
+    }
+    expect(policy).toMatch(/frame-src 'self'/);
   });
 });
