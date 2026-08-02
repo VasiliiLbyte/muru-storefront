@@ -1,6 +1,9 @@
 import type { Metadata } from "next";
 
-import { absoluteUrl, isSiteNoindex } from "@/lib/site";
+import { absoluteUrl, isSiteNoindex, siteUrl } from "@/lib/site";
+
+/** Default square brand mark for share previews when page has no ogImage. */
+export const DEFAULT_OG_IMAGE_PATH = "/android-chrome-512x512.png";
 
 type PageMetadataInput = {
   title: string;
@@ -11,6 +14,32 @@ type PageMetadataInput = {
   /** Длинный title без суффикса template (главная). */
   titleAbsolute?: boolean;
 };
+
+/** Absolute URL for a static asset — no trailing slash. */
+export function absoluteAssetUrl(path: string): string {
+  const normalized = path.startsWith("/") ? path : `/${path}`;
+  return `${siteUrl}${normalized.replace(/\/$/, "")}`;
+}
+
+function resolveOgImageUrl(ogImage: string | undefined): {
+  url: string;
+  hasExplicitImage: boolean;
+} {
+  if (!ogImage) {
+    return {
+      url: absoluteAssetUrl(DEFAULT_OG_IMAGE_PATH),
+      hasExplicitImage: false,
+    };
+  }
+  if (ogImage.startsWith("http://") || ogImage.startsWith("https://")) {
+    return { url: ogImage, hasExplicitImage: true };
+  }
+  // Relative paths: assets without trailing slash; page paths via absoluteUrl.
+  if (/\.(png|jpe?g|webp|gif|svg|ico)(\?.*)?$/i.test(ogImage)) {
+    return { url: absoluteAssetUrl(ogImage), hasExplicitImage: true };
+  }
+  return { url: absoluteUrl(ogImage), hasExplicitImage: true };
+}
 
 /** Уникальные метаданные страницы: canonical, OG, Twitter. */
 export function buildPageMetadata({
@@ -23,11 +52,7 @@ export function buildPageMetadata({
 }: PageMetadataInput): Metadata {
   const pageTitle = title.replace(/ — MURU$/, "");
   const canonical = absoluteUrl(path);
-  const imageUrl = ogImage
-    ? ogImage.startsWith("http")
-      ? ogImage
-      : absoluteUrl(ogImage)
-    : undefined;
+  const { url: imageUrl, hasExplicitImage } = resolveOgImageUrl(ogImage);
   const ogTitle = title.includes("MURU") ? title : `${pageTitle} — MURU`;
   const resolvedRobots =
     robots ??
@@ -43,13 +68,15 @@ export function buildPageMetadata({
       description,
       type: "website",
       url: canonical,
-      images: imageUrl ? [{ url: imageUrl }] : undefined,
+      siteName: "MURU",
+      locale: "ru_RU",
+      images: [{ url: imageUrl }],
     },
     twitter: {
-      card: "summary_large_image",
+      card: hasExplicitImage ? "summary_large_image" : "summary",
       title: titleAbsolute ? title : pageTitle,
       description,
-      images: imageUrl ? [imageUrl] : undefined,
+      images: [imageUrl],
     },
   };
 }

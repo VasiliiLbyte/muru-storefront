@@ -6,13 +6,39 @@ import { Footer } from "@/components/layout/footer";
 import { JsonLdScript } from "@/components/seo/jsonld-script";
 import { getSiteContacts } from "@/lib/api/endpoints";
 import { organizationJsonLd } from "@/lib/seo/jsonld";
-import { isSiteNoindex } from "@/lib/site";
+import {
+  absoluteAssetUrl,
+  DEFAULT_OG_IMAGE_PATH,
+} from "@/lib/seo/page-metadata";
+import { isSiteNoindex, siteUrl } from "@/lib/site";
 import "./globals.css";
 
+const defaultOgImage = absoluteAssetUrl(DEFAULT_OG_IMAGE_PATH);
+
 export const metadata: Metadata = {
+  metadataBase: new URL(siteUrl),
   title: {
     default: "MURU",
     template: "%s — MURU",
+  },
+  icons: {
+    icon: [
+      { url: "/favicon.ico", sizes: "any" },
+      { url: "/favicon-16x16.png", sizes: "16x16", type: "image/png" },
+      { url: "/favicon-32x32.png", sizes: "32x32", type: "image/png" },
+    ],
+    apple: [{ url: "/apple-touch-icon.png", sizes: "180x180" }],
+  },
+  manifest: "/site.webmanifest",
+  openGraph: {
+    siteName: "MURU",
+    locale: "ru_RU",
+    type: "website",
+    images: [{ url: defaultOgImage }],
+  },
+  twitter: {
+    card: "summary",
+    images: [defaultOgImage],
   },
   ...(isSiteNoindex()
     ? { robots: { index: false, follow: false } }
@@ -23,6 +49,7 @@ export const viewport: Viewport = {
   width: "device-width",
   initialScale: 1,
   viewportFit: "cover",
+  themeColor: "#5D6B3A",
 };
 
 export default async function RootLayout({
