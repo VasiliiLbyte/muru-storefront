@@ -162,7 +162,7 @@ function CompanyPromoSection({
                 <Button
                   render={<Link href={href} />}
                   size="sm"
-                  className="h-[38px] self-start rounded-none px-4 text-[15px] font-medium hover:bg-[#52602F]"
+                  className="h-[38px] self-start rounded-none px-4 text-[15px] font-medium hover:bg-brand-hover"
                 >
                   Подробнее
                 </Button>
