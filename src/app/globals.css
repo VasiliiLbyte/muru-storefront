@@ -107,8 +107,14 @@
   --color-card: var(--card);
 }
 
-/* Hover utilities only on hover-capable pointers (M1 mobile). */
-@custom-variant hover (@media (hover: hover));
+/* Hover utilities: only on hover-capable pointers, and only while hovered. */
+@custom-variant hover {
+  @media (hover: hover) {
+    &:hover {
+      @slot;
+    }
+  }
+}
 
 /* Safe-area insets (ready for M2 sticky header). */
 @utility pt-safe {
