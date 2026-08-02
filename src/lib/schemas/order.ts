@@ -38,10 +38,35 @@ export type WebPaymentCreateResponse = z.infer<
   typeof WebPaymentCreateResponseSchema
 >;
 
+/** Сводка заказа в ответе статуса веб-платежа (succeeded). */
+export const WebPaymentOrderSummarySchema = z.object({
+  id: z.number(),
+  items: z.array(
+    z.object({
+      name: z.string(),
+      quantity: z.number(),
+      price: z.number(),
+      color: z.string().nullish(),
+      size: z.string().nullish(),
+    }),
+  ),
+  subtotal: z.number(),
+  deliveryPrice: z.number(),
+  total: z.number(),
+  deliveryMode: z.string(),
+  deliveryOption: z.string().nullish(),
+  cdekPvzAddress: z.string().nullish(),
+  address: z.string().nullish(),
+  recipientName: z.string().nullish(),
+  deliveryEta: z.string().nullish(),
+});
+export type WebPaymentOrderSummary = z.infer<typeof WebPaymentOrderSummarySchema>;
+
 /** Ответ GET /payments/web/:paymentId/status. */
 export const WebPaymentStatusResponseSchema = z.object({
   status: z.string(),
   orderId: z.number().nullable(),
+  order: WebPaymentOrderSummarySchema.optional(),
 });
 export type WebPaymentStatusResponse = z.infer<
   typeof WebPaymentStatusResponseSchema

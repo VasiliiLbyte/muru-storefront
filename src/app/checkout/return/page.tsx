@@ -3,11 +3,13 @@
 import { useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 
+import { OrderConfirmationCard } from "@/components/checkout/order-confirmation-card";
 import { getWebPaymentStatus } from "@/lib/api/endpoints";
 import {
   PENDING_WEB_CHECKOUT_SOURCE_KEY,
   PENDING_WEB_PAYMENT_ID_KEY,
 } from "@/lib/checkout/constants";
+import type { WebPaymentOrderSummary } from "@/lib/schemas/order";
 import { useCartStore } from "@/stores/cart-store";
 
 type Status = "checking" | "succeeded" | "canceled" | "timeout" | "missing";
@@ -16,6 +18,7 @@ export default function CheckoutReturnPage() {
   const router = useRouter();
   const clearCart = useCartStore((s) => s.clear);
   const [status, setStatus] = useState<Status>("checking");
+  const [order, setOrder] = useState<WebPaymentOrderSummary | null>(null);
   const attemptsRef = useRef(0);
 
   useEffect(() => {
@@ -40,6 +43,7 @@ export default function CheckoutReturnPage() {
         const res = await getWebPaymentStatus(paymentId);
         if (res.status === "succeeded") {
           const source = sessionStorage.getItem(PENDING_WEB_CHECKOUT_SOURCE_KEY);
+          setOrder(res.order ?? null);
           clearPendingKeys();
           if (source !== "one-click") {
             clearCart();
@@ -80,7 +84,10 @@ export default function CheckoutReturnPage() {
           </p>
         </>
       ) : null}
-      {status === "succeeded" ? (
+      {status === "succeeded" && order ? (
+        <OrderConfirmationCard order={order} />
+      ) : null}
+      {status === "succeeded" && !order ? (
         <>
           <p className="font-display text-h2 text-text-heading">Заказ оплачен</p>
           <p className="text-body text-text-secondary">
