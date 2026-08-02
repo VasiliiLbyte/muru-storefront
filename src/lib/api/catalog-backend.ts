@@ -177,18 +177,19 @@ export function adaptProduct(
 ): Product {
   const categorySlugs = resolveCategorySlugs(b, maps);
   const detail = b as BackendProductDetail;
+  const list = b.price;
+  const d = b.discountPercent ?? 0;
+  const sale =
+    d > 0 ? Math.round(list * (1 - d / 100) * 100) / 100 : list;
 
   return ProductSchema.parse({
     id: b.sku,
     sku: b.sku,
     slug: b.slug,
     title: b.name,
-    price: b.price,
-    oldPrice:
-      b.discountPercent > 0
-        ? Math.round(b.price / (1 - b.discountPercent / 100))
-        : undefined,
-    isOnSale: b.discountPercent > 0,
+    price: sale,
+    oldPrice: d > 0 ? list : undefined,
+    isOnSale: d > 0,
     giftGuide: Boolean(
       (b as { giftGuide?: boolean }).giftGuide ??
         (b as { is_gift_guide?: boolean }).is_gift_guide,
