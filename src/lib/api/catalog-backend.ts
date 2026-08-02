@@ -7,6 +7,7 @@ import {
   type Product,
 } from "@/lib/schemas";
 
+import { SALE_CATEGORY_SLUG } from "@/lib/catalog/sale-category";
 import { resolveCatalogImageUrl } from "@/lib/images";
 
 import { ApiError } from "./client";
@@ -175,12 +176,17 @@ export function adaptProduct(
   b: BackendProduct | BackendProductDetail,
   maps?: CategorySlugMaps,
 ): Product {
-  const categorySlugs = resolveCategorySlugs(b, maps);
+  let categorySlugs = resolveCategorySlugs(b, maps);
   const detail = b as BackendProductDetail;
   const list = b.price;
   const d = b.discountPercent ?? 0;
   const sale =
     d > 0 ? Math.round(list * (1 - d / 100) * 100) / 100 : list;
+
+  // Orphan sale («Без категории» вне публичного tree) → virtual Sale path.
+  if (categorySlugs.length === 0 && d > 0) {
+    categorySlugs = [SALE_CATEGORY_SLUG, SALE_CATEGORY_SLUG];
+  }
 
   return ProductSchema.parse({
     id: b.sku,
