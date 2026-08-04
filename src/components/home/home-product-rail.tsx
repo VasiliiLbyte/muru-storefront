@@ -1,6 +1,7 @@
 import Link from "next/link";
 
 import { ProductCard } from "@/components/catalog/product-card";
+import { mobileSectionTitleClass } from "@/components/content/content-shell";
 import { getProducts } from "@/lib/api/endpoints";
 import { ProductListQuerySchema, type Product } from "@/lib/schemas";
 import { cn } from "@/lib/utils";
@@ -54,11 +55,7 @@ export async function HomeProductRail({
       <div className="flex items-end justify-between gap-4">
         <h2
           id="home-novinki-heading"
-          className={cn(
-            // parity: muru.ru mobile section titles uppercase
-            "font-display text-h2 text-text-heading uppercase",
-            headingSrOnly && "sr-only",
-          )}
+          className={cn(mobileSectionTitleClass, headingSrOnly && "sr-only")}
         >
           Новинки
         </h2>
@@ -71,7 +68,7 @@ export async function HomeProductRail({
       </div>
 
       <div
-        className="-mx-4 flex gap-3 overflow-x-auto px-4 snap-x snap-mandatory [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
+        className="-mx-4 flex gap-3 overflow-x-auto px-4 scroll-px-4 snap-x snap-mandatory [scrollbar-width:none] [&::-webkit-scrollbar]:hidden sm:-mx-8 sm:px-8 sm:scroll-px-8"
         aria-label="Новинки"
       >
         {items.map((product) => (

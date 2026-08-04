@@ -28,6 +28,8 @@ import {
 } from "@/stores/customer-session-store";
 import { useFavoriteCount } from "@/stores/favorites-store";
 
+import { Logo } from "./logo";
+
 /**
  * Мобильное меню через Sheet (boost shadcn/base-ui Dialog).
  * Каталог — Accordion из API / MSW.
@@ -73,9 +75,10 @@ export function MobileMenu({ contacts }: { contacts: SiteContacts }) {
       </SheetTrigger>
       <SheetContent side="left" className="bg-background">
         <SheetHeader>
-          <SheetTitle className="font-display text-[22px] tracking-[0.18em] text-text-heading uppercase">
-            MURU
-          </SheetTitle>
+          <SheetTitle className="sr-only">Меню</SheetTitle>
+          <div onClick={close}>
+            <Logo className="[&_img]:h-7 [&_img]:w-auto" />
+          </div>
         </SheetHeader>
 
         <div className="flex flex-col gap-3 border-b border-border pb-4">
@@ -153,7 +156,7 @@ export function MobileMenu({ contacts }: { contacts: SiteContacts }) {
               key={item.href}
               href={item.href}
               onClick={close}
-          className="min-h-11 py-2 text-body text-text-primary uppercase transition-colors hover:text-brand"
+          className="min-h-11 py-2 text-[17px] leading-6 font-light text-text-primary uppercase transition-colors hover:text-brand"
             >
               {item.label}
             </Link>

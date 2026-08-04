@@ -4,6 +4,10 @@ import { Breadcrumbs } from "@/components/catalog/breadcrumbs";
 import type { BreadcrumbItem } from "@/lib/seo/jsonld";
 import { cn } from "@/lib/utils";
 
+/** Mobile section / content page titles (~26px light uppercase). */
+export const mobileSectionTitleClass =
+  "font-display text-[26px] leading-8 font-light text-text-heading uppercase";
+
 export function ContentShell({
   title,
   breadcrumbs,
@@ -34,7 +38,9 @@ export function ContentShell({
       {showTitle ? (
         <h1
           className={cn(
-            "mb-8 font-display text-display text-text-heading",
+            "mb-8",
+            mobileSectionTitleClass,
+            "lg:text-display lg:leading-[var(--text-display--line-height)] lg:normal-case",
             titleAlign === "center" && "text-center",
           )}
         >
