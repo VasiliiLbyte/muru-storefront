@@ -20,6 +20,7 @@ export function ProductStickyBuyBar({
   cartCtaRef: RefObject<HTMLElement | null>;
 }) {
   const addItem = useCartStore((s) => s.addItem);
+  const showAddedToast = useCartStore((s) => s.showAddedToast);
   const [ctaAbove, setCtaAbove] = useState(false);
   const [footerVisible, setFooterVisible] = useState(false);
   const [scrollLocked, setScrollLocked] = useState(false);
@@ -88,7 +89,14 @@ export function ProductStickyBuyBar({
           size="lg"
           className="min-h-12 shrink-0 bg-brand px-6 text-body text-text-inverse hover:bg-brand-hover"
           tabIndex={visible ? 0 : -1}
-          onClick={() => addItem(product.sku)}
+          onClick={() => {
+            addItem(product.sku);
+            showAddedToast({
+              sku: product.sku,
+              title: product.title,
+              imageUrl: product.images[0]?.url,
+            });
+          }}
         >
           В корзину
         </Button>

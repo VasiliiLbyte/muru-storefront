@@ -5,18 +5,29 @@ import { createJSONStorage, persist } from "zustand/middleware";
 
 import type { CartItem } from "@/lib/schemas";
 
+export type AddedToCartToast = {
+  sku: string;
+  title: string;
+  imageUrl?: string;
+};
+
 type CartState = {
   items: CartItem[];
+  /** Ephemeral — not persisted. */
+  addedToast: AddedToCartToast | null;
   addItem: (sku: string, qty?: number) => void;
   removeItem: (sku: string) => void;
   updateQty: (sku: string, qty: number) => void;
   clear: () => void;
+  showAddedToast: (toast: AddedToCartToast) => void;
+  clearAddedToast: () => void;
 };
 
 export const useCartStore = create<CartState>()(
   persist(
     (set, get) => ({
       items: [],
+      addedToast: null,
       addItem: (sku, qty = 1) => {
         const items = get().items;
         const existing = items.find((i) => i.sku === sku);
@@ -45,6 +56,8 @@ export const useCartStore = create<CartState>()(
         });
       },
       clear: () => set({ items: [] }),
+      showAddedToast: (toast) => set({ addedToast: toast }),
+      clearAddedToast: () => set({ addedToast: null }),
     }),
     {
       name: "muru-cart",
@@ -67,4 +80,14 @@ export function useCartLineCount(): number {
 /** Позиции корзины. */
 export function useCartItems(): CartItem[] {
   return useCartStore((s) => s.items);
+}
+
+/** Qty for a single SKU (0 if missing). */
+export function useCartQty(sku: string): number {
+  return useCartStore((s) => s.items.find((i) => i.sku === sku)?.qty ?? 0);
+}
+
+/** Ephemeral add-to-cart toast payload. */
+export function useAddedToast(): AddedToCartToast | null {
+  return useCartStore((s) => s.addedToast);
 }

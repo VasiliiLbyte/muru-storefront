@@ -73,7 +73,7 @@ export function MobileMenu({ contacts }: { contacts: SiteContacts }) {
       >
         <Menu className="size-6" />
       </SheetTrigger>
-      <SheetContent side="left" className="bg-background">
+      <SheetContent side="left" className="gap-3 bg-background p-4">
         <SheetHeader>
           <SheetTitle className="sr-only">Меню</SheetTitle>
           <div onClick={close}>
@@ -81,16 +81,16 @@ export function MobileMenu({ contacts }: { contacts: SiteContacts }) {
           </div>
         </SheetHeader>
 
-        <div className="flex flex-col gap-3 border-b border-border pb-4">
+        <div className="flex flex-col gap-1 border-b border-border pb-3">
           {status === "authenticated" ? (
             <>
-              <p className="text-body text-text-heading">
+              <p className="py-1.5 text-body text-text-heading">
                 {firstName || "Аккаунт"}
               </p>
               <Link
                 href="/account/"
                 onClick={close}
-                className="inline-flex min-h-11 items-center gap-2 text-body text-text-primary transition-colors hover:text-brand"
+                className="inline-flex min-h-9 items-center gap-2 py-1.5 text-body text-text-primary transition-colors hover:text-brand"
               >
                 <User className="size-5 shrink-0" aria-hidden />
                 Личный кабинет
@@ -101,7 +101,7 @@ export function MobileMenu({ contacts }: { contacts: SiteContacts }) {
                   close();
                   void logoutCustomer();
                 }}
-                className="inline-flex min-h-11 items-center gap-2 text-left text-body text-text-secondary transition-colors hover:text-brand focus-visible:ring-1 focus-visible:ring-ring focus-visible:outline-none"
+                className="inline-flex min-h-9 items-center gap-2 py-1.5 text-left text-body text-text-secondary transition-colors hover:text-brand focus-visible:ring-1 focus-visible:ring-ring focus-visible:outline-none"
               >
                 <LogOut className="size-5 shrink-0" aria-hidden />
                 Выйти
@@ -111,7 +111,7 @@ export function MobileMenu({ contacts }: { contacts: SiteContacts }) {
             <button
               type="button"
               onClick={handleLogin}
-              className="inline-flex min-h-11 items-center gap-2 text-left text-body text-text-primary transition-colors hover:text-brand focus-visible:ring-1 focus-visible:ring-ring focus-visible:outline-none"
+              className="inline-flex min-h-9 items-center gap-2 py-1.5 text-left text-body text-text-primary transition-colors hover:text-brand focus-visible:ring-1 focus-visible:ring-ring focus-visible:outline-none"
             >
               <User className="size-5 shrink-0" aria-hidden />
               Войти
@@ -121,7 +121,7 @@ export function MobileMenu({ contacts }: { contacts: SiteContacts }) {
           <Link
             href="/personal/favorite/"
             onClick={close}
-            className="inline-flex min-h-11 items-center justify-between gap-2 text-body text-text-primary transition-colors hover:text-brand"
+            className="inline-flex min-h-9 items-center justify-between gap-2 py-1.5 text-body text-text-primary transition-colors hover:text-brand"
           >
             <span className="inline-flex items-center gap-2">
               <Heart className="size-5 shrink-0" aria-hidden />
@@ -136,7 +136,7 @@ export function MobileMenu({ contacts }: { contacts: SiteContacts }) {
           <Link
             href="/basket/"
             onClick={close}
-            className="inline-flex min-h-11 items-center justify-between gap-2 text-body text-text-primary transition-colors hover:text-brand"
+            className="inline-flex min-h-9 items-center justify-between gap-2 py-1.5 text-body text-text-primary transition-colors hover:text-brand"
           >
             <span className="inline-flex items-center gap-2">
               <ShoppingBag className="size-5 shrink-0" aria-hidden />
@@ -150,13 +150,13 @@ export function MobileMenu({ contacts }: { contacts: SiteContacts }) {
           </Link>
         </div>
 
-        <nav aria-label="Основная навигация" className="flex flex-col gap-1">
+        <nav aria-label="Основная навигация" className="flex flex-col gap-0.5">
           {mainNav.map((item) => (
             <Link
               key={item.href}
               href={item.href}
               onClick={close}
-          className="min-h-11 py-2 text-[17px] leading-6 font-light text-text-primary uppercase transition-colors hover:text-brand"
+              className="min-h-9 py-1 text-[17px] leading-6 font-light text-text-primary uppercase transition-colors hover:text-brand"
             >
               {item.label}
             </Link>
@@ -164,7 +164,7 @@ export function MobileMenu({ contacts }: { contacts: SiteContacts }) {
         </nav>
 
         <div>
-          <p className="mb-2 text-caption font-medium tracking-wide text-text-secondary uppercase">
+          <p className="mb-1 text-caption font-medium tracking-wide text-text-secondary uppercase">
             Каталог
           </p>
           <Accordion.Root className="flex flex-col">
@@ -176,18 +176,18 @@ export function MobileMenu({ contacts }: { contacts: SiteContacts }) {
                 {top.children?.length ? (
                   <>
                     <Accordion.Header className="m-0">
-                      <Accordion.Trigger className="group flex min-h-11 w-full items-center justify-between gap-2 py-3 text-body text-text-heading transition-colors hover:text-brand focus-visible:outline-none">
+                      <Accordion.Trigger className="group flex min-h-9 w-full items-center justify-between gap-2 py-2 text-body text-text-heading transition-colors hover:text-brand focus-visible:outline-none">
                         {top.title}
                         <ChevronDown className="size-4 transition-transform duration-300 ease-in-out group-data-[panel-open]:rotate-180 motion-reduce:transition-none motion-reduce:group-data-[panel-open]:rotate-0" />
                       </Accordion.Trigger>
                     </Accordion.Header>
                     <Accordion.Panel className="overflow-hidden">
-                      <ul className="flex flex-col gap-1 pb-3 pl-3">
+                      <ul className="flex flex-col gap-0.5 pb-2 pl-3">
                         <li>
                           <Link
                             href={catalogHref.top(top.slug)}
                             onClick={close}
-                            className="block py-1.5 text-small text-text-primary transition-colors hover:text-brand"
+                            className="block py-1 text-small text-text-primary transition-colors hover:text-brand"
                           >
                             Все: {top.title}
                           </Link>
@@ -197,7 +197,7 @@ export function MobileMenu({ contacts }: { contacts: SiteContacts }) {
                             <Link
                               href={catalogHref.sub(top.slug, sub.slug)}
                               onClick={close}
-                              className="block py-1.5 text-small text-text-secondary transition-colors hover:text-text-primary"
+                              className="block py-1 text-small text-text-secondary transition-colors hover:text-text-primary"
                             >
                               {sub.title}
                             </Link>
@@ -210,7 +210,7 @@ export function MobileMenu({ contacts }: { contacts: SiteContacts }) {
                   <Link
                     href={catalogHref.top(top.slug)}
                     onClick={close}
-                    className="block min-h-11 py-3 text-body text-text-heading transition-colors hover:text-brand"
+                    className="block min-h-9 py-2 text-body text-text-heading transition-colors hover:text-brand"
                   >
                     {top.title}
                   </Link>
