@@ -5,6 +5,7 @@ import Link from "next/link";
 import { Heart } from "lucide-react";
 
 import { AuthSuccessToast } from "@/components/account/auth-success-toast";
+import { AddedToCartToast } from "@/components/cart/added-to-cart-toast";
 import { HeaderAccount } from "@/components/layout/header-account";
 import { HeaderMobileSearch } from "@/components/layout/header-search";
 import { MiniCart } from "@/components/layout/mini-cart";
@@ -66,6 +67,7 @@ export function HeaderActions({ className }: { className?: string }) {
       <HeaderMobileSearch />
       <HeaderAccount />
       <AuthSuccessToast />
+      <AddedToCartToast />
       <HeaderActionLink
         href="/personal/favorite/"
         label="Избранное"

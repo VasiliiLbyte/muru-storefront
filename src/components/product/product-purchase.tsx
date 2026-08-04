@@ -19,6 +19,7 @@ export function ProductPurchase({
   className?: string;
 }) {
   const addItem = useCartStore((s) => s.addItem);
+  const showAddedToast = useCartStore((s) => s.showAddedToast);
   const [oneClickOpen, setOneClickOpen] = useState(false);
   const cartCtaRef = useRef<HTMLDivElement>(null);
   const showSale = product.isOnSale && product.oldPrice;
@@ -81,7 +82,14 @@ export function ProductPurchase({
               type="button"
               size="lg"
               className="min-h-12 w-full bg-brand px-6 text-body text-text-inverse hover:bg-brand-hover lg:h-11 lg:w-auto"
-              onClick={() => addItem(product.sku)}
+              onClick={() => {
+                addItem(product.sku);
+                showAddedToast({
+                  sku: product.sku,
+                  title: product.title,
+                  imageUrl: product.images[0]?.url,
+                });
+              }}
             >
               В корзину
             </Button>
