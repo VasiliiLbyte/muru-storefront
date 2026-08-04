@@ -18,7 +18,7 @@ export function RelatedProducts({
 
       {/* Mobile: horizontal snap carousel */}
       <div
-        className="-mx-4 flex gap-3 overflow-x-auto px-4 snap-x snap-mandatory [scrollbar-width:none] [&::-webkit-scrollbar]:hidden lg:hidden"
+        className="-mx-4 flex gap-3 overflow-x-auto px-4 scroll-px-4 snap-x snap-mandatory [scrollbar-width:none] [&::-webkit-scrollbar]:hidden sm:-mx-8 sm:px-8 sm:scroll-px-8 lg:hidden"
         aria-label="Похожие товары"
       >
         {products.map((product) => (

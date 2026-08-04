@@ -47,12 +47,7 @@ export async function Footer({ contacts }: { contacts: SiteContacts }) {
     <footer className="mt-auto border-t border-border bg-surface">
       <div className="mx-auto w-full max-w-[1564px] px-4 py-12 sm:px-8">
         <div className="mb-10 flex justify-center">
-          <Logo
-            className={cn(
-              "h-auto opacity-40 [&_img]:h-14 [&_img]:w-auto sm:[&_img]:h-16",
-              "[&_img]:grayscale [&_img]:brightness-[0.55]",
-            )}
-          />
+          <Logo className="h-auto [&_img]:h-8 [&_img]:w-auto sm:[&_img]:h-12 sm:opacity-70 lg:[&_img]:h-14" />
         </div>
 
         <div className="grid grid-cols-1 gap-10 md:grid-cols-3 md:gap-8">
