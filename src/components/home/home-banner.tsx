@@ -94,9 +94,8 @@ function BannerCopy({
 
 /**
  * Full-bleed баннер главной.
- * Mobile (&lt;lg): stacked photo (1:1) + text below (E3 / M8-4).
- * Desktop (≥lg): overlay card + scroll-snap (byte-stable).
- * Media: Image or muted looping video (client) with same object-cover crop.
+ * Mobile (&lt;lg): stacked photo (4:3 contain + white) + text below.
+ * Desktop (≥lg): overlay card + scroll-snap (object-cover full-bleed).
  */
 export function HomeBanner({
   image,
@@ -125,11 +124,11 @@ export function HomeBanner({
           : "lg:h-[calc(100dvh-var(--home-offset-rest))] lg:min-h-[calc(100dvh-var(--home-offset-rest))] lg:snap-start lg:snap-always lg:scroll-mt-[var(--home-offset-rest)]",
       )}
     >
-      {/* Shared media: square on mobile, fill section on desktop */}
+      {/* Shared media: 4:3 contain on mobile, fill section on desktop */}
       <div
         className={cn(
-          "relative aspect-square w-full shrink-0",
-          "lg:absolute lg:inset-0 lg:aspect-auto lg:h-full",
+          "relative aspect-[4/3] w-full shrink-0 bg-white",
+          "lg:absolute lg:inset-0 lg:aspect-auto lg:h-full lg:bg-transparent",
         )}
       >
         <HomeBannerMedia
