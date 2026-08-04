@@ -43,7 +43,7 @@ export function HomeBannerMedia({
   if (showVideo && videoUrl) {
     return (
       <video
-        className="absolute inset-0 h-full w-full object-cover"
+        className="absolute inset-0 h-full w-full object-contain lg:object-cover"
         src={videoUrl}
         poster={imageUrl}
         muted
@@ -65,7 +65,7 @@ export function HomeBannerMedia({
       priority={priority}
       sizes="100vw"
       {...staticBlurProps()}
-      className="object-cover"
+      className="object-contain lg:object-cover"
     />
   );
 }
