@@ -18,6 +18,7 @@ export function staticBlurProps() {
 }
 
 const DRIVE_FILE_ID_PATTERNS = [/[?&]id=([^&]+)/i, /\/file\/d\/([^/]+)/i];
+const CACHE_BUST_V_PATTERN = /[?&]v=([^&]+)/i;
 
 export function extractDriveFileId(url: string): string | null {
   for (const pattern of DRIVE_FILE_ID_PATTERNS) {
@@ -25,6 +26,12 @@ export function extractDriveFileId(url: string): string | null {
     if (match?.[1]) return match[1];
   }
   return null;
+}
+
+/** CRM cover cache-bust query (`?v=<unix_ms>`). */
+export function extractCacheBustV(url: string): string | null {
+  const match = url.match(CACHE_BUST_V_PATTERN);
+  return match?.[1] ?? null;
 }
 
 export type CatalogImageWidth = 320 | 600 | 1200;
@@ -37,7 +44,11 @@ export function resolveCatalogImageUrl(
   if (!rawUrl?.trim()) return null;
   const trimmed = rawUrl.trim();
   const fileId = extractDriveFileId(trimmed);
-  if (fileId) return `${ASSETS_BASE}/img/${fileId}/${width}.webp`;
+  if (fileId) {
+    const base = `${ASSETS_BASE}/img/${fileId}/${width}.webp`;
+    const v = extractCacheBustV(trimmed);
+    return v ? `${base}?v=${encodeURIComponent(v)}` : base;
+  }
   if (trimmed.startsWith("/img/")) return `${ASSETS_BASE}${trimmed}`;
   if (trimmed.startsWith("/uploads/")) return `${ASSETS_BASE}${trimmed}`;
   return trimmed;
