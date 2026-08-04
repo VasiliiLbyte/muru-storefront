@@ -65,6 +65,7 @@ export const BackendProductSchema = z
     subcategory: z.string().optional(),
     subcategorySlug: z.string().optional(),
     webPrimarySubcategory: WebSubcategoryRefSchema.optional(),
+    webSubcategorySlugs: z.array(z.string()).optional(),
     webCrossPlacement: WebCrossPlacementRefSchema.optional(),
     color: z.string().optional(),
     dimensionsLabel: z.string().optional(),
@@ -166,6 +167,7 @@ function resolveCategorySlugs(
 
   add(top);
   add(leaf);
+  for (const s of b.webSubcategorySlugs ?? []) add(s);
   add(b.webCrossPlacement?.categorySlug);
   add(b.webCrossPlacement?.subcategorySlug);
 
