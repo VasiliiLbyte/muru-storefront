@@ -22,10 +22,10 @@ const PUBLIC_LATIN_CATEGORIES = [
 describe("REDIRECT_MAP integrity", () => {
   it("has expected S0 group counts (±0 drops; D2 +2 category keys)", () => {
     expect(REDIRECT_MAP_STATS.a).toBe(184);
-    expect(REDIRECT_MAP_STATS.b).toBe(4);
+    expect(REDIRECT_MAP_STATS.b).toBe(1);
     expect(REDIRECT_MAP_STATS.c).toBe(291);
-    expect(REDIRECT_MAP_STATS.total).toBe(479);
-    expect(REDIRECT_MAP.size).toBe(479);
+    expect(REDIRECT_MAP_STATS.total).toBe(476);
+    expect(REDIRECT_MAP.size).toBe(476);
   });
 
   it("has no duplicate old keys (Map size === unique)", () => {
@@ -110,6 +110,18 @@ describe("decideCatalogRedirect", () => {
       location: "/catalog/",
       status: 301,
     });
+  });
+
+  it("live sub: khranenie-i-poryadok is not collapsed to parent hub", () => {
+    expect(
+      decideCatalogRedirect("/catalog/kukhnya-i-stolovaya/khranenie-i-poryadok/"),
+    ).toEqual({ type: "next" });
+  });
+
+  it("live sub: predmety-dekora is not collapsed to parent hub", () => {
+    expect(
+      decideCatalogRedirect("/catalog/interer/predmety-dekora/"),
+    ).toEqual({ type: "next" });
   });
 
   it("D4: uppercase latin category → lowercase canonical key", () => {
