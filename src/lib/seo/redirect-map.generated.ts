@@ -6,9 +6,9 @@
  */
 export const REDIRECT_MAP_STATS = {
   a: 184,
-  b: 4,
+  b: 1,
   c: 291,
-  total: 479,
+  total: 476,
 } as const;
 
 export const REDIRECT_MAP: ReadonlyMap<string, string> = new Map([
@@ -487,9 +487,6 @@ export const REDIRECT_MAP: ReadonlyMap<string, string> = new Map([
   ["/catalog/вазы-и-аксессуары/вазы-и-кувшины/mu0293/", "/catalog/vazy-i-aksessuary/vazy-i-kuvshiny/vaza-keramicheskaya-bolshaya/"],
   ["/catalog/вазы-и-аксессуары/вазы-и-кувшины/mu0294/", "/catalog/vazy-i-aksessuary/vazy-i-kuvshiny/vaza-keramicheskaya-malaya/"],
   ["/catalog/вазы-и-аксессуары/держатели-и-кензаны-для-цветов/mu0295/", "/catalog/vazy-i-aksessuary/derzhateli-i-kenzany-dlya-tsvetov/flovestoun/"],
-  ["/catalog/interer/predmety-dekora/", "/catalog/interer/"],
-  ["/catalog/kukhnya-i-stolovaya/khranenie-i-poryadok/", "/catalog/kukhnya-i-stolovaya/"],
-  ["/catalog/kukhnya-i-stolovaya/podsvechniki1/", "/catalog/kukhnya-i-stolovaya/"],
   ["/catalog/podarochnye-karty/", "/catalog/"],
 ]);
 
