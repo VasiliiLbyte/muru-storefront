@@ -167,7 +167,10 @@ function resolveCategorySlugs(
 
   add(top);
   add(leaf);
-  for (const s of b.webSubcategorySlugs ?? []) add(s);
+  for (const s of b.webSubcategorySlugs ?? []) {
+    add(s);
+    if (maps) add(maps.topByLeaf.get(s));
+  }
   add(b.webCrossPlacement?.categorySlug);
   add(b.webCrossPlacement?.subcategorySlug);
 

@@ -67,4 +67,50 @@ describe("adaptProduct webSubcategorySlugs", () => {
     );
     expect(product.categorySlugs).toContain("vazy");
   });
+
+  it("adds parent top for secondary membership leaf under a different hub", () => {
+    const maps = buildCategorySlugMaps([
+      {
+        name: "Натуральный декор",
+        slug: "naturalnyy-dekor",
+        children: [
+          {
+            name: "Корзины и плетёные изделия",
+            slug: "korziny-i-pletenye-izdeliya",
+            children: [],
+          },
+        ],
+      },
+      {
+        name: "Кухня и столовая",
+        slug: "kukhnya-i-stolovaya",
+        children: [
+          {
+            name: "Хранение и порядок",
+            slug: "khranenie-i-poryadok",
+            children: [],
+          },
+        ],
+      },
+    ]);
+
+    const product = adaptProduct(
+      stubBackendProduct({
+        category: "Натуральный декор",
+        webPrimarySubcategory: {
+          name: "Корзины и плетёные изделия",
+          slug: "korziny-i-pletenye-izdeliya",
+        },
+        webSubcategorySlugs: [
+          "korziny-i-pletenye-izdeliya",
+          "khranenie-i-poryadok",
+        ],
+      }),
+      maps,
+    );
+
+    expect(product.categorySlugs).toContain("khranenie-i-poryadok");
+    expect(product.categorySlugs).toContain("kukhnya-i-stolovaya");
+    expect(product.categorySlugs).toContain("naturalnyy-dekor");
+  });
 });
