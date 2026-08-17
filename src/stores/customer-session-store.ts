@@ -5,15 +5,22 @@ export type CustomerSessionStatus = "unknown" | "guest" | "authenticated";
 export type CustomerSessionCustomer = {
   fullName: string;
   email: string;
+  phone?: string | null;
+};
+
+export type AuthToastPayload = {
+  email?: string | null;
+  phone?: string | null;
 };
 
 type CustomerSessionState = {
   status: CustomerSessionStatus;
   customer: CustomerSessionCustomer | null;
-  authToast: { email: string } | null;
+  authToast: AuthToastPayload | null;
   setAuthenticated: (customer: CustomerSessionCustomer) => void;
   setGuest: () => void;
   showAuthToast: (email: string) => void;
+  showAuthToastForCustomer: (customer: AuthToastPayload) => void;
   clearAuthToast: () => void;
   /** Test helper — reset to initial unknown. */
   reset: () => void;
@@ -22,7 +29,7 @@ type CustomerSessionState = {
 const initialState = {
   status: "unknown" as CustomerSessionStatus,
   customer: null as CustomerSessionCustomer | null,
-  authToast: null as { email: string } | null,
+  authToast: null as AuthToastPayload | null,
 };
 
 /** First whitespace-separated word; empty → «Кабинет». */
@@ -39,6 +46,7 @@ export const useCustomerSessionStore = create<CustomerSessionState>((set) => ({
       customer: {
         fullName: customer.fullName,
         email: customer.email,
+        phone: customer.phone ?? null,
       },
     }),
   setGuest: () =>
@@ -47,6 +55,13 @@ export const useCustomerSessionStore = create<CustomerSessionState>((set) => ({
       customer: null,
     }),
   showAuthToast: (email) => set({ authToast: { email } }),
+  showAuthToastForCustomer: (customer) =>
+    set({
+      authToast: {
+        email: customer.email?.trim() ? customer.email : null,
+        phone: customer.phone?.trim() ? customer.phone : null,
+      },
+    }),
   clearAuthToast: () => set({ authToast: null }),
   reset: () => set({ ...initialState }),
 }));
@@ -59,6 +74,6 @@ export function useCustomerSessionCustomer(): CustomerSessionCustomer | null {
   return useCustomerSessionStore((s) => s.customer);
 }
 
-export function useAuthToast(): { email: string } | null {
+export function useAuthToast(): AuthToastPayload | null {
   return useCustomerSessionStore((s) => s.authToast);
 }

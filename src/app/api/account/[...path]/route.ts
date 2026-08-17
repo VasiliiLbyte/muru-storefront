@@ -18,7 +18,7 @@ type RouteContext = {
   params: Promise<{ path?: string[] }>;
 };
 
-const TOKEN_PATHS = new Set(["login", "refresh"]);
+const TOKEN_PATHS = new Set(["login", "refresh", "otp/verify"]);
 
 async function handleAccountProxy(
   request: Request,
@@ -192,7 +192,7 @@ async function handleAccountProxy(
   }
 
   const shouldHandleTokens =
-    TOKEN_PATHS.has(pathSegments[0] ?? "") &&
+    TOKEN_PATHS.has(pathKey) &&
     method === "POST" &&
     upstream.ok;
 

@@ -4,7 +4,7 @@ export const CUSTOMER_PASSWORD_MIN = 8;
 
 export const CustomerSchema = z.object({
   id: z.number(),
-  email: z.string(),
+  email: z.string().nullable(),
   fullName: z.string(),
   phone: z.string().nullable().optional(),
   emailVerified: z.boolean(),
@@ -16,6 +16,19 @@ export const CustomerSchema = z.object({
   lastLoginAt: z.string().nullable().optional(),
 });
 export type Customer = z.infer<typeof CustomerSchema>;
+
+export const OtpRequestResultSchema = z.object({
+  ok: z.literal(true),
+  resendAfterSec: z.number(),
+  captchaRequired: z.boolean(),
+});
+export type OtpRequestResult = z.infer<typeof OtpRequestResultSchema>;
+
+export const OtpVerifyBodySchema = z.object({
+  phone: z.string().min(1),
+  code: z.string().regex(/^\d{4}$/),
+});
+export type OtpVerifyBody = z.infer<typeof OtpVerifyBodySchema>;
 
 export const AuthTokensSchema = z.object({
   accessToken: z.string(),

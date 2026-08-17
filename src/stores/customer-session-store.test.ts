@@ -33,6 +33,7 @@ describe("customer session store", () => {
     expect(useCustomerSessionStore.getState().customer).toEqual({
       fullName: "Анна Иванова",
       email: "anna@example.com",
+      phone: null,
     });
 
     useCustomerSessionStore.getState().setGuest();
@@ -47,5 +48,27 @@ describe("customer session store", () => {
     });
     useCustomerSessionStore.getState().clearAuthToast();
     expect(useCustomerSessionStore.getState().authToast).toBeNull();
+  });
+
+  it("supports phone-only session and toast", () => {
+    useCustomerSessionStore.getState().setAuthenticated({
+      fullName: "",
+      email: "",
+      phone: "+79001234567",
+    });
+    expect(useCustomerSessionStore.getState().customer).toEqual({
+      fullName: "",
+      email: "",
+      phone: "+79001234567",
+    });
+
+    useCustomerSessionStore.getState().showAuthToastForCustomer({
+      email: null,
+      phone: "+79001234567",
+    });
+    expect(useCustomerSessionStore.getState().authToast).toEqual({
+      email: null,
+      phone: "+79001234567",
+    });
   });
 });

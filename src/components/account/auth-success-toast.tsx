@@ -4,12 +4,24 @@ import { useEffect } from "react";
 import { createPortal } from "react-dom";
 import { X } from "lucide-react";
 
+import { formatRussianPhoneForDisplay } from "@/lib/account/phone";
 import {
   useAuthToast,
   useCustomerSessionStore,
 } from "@/stores/customer-session-store";
 
 const AUTO_DISMISS_MS = 4000;
+
+function authToastSubtitle(toast: {
+  email?: string | null;
+  phone?: string | null;
+}): string | null {
+  const email = toast.email?.trim();
+  if (email) return email;
+  const phone = toast.phone?.trim();
+  if (phone) return formatRussianPhoneForDisplay(phone);
+  return null;
+}
 
 /**
  * Login success toast (top-right). State lives in customer-session store
@@ -29,6 +41,8 @@ export function AuthSuccessToast() {
 
   if (!toast || typeof document === "undefined") return null;
 
+  const subtitle = authToastSubtitle(toast);
+
   return createPortal(
     <div
       role="status"
@@ -46,7 +60,9 @@ export function AuthSuccessToast() {
       <p className="pr-8 font-display text-lg text-text-heading">
         Вы успешно авторизовались
       </p>
-      <p className="mt-1 text-small text-text-secondary">{toast.email}</p>
+      {subtitle ? (
+        <p className="mt-1 text-small text-text-secondary">{subtitle}</p>
+      ) : null}
     </div>,
     document.body,
   );

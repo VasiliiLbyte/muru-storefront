@@ -40,6 +40,8 @@ const EXACT_ACCOUNT_PATHS = new Set([
   "resend-verify",
   "password/forgot",
   "password/reset",
+  "otp/request",
+  "otp/verify",
   "me",
   "me/password",
   "addresses",

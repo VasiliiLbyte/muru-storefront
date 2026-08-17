@@ -154,6 +154,8 @@ describe("assertAllowedAccountPath / buildUpstreamAccountUrl whitelist", () => {
       ["orders", "5"],
       ["favorites"],
       ["password", "forgot"],
+      ["otp", "request"],
+      ["otp", "verify"],
     ];
 
     for (const segments of cases) {

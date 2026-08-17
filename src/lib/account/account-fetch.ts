@@ -51,20 +51,27 @@ function clearSessionIfNoAccess(): void {
 
 function syncStoreAfterRefresh(data: {
   accessToken?: string;
-  customer?: { fullName?: string; email?: string } | null;
+  customer?: {
+    fullName?: string;
+    email?: string | null;
+    phone?: string | null;
+  } | null;
 }): void {
   const store = useCustomerSessionStore.getState();
   const customer = data.customer;
-  if (
-    customer &&
-    typeof customer.fullName === "string" &&
-    typeof customer.email === "string"
-  ) {
-    store.setAuthenticated({
-      fullName: customer.fullName,
-      email: customer.email,
-    });
-    return;
+  if (customer && typeof customer.fullName === "string") {
+    const email =
+      typeof customer.email === "string" ? customer.email : "";
+    const phone =
+      typeof customer.phone === "string" ? customer.phone : null;
+    if (email || phone) {
+      store.setAuthenticated({
+        fullName: customer.fullName,
+        email,
+        phone,
+      });
+      return;
+    }
   }
   if (store.status === "authenticated") return;
   // Bootstrap without /me: complete unknown → authenticated with empty names.
