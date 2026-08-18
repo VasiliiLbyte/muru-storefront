@@ -3,6 +3,7 @@
 import Image from "next/image";
 import Link from "next/link";
 
+import { ProductCardImages } from "@/components/catalog/product-card-images";
 import { productHref } from "@/lib/catalog/urls";
 import { formatPrice } from "@/lib/format";
 import type { Hotspot, Product } from "@/lib/schemas";
@@ -22,18 +23,28 @@ export function HotspotProductCard({
   className,
   imageSizes = "224px",
 }: HotspotProductCardProps) {
-  const imageUrl =
+  const fallbackUrl =
     product?.images[0]?.url ?? hotspot.product.image ?? undefined;
   const title = product?.title ?? hotspot.product.name;
   const href = product ? productHref(product) : hotspot.product.slug;
   const showSale = product?.isOnSale && product.oldPrice;
+  const useCarousel = Boolean(product && product.images.length > 1);
 
   return (
     <div className={cn("min-w-0", className)}>
-      {imageUrl ? (
+      {useCarousel && product ? (
+        <div className="relative mb-3 aspect-square w-full overflow-hidden bg-surface">
+          <ProductCardImages
+            images={product.images}
+            href={productHref(product)}
+            variant="compact"
+            sizes={imageSizes}
+          />
+        </div>
+      ) : fallbackUrl ? (
         <div className="relative mb-3 aspect-square w-full overflow-hidden bg-surface">
           <Image
-            src={imageUrl}
+            src={fallbackUrl}
             alt=""
             fill
             sizes={imageSizes}

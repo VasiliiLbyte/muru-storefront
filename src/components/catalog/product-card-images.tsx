@@ -38,16 +38,21 @@ export function ProductCardImages({
   images,
   href,
   priority = false,
+  variant = "listing",
+  sizes = CARD_IMAGE_SIZES,
 }: {
   images: ImageData[];
   href: string;
   priority?: boolean;
+  variant?: "listing" | "compact";
+  sizes?: string;
 }) {
   const scrollRef = useRef<HTMLDivElement>(null);
   const [activeIndex, setActiveIndex] = useState(0);
   const [extraSlidesMounted, setExtraSlidesMounted] = useState(false);
   const isFineHover = useFineHover();
   const reducedMotion = usePrefersReducedMotion();
+  const showArrows = variant === "listing";
 
   const slides = images.slice(0, MAX_CAROUSEL_SLIDES);
   const isCarousel = slides.length > 1;
@@ -135,7 +140,7 @@ export function ProductCardImages({
           src={image.url}
           alt=""
           fill
-          sizes={CARD_IMAGE_SIZES}
+          sizes={sizes}
           priority={priority}
           placeholder={image.blurDataURL ? "blur" : undefined}
           blurDataURL={image.blurDataURL}
@@ -174,7 +179,7 @@ export function ProductCardImages({
                 src={image.url}
                 alt=""
                 fill
-                sizes={CARD_IMAGE_SIZES}
+                sizes={sizes}
                 priority={priority && index === 0}
                 loading={index === 0 ? undefined : "lazy"}
                 fetchPriority={index === 0 ? undefined : "low"}
@@ -187,7 +192,7 @@ export function ProductCardImages({
         ))}
       </div>
 
-      {extraSlidesMounted && !isFineHover && renderedSlides.length > 1 ? (
+      {showArrows && extraSlidesMounted && !isFineHover && renderedSlides.length > 1 ? (
         <>
           {activeIndex > 0 ? (
             <button
@@ -214,8 +219,10 @@ export function ProductCardImages({
 
       {isCarousel ? (
         <div
-          // parity: muru.ru mobile .section-gallery-nav bottom:16px
-          className="pointer-events-none absolute bottom-4 left-1/2 z-20 flex -translate-x-1/2 gap-1.5"
+          className={cn(
+            "pointer-events-none absolute left-1/2 z-30 flex -translate-x-1/2 gap-1.5",
+            variant === "compact" ? "bottom-3" : "bottom-12",
+          )}
           aria-hidden
         >
           {slides.map((image, index) => (
@@ -223,7 +230,9 @@ export function ProductCardImages({
               key={`dot-${image.url}-${index}`}
               className={cn(
                 "size-1.5 rounded-full transition-colors",
-                index === activeIndex ? "bg-brand" : "bg-brand/35",
+                index === activeIndex
+                  ? "bg-brand"
+                  : "bg-white/80 ring-1 ring-black/10",
               )}
             />
           ))}
