@@ -29,3 +29,8 @@ export function useFineHover(): boolean {
 export function useHotspotSheetMode(): boolean {
   return useMatchMedia(HOTSPOT_SHEET_QUERY);
 }
+
+/** Same breakpoint as hotspots: touch / narrow viewports get bottom sheets. */
+export function useBottomSheetMode(): boolean {
+  return useMatchMedia(HOTSPOT_SHEET_QUERY);
+}

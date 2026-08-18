@@ -28,6 +28,34 @@ export function normalizeRussianPhoneForApi(raw: string): string | null {
   return `+${digits}`;
 }
 
+/**
+ * Digits after the `+7` country code, for inputs with a fixed `+7` prefix.
+ * Accepts pasted `+7…`, `8…`, `7…` and bare 10-digit numbers.
+ */
+export function russianPhoneDigits10(raw: string): string {
+  let digits = digitsOnly(raw);
+
+  if (digits.length > 10 && (digits.startsWith("7") || digits.startsWith("8"))) {
+    digits = digits.slice(1);
+  }
+
+  return digits.slice(0, 10);
+}
+
+/** Progressive mask for the 10 digits after `+7`: `(900) 123-45-67`. */
+export function formatRussianPhoneMask(digits10: string): string {
+  const d = digitsOnly(digits10).slice(0, 10);
+  if (!d) return "";
+
+  const area = d.slice(0, 3);
+  if (d.length <= 3) return `(${area}`;
+
+  let out = `(${area}) ${d.slice(3, 6)}`;
+  if (d.length > 6) out += `-${d.slice(6, 8)}`;
+  if (d.length > 8) out += `-${d.slice(8, 10)}`;
+  return out;
+}
+
 /** Human-readable phone for toast / UI (e.g. +7 900 123-45-67). */
 export function formatRussianPhoneForDisplay(phone: string): string {
   const normalized = normalizeRussianPhoneForApi(phone);

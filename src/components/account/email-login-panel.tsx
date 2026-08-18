@@ -8,7 +8,7 @@ import {
   fieldErrorClassName,
   fieldInvalidProps,
   fieldLabelClassName,
-  formStackClassName,
+  formStackFor,
 } from "@/components/account/form-styles";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -77,7 +77,7 @@ export function EmailLoginPanel({
   }
 
   return (
-    <form className={formStackClassName} onSubmit={onSubmit} noValidate>
+    <form className={formStackFor(variant)} onSubmit={onSubmit} noValidate>
       <div>
         <label htmlFor={emailId} className={fieldLabelClassName}>
           Email
