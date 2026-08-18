@@ -34,6 +34,16 @@ function usePrefersReducedMotion(): boolean {
   return reduced;
 }
 
+function indexFromMouseX(event: MouseEvent<HTMLDivElement>, slideCount: number) {
+  const rect = event.currentTarget.getBoundingClientRect();
+  if (rect.width <= 0 || slideCount < 1) return 0;
+  const x = event.clientX - rect.left;
+  return Math.min(
+    slideCount - 1,
+    Math.max(0, Math.floor((x / rect.width) * slideCount)),
+  );
+}
+
 export function ProductCardImages({
   images,
   href,
@@ -95,35 +105,18 @@ export function ProductCardImages({
     [activeIndex, reducedMotion, renderedSlides.length, scrollToIndex],
   );
 
-  const onMouseMove = useCallback(
+  const onFineHoverMove = useCallback(
     (event: MouseEvent<HTMLDivElement>) => {
-      if (!isFineHover || !isCarousel) return;
-      if (!extraSlidesMounted) {
-        mountExtraSlides();
-        return;
-      }
-      const el = scrollRef.current;
-      if (!el || el.clientWidth === 0) return;
-      const rect = event.currentTarget.getBoundingClientRect();
-      if (rect.width <= 0) return;
-      const x = event.clientX - rect.left;
-      const slideCount = slides.length;
-      const index = Math.min(
-        slideCount - 1,
-        Math.max(0, Math.floor((x / rect.width) * slideCount)),
-      );
-      el.scrollTo({
-        left: index * el.clientWidth,
-        behavior: "auto",
-      });
+      if (!isCarousel) return;
+      setActiveIndex(indexFromMouseX(event, slides.length));
     },
-    [extraSlidesMounted, isCarousel, isFineHover, mountExtraSlides, slides.length],
+    [isCarousel, slides.length],
   );
 
-  const onMouseLeave = useCallback(() => {
-    if (!isFineHover || !isCarousel) return;
-    scrollToIndex(0, "auto");
-  }, [isCarousel, isFineHover, scrollToIndex]);
+  const onFineHoverLeave = useCallback(() => {
+    if (!isCarousel) return;
+    setActiveIndex(0);
+  }, [isCarousel]);
 
   if (!slides[0]) return null;
 
@@ -150,14 +143,80 @@ export function ProductCardImages({
     );
   }
 
+  const dots = (
+    <div
+      className={cn(
+        "pointer-events-none absolute left-1/2 z-30 flex -translate-x-1/2 gap-1.5",
+        variant === "compact" ? "bottom-3" : "bottom-12",
+      )}
+      aria-hidden
+    >
+      {slides.map((image, index) => (
+        <span
+          key={`dot-${image.url}-${index}`}
+          className={cn(
+            "size-1.5 rounded-full transition-colors",
+            index === activeIndex
+              ? "bg-brand"
+              : "bg-white/80 ring-1 ring-black/10",
+          )}
+        />
+      ))}
+    </div>
+  );
+
+  if (isFineHover) {
+    return (
+      <div
+        className="absolute inset-0"
+        onMouseEnter={onFineHoverMove}
+        onMouseMove={onFineHoverMove}
+        onMouseLeave={onFineHoverLeave}
+      >
+        {slides.map((image, index) => {
+          const isActive = index === activeIndex;
+          return (
+            <div
+              key={`${image.url}-${index}`}
+              className={cn(
+                "absolute inset-0 transition-opacity duration-[180ms] ease-out motion-reduce:transition-none",
+                isActive
+                  ? "z-[1] opacity-100"
+                  : "pointer-events-none z-0 opacity-0",
+              )}
+            >
+              <Link
+                href={href}
+                className="absolute inset-0 focus-visible:ring-1 focus-visible:ring-ring focus-visible:outline-none"
+                tabIndex={-1}
+                aria-hidden="true"
+              >
+                <Image
+                  src={image.url}
+                  alt=""
+                  fill
+                  sizes={sizes}
+                  priority={priority && index === 0}
+                  loading={index === 0 ? undefined : "lazy"}
+                  fetchPriority={index === 0 ? undefined : "low"}
+                  placeholder={image.blurDataURL ? "blur" : undefined}
+                  blurDataURL={image.blurDataURL}
+                  className="object-cover"
+                />
+              </Link>
+            </div>
+          );
+        })}
+        {dots}
+      </div>
+    );
+  }
+
   return (
     <div
       className="absolute inset-0"
       onPointerEnter={mountExtraSlides}
       onTouchStart={mountExtraSlides}
-      onMouseEnter={mountExtraSlides}
-      onMouseMove={onMouseMove}
-      onMouseLeave={onMouseLeave}
     >
       <div
         ref={scrollRef}
@@ -192,7 +251,7 @@ export function ProductCardImages({
         ))}
       </div>
 
-      {showArrows && extraSlidesMounted && !isFineHover && renderedSlides.length > 1 ? (
+      {showArrows && extraSlidesMounted && renderedSlides.length > 1 ? (
         <>
           {activeIndex > 0 ? (
             <button
@@ -217,27 +276,7 @@ export function ProductCardImages({
         </>
       ) : null}
 
-      {isCarousel ? (
-        <div
-          className={cn(
-            "pointer-events-none absolute left-1/2 z-30 flex -translate-x-1/2 gap-1.5",
-            variant === "compact" ? "bottom-3" : "bottom-12",
-          )}
-          aria-hidden
-        >
-          {slides.map((image, index) => (
-            <span
-              key={`dot-${image.url}-${index}`}
-              className={cn(
-                "size-1.5 rounded-full transition-colors",
-                index === activeIndex
-                  ? "bg-brand"
-                  : "bg-white/80 ring-1 ring-black/10",
-              )}
-            />
-          ))}
-        </div>
-      ) : null}
+      {dots}
     </div>
   );
 }
