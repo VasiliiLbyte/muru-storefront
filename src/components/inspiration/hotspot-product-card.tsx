@@ -14,6 +14,7 @@ export type HotspotProductCardProps = {
   product?: Product;
   className?: string;
   imageSizes?: string;
+  layout?: "popover" | "sheet";
 };
 
 /** Shared lookbook hotspot product body (popover + bottom sheet). */
@@ -22,6 +23,7 @@ export function HotspotProductCard({
   product,
   className,
   imageSizes = "224px",
+  layout = "popover",
 }: HotspotProductCardProps) {
   const fallbackUrl =
     product?.images[0]?.url ?? hotspot.product.image ?? undefined;
@@ -29,31 +31,18 @@ export function HotspotProductCard({
   const href = product ? productHref(product) : hotspot.product.slug;
   const showSale = product?.isOnSale && product.oldPrice;
   const useCarousel = Boolean(product && product.images.length > 1);
+  const isSheet = layout === "sheet";
 
-  return (
-    <div className={cn("min-w-0", className)}>
-      {useCarousel && product ? (
-        <div className="relative mb-3 aspect-square w-full overflow-hidden bg-surface">
-          <ProductCardImages
-            images={product.images}
-            href={productHref(product)}
-            variant="compact"
-            sizes={imageSizes}
-          />
-        </div>
-      ) : fallbackUrl ? (
-        <div className="relative mb-3 aspect-square w-full overflow-hidden bg-surface">
-          <Image
-            src={fallbackUrl}
-            alt=""
-            fill
-            sizes={imageSizes}
-            className="object-cover"
-          />
-        </div>
-      ) : null}
-
-      <p className="pr-6 font-display text-body text-text-heading">{title}</p>
+  const details = (
+    <>
+      <p
+        className={cn(
+          "font-display text-body text-text-heading",
+          isSheet ? "pr-12" : "pr-6",
+        )}
+      >
+        {title}
+      </p>
 
       <div className="mt-2 flex flex-wrap items-baseline gap-2">
         {product ? (
@@ -80,6 +69,61 @@ export function HotspotProductCard({
       >
         Смотреть товар
       </Link>
+    </>
+  );
+
+  if (isSheet) {
+    return (
+      <div className={cn("min-w-0", className)}>
+        <div className="relative flex h-[min(52dvh,100vw)] w-full items-center justify-center overflow-hidden rounded-t-2xl bg-surface">
+          {useCarousel && product ? (
+            <ProductCardImages
+              images={product.images}
+              href={productHref(product)}
+              variant="compact"
+              sizes={imageSizes}
+              objectFit="contain"
+              dotsTone="sheet"
+            />
+          ) : fallbackUrl ? (
+            <Image
+              src={fallbackUrl}
+              alt=""
+              fill
+              sizes={imageSizes}
+              className="object-contain"
+            />
+          ) : null}
+        </div>
+        <div className="px-5 pt-4 pb-7">{details}</div>
+      </div>
+    );
+  }
+
+  return (
+    <div className={cn("min-w-0", className)}>
+      {useCarousel && product ? (
+        <div className="relative mb-3 aspect-square w-full overflow-hidden bg-surface">
+          <ProductCardImages
+            images={product.images}
+            href={productHref(product)}
+            variant="compact"
+            sizes={imageSizes}
+          />
+        </div>
+      ) : fallbackUrl ? (
+        <div className="relative mb-3 aspect-square w-full overflow-hidden bg-surface">
+          <Image
+            src={fallbackUrl}
+            alt=""
+            fill
+            sizes={imageSizes}
+            className="object-cover"
+          />
+        </div>
+      ) : null}
+
+      {details}
     </div>
   );
 }

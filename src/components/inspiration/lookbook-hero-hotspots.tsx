@@ -226,7 +226,7 @@ export function LookbookHeroHotspots({
           <SheetContent
             side="bottom"
             showClose={false}
-            className="gap-4 px-4 py-5 sm:px-6"
+            className="gap-0 overflow-hidden rounded-t-2xl p-0"
           >
             <SheetTitle className="sr-only">
               {productsBySku[activeHotspot.product.sku]?.title ??
@@ -234,7 +234,7 @@ export function LookbookHeroHotspots({
             </SheetTitle>
             <SheetClose
               aria-label="Закрыть"
-              className="absolute top-4 right-4 inline-flex size-11 items-center justify-center rounded-sm text-text-secondary transition-colors hover:text-text-heading focus-visible:ring-1 focus-visible:ring-ring focus-visible:outline-none"
+              className="absolute top-3 right-3 z-40 inline-flex size-10 items-center justify-center rounded-full bg-background/80 text-text-secondary backdrop-blur-sm transition-colors hover:text-text-heading focus-visible:ring-1 focus-visible:ring-ring focus-visible:outline-none"
             >
               <X className="size-5" />
             </SheetClose>
@@ -242,7 +242,7 @@ export function LookbookHeroHotspots({
               hotspot={activeHotspot}
               product={productsBySku[activeHotspot.product.sku]}
               imageSizes="100vw"
-              className="pr-8"
+              layout="sheet"
             />
           </SheetContent>
         </Sheet>

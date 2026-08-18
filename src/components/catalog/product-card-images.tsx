@@ -50,13 +50,19 @@ export function ProductCardImages({
   priority = false,
   variant = "listing",
   sizes = CARD_IMAGE_SIZES,
+  objectFit = "cover",
+  dotsTone = "photo",
 }: {
   images: ImageData[];
   href: string;
   priority?: boolean;
   variant?: "listing" | "compact";
   sizes?: string;
+  objectFit?: "cover" | "contain";
+  dotsTone?: "photo" | "sheet";
 }) {
+  const objectFitClass =
+    objectFit === "contain" ? "object-contain" : "object-cover";
   const scrollRef = useRef<HTMLDivElement>(null);
   const [activeIndex, setActiveIndex] = useState(0);
   const [extraSlidesMounted, setExtraSlidesMounted] = useState(false);
@@ -137,7 +143,11 @@ export function ProductCardImages({
           priority={priority}
           placeholder={image.blurDataURL ? "blur" : undefined}
           blurDataURL={image.blurDataURL}
-          className="object-cover transition-transform duration-500 ease-in-out group-hover:scale-[1.03] motion-reduce:transition-none motion-reduce:group-hover:scale-100"
+          className={cn(
+            objectFitClass,
+            objectFit === "cover" &&
+              "transition-transform duration-500 ease-in-out group-hover:scale-[1.03] motion-reduce:transition-none motion-reduce:group-hover:scale-100",
+          )}
         />
       </Link>
     );
@@ -158,7 +168,9 @@ export function ProductCardImages({
             "size-1.5 rounded-full transition-colors",
             index === activeIndex
               ? "bg-brand"
-              : "bg-white/80 ring-1 ring-black/10",
+              : dotsTone === "sheet"
+                ? "bg-black/25"
+                : "bg-white/80 ring-1 ring-black/10",
           )}
         />
       ))}
@@ -201,7 +213,7 @@ export function ProductCardImages({
                   fetchPriority={index === 0 ? undefined : "low"}
                   placeholder={image.blurDataURL ? "blur" : undefined}
                   blurDataURL={image.blurDataURL}
-                  className="object-cover"
+                  className={objectFitClass}
                 />
               </Link>
             </div>
@@ -244,7 +256,7 @@ export function ProductCardImages({
                 fetchPriority={index === 0 ? undefined : "low"}
                 placeholder={image.blurDataURL ? "blur" : undefined}
                 blurDataURL={image.blurDataURL}
-                className="object-cover"
+                className={objectFitClass}
               />
             </Link>
           </div>
