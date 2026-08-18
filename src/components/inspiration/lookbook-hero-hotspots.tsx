@@ -187,16 +187,16 @@ export function LookbookHeroHotspots({
                 if (isFineHover) scheduleClose();
               }}
               className={cn(
-                "relative flex size-7 items-center justify-center rounded-full border border-white/70 bg-white/25 text-lg leading-none text-white shadow-(--shadow-overlay) backdrop-blur-sm max-md:size-6",
+                "relative flex size-7 items-center justify-center rounded-full border border-white/70 bg-white/25 text-lg leading-none text-white shadow-(--shadow-overlay) backdrop-blur-sm max-md:size-6 max-md:border-white/50 max-md:bg-white/10",
                 "transition-transform motion-reduce:transition-none",
                 "hover:scale-105 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring motion-reduce:hover:scale-100",
-                isActive && "bg-white/40 ring-1 ring-white/80",
+                isActive && "bg-white/40 ring-1 ring-white/80 max-md:bg-white/25",
               )}
             >
               {!isActive ? (
                 <span
                   aria-hidden
-                  className="absolute inset-0 rounded-full bg-white/25 animate-ping motion-reduce:animate-none"
+                  className="absolute inset-0 rounded-full bg-white/25 animate-ping motion-reduce:animate-none max-md:bg-white/10"
                 />
               ) : null}
               <span className="relative">+</span>

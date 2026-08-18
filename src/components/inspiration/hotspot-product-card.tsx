@@ -75,15 +75,13 @@ export function HotspotProductCard({
   if (isSheet) {
     return (
       <div className={cn("min-w-0", className)}>
-        <div className="relative flex h-[min(52dvh,100vw)] w-full items-center justify-center overflow-hidden rounded-t-2xl bg-surface">
+        <div className="relative aspect-square w-full overflow-hidden rounded-t-2xl bg-surface">
           {useCarousel && product ? (
             <ProductCardImages
               images={product.images}
               href={productHref(product)}
               variant="compact"
               sizes={imageSizes}
-              objectFit="contain"
-              dotsTone="sheet"
             />
           ) : fallbackUrl ? (
             <Image
@@ -91,7 +89,7 @@ export function HotspotProductCard({
               alt=""
               fill
               sizes={imageSizes}
-              className="object-contain"
+              className="object-cover"
             />
           ) : null}
         </div>
