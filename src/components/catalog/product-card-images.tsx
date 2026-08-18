@@ -7,9 +7,11 @@ import {
   useEffect,
   useRef,
   useState,
+  type MouseEvent,
   type PointerEvent,
 } from "react";
 
+import { useFineHover } from "@/hooks/use-match-media";
 import type { Image as ImageData } from "@/lib/schemas";
 import { cn } from "@/lib/utils";
 
@@ -44,6 +46,7 @@ export function ProductCardImages({
   const scrollRef = useRef<HTMLDivElement>(null);
   const [activeIndex, setActiveIndex] = useState(0);
   const [extraSlidesMounted, setExtraSlidesMounted] = useState(false);
+  const isFineHover = useFineHover();
   const reducedMotion = usePrefersReducedMotion();
 
   const slides = images.slice(0, MAX_CAROUSEL_SLIDES);
@@ -63,15 +66,15 @@ export function ProductCardImages({
   }, [renderedSlides.length]);
 
   const scrollToIndex = useCallback(
-    (index: number) => {
+    (index: number, behavior: ScrollBehavior) => {
       const el = scrollRef.current;
       if (!el) return;
       el.scrollTo({
         left: index * el.clientWidth,
-        behavior: reducedMotion ? "auto" : "smooth",
+        behavior,
       });
     },
-    [reducedMotion],
+    [],
   );
 
   const onArrowClick = useCallback(
@@ -82,10 +85,40 @@ export function ProductCardImages({
         0,
         Math.min(activeIndex + direction, renderedSlides.length - 1),
       );
-      scrollToIndex(next);
+      scrollToIndex(next, reducedMotion ? "auto" : "smooth");
     },
-    [activeIndex, renderedSlides.length, scrollToIndex],
+    [activeIndex, reducedMotion, renderedSlides.length, scrollToIndex],
   );
+
+  const onMouseMove = useCallback(
+    (event: MouseEvent<HTMLDivElement>) => {
+      if (!isFineHover || !isCarousel) return;
+      if (!extraSlidesMounted) {
+        mountExtraSlides();
+        return;
+      }
+      const el = scrollRef.current;
+      if (!el || el.clientWidth === 0) return;
+      const rect = event.currentTarget.getBoundingClientRect();
+      if (rect.width <= 0) return;
+      const x = event.clientX - rect.left;
+      const slideCount = slides.length;
+      const index = Math.min(
+        slideCount - 1,
+        Math.max(0, Math.floor((x / rect.width) * slideCount)),
+      );
+      el.scrollTo({
+        left: index * el.clientWidth,
+        behavior: "auto",
+      });
+    },
+    [extraSlidesMounted, isCarousel, isFineHover, mountExtraSlides, slides.length],
+  );
+
+  const onMouseLeave = useCallback(() => {
+    if (!isFineHover || !isCarousel) return;
+    scrollToIndex(0, "auto");
+  }, [isCarousel, isFineHover, scrollToIndex]);
 
   if (!slides[0]) return null;
 
@@ -117,6 +150,9 @@ export function ProductCardImages({
       className="absolute inset-0"
       onPointerEnter={mountExtraSlides}
       onTouchStart={mountExtraSlides}
+      onMouseEnter={mountExtraSlides}
+      onMouseMove={onMouseMove}
+      onMouseLeave={onMouseLeave}
     >
       <div
         ref={scrollRef}
@@ -151,7 +187,7 @@ export function ProductCardImages({
         ))}
       </div>
 
-      {extraSlidesMounted && renderedSlides.length > 1 ? (
+      {extraSlidesMounted && !isFineHover && renderedSlides.length > 1 ? (
         <>
           {activeIndex > 0 ? (
             <button
