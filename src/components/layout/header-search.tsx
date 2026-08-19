@@ -469,11 +469,13 @@ function SearchFormWithSuggest({
 
   // Reset active index when items change
   const itemsKey = `${items.length}-${state}`;
-  const [prevItemsKey, setPrevItemsKey] = useState(itemsKey);
-  if (itemsKey !== prevItemsKey) {
-    setPrevItemsKey(itemsKey);
-    if (activeIndex !== -1) setActiveIndex(-1);
-  }
+  const prevItemsKeyRef = useRef(itemsKey);
+  useEffect(() => {
+    if (prevItemsKeyRef.current !== itemsKey) {
+      prevItemsKeyRef.current = itemsKey;
+      setActiveIndex(-1);
+    }
+  }, [itemsKey]);
 
   const activeDescendant =
     activeIndex >= 0 ? `${dropdownId}-opt-${activeIndex}` : undefined;
