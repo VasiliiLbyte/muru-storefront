@@ -56,9 +56,13 @@ export function useSearchSuggest(query: string) {
           return res.json() as Promise<SearchSuggestResult>;
         })
         .then((data) => {
-          if (seq !== seqRef.current) return;
+          if (seq !== seqRef.current) {
+            console.log("[suggest] stale response, ignoring", { seq, current: seqRef.current });
+            return;
+          }
           const hasResults =
             data.products.length > 0 || data.categories.length > 0;
+          console.log("[suggest] got results", { hasResults, products: data.products.length, categories: data.categories.length });
           setStore({
             suggestions: data,
             state: hasResults ? "results" : "empty",
@@ -66,7 +70,11 @@ export function useSearchSuggest(query: string) {
         })
         .catch((err) => {
           if (seq !== seqRef.current) return;
-          if (err instanceof DOMException && err.name === "AbortError") return;
+          if (err instanceof DOMException && err.name === "AbortError") {
+            console.log("[suggest] aborted");
+            return;
+          }
+          console.error("[suggest] error", err);
           setStore({ suggestions: null, state: "error" });
         });
     }, 250);
