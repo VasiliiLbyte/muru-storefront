@@ -382,10 +382,6 @@ function SearchFormWithSuggest({
       state === "empty" ||
       items.length > 0);
 
-  // Debug — remove after fix
-  useEffect(() => {
-    console.log("[search-dropdown]", { open, state, itemsCount: items.length, showDropdown, query: query.trim() });
-  }, [open, state, items.length, showDropdown, query]);
 
   const navigate = useCallback(
     (href: string, searchQuery?: string) => {
