@@ -31,8 +31,14 @@ export function parseListingSearchParams(
 export function listingQueryString(
   query: ProductListQueryInput,
   page?: number,
+  extra?: Record<string, string>,
 ): string {
   const params = new URLSearchParams();
+  if (extra) {
+    for (const [k, v] of Object.entries(extra)) {
+      if (v) params.set(k, v);
+    }
+  }
   if (query.sort && query.sort !== "popular") params.set("sort", query.sort);
   if (query.inStock) params.set("inStock", "true");
   if (query.onSale) params.set("onSale", "true");

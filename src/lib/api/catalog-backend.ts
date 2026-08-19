@@ -290,7 +290,7 @@ async function catalogFetch<T>(
   return schema.parse(payload);
 }
 
-async function fetchRawTree(): Promise<BackendTreeNode[]> {
+export async function fetchRawTree(): Promise<BackendTreeNode[]> {
   return catalogFetch(
     "/catalog/tree?subcategories=1",
     z.array(BackendTreeNodeSchema),
@@ -339,4 +339,83 @@ export async function fetchCatalogProductBySlug(
     ),
   ]);
   return adaptProduct(item, buildCategorySlugMaps(nodes));
+}
+
+// ---------------------------------------------------------------------------
+// Search
+// ---------------------------------------------------------------------------
+
+export type SearchSuggestProduct = {
+  sku: string;
+  name: string;
+  slug: string;
+  price: number;
+  discountPercent: number;
+  imageUrl: string | null;
+};
+
+export type SearchSuggestCategory = {
+  name: string;
+  categorySlug: string;
+  subcategoryName?: string;
+  subcategorySlug?: string;
+};
+
+export type SearchSuggestResult = {
+  products: SearchSuggestProduct[];
+  categories: SearchSuggestCategory[];
+};
+
+const SearchSuggestProductSchema = z.object({
+  sku: z.string(),
+  name: z.string(),
+  slug: z.string(),
+  price: z.number(),
+  discountPercent: z.number(),
+  imageUrl: z.string().nullable(),
+});
+
+const SearchSuggestCategorySchema = z.object({
+  name: z.string(),
+  categorySlug: z.string(),
+  subcategoryName: z.string().optional(),
+  subcategorySlug: z.string().optional(),
+});
+
+const SearchSuggestResultSchema = z.object({
+  products: z.array(SearchSuggestProductSchema),
+  categories: z.array(SearchSuggestCategorySchema),
+});
+
+const CatalogSearchResponseSchema = z.object({
+  items: z.array(BackendProductSchema),
+  total: z.number(),
+  page: z.number(),
+  pageSize: z.number(),
+});
+
+export type CatalogSearchResponse = z.infer<typeof CatalogSearchResponseSchema>;
+
+export async function fetchCatalogSearch(params: {
+  q: string;
+  page?: number;
+  pageSize?: number;
+}): Promise<CatalogSearchResponse> {
+  const sp = new URLSearchParams({ q: params.q, channel: "web" });
+  if (params.page) sp.set("page", String(params.page));
+  if (params.pageSize) sp.set("pageSize", String(params.pageSize));
+  return catalogFetch(
+    `/catalog/search?${sp.toString()}`,
+    CatalogSearchResponseSchema,
+  );
+}
+
+export async function fetchCatalogSearchSuggest(
+  q: string,
+): Promise<SearchSuggestResult> {
+  const sp = new URLSearchParams({ q, channel: "web" });
+  return catalogFetch(
+    `/catalog/search/suggest?${sp.toString()}`,
+    SearchSuggestResultSchema,
+  );
 }

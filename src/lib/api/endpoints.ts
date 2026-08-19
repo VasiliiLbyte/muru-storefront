@@ -47,11 +47,17 @@ import {
 } from "@/lib/site";
 
 import {
+  adaptProduct,
+  buildCategorySlugMaps,
   fetchCatalogProductBySku,
   fetchCatalogProductBySlug,
   fetchCatalogProducts,
+  fetchCatalogSearch,
+  fetchCatalogSearchSuggest,
   fetchCatalogTree,
+  fetchRawTree,
   isCatalogBackendEnabled,
+  type SearchSuggestResult,
 } from "./catalog-backend";
 import {
   fetchContentBanners,
@@ -395,4 +401,41 @@ export function calculateCdekWeb(input: {
     method: "POST",
     body: JSON.stringify(input),
   });
+}
+
+// ---------------------------------------------------------------------------
+// Search
+// ---------------------------------------------------------------------------
+
+/** Ranked search results (SSR — for /search/ page). */
+export async function searchProducts(params: {
+  q: string;
+  page?: number;
+  pageSize?: number;
+}): Promise<{ items: Product[]; total: number; page: number; pageSize: number }> {
+  if (!isCatalogBackendEnabled()) {
+    return { items: [], total: 0, page: params.page ?? 1, pageSize: params.pageSize ?? 24 };
+  }
+
+  const [nodes, result] = await Promise.all([
+    fetchRawTree(),
+    fetchCatalogSearch(params),
+  ]);
+  const maps = buildCategorySlugMaps(nodes);
+  return {
+    items: result.items.map((item) => adaptProduct(item, maps)),
+    total: result.total,
+    page: result.page,
+    pageSize: result.pageSize,
+  };
+}
+
+/** Autocomplete suggest (used by BFF proxy, not client-direct). */
+export async function getSearchSuggestions(
+  q: string,
+): Promise<SearchSuggestResult> {
+  if (!isCatalogBackendEnabled()) {
+    return { products: [], categories: [] };
+  }
+  return fetchCatalogSearchSuggest(q);
 }

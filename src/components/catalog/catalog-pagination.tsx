@@ -20,6 +20,7 @@ export function CatalogPagination({
   pageSize,
   total,
   className,
+  extra,
 }: {
   pathname: string;
   query: ProductListQueryInput;
@@ -27,6 +28,7 @@ export function CatalogPagination({
   pageSize: number;
   total: number;
   className?: string;
+  extra?: Record<string, string>;
 }) {
   const totalPages = Math.max(1, Math.ceil(total / pageSize));
   if (totalPages <= 1) return null;
@@ -34,7 +36,7 @@ export function CatalogPagination({
   const pages = pageRange(page, totalPages);
 
   const hrefFor = (p: number) =>
-    `${pathname}${listingQueryString(query, p)}`;
+    `${pathname}${listingQueryString(query, p, extra)}`;
 
   return (
     <nav
