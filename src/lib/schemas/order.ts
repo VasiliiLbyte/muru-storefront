@@ -26,6 +26,7 @@ export const WebCheckoutSchema = z.object({
   cdekCityName: z.string().nullable(),
   cdekPvzCode: z.string().nullable(),
   cdekPvzAddress: z.string().nullable(),
+  promoCode: z.string().optional().default(""),
 });
 export type WebCheckoutInput = z.infer<typeof WebCheckoutSchema>;
 

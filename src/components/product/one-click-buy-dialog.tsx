@@ -93,6 +93,7 @@ export function OneClickBuyDialog({
       recipientName: recipientName.trim(),
       recipientPhone: recipientPhone.trim(),
       email: email.trim(),
+      promoCode: "",
     };
 
     try {

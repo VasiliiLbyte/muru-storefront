@@ -343,6 +343,22 @@ export const getRequisites = cache(async (): Promise<RequisiteRow[]> => {
   return REQUISITES_FALLBACK.map((row) => ({ ...row }));
 });
 
+/** Ответ POST /payments/web/promo/validate. */
+export const PromoValidateResponseSchema = z.discriminatedUnion("valid", [
+  z.object({
+    valid: z.literal(true),
+    promoCodeId: z.number(),
+    code: z.string(),
+    discountType: z.enum(["percent", "fixed"]),
+    discountValue: z.number(),
+  }),
+  z.object({
+    valid: z.literal(false),
+    reason: z.string(),
+  }),
+]);
+export type PromoValidateResponse = z.infer<typeof PromoValidateResponseSchema>;
+
 /** Создать веб-платёж (ЮKassa + СДЭК). Bearer — если покупатель залогинен. */
 export function createWebPayment(
   payload: WebCheckoutInput,
@@ -352,6 +368,21 @@ export function createWebPayment(
     "/payments/web/create",
     WebPaymentCreateResponseSchema,
     buildWebPaymentRequestInit(JSON.stringify(body), getAccessToken()),
+  );
+}
+
+/** Проверка промокода для web-checkout. Bearer — если покупатель залогинен. */
+export function validateWebPromo(
+  code: string,
+  subtotal: number,
+): Promise<PromoValidateResponse> {
+  return apiEnvelopeFetch(
+    "/payments/web/promo/validate",
+    PromoValidateResponseSchema,
+    buildWebPaymentRequestInit(
+      JSON.stringify({ code, subtotal }),
+      getAccessToken(),
+    ),
   );
 }
 

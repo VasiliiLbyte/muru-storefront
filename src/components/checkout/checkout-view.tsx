@@ -2,14 +2,15 @@
 
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useId, useMemo, useRef, useState } from "react";
+import { Loader2 } from "lucide-react";
 
 import { WebDeliveryFields } from "@/components/checkout/web-delivery-fields";
 import { useWebDelivery } from "@/components/checkout/use-web-delivery";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { ApiError } from "@/lib/api/client";
-import { createWebPayment } from "@/lib/api/endpoints";
+import { createWebPayment, validateWebPromo } from "@/lib/api/endpoints";
 import { toWebCheckoutItems } from "@/lib/cart/checkout-mapping";
 import { hydrateCartProducts } from "@/lib/cart/hydrate";
 import { computeCartTotals } from "@/lib/cart/totals";
@@ -53,6 +54,15 @@ export function CheckoutView() {
   const [consentAccepted, setConsentAccepted] = useState(false);
   const [submitting, setSubmitting] = useState(false);
   const [submitError, setSubmitError] = useState<string | null>(null);
+  const [promoInput, setPromoInput] = useState("");
+  const [appliedPromo, setAppliedPromo] = useState<{
+    code: string;
+    discountValue: number;
+  } | null>(null);
+  const [promoLoading, setPromoLoading] = useState(false);
+  const [promoError, setPromoError] = useState<string | null>(null);
+  const promoErrorId = useId();
+  const prevSubtotalRef = useRef<number | null>(null);
 
   const skusKey = useMemo(
     () => items.map((i) => i.sku).sort().join(","),
@@ -112,6 +122,61 @@ export function CheckoutView() {
     };
   }, [skusKey, items, removeItem]);
 
+  useEffect(() => {
+    if (prevSubtotalRef.current === null) {
+      prevSubtotalRef.current = totals.subtotal;
+      return;
+    }
+    if (prevSubtotalRef.current === totals.subtotal) return;
+    prevSubtotalRef.current = totals.subtotal;
+    if (appliedPromo) {
+      setAppliedPromo(null);
+      setPromoError("Промокод нужно применить заново");
+    }
+  }, [totals.subtotal, appliedPromo]);
+
+  const promoDiscount = appliedPromo?.discountValue ?? 0;
+  const deliveryPrice = delivery.selectedTariff?.deliverySum ?? 0;
+  const totalPreview =
+    Math.max(0, totals.subtotal - promoDiscount) + deliveryPrice;
+
+  const handleApplyPromo = async () => {
+    const code = promoInput.trim().toUpperCase();
+    if (!code) return;
+
+    setPromoLoading(true);
+    setPromoError(null);
+
+    try {
+      const result = await validateWebPromo(code, totals.subtotal);
+      if (result.valid) {
+        setAppliedPromo({
+          code: result.code,
+          discountValue: result.discountValue,
+        });
+        setPromoError(null);
+      } else {
+        setAppliedPromo(null);
+        setPromoError(result.reason);
+      }
+    } catch (error) {
+      setAppliedPromo(null);
+      setPromoError(
+        error instanceof ApiError
+          ? error.message
+          : "Не удалось проверить промокод. Попробуйте позже.",
+      );
+    } finally {
+      setPromoLoading(false);
+    }
+  };
+
+  const handleRemovePromo = () => {
+    setAppliedPromo(null);
+    setPromoInput("");
+    setPromoError(null);
+  };
+
   const formValid =
     recipientName.trim().length >= 2 &&
     isPhoneValid(recipientPhone) &&
@@ -145,6 +210,7 @@ export function CheckoutView() {
       recipientName: recipientName.trim(),
       recipientPhone: recipientPhone.trim(),
       email: email.trim(),
+      promoCode: appliedPromo?.code ?? "",
     };
 
     try {
@@ -333,6 +399,68 @@ export function CheckoutView() {
               })}
             </ul>
 
+            <div className="flex flex-col gap-2 border-b border-border pb-4">
+              <div className="flex gap-2">
+                <Input
+                  id="checkout-promo"
+                  type="text"
+                  value={promoInput}
+                  onChange={(e) => setPromoInput(e.target.value)}
+                  placeholder="Промокод"
+                  aria-label="Промокод"
+                  aria-describedby={promoError ? promoErrorId : undefined}
+                  disabled={promoLoading || Boolean(appliedPromo)}
+                  className="min-w-0 flex-1"
+                />
+                <Button
+                  type="button"
+                  variant="secondary"
+                  disabled={promoLoading || !promoInput.trim() || Boolean(appliedPromo)}
+                  aria-busy={promoLoading}
+                  onClick={() => void handleApplyPromo()}
+                  className="shrink-0"
+                >
+                  {promoLoading ? (
+                    <>
+                      <Loader2 className="size-4 animate-spin" aria-hidden />
+                      <span className="sr-only">Проверка промокода…</span>
+                    </>
+                  ) : (
+                    "Применить"
+                  )}
+                </Button>
+              </div>
+
+              {promoError ? (
+                <p
+                  id={promoErrorId}
+                  className="text-small text-destructive"
+                  role="alert"
+                >
+                  {promoError}
+                </p>
+              ) : null}
+
+              {appliedPromo ? (
+                <div
+                  className="flex items-center justify-between gap-2 text-small text-text-secondary"
+                  aria-live="polite"
+                >
+                  <span>
+                    Промокод {appliedPromo.code}: −
+                    {formatPrice(appliedPromo.discountValue)}
+                  </span>
+                  <button
+                    type="button"
+                    onClick={handleRemovePromo}
+                    className="text-text-heading underline-offset-2 transition-colors hover:text-brand hover:underline"
+                  >
+                    Убрать
+                  </button>
+                </div>
+              ) : null}
+            </div>
+
             <dl className="flex flex-col gap-3 text-body">
               <div className="flex justify-between gap-4 border-t border-border pt-3">
                 <dt className="font-medium text-text-heading">Сумма</dt>
@@ -340,12 +468,26 @@ export function CheckoutView() {
                   {formatPrice(totals.subtotal)}
                 </dd>
               </div>
+              {appliedPromo ? (
+                <div className="flex justify-between gap-4">
+                  <dt className="text-text-secondary">Скидка</dt>
+                  <dd className="text-text-heading">
+                    −{formatPrice(appliedPromo.discountValue)}
+                  </dd>
+                </div>
+              ) : null}
               <div className="flex justify-between gap-4">
                 <dt className="text-text-secondary">Доставка</dt>
                 <dd className="text-text-heading">
                   {delivery.selectedTariff
                     ? formatPrice(delivery.selectedTariff.deliverySum)
                     : "—"}
+                </dd>
+              </div>
+              <div className="flex justify-between gap-4 border-t border-border pt-3">
+                <dt className="font-medium text-text-heading">Итого</dt>
+                <dd className="font-medium text-text-heading">
+                  {formatPrice(totalPreview)}
                 </dd>
               </div>
             </dl>
