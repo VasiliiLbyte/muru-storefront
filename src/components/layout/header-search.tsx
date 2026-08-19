@@ -25,9 +25,23 @@ import type {
 } from "@/lib/api/catalog-backend";
 import { formatPrice } from "@/lib/format";
 import { resolveCatalogImageUrl } from "@/lib/images";
+import { productHref } from "@/lib/catalog/urls";
 import { addRecentSearch } from "@/lib/search/recent-searches";
+import type { Product } from "@/lib/schemas";
 import { cn } from "@/lib/utils";
 import { useSearchSuggest, type SuggestState } from "@/hooks/use-search-suggest";
+
+function suggestProductToHref(p: SearchSuggestProduct): string {
+  const slugs = [p.categorySlug, p.subcategorySlug].filter(
+    (s) => s && s !== "bez-kategorii",
+  );
+  const miniProduct = {
+    categorySlugs: slugs,
+    isOnSale: p.discountPercent > 0,
+    slug: p.slug,
+  } as Product;
+  return productHref(miniProduct);
+}
 
 // ---------------------------------------------------------------------------
 // Dropdown items — flat list for keyboard nav
@@ -403,9 +417,7 @@ function SearchFormWithSuggest({
           navigate(`/search/?q=${encodeURIComponent(item.value)}`, item.value);
           break;
         case "product": {
-          const p = item.product;
-          const href = `/catalog/${p.categorySlug || '_'}/${p.subcategorySlug || '_'}/${p.slug || '_'}/`;
-          navigate(href, p.name);
+          navigate(suggestProductToHref(item.product), item.product.name);
           break;
         }
         case "category": {
