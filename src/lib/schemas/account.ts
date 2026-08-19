@@ -70,10 +70,8 @@ export type AccountFavorite = z.infer<typeof AccountFavoriteSchema>;
 /** CRM fulfillment statuses (without Черновик for progress UI). */
 export const ACCOUNT_ORDER_STATUSES = [
   "Новый",
-  "В обработке",
-  "Подтверждён",
   "Собирается",
-  "Передан в доставку",
+  "В пути",
   "Доставлен",
   "Отменён",
   "Возврат",
@@ -89,14 +87,7 @@ export function orderStatusProgress(status: string): {
   step: number;
   total: number;
 } {
-  const flow = [
-    "Новый",
-    "В обработке",
-    "Подтверждён",
-    "Собирается",
-    "Передан в доставку",
-    "Доставлен",
-  ];
+  const flow = ["Новый", "Собирается", "В пути", "Доставлен"];
   const idx = flow.indexOf(status);
   return {
     step: idx >= 0 ? idx + 1 : 0,
