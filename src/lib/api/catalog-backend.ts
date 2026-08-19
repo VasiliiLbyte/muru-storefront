@@ -352,6 +352,8 @@ export type SearchSuggestProduct = {
   price: number;
   discountPercent: number;
   imageUrl: string | null;
+  categorySlug: string;
+  subcategorySlug: string;
 };
 
 export type SearchSuggestCategory = {
@@ -373,6 +375,8 @@ const SearchSuggestProductSchema = z.object({
   price: z.number(),
   discountPercent: z.number(),
   imageUrl: z.string().nullable(),
+  categorySlug: z.string(),
+  subcategorySlug: z.string(),
 });
 
 const SearchSuggestCategorySchema = z.object({

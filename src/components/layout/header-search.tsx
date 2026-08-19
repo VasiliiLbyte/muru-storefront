@@ -402,12 +402,12 @@ function SearchFormWithSuggest({
         case "recent":
           navigate(`/search/?q=${encodeURIComponent(item.value)}`, item.value);
           break;
-        case "product":
-          navigate(
-            `/search/?q=${encodeURIComponent(item.product.name)}`,
-            item.product.name,
-          );
+        case "product": {
+          const p = item.product;
+          const href = `/catalog/${p.categorySlug || '_'}/${p.subcategorySlug || '_'}/${p.slug || '_'}/`;
+          navigate(href, p.name);
           break;
+        }
         case "category": {
           const c = item.category;
           const href = c.subcategorySlug
