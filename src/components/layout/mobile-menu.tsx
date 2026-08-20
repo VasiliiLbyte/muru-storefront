@@ -42,7 +42,7 @@ export function MobileMenu({ contacts }: { contacts: SiteContacts }) {
   const customer = useCustomerSessionCustomer();
   const favorites = useFavoriteCount();
   const cartCount = useCartCount();
-  const firstName = customerFirstName(customer?.fullName ?? "");
+  const firstName = customerFirstName(customer);
 
   useEffect(() => {
     let cancelled = false;

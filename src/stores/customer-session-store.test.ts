@@ -6,14 +6,28 @@ import {
 } from "./customer-session-store";
 
 describe("customerFirstName", () => {
-  it("returns first word of fullName", () => {
-    expect(customerFirstName("Анна Иванова")).toBe("Анна");
-    expect(customerFirstName("  Maria  Silva ")).toBe("Maria");
+  it("prefers firstName over fullName token", () => {
+    expect(
+      customerFirstName({ firstName: "Иван", fullName: "Иванов Иван" }),
+    ).toBe("Иван");
   });
 
-  it("falls back to Кабинет when empty or whitespace", () => {
-    expect(customerFirstName("")).toBe("Кабинет");
-    expect(customerFirstName("   ")).toBe("Кабинет");
+  it("falls back to first word of fullName when firstName empty", () => {
+    expect(customerFirstName({ firstName: "", fullName: "Анна Иванова" })).toBe(
+      "Анна",
+    );
+    expect(
+      customerFirstName({ firstName: "  ", fullName: "  Maria  Silva " }),
+    ).toBe("Maria");
+  });
+
+  it("falls back to Кабинет when empty", () => {
+    expect(customerFirstName(null)).toBe("Кабинет");
+    expect(customerFirstName(undefined)).toBe("Кабинет");
+    expect(customerFirstName({ firstName: "", fullName: "" })).toBe("Кабинет");
+    expect(customerFirstName({ firstName: "   ", fullName: "   " })).toBe(
+      "Кабинет",
+    );
   });
 });
 
@@ -26,12 +40,18 @@ describe("customer session store", () => {
     expect(useCustomerSessionStore.getState().status).toBe("unknown");
 
     useCustomerSessionStore.getState().setAuthenticated({
-      fullName: "Анна Иванова",
+      lastName: "Иванова",
+      firstName: "Анна",
+      middleName: "",
+      fullName: "Иванова Анна",
       email: "anna@example.com",
     });
     expect(useCustomerSessionStore.getState().status).toBe("authenticated");
     expect(useCustomerSessionStore.getState().customer).toEqual({
-      fullName: "Анна Иванова",
+      lastName: "Иванова",
+      firstName: "Анна",
+      middleName: "",
+      fullName: "Иванова Анна",
       email: "anna@example.com",
       phone: null,
     });
@@ -52,11 +72,17 @@ describe("customer session store", () => {
 
   it("supports phone-only session and toast", () => {
     useCustomerSessionStore.getState().setAuthenticated({
+      lastName: "",
+      firstName: "",
+      middleName: "",
       fullName: "",
       email: "",
       phone: "+79001234567",
     });
     expect(useCustomerSessionStore.getState().customer).toEqual({
+      lastName: "",
+      firstName: "",
+      middleName: "",
       fullName: "",
       email: "",
       phone: "+79001234567",

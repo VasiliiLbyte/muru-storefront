@@ -16,6 +16,7 @@ import { getAccessToken } from "@/lib/account/session";
 import { cn } from "@/lib/utils";
 import {
   customerFirstName,
+  emptySessionCustomer,
   useCustomerSessionCustomer,
   useCustomerSessionStatus,
   useCustomerSessionStore,
@@ -123,7 +124,7 @@ export function HeaderAccount({ compact = false }: { compact?: boolean }) {
       }
       if (useCustomerSessionStore.getState().status === "unknown") {
         if (getAccessToken()) {
-          setAuthenticated({ fullName: "", email: "" });
+          setAuthenticated(emptySessionCustomer());
         } else {
           setGuest();
         }
@@ -143,7 +144,7 @@ export function HeaderAccount({ compact = false }: { compact?: boolean }) {
   }, [router]);
 
   if (status === "authenticated") {
-    const firstName = customerFirstName(customer?.fullName ?? "");
+    const firstName = customerFirstName(customer);
     return <AuthenticatedAccountMenu firstName={firstName} />;
   }
 

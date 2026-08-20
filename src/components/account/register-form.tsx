@@ -20,7 +20,9 @@ import {
 import { CUSTOMER_PASSWORD_MIN } from "@/lib/schemas/account";
 
 export function RegisterForm() {
-  const [fullName, setFullName] = useState("");
+  const [lastName, setLastName] = useState("");
+  const [firstName, setFirstName] = useState("");
+  const [middleName, setMiddleName] = useState("");
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
   const [password, setPassword] = useState("");
@@ -34,7 +36,8 @@ export function RegisterForm() {
 
   function validate(): boolean {
     const next: Record<string, string> = {};
-    if (!fullName.trim()) next.fullName = "Укажите ФИО";
+    if (!lastName.trim()) next.lastName = "Укажите фамилию";
+    if (!firstName.trim()) next.firstName = "Укажите имя";
     if (!email.trim()) next.email = "Укажите email";
     if (password.length < CUSTOMER_PASSWORD_MIN) {
       next.password = `Не менее ${CUSTOMER_PASSWORD_MIN} символов`;
@@ -51,12 +54,15 @@ export function RegisterForm() {
     if (!validate()) return;
     setSubmitting(true);
     try {
+      const middle = middleName.trim();
       await accountFetchJson(
         "register",
         {
           method: "POST",
           body: JSON.stringify({
-            fullName: fullName.trim(),
+            lastName: lastName.trim(),
+            firstName: firstName.trim(),
+            ...(middle ? { middleName: middle } : {}),
             email: email.trim(),
             phone: phone.trim() || undefined,
             password,
@@ -97,23 +103,56 @@ export function RegisterForm() {
 
   return (
     <form className={formStackClassName} onSubmit={onSubmit} noValidate>
-      <div>
-        <label htmlFor="reg-name" className={fieldLabelClassName}>
-          ФИО
-        </label>
-        <Input
-          id="reg-name"
-          name="fullName"
-          autoComplete="name"
-          value={fullName}
-          onChange={(e) => setFullName(e.target.value)}
-          {...fieldInvalidProps(Boolean(fieldErrors.fullName))}
-        />
-        {fieldErrors.fullName ? (
-          <p className={fieldErrorClassName} role="alert">
-            {fieldErrors.fullName}
-          </p>
-        ) : null}
+      <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
+        <div>
+          <label htmlFor="reg-last-name" className={fieldLabelClassName}>
+            Фамилия
+          </label>
+          <Input
+            id="reg-last-name"
+            name="lastName"
+            autoComplete="family-name"
+            value={lastName}
+            onChange={(e) => setLastName(e.target.value)}
+            {...fieldInvalidProps(Boolean(fieldErrors.lastName))}
+          />
+          {fieldErrors.lastName ? (
+            <p className={fieldErrorClassName} role="alert">
+              {fieldErrors.lastName}
+            </p>
+          ) : null}
+        </div>
+        <div>
+          <label htmlFor="reg-first-name" className={fieldLabelClassName}>
+            Имя
+          </label>
+          <Input
+            id="reg-first-name"
+            name="firstName"
+            autoComplete="given-name"
+            value={firstName}
+            onChange={(e) => setFirstName(e.target.value)}
+            {...fieldInvalidProps(Boolean(fieldErrors.firstName))}
+          />
+          {fieldErrors.firstName ? (
+            <p className={fieldErrorClassName} role="alert">
+              {fieldErrors.firstName}
+            </p>
+          ) : null}
+        </div>
+        <div>
+          <label htmlFor="reg-middle-name" className={fieldLabelClassName}>
+            Отчество{" "}
+            <span className="font-normal text-text-muted">(необязательно)</span>
+          </label>
+          <Input
+            id="reg-middle-name"
+            name="middleName"
+            autoComplete="additional-name"
+            value={middleName}
+            onChange={(e) => setMiddleName(e.target.value)}
+          />
+        </div>
       </div>
 
       <div>

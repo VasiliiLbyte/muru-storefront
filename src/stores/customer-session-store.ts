@@ -3,6 +3,9 @@ import { create } from "zustand";
 export type CustomerSessionStatus = "unknown" | "guest" | "authenticated";
 
 export type CustomerSessionCustomer = {
+  lastName: string;
+  firstName: string;
+  middleName?: string | null;
   fullName: string;
   email: string;
   phone?: string | null;
@@ -32,10 +35,34 @@ const initialState = {
   authToast: null as AuthToastPayload | null,
 };
 
-/** First whitespace-separated word; empty → «Кабинет». */
-export function customerFirstName(fullName: string): string {
-  const first = fullName.trim().split(/\s+/)[0] ?? "";
-  return first.length > 0 ? first : "Кабинет";
+/**
+ * Header display name: prefer firstName, else first token of fullName, else «Кабинет».
+ */
+export function customerFirstName(
+  customer:
+    | { firstName?: string | null; fullName?: string | null }
+    | null
+    | undefined,
+): string {
+  const fromPart = customer?.firstName?.trim() ?? "";
+  if (fromPart.length > 0) return fromPart;
+  const fromFull = customer?.fullName?.trim().split(/\s+/)[0] ?? "";
+  return fromFull.length > 0 ? fromFull : "Кабинет";
+}
+
+/** Empty name parts for bootstrap / fallback session. */
+export function emptySessionCustomer(
+  email = "",
+  phone: string | null = null,
+): CustomerSessionCustomer {
+  return {
+    lastName: "",
+    firstName: "",
+    middleName: "",
+    fullName: "",
+    email,
+    phone,
+  };
 }
 
 export const useCustomerSessionStore = create<CustomerSessionState>((set) => ({
@@ -44,7 +71,10 @@ export const useCustomerSessionStore = create<CustomerSessionState>((set) => ({
     set({
       status: "authenticated",
       customer: {
-        fullName: customer.fullName,
+        lastName: customer.lastName ?? "",
+        firstName: customer.firstName ?? "",
+        middleName: customer.middleName ?? "",
+        fullName: customer.fullName ?? "",
         email: customer.email,
         phone: customer.phone ?? null,
       },

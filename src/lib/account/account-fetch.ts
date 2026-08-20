@@ -1,4 +1,7 @@
-import { useCustomerSessionStore } from "@/stores/customer-session-store";
+import {
+  emptySessionCustomer,
+  useCustomerSessionStore,
+} from "@/stores/customer-session-store";
 
 import { clearSession, getAccessToken, setAccessToken } from "./session";
 
@@ -52,6 +55,9 @@ function clearSessionIfNoAccess(): void {
 function syncStoreAfterRefresh(data: {
   accessToken?: string;
   customer?: {
+    lastName?: string;
+    firstName?: string;
+    middleName?: string | null;
     fullName?: string;
     email?: string | null;
     phone?: string | null;
@@ -66,6 +72,12 @@ function syncStoreAfterRefresh(data: {
       typeof customer.phone === "string" ? customer.phone : null;
     if (email || phone) {
       store.setAuthenticated({
+        lastName:
+          typeof customer.lastName === "string" ? customer.lastName : "",
+        firstName:
+          typeof customer.firstName === "string" ? customer.firstName : "",
+        middleName:
+          typeof customer.middleName === "string" ? customer.middleName : "",
         fullName: customer.fullName,
         email,
         phone,
@@ -75,7 +87,7 @@ function syncStoreAfterRefresh(data: {
   }
   if (store.status === "authenticated") return;
   // Bootstrap without /me: complete unknown → authenticated with empty names.
-  store.setAuthenticated({ fullName: "", email: "" });
+  store.setAuthenticated(emptySessionCustomer());
 }
 
 async function doRefreshAccessToken(): Promise<boolean> {

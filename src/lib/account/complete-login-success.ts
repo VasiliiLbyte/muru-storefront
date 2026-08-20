@@ -5,7 +5,10 @@ import { safeNextPath } from "@/lib/account/safe-next";
 import { setAccessToken } from "@/lib/account/session";
 import type { AuthTokens } from "@/lib/schemas/account";
 import { useAccountFavoritesStore } from "@/stores/account-favorites-store";
-import { useCustomerSessionStore } from "@/stores/customer-session-store";
+import {
+  emptySessionCustomer,
+  useCustomerSessionStore,
+} from "@/stores/customer-session-store";
 
 export type CompleteLoginSuccessOptions = {
   variant: "page" | "modal";
@@ -27,6 +30,9 @@ export async function completeLoginSuccess(
 
   if (customer) {
     store.setAuthenticated({
+      lastName: customer.lastName ?? "",
+      firstName: customer.firstName ?? "",
+      middleName: customer.middleName ?? "",
       fullName: customer.fullName,
       email: customer.email ?? "",
       phone: customer.phone ?? null,
@@ -37,7 +43,7 @@ export async function completeLoginSuccess(
     });
   } else {
     const email = options.fallbackEmail ?? "";
-    store.setAuthenticated({ fullName: "", email });
+    store.setAuthenticated(emptySessionCustomer(email));
     store.showAuthToast(email);
   }
 

@@ -5,6 +5,9 @@ export const CUSTOMER_PASSWORD_MIN = 8;
 export const CustomerSchema = z.object({
   id: z.number(),
   email: z.string().nullable(),
+  lastName: z.string(),
+  firstName: z.string(),
+  middleName: z.string().optional().nullable(),
   fullName: z.string(),
   phone: z.string().nullable().optional(),
   emailVerified: z.boolean(),

@@ -21,11 +21,14 @@ import {
   CustomerSchema,
   type Customer,
 } from "@/lib/schemas/account";
+import { useCustomerSessionStore } from "@/stores/customer-session-store";
 import { z } from "zod";
 
 export function AccountPersonalView() {
   const [customer, setCustomer] = useState<Customer | null>(null);
-  const [fullName, setFullName] = useState("");
+  const [lastName, setLastName] = useState("");
+  const [firstName, setFirstName] = useState("");
+  const [middleName, setMiddleName] = useState("");
   const [phone, setPhone] = useState("");
   const [oldPassword, setOldPassword] = useState("");
   const [newPassword, setNewPassword] = useState("");
@@ -47,7 +50,9 @@ export function AccountPersonalView() {
           .parse(await accountFetchJson("me")).customer;
         if (cancelled) return;
         setCustomer(me);
-        setFullName(me.fullName);
+        setLastName(me.lastName);
+        setFirstName(me.firstName);
+        setMiddleName(me.middleName ?? "");
         setPhone(me.phone ?? "");
       } catch (err) {
         if (!cancelled) {
@@ -71,25 +76,40 @@ export function AccountPersonalView() {
     setProfileOk(false);
     setError(null);
     const next: Record<string, string> = {};
-    if (!fullName.trim()) next.fullName = "Укажите ФИО";
+    if (!lastName.trim()) next.lastName = "Укажите фамилию";
+    if (!firstName.trim()) next.firstName = "Укажите имя";
     if (!phone.trim()) next.phone = "Укажите телефон";
     setFieldErrors(next);
     if (Object.keys(next).length > 0) return;
 
     setSaving(true);
     try {
+      const middle = middleName.trim();
       const updated = z
         .object({ customer: CustomerSchema })
         .parse(
           await accountFetchJson("me", {
             method: "PUT",
             body: JSON.stringify({
-              fullName: fullName.trim(),
+              lastName: lastName.trim(),
+              firstName: firstName.trim(),
+              ...(middle ? { middleName: middle } : { middleName: "" }),
               phone: phone.trim(),
             }),
           }),
         ).customer;
       setCustomer(updated);
+      setLastName(updated.lastName);
+      setFirstName(updated.firstName);
+      setMiddleName(updated.middleName ?? "");
+      useCustomerSessionStore.getState().setAuthenticated({
+        lastName: updated.lastName,
+        firstName: updated.firstName,
+        middleName: updated.middleName ?? "",
+        fullName: updated.fullName,
+        email: updated.email ?? "",
+        phone: updated.phone ?? null,
+      });
       setProfileOk(true);
     } catch (err) {
       setError(
@@ -148,22 +168,55 @@ export function AccountPersonalView() {
                 disabled
               />
             </div>
-            <div>
-              <label htmlFor="pers-name" className={fieldLabelClassName}>
-                ФИО
-              </label>
-              <Input
-                id="pers-name"
-                autoComplete="name"
-                value={fullName}
-                onChange={(e) => setFullName(e.target.value)}
-                {...fieldInvalidProps(Boolean(fieldErrors.fullName))}
-              />
-              {fieldErrors.fullName ? (
-                <p className={fieldErrorClassName} role="alert">
-                  {fieldErrors.fullName}
-                </p>
-              ) : null}
+            <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
+              <div>
+                <label htmlFor="pers-last-name" className={fieldLabelClassName}>
+                  Фамилия
+                </label>
+                <Input
+                  id="pers-last-name"
+                  autoComplete="family-name"
+                  value={lastName}
+                  onChange={(e) => setLastName(e.target.value)}
+                  {...fieldInvalidProps(Boolean(fieldErrors.lastName))}
+                />
+                {fieldErrors.lastName ? (
+                  <p className={fieldErrorClassName} role="alert">
+                    {fieldErrors.lastName}
+                  </p>
+                ) : null}
+              </div>
+              <div>
+                <label htmlFor="pers-first-name" className={fieldLabelClassName}>
+                  Имя
+                </label>
+                <Input
+                  id="pers-first-name"
+                  autoComplete="given-name"
+                  value={firstName}
+                  onChange={(e) => setFirstName(e.target.value)}
+                  {...fieldInvalidProps(Boolean(fieldErrors.firstName))}
+                />
+                {fieldErrors.firstName ? (
+                  <p className={fieldErrorClassName} role="alert">
+                    {fieldErrors.firstName}
+                  </p>
+                ) : null}
+              </div>
+              <div>
+                <label htmlFor="pers-middle-name" className={fieldLabelClassName}>
+                  Отчество{" "}
+                  <span className="font-normal text-text-muted">
+                    (необязательно)
+                  </span>
+                </label>
+                <Input
+                  id="pers-middle-name"
+                  autoComplete="additional-name"
+                  value={middleName}
+                  onChange={(e) => setMiddleName(e.target.value)}
+                />
+              </div>
             </div>
             <div>
               <label htmlFor="pers-phone" className={fieldLabelClassName}>
