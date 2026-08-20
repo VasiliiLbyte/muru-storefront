@@ -9,7 +9,7 @@ import { AddedToCartToast } from "@/components/cart/added-to-cart-toast";
 import { HeaderAccount } from "@/components/layout/header-account";
 import { HeaderMobileSearch } from "@/components/layout/header-search";
 import { MiniCart } from "@/components/layout/mini-cart";
-import { useFavoriteCount } from "@/stores/favorites-store";
+import { useFavoriteCount } from "@/lib/favorites/favorites-facade";
 import { cn } from "@/lib/utils";
 
 const actionTriggerClass =

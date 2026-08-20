@@ -8,6 +8,7 @@ import { HeaderSearch } from "./header-search";
 import { HeaderTopNav } from "./header-top-nav";
 import { Logo } from "./logo";
 import { MobileMenu } from "./mobile-menu";
+import { FavoritesSessionBridge } from "@/components/favorites/favorites-session-bridge";
 
 function CatalogMenuFallback() {
   return <span className={catalogTriggerClass}>Каталог</span>;
@@ -21,6 +22,7 @@ function CatalogMenuFallback() {
 export function Header({ contacts }: { contacts: SiteContacts }) {
   return (
     <>
+      <FavoritesSessionBridge />
       {/* Utility-строка — desktop, уезжает при скролле */}
       <div className="home-snap-origin hidden border-b border-border lg:block">
         <div className="mx-auto flex h-11 w-full max-w-[1564px] items-center justify-between px-4 sm:px-8">

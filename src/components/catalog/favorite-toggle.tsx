@@ -2,12 +2,13 @@
 
 import { Heart } from "lucide-react";
 
+import {
+  useIsFavorite,
+  useToggleFavorite,
+} from "@/lib/favorites/favorites-facade";
 import { cn } from "@/lib/utils";
-import { useFavoritesStore, useIsFavorite } from "@/stores/favorites-store";
 
-/**
- * Тоггл избранного на карточке. Плейсхолдер до Промпта 10 (Zustand).
- */
+/** Тоггл избранного на карточке / PDP (auth → server, guest → local). */
 export function FavoriteToggle({
   sku,
   productTitle,
@@ -18,7 +19,7 @@ export function FavoriteToggle({
   className?: string;
 }) {
   const active = useIsFavorite(sku);
-  const toggle = useFavoritesStore((s) => s.toggle);
+  const toggle = useToggleFavorite();
 
   return (
     <button

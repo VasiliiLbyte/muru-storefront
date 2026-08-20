@@ -1,66 +1,48 @@
 "use client";
 
-import { useEffect, useState } from "react";
 import Link from "next/link";
+import { useEffect } from "react";
+import { X } from "lucide-react";
 
 import { AccountShell } from "@/components/account/account-shell";
 import {
-  AccountApiError,
-  accountFetchJson,
-} from "@/lib/account/account-fetch";
-import {
-  AccountFavoriteSchema,
-  type AccountFavorite,
-} from "@/lib/schemas/account";
-import { z } from "zod";
-
-const FavoritesSchema = z.array(AccountFavoriteSchema);
+  useFavoriteItems,
+  useRemoveFavorite,
+} from "@/lib/favorites/favorites-facade";
+import { useAccountFavoritesStore } from "@/stores/account-favorites-store";
 
 export function AccountFavoritesView() {
-  const [items, setItems] = useState<AccountFavorite[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
+  const items = useFavoriteItems();
+  const remove = useRemoveFavorite();
+  const hydrate = useAccountFavoritesStore((s) => s.hydrate);
+  const hydrated = useAccountFavoritesStore((s) => s.hydrated);
+  const loading = useAccountFavoritesStore((s) => s.loading);
+  const error = useAccountFavoritesStore((s) => s.error);
 
   useEffect(() => {
-    let cancelled = false;
-    (async () => {
-      try {
-        const raw = await accountFetchJson("favorites");
-        if (!cancelled) setItems(FavoritesSchema.parse(raw));
-      } catch (err) {
-        if (!cancelled) {
-          setError(
-            err instanceof AccountApiError
-              ? err.message
-              : "Не удалось загрузить избранное",
-          );
-        }
-      } finally {
-        if (!cancelled) setLoading(false);
-      }
-    })();
-    return () => {
-      cancelled = true;
-    };
-  }, []);
+    if (!hydrated) {
+      void hydrate().catch(() => {
+        // error is stored on the account favorites store
+      });
+    }
+  }, [hydrated, hydrate]);
 
   return (
     <AccountShell title="Избранное">
-      {loading ? (
+      {loading && !hydrated ? (
         <p className="text-body text-text-muted">Загрузка…</p>
-      ) : error ? (
+      ) : error && !hydrated ? (
         <p className="text-body text-destructive" role="alert">
           {error}
         </p>
+      ) : !hydrated ? (
+        <p className="text-body text-text-muted">Загрузка…</p>
       ) : items.length === 0 ? (
-        <p className="text-body text-text-muted">
-          В избранном пока пусто. Список синхронизируется с аккаунтом (после W4
-          подтянутся локальные сохранённые товары).
-        </p>
+        <p className="text-body text-text-muted">В избранном пока пусто</p>
       ) : (
         <ul className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
           {items.map((item) => (
-            <li key={item.sku} className="border border-border">
+            <li key={item.sku} className="relative border border-border">
               <Link
                 href={`/search/?q=${encodeURIComponent(item.sku)}`}
                 className="block focus-visible:ring-1 focus-visible:ring-ring focus-visible:outline-none"
@@ -76,12 +58,22 @@ export function AccountFavoritesView() {
                   ) : null}
                 </div>
                 <div className="min-w-0 space-y-1 p-3">
-                  <p className="truncate text-body text-text-heading">{item.name}</p>
+                  <p className="truncate text-body text-text-heading">
+                    {item.name}
+                  </p>
                   <p className="text-small text-text-secondary">
                     {item.price.toLocaleString("ru-RU")} ₽
                   </p>
                 </div>
               </Link>
+              <button
+                type="button"
+                aria-label={`Убрать «${item.name}» из избранного`}
+                onClick={() => remove(item.sku)}
+                className="absolute top-2 right-2 inline-flex size-11 items-center justify-center bg-background/80 text-text-secondary backdrop-blur-sm transition-colors hover:text-brand focus-visible:ring-1 focus-visible:ring-ring focus-visible:outline-none"
+              >
+                <X className="size-5" aria-hidden />
+              </button>
             </li>
           ))}
         </ul>

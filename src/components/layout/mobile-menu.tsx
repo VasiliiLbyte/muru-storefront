@@ -26,7 +26,7 @@ import {
   useCustomerSessionCustomer,
   useCustomerSessionStatus,
 } from "@/stores/customer-session-store";
-import { useFavoriteCount } from "@/stores/favorites-store";
+import { useFavoriteCount } from "@/lib/favorites/favorites-facade";
 
 import { Logo } from "./logo";
 

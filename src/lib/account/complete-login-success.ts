@@ -4,6 +4,7 @@ import { mergeLocalFavoritesToAccount } from "@/lib/account/merge-favorites";
 import { safeNextPath } from "@/lib/account/safe-next";
 import { setAccessToken } from "@/lib/account/session";
 import type { AuthTokens } from "@/lib/schemas/account";
+import { useAccountFavoritesStore } from "@/stores/account-favorites-store";
 import { useCustomerSessionStore } from "@/stores/customer-session-store";
 
 export type CompleteLoginSuccessOptions = {
@@ -44,6 +45,12 @@ export async function completeLoginSuccess(
     await mergeLocalFavoritesToAccount();
   } catch {
     // merge must never block login
+  }
+
+  try {
+    await useAccountFavoritesStore.getState().hydrate({ force: true });
+  } catch {
+    // hydrate must never block login
   }
 
   if (options.variant === "modal") {
