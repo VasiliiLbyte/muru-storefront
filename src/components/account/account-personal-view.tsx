@@ -9,6 +9,8 @@ import {
   fieldInvalidProps,
   fieldLabelClassName,
   formStackClassName,
+  nameFieldsGridClassName,
+  nameMiddleFieldClassName,
 } from "@/components/account/form-styles";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -16,12 +18,9 @@ import {
   AccountApiError,
   accountFetchJson,
 } from "@/lib/account/account-fetch";
-import {
-  CUSTOMER_PASSWORD_MIN,
-  CustomerSchema,
-  type Customer,
-} from "@/lib/schemas/account";
+import { CUSTOMER_PASSWORD_MIN, CustomerSchema, type Customer } from "@/lib/schemas/account";
 import { useCustomerSessionStore } from "@/stores/customer-session-store";
+import { cn } from "@/lib/utils";
 import { z } from "zod";
 
 export function AccountPersonalView() {
@@ -168,8 +167,8 @@ export function AccountPersonalView() {
                 disabled
               />
             </div>
-            <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
-              <div>
+            <div className={nameFieldsGridClassName}>
+              <div className="min-w-0">
                 <label htmlFor="pers-last-name" className={fieldLabelClassName}>
                   Фамилия
                 </label>
@@ -186,7 +185,7 @@ export function AccountPersonalView() {
                   </p>
                 ) : null}
               </div>
-              <div>
+              <div className="min-w-0">
                 <label htmlFor="pers-first-name" className={fieldLabelClassName}>
                   Имя
                 </label>
@@ -203,16 +202,14 @@ export function AccountPersonalView() {
                   </p>
                 ) : null}
               </div>
-              <div>
+              <div className={cn("min-w-0", nameMiddleFieldClassName)}>
                 <label htmlFor="pers-middle-name" className={fieldLabelClassName}>
-                  Отчество{" "}
-                  <span className="font-normal text-text-muted">
-                    (необязательно)
-                  </span>
+                  Отчество
                 </label>
                 <Input
                   id="pers-middle-name"
                   autoComplete="additional-name"
+                  placeholder="необязательно"
                   value={middleName}
                   onChange={(e) => setMiddleName(e.target.value)}
                 />

@@ -10,6 +10,8 @@ import {
   fieldInvalidProps,
   fieldLabelClassName,
   formStackClassName,
+  nameFieldsGridClassName,
+  nameMiddleFieldClassName,
 } from "@/components/account/form-styles";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -18,6 +20,7 @@ import {
   accountFetchJson,
 } from "@/lib/account/account-fetch";
 import { CUSTOMER_PASSWORD_MIN } from "@/lib/schemas/account";
+import { cn } from "@/lib/utils";
 
 export function RegisterForm() {
   const [lastName, setLastName] = useState("");
@@ -103,8 +106,8 @@ export function RegisterForm() {
 
   return (
     <form className={formStackClassName} onSubmit={onSubmit} noValidate>
-      <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
-        <div>
+      <div className={nameFieldsGridClassName}>
+        <div className="min-w-0">
           <label htmlFor="reg-last-name" className={fieldLabelClassName}>
             Фамилия
           </label>
@@ -122,7 +125,7 @@ export function RegisterForm() {
             </p>
           ) : null}
         </div>
-        <div>
+        <div className="min-w-0">
           <label htmlFor="reg-first-name" className={fieldLabelClassName}>
             Имя
           </label>
@@ -140,15 +143,15 @@ export function RegisterForm() {
             </p>
           ) : null}
         </div>
-        <div>
+        <div className={cn("min-w-0", nameMiddleFieldClassName)}>
           <label htmlFor="reg-middle-name" className={fieldLabelClassName}>
-            Отчество{" "}
-            <span className="font-normal text-text-muted">(необязательно)</span>
+            Отчество
           </label>
           <Input
             id="reg-middle-name"
             name="middleName"
             autoComplete="additional-name"
+            placeholder="необязательно"
             value={middleName}
             onChange={(e) => setMiddleName(e.target.value)}
           />
