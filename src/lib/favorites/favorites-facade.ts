@@ -1,9 +1,13 @@
 "use client";
 
+import { useCallback } from "react";
+
 import type { AccountFavorite } from "@/lib/schemas/account";
 import { useCustomerSessionStatus } from "@/stores/customer-session-store";
 import { useAccountFavoritesStore } from "@/stores/account-favorites-store";
 import { useFavoritesStore } from "@/stores/favorites-store";
+
+const EMPTY_ITEMS: AccountFavorite[] = [];
 
 function useIsAuthenticated(): boolean {
   return useCustomerSessionStatus() === "authenticated";
@@ -25,12 +29,16 @@ export function useToggleFavorite(): (sku: string) => void {
   const localToggle = useFavoritesStore((s) => s.toggle);
   const serverToggle = useAccountFavoritesStore((s) => s.toggle);
 
-  if (auth) {
-    return (sku: string) => {
-      void serverToggle(sku);
-    };
-  }
-  return localToggle;
+  return useCallback(
+    (sku: string) => {
+      if (auth) {
+        void serverToggle(sku);
+      } else {
+        localToggle(sku);
+      }
+    },
+    [auth, localToggle, serverToggle],
+  );
 }
 
 /** Remove from favorites for current session mode. */
@@ -39,22 +47,25 @@ export function useRemoveFavorite(): (sku: string) => void {
   const localRemove = useFavoritesStore((s) => s.remove);
   const serverRemove = useAccountFavoritesStore((s) => s.remove);
 
-  if (auth) {
-    return (sku: string) => {
-      void serverRemove(sku);
-    };
-  }
-  return localRemove;
+  return useCallback(
+    (sku: string) => {
+      if (auth) {
+        void serverRemove(sku);
+      } else {
+        localRemove(sku);
+      }
+    },
+    [auth, localRemove, serverRemove],
+  );
 }
 
 /** Favorite SKUs in add order. */
 export function useFavoriteSkus(): string[] {
   const auth = useIsAuthenticated();
   const localSkus = useFavoritesStore((s) => s.skus);
-  const serverSkus = useAccountFavoritesStore((s) =>
-    s.items.map((item) => item.sku),
-  );
-  return auth ? serverSkus : localSkus;
+  const items = useAccountFavoritesStore((s) => s.items);
+  if (!auth) return localSkus;
+  return items.map((item) => item.sku);
 }
 
 /** Badge count. */
@@ -72,7 +83,7 @@ export function useFavoriteCount(): number {
 export function useFavoriteItems(): AccountFavorite[] {
   const auth = useIsAuthenticated();
   const items = useAccountFavoritesStore((s) => s.items);
-  return auth ? items : [];
+  return auth ? items : EMPTY_ITEMS;
 }
 
 /** Auth store hydration flag (false for guest). */

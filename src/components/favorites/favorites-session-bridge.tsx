@@ -23,7 +23,11 @@ export function FavoritesSessionBridge() {
       });
     }
     if (status === "guest") {
-      reset();
+      const { hydrated: isHydrated, items } =
+        useAccountFavoritesStore.getState();
+      if (isHydrated || items.length > 0) {
+        reset();
+      }
     }
   }, [status, hydrated, hydrate, reset]);
 
