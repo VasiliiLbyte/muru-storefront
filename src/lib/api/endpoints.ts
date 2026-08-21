@@ -42,6 +42,10 @@ import {
   type WebPaymentStatusResponse,
 } from "@/lib/schemas";
 import {
+  normalizeMailtoHref,
+  normalizeTelHref,
+} from "@/lib/contact-href";
+import {
   SITE_CONTACTS_FALLBACK,
   type SiteContacts,
 } from "@/lib/site";
@@ -243,9 +247,13 @@ function adaptPublicSiteContacts(dto: PublicSiteContacts): SiteContacts {
   return {
     address: coalesceString(dto.contactAddress, fb.address),
     phoneDisplay: coalesceString(dto.contactPhoneDisplay, fb.phoneDisplay),
-    phoneHref: coalesceString(dto.contactPhoneHref, fb.phoneHref),
+    phoneHref: normalizeTelHref(
+      coalesceString(dto.contactPhoneHref, fb.phoneHref),
+    ),
     email,
-    emailHref: email ? `mailto:${email}` : fb.emailHref,
+    emailHref: normalizeMailtoHref(
+      email ? `mailto:${email}` : fb.emailHref,
+    ),
     hours: coalesceString(dto.contactHours, fb.hours),
     coordinates:
       lat != null && lng != null

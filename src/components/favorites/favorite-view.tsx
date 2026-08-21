@@ -2,13 +2,11 @@
 
 import { useEffect, useMemo, useState } from "react";
 import Link from "next/link";
-import { X } from "lucide-react";
 
 import { ProductGrid } from "@/components/catalog/product-grid";
 import { buttonVariants } from "@/components/ui/button";
 import { hydrateCartProducts } from "@/lib/cart/hydrate";
 import {
-  useFavoriteItems,
   useFavoriteSkus,
   useFavoritesHydrated,
   useRemoveFavorite,
@@ -34,61 +32,19 @@ function FavoritesEmpty() {
   );
 }
 
-function AuthFavoritesGrid() {
-  const items = useFavoriteItems();
-  const remove = useRemoveFavorite();
-  const hydrated = useFavoritesHydrated();
-
-  if (!hydrated) {
-    return <p className="text-body text-text-muted">Загрузка избранного…</p>;
-  }
-
-  if (items.length === 0) {
-    return <FavoritesEmpty />;
-  }
-
-  return (
-    <ul className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-      {items.map((item) => (
-        <li key={item.sku} className="relative border border-border">
-          <Link
-            href={`/search/?q=${encodeURIComponent(item.sku)}`}
-            className="block focus-visible:ring-1 focus-visible:ring-ring focus-visible:outline-none"
-          >
-            <div className="relative aspect-square bg-surface">
-              {item.imageUrl ? (
-                // eslint-disable-next-line @next/next/no-img-element -- CRM CDN hosts vary
-                <img
-                  src={item.imageUrl}
-                  alt={item.name}
-                  className="size-full object-cover"
-                />
-              ) : null}
-            </div>
-            <div className="min-w-0 space-y-1 p-3">
-              <p className="truncate text-body text-text-heading">{item.name}</p>
-              <p className="text-small text-text-secondary">
-                {item.price.toLocaleString("ru-RU")} ₽
-              </p>
-            </div>
-          </Link>
-          <button
-            type="button"
-            aria-label={`Убрать «${item.name}» из избранного`}
-            onClick={() => remove(item.sku)}
-            className="absolute top-2 right-2 inline-flex size-11 items-center justify-center bg-background/80 text-text-secondary backdrop-blur-sm transition-colors hover:text-brand focus-visible:ring-1 focus-visible:ring-ring focus-visible:outline-none"
-          >
-            <X className="size-5" aria-hidden />
-          </button>
-        </li>
-      ))}
-    </ul>
-  );
-}
-
-function GuestFavoritesGrid() {
+/**
+ * SKUs → catalog hydrate → ProductGrid (proxied images + PDP + FavoriteToggle).
+ * Shared by guest and auth favorites surfaces.
+ */
+export function HydratedFavoritesGrid({
+  waitForAccountHydrate = false,
+}: {
+  /** Auth surfaces: wait until account favorites store has hydrated SKUs. */
+  waitForAccountHydrate?: boolean;
+}) {
   const skus = useFavoriteSkus();
   const remove = useRemoveFavorite();
+  const accountHydrated = useFavoritesHydrated();
 
   const skusKey = useMemo(() => skus.slice().sort().join(","), [skus]);
 
@@ -97,10 +53,18 @@ function GuestFavoritesGrid() {
     () => new Map(),
   );
 
-  const loading = skus.length > 0 && hydratedKey !== skusKey;
+  const waitingAccount =
+    waitForAccountHydrate && !accountHydrated;
+  const loading =
+    waitingAccount || (skus.length > 0 && hydratedKey !== skusKey);
 
   useEffect(() => {
-    if (skus.length === 0) return;
+    if (waitingAccount) return;
+    if (skus.length === 0) {
+      setProductsBySku(new Map());
+      setHydratedKey(skusKey);
+      return;
+    }
 
     let cancelled = false;
 
@@ -118,7 +82,7 @@ function GuestFavoritesGrid() {
     return () => {
       cancelled = true;
     };
-  }, [remove, skusKey, skus]);
+  }, [remove, skusKey, skus, waitingAccount]);
 
   const activeProducts =
     skus.length === 0 ? new Map<string, Product>() : productsBySku;
@@ -126,19 +90,23 @@ function GuestFavoritesGrid() {
     .map((sku) => activeProducts.get(sku))
     .filter((p): p is Product => Boolean(p));
 
-  if (skus.length === 0) {
-    return <FavoritesEmpty />;
-  }
-
   if (loading) {
     return <p className="text-body text-text-muted">Загрузка избранного…</p>;
   }
 
-  if (products.length === 0) {
+  if (skus.length === 0 || products.length === 0) {
     return <FavoritesEmpty />;
   }
 
   return <ProductGrid products={products} />;
+}
+
+function AuthFavoritesGrid() {
+  return <HydratedFavoritesGrid waitForAccountHydrate />;
+}
+
+function GuestFavoritesGrid() {
+  return <HydratedFavoritesGrid />;
 }
 
 export function FavoriteView() {
