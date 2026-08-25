@@ -45,8 +45,10 @@ function BannerCopy({
           ? // parity: muru.ru mobile .mp-front-wrapper — padding 24px, white, full width
             "bg-white px-6 py-6"
           : cn(
-              "max-w-[568px] px-4 py-8 sm:px-16 sm:py-10",
-              isScrim ? "bg-black/35 backdrop-blur-[1px]" : "bg-white",
+              "max-w-[568px] px-10 py-2.5",
+              isScrim
+                ? "bg-black/35 backdrop-blur-[1px]"
+                : "bg-background/80 backdrop-blur supports-[backdrop-filter]:bg-background/70",
             ),
       )}
     >

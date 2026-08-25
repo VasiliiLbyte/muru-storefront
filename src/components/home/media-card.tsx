@@ -55,7 +55,7 @@ export function MediaCard({
         ) : null}
       </div>
       <div className="flex flex-col gap-1">
-        <h3 className="text-body text-text-heading transition-colors group-hover:text-brand">
+        <h3 className="text-body text-text-heading lowercase first-letter:uppercase transition-colors group-hover:text-brand">
           {title}
         </h3>
         {subtitle ? (

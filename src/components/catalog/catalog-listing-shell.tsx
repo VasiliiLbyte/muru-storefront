@@ -44,7 +44,7 @@ export function CatalogListingShell({
         className={cn(
           // parity: muru.ru mobile h1.switcher-title — 24px / 300 / uppercase
           "mb-2 font-display text-[24px] leading-[29px] font-light text-text-heading uppercase",
-          "lg:mb-8 lg:text-display lg:leading-[var(--text-display--line-height)] lg:normal-case",
+          "lg:mb-8 lg:text-display lg:leading-[var(--text-display--line-height)]",
         )}
       >
         {title}

@@ -24,7 +24,7 @@ export function Header({ contacts }: { contacts: SiteContacts }) {
     <>
       <FavoritesSessionBridge />
       {/* Utility-строка — desktop, уезжает при скролле */}
-      <div className="home-snap-origin hidden border-b border-border lg:block">
+      <div className="home-snap-origin hidden lg:block">
         <div className="mx-auto flex h-11 w-full max-w-[1564px] items-center justify-between px-4 sm:px-8">
           <HeaderTopNav />
           <a
@@ -37,9 +37,9 @@ export function Header({ contacts }: { contacts: SiteContacts }) {
       </div>
 
       {/* Нижний бар — sticky на всю страницу (containing block = body) */}
-      <header className="sticky top-0 z-40 border-b border-border bg-background/95 pt-safe-header backdrop-blur supports-[backdrop-filter]:bg-background/80">
-        <div className="mx-auto w-full max-w-[1564px] px-2 sm:px-4 lg:px-8">
-          <div className="flex h-14 items-center gap-1 lg:min-h-[calc(var(--header-height)-2.75rem)] lg:gap-4 lg:py-2">
+      <header className="sticky top-0 z-40 bg-background/95 pt-safe-header backdrop-blur supports-[backdrop-filter]:bg-background/80">
+        <div className="mx-auto w-full max-w-[1564px] px-4 sm:px-8 lg:px-8">
+          <div className="flex h-14 items-center gap-2 lg:min-h-[calc(var(--header-height)-2.75rem)] lg:gap-4 lg:py-2">
             <div className="lg:hidden">
               <MobileMenu contacts={contacts} />
             </div>

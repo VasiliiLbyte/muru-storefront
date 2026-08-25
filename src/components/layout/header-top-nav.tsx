@@ -13,7 +13,7 @@ export function HeaderTopNav({ className }: { className?: string }) {
           key={item.href}
           href={item.href}
           accent={item.accent}
-          className="px-4 py-3 uppercase"
+          className="px-4 py-3"
         >
           {item.label}
         </NavLink>

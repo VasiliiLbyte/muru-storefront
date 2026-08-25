@@ -62,7 +62,7 @@ export function HelpTileGrid({
             <span className="font-display text-body tracking-[0.08em] text-text-heading uppercase transition-colors group-hover:text-brand">
               {item.title}
             </span>
-            <span className="mt-auto inline-flex h-10 w-fit items-center bg-brand px-5 text-body text-text-inverse transition-colors group-hover:bg-brand-hover">
+            <span className="mt-auto inline-flex h-[45px] w-fit items-center bg-brand px-8 text-body text-text-inverse transition-colors group-hover:bg-brand-hover">
               Подробнее
             </span>
           </Link>

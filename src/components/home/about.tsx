@@ -37,8 +37,7 @@ export function About() {
             <Button
               render={<Link href="/company/" />}
               variant="outline"
-              size="lg"
-              className="mt-2 px-8"
+              className="mt-2 h-[45px] px-8"
             >
               Подробнее о MURU
             </Button>

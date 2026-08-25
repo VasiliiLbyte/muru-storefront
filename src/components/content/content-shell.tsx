@@ -40,7 +40,7 @@ export function ContentShell({
           className={cn(
             "mb-8",
             mobileSectionTitleClass,
-            "lg:text-display lg:leading-[var(--text-display--line-height)] lg:normal-case",
+            "lg:text-display lg:leading-[var(--text-display--line-height)]",
             titleAlign === "center" && "text-center",
           )}
         >

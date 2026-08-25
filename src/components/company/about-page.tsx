@@ -61,7 +61,7 @@ function CompanyHeroSection({
         <div className="absolute top-0 left-0 z-10 w-full max-w-[1564px] px-4 pt-8 sm:px-8 [&_ol]:text-white [&_a]:text-white/90 [&_a:hover]:text-white [&_span]:text-white [text-shadow:0_1px_2px_rgba(0,0,0,0.55)]">
           <Breadcrumbs items={breadcrumbs} />
         </div>
-        <div className="absolute top-1/2 left-1/2 z-10 flex w-[calc(100%-2rem)] max-w-[700px] -translate-x-1/2 -translate-y-1/2 flex-col items-center gap-4 bg-background px-[70px] py-10 text-center max-md:px-4 max-md:py-8 max-sm:static max-sm:mx-auto max-sm:w-full max-sm:translate-x-0 max-sm:translate-y-0">
+        <div className="absolute top-1/2 left-1/2 z-10 flex w-[calc(100%-2rem)] max-w-[700px] -translate-x-1/2 -translate-y-1/2 flex-col items-center gap-4 bg-background/80 px-[70px] py-10 text-center backdrop-blur supports-[backdrop-filter]:bg-background/70 max-md:px-4 max-md:py-8 max-sm:static max-sm:mx-auto max-sm:w-full max-sm:translate-x-0 max-sm:translate-y-0">
           <h1 className="text-[24px] leading-[29px] font-light tracking-normal text-[#6B6B6B] uppercase">
             {heading}
           </h1>
@@ -110,17 +110,15 @@ function CompanyMissionSection({
 
 function MissionImage({ image }: { image: ImageData }) {
   return (
-    <div className="bg-surface p-2">
-      <div className="relative aspect-[4/3] overflow-hidden">
-        <Image
-          src={image.url}
-          alt={image.alt ?? ""}
-          fill
-          sizes="(max-width: 1024px) 50vw, 25vw"
-          className="object-cover"
-          {...staticBlurProps()}
-        />
-      </div>
+    <div className="relative aspect-[4/3] overflow-hidden">
+      <Image
+        src={image.url}
+        alt={image.alt ?? ""}
+        fill
+        sizes="(max-width: 1024px) 50vw, 25vw"
+        className="object-cover"
+        {...staticBlurProps()}
+      />
     </div>
   );
 }
@@ -149,7 +147,7 @@ function CompanyPromoSection({
             return (
               <div
                 key={card.key}
-                className="flex w-full max-w-[370px] flex-1 flex-col items-start gap-32 bg-white p-6 text-left max-lg:gap-16"
+                className="flex w-full max-w-[370px] flex-1 flex-col items-start gap-32 bg-background/80 p-6 text-left backdrop-blur supports-[backdrop-filter]:bg-background/70 max-lg:gap-16"
               >
                 <div className="flex flex-col gap-2">
                   <h3 className="text-[clamp(1.25rem,2vw,1.5rem)] leading-[calc(1em+8px)] font-light tracking-normal text-[#6B6B6B] uppercase">
@@ -161,8 +159,7 @@ function CompanyPromoSection({
                 </div>
                 <Button
                   render={<Link href={href} />}
-                  size="sm"
-                  className="h-[38px] self-start rounded-none px-4 text-[15px] font-medium hover:bg-brand-hover"
+                  className="h-[45px] self-start rounded-none px-8 text-[15px] font-medium hover:bg-brand-hover"
                 >
                   Подробнее
                 </Button>

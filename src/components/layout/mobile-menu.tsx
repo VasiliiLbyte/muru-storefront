@@ -156,7 +156,7 @@ export function MobileMenu({ contacts }: { contacts: SiteContacts }) {
               key={item.href}
               href={item.href}
               onClick={close}
-              className="min-h-9 py-1 text-[17px] leading-6 font-light text-text-primary uppercase transition-colors hover:text-brand"
+              className="min-h-9 py-1 text-[17px] leading-6 font-light text-text-primary transition-colors hover:text-brand"
             >
               {item.label}
             </Link>
