@@ -5,7 +5,7 @@
 
 import { ASSETS_BASE } from "@/lib/assets-base";
 
-/** Крошечный blurDataURL (однотонный surface-цвет #f4f0e8) для next/image. */
+/** Крошечный blurDataURL (однотонный surface-цвет #F5F0E0) для next/image. */
 export const PLACEHOLDER_BLUR =
   "data:image/gif;base64,R0lGODlhAQABAPAAAPTw6P///yH5BAAAAAAALAAAAAABAAEAAAICRAEAOw==";
 

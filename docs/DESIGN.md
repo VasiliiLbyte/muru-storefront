@@ -3,51 +3,51 @@ name: MURU
 url: https://muru.ru
 colors:
   primary: '#5d6b3a'
-  primary-hover: '#879650'
+  primary-hover: '#8BA064'
   background: '#fcfbfb'
-  surface: '#f4f0e8'
-  text-primary: '#555558'
-  text-secondary: '#5b5b5b'
+  surface: '#F5F0E0'
+  text-primary: '#4F4D4B'
+  text-secondary: '#4F4D4B'
   text-muted: '#b8b8b8'
   text-inverse: '#ffffff'
-  text-heading: '#2f2f2f'
-  border: '#d1cdcd'
+  text-heading: '#4F4D4B'
+  border: '#EAEAEA'
   error: '#e03a43'
   success: '#2a4c39'
   warning: '#ffc117'
 typography:
   display:
-    family: 'Mulish'
+    family: 'Montserrat'
     size: 36px
-    weight: 400
+    weight: 600
     line-height: 1.2
   heading-h2:
-    family: 'Mulish'
+    family: 'Montserrat'
     size: 36px
-    weight: 400
+    weight: 600
     line-height: 1.2
   body:
-    family: 'Mulish'
+    family: 'Montserrat'
     size: 16px
     weight: 300
     line-height: 1.5
   small:
-    family: 'Mulish'
+    family: 'Montserrat'
     size: 14px
     weight: 300
     line-height: 1.5
   caption:
-    family: 'Mulish'
+    family: 'Montserrat'
     size: 14px
     weight: 500
     line-height: 1.2
   button:
-    family: 'Mulish'
+    family: 'Montserrat'
     size: 14px
     weight: 300
     line-height: 1.2
   nav-link:
-    family: 'Mulish'
+    family: 'Montserrat'
     size: 14px
     weight: 500
     line-height: 1.2
@@ -90,14 +90,14 @@ layout:
 # Design System Inspired by MURU
 
 ## 1. Visual Theme & Atmosphere
-The MURU design system cultivates a serene and refined atmosphere, characterized by a naturalistic color palette and a clean, spacious layout. The primary brand color, a muted forest green (`#5d6b3a`), anchors interactive elements like the "Каталог" button, providing a subtle contrast to the predominantly light backgrounds (`#fcfbfb`). Typography, primarily set in Mulish, employs light weights and generous line spacing to enhance readability and contribute to the airy feel.
+The MURU design system cultivates a serene and refined atmosphere, characterized by a naturalistic color palette and a clean, spacious layout. The primary brand color, a muted forest green (`#5d6b3a`), anchors interactive elements like the "Каталог" button, providing a subtle contrast to the predominantly light backgrounds (`#fcfbfb`). Typography, primarily set in Montserrat, employs light weights and generous line spacing to enhance readability and contribute to the airy feel.
 
 The visual identity is defined by a lack of overt ornamentation, favoring functional elegance. Elements like buttons and inputs feature sharp, `0px` border radii, emphasizing clarity and precision. Ample whitespace, including a `32px` page padding and `20px` item gaps, ensures visual calm and clear content separation. Subtle CSS transitions, such as `0.3s ease-in-out` for popovers and `0.8s` for header elements, introduce a gentle responsiveness without distracting from the content.
 
 Key Characteristics:
 - Muted green (`#5d6b3a`) as primary accent.
 - Clean `0px` border radius for interactive elements.
-- Mulish font with light weights (300, 400).
+- Montserrat font with weights 300 / 400 / 500 / 600 (600 for headings when needed).
 - Generous `32px` page padding and `20px` item gaps.
 - Minimalist iconography with monochrome outlines.
 - No strong shadows, relying on z-index for layering.
@@ -108,16 +108,16 @@ The MURU color palette is grounded in natural tones, emphasizing a calm and soph
 
 -   **Primary**
     -   **Primary (`#5d6b3a`)** — The brand's signature muted forest green, used for primary calls-to-action, active states, and key brand elements like the logo.
-    -   **Primary Hover (`#879650`)** — A lighter, more vibrant green, used for the hover state of primary interactive elements.
+    -   **Primary Hover (`#8BA064`)** — A lighter, more vibrant green, used for the hover state of primary interactive elements.
 -   **Neutral Scale**
     -   **Background (`#fcfbfb`)** — The dominant light background color for pages and main content areas, providing a clean canvas.
-    -   **Surface (`#f4f0e8`)** — A subtle beige, used for secondary background elements like the footer and accent sections.
-    -   **Text Primary (`#555558`)** — A dark gray, used for primary body text and main headings, ensuring high readability on light backgrounds.
-    -   **Text Secondary (`#5b5b5b`)** — A slightly lighter dark gray, used for secondary text, descriptions, and less prominent information.
+    -   **Surface (`#F5F0E0`)** — A subtle beige, used for secondary background elements like the footer and accent sections.
+    -   **Text Primary (`#4F4D4B`)** — A dark gray, used for primary body text and main headings, ensuring high readability on light backgrounds.
+    -   **Text Secondary (`#4F4D4B`)** — A slightly lighter dark gray, used for secondary text, descriptions, and less prominent information.
     -   **Text Muted (`#b8b8b8`)** — A light gray, used for muted text, inactive navigation links, and subtle informational elements.
     -   **Text Inverse (`#ffffff`)** — Pure white, used for text on dark backgrounds, such as primary buttons.
-    -   **Text Heading (`#2f2f2f`)** — A very dark gray, used for prominent headings and titles.
-    -   **Border (`#d1cdcd`)** — A light gray, used for subtle borders, input fields, and dividers.
+    -   **Text Heading (`#4F4D4B`)** — A very dark gray, used for prominent headings and titles.
+    -   **Border (`#EAEAEA`)** — A light gray, used for subtle borders, input fields, and dividers.
 -   **System States**
     -   **Error (`#e03a43`)** — A vibrant red, indicating error messages or destructive actions.
     -   **Success (`#2a4c39`)** — A deep green, indicating successful operations or positive feedback.
@@ -125,20 +125,20 @@ The MURU color palette is grounded in natural tones, emphasizing a calm and soph
 
 ## 3. Typography Rules
 -   **Font Family**:
-    -   Primary: 'Mulish', sans-serif
+    -   Primary: 'Montserrat', sans-serif
     -   Monospace: 'monospace' (for code snippets or technical displays)
 -   **Hierarchy**:
-    -   **Display/H1**: 'Mulish' `36px` `400` · line-height `1.2` · tracking `none` · Used for prominent page titles and hero sections.
-    -   **H2**: 'Mulish' `36px` `400` · line-height `1.2` · tracking `none` · Used for major section headings.
-    -   **Body**: 'Mulish' `16px` `300` · line-height `1.5` · tracking `none` · Standard text for paragraphs and detailed content.
-    -   **Small**: 'Mulish' `15px` `300` · line-height `1.5` · tracking `none` · Used for secondary body text or smaller content blocks.
-    -   **Caption**: 'Mulish' `14px` `500` · line-height `1.2` · tracking `none` · Applied to navigation links, button labels, and metadata.
+    -   **Display/H1**: 'Montserrat' `36px` `400` · line-height `1.2` · tracking `none` · Used for prominent page titles and hero sections.
+    -   **H2**: 'Montserrat' `36px` `400` · line-height `1.2` · tracking `none` · Used for major section headings.
+    -   **Body**: 'Montserrat' `16px` `300` · line-height `1.5` · tracking `none` · Standard text for paragraphs and detailed content.
+    -   **Small**: 'Montserrat' `15px` `300` · line-height `1.5` · tracking `none` · Used for secondary body text or smaller content blocks.
+    -   **Caption**: 'Montserrat' `14px` `500` · line-height `1.2` · tracking `none` · Applied to navigation links, button labels, and metadata.
     -   **Code/Mono**: `'monospace'` `14px` `400` · line-height `1.4` · tracking `none` · For code examples or fixed-width text.
 -   **Principles**:
     -   Prioritize readability with light font weights and ample line heights, especially for body text.
     -   Maintain a clear visual hierarchy by differentiating headings and body text primarily through size and weight, rather than excessive styling.
-    -   Utilize the `Mulish` font consistently across all text elements to ensure a cohesive brand voice.
-    -   Employ `14px` `Mulish` `500` for interactive elements like navigation and buttons to provide clear legibility and a sense of action.
+    -   Utilize the `Montserrat` font consistently across all text elements to ensure a cohesive brand voice.
+    -   Employ `14px` `Montserrat` `500` for interactive elements like navigation and buttons to provide clear legibility and a sense of action.
 
 ## 4. Component Stylings
 
@@ -153,7 +153,7 @@ A prominent call-to-action button with a solid green background and inverse whit
 .button-primary {
   background-color: var(--color-primary, #5d6b3a);
   color: var(--color-text-inverse, #ffffff);
-  font-family: var(--typography-button-family, 'Mulish');
+  font-family: var(--typography-button-family, 'Montserrat');
   font-size: var(--typography-button-size, 14px);
   font-weight: var(--typography-button-weight, 300);
   padding: 1px 32px; /* Extracted from button data */
@@ -164,7 +164,7 @@ A prominent call-to-action button with a solid green background and inverse whit
 }
 
 .button-primary:hover {
-  background-color: var(--color-primary-hover, #879650);
+  background-color: var(--color-primary-hover, #8BA064);
 }
 
 .button-primary:active {
@@ -187,7 +187,7 @@ A button with a transparent background and a subtle border, used for secondary a
 .button-secondary {
   background-color: transparent;
   color: var(--color-text-muted, #b8b8b8);
-  font-family: var(--typography-nav-link-family, 'Mulish');
+  font-family: var(--typography-nav-link-family, 'Montserrat');
   font-size: var(--typography-nav-link-size, 14px);
   font-weight: var(--typography-nav-link-weight, 500);
   padding: 12px 16px; /* Extracted from button data */
@@ -199,8 +199,8 @@ A button with a transparent background and a subtle border, used for secondary a
 }
 
 .button-secondary:hover {
-  color: var(--color-text-primary, #555558); /* (inferred from screenshot) */
-  border-color: var(--color-text-primary, #555558); /* (inferred from screenshot) */
+  color: var(--color-text-primary, #4F4D4B); /* (inferred from screenshot) */
+  border-color: var(--color-text-primary, #4F4D4B); /* (inferred from screenshot) */
 }
 
 .button-secondary:active {
@@ -222,8 +222,8 @@ A text-only button, often used for navigation links or subtle actions, with no b
 ```css
 .button-ghost {
   background-color: transparent;
-  color: var(--color-text-primary, #555558); /* (inferred from screenshot) */
-  font-family: var(--typography-body-family, 'Mulish');
+  color: var(--color-text-primary, #4F4D4B); /* (inferred from screenshot) */
+  font-family: var(--typography-body-family, 'Montserrat');
   font-size: var(--typography-body-size, 16px);
   font-weight: var(--typography-body-weight, 300); /* (inferred from screenshot) */
   padding: 0;
@@ -256,7 +256,7 @@ A basic content container with a light background, minimal styling, and no visib
 ```css
 .card {
   background-color: var(--colors-background, #fcfbfb);
-  color: var(--colors-text-primary, #555558);
+  color: var(--colors-text-primary, #4F4D4B);
   padding: var(--spacing-40, 40px); /* (inferred from screenshot) */
   border: none;
   border-radius: var(--radius-sm, 0px);
@@ -277,12 +277,12 @@ A standard text input field with a light background and a subtle border. The foc
 ```css
 .input-text {
   background-color: var(--colors-background, #fcfbfb);
-  color: var(--colors-text-primary, #555558);
-  font-family: var(--typography-body-family, 'Mulish');
+  color: var(--colors-text-primary, #4F4D4B);
+  font-family: var(--typography-body-family, 'Montserrat');
   font-size: var(--typography-body-size, 16px);
   font-weight: var(--typography-body-weight, 300);
   padding: 8px 8px; /* Extracted from button data */
-  border: 1px solid var(--colors-border, #d1cdcd);
+  border: 1px solid var(--colors-border, #EAEAEA);
   border-radius: var(--radius-sm, 0px);
   transition: border-color var(--motion-duration-fast, 0.3s) var(--motion-easing-standard, ease-in-out),
               box-shadow var(--motion-duration-fast, 0.3s) var(--motion-easing-standard, ease-in-out);
@@ -299,7 +299,7 @@ A standard text input field with a light background and a subtle border. The foc
   cursor: not-allowed;
   background-color: initial; /* Extracted from pseudoStates */
   color: #bbbbbb; /* Extracted from pseudoStates */
-  border-color: var(--colors-border, #d1cdcd);
+  border-color: var(--colors-border, #EAEAEA);
   opacity: 0.7; /* (inferred from screenshot) */
 }
 ```
@@ -309,8 +309,8 @@ Labels for form fields use the primary text color and body font styles for clear
 
 ```css
 .form-label {
-  color: var(--colors-text-primary, #555558);
-  font-family: var(--typography-body-family, 'Mulish');
+  color: var(--colors-text-primary, #4F4D4B);
+  font-family: var(--typography-body-family, 'Montserrat');
   font-size: var(--typography-body-size, 16px);
   font-weight: var(--typography-body-weight, 300);
   padding: 0;
@@ -328,8 +328,8 @@ Custom checkbox and radio buttons with a minimal design. When checked, they disp
   display: inline-flex;
   align-items: center;
   cursor: pointer;
-  color: var(--colors-text-primary, #555558); /* (inferred from screenshot) */
-  font-family: var(--typography-body-family, 'Mulish');
+  color: var(--colors-text-primary, #4F4D4B); /* (inferred from screenshot) */
+  font-family: var(--typography-body-family, 'Montserrat');
   font-size: var(--typography-body-size, 16px);
   font-weight: var(--typography-body-weight, 300);
 }
@@ -346,7 +346,7 @@ Custom checkbox and radio buttons with a minimal design. When checked, they disp
 .form-radio__circle {
   width: 20px; /* (inferred from screenshot) */
   height: 20px; /* (inferred from screenshot) */
-  border: 1px solid var(--colors-border, #d1cdcd); /* (inferred from screenshot) */
+  border: 1px solid var(--colors-border, #EAEAEA); /* (inferred from screenshot) */
   border-radius: var(--radius-sm, 0px); /* Checkbox */
   background-color: var(--colors-background, #fcfbfb); /* (inferred from screenshot) */
   margin-right: var(--spacing-8, 8px); /* (inferred from screenshot) */
@@ -407,7 +407,7 @@ Individual links within the navigation bar, using a muted text color that darken
 ```css
 .nav-link {
   color: var(--colors-text-muted, #b8b8b8);
-  font-family: var(--typography-nav-link-family, 'Mulish');
+  font-family: var(--typography-nav-link-family, 'Montserrat');
   font-size: var(--typography-nav-link-size, 14px);
   font-weight: var(--typography-nav-link-weight, 500);
   text-decoration: none;
@@ -416,7 +416,7 @@ Individual links within the navigation bar, using a muted text color that darken
 }
 
 .nav-link:hover {
-  color: var(--colors-text-primary, #555558); /* Extracted from pseudoStates for a:hover */
+  color: var(--colors-text-primary, #4F4D4B); /* Extracted from pseudoStates for a:hover */
 }
 
 .nav-link.active,
@@ -460,8 +460,8 @@ A default link style, often found within body text, using the primary text color
 
 ```css
 .link-standard {
-  color: var(--colors-text-primary, #555558);
-  font-family: var(--typography-body-family, 'Mulish');
+  color: var(--colors-text-primary, #4F4D4B);
+  font-family: var(--typography-body-family, 'Montserrat');
   font-size: var(--typography-body-size, 16px);
   font-weight: var(--typography-body-weight, 300);
   text-decoration: underline; /* (inferred from screenshot) */
@@ -473,7 +473,7 @@ A default link style, often found within body text, using the primary text color
 }
 
 .link-standard:visited {
-  color: var(--colors-text-primary, #555558); /* (inferred from screenshot) */
+  color: var(--colors-text-primary, #4F4D4B); /* (inferred from screenshot) */
 }
 ```
 
@@ -483,7 +483,7 @@ Used for less prominent links, such as those in the footer or sidebars, typicall
 ```css
 .link-secondary {
   color: var(--colors-text-muted, #b8b8b8);
-  font-family: var(--typography-small-family, 'Mulish');
+  font-family: var(--typography-small-family, 'Montserrat');
   font-size: var(--typography-small-size, 14px);
   font-weight: var(--typography-small-weight, 300);
   text-decoration: none;
@@ -491,7 +491,7 @@ Used for less prominent links, such as those in the footer or sidebars, typicall
 }
 
 .link-secondary:hover {
-  color: var(--colors-text-primary, #555558); /* (inferred from screenshot) */
+  color: var(--colors-text-primary, #4F4D4B); /* (inferred from screenshot) */
   text-decoration: underline; /* (inferred from screenshot) */
 }
 
@@ -547,21 +547,21 @@ Shadow Philosophy: The MURU design system deliberately avoids prominent box-shad
 
 ### Do's
 -   **Do** use the primary brand green (`#5d6b3a`) for all primary calls-to-action, such as the Primary Button.
--   **Do** ensure body text is set in `Mulish 16px 300` using `#555558` on `#fcfbfb` for AAA readability (ratio 7.19).
+-   **Do** ensure body text is set in `Montserrat 16px 300` using `#4F4D4B` on `#fcfbfb` for AAA readability (ratio 7.19).
 -   **Do** apply `0px` border radius to all buttons and input fields to maintain the crisp, modern aesthetic.
 -   **Do** utilize `32px` for page-level padding and `20px` for spacing between grid items to ensure ample whitespace.
--   **Do** use `Mulish 14px 500` with `#b8b8b8` for navigation links, transitioning to `#555558` on hover.
+-   **Do** use `Montserrat 14px 500` with `#b8b8b8` for navigation links, transitioning to `#4F4D4B` on hover.
 -   **Do** apply a `0.3s ease-in-out` transition for color changes on interactive elements like links and buttons.
 -   **Do** use `#ffffff` text on `#5d6b3a` for primary buttons, which passes AA contrast with a ratio of 5.79.
--   **Do** use `#5b5b5b` text on `#f4f0e8` for secondary content, passing AA contrast with a ratio of 5.97.
+-   **Do** use `#4F4D4B` text on `#F5F0E0` for secondary content, passing AA contrast with a ratio of 5.97.
 
 ### Don'ts
 -   **Don't** introduce shadows on interactive elements; depth is managed solely by z-index.
 -   **Don't** use `#b8b8b8` text on `#fcfbfb` backgrounds for critical information, as it fails AA contrast (ratio 1.92).
--   **Don't** deviate from the `Mulish` font family; avoid mixing with other typefaces.
+-   **Don't** deviate from the `Montserrat` font family; avoid mixing with other typefaces.
 -   **Don't** use arbitrary spacing values; adhere strictly to the `[4, 8, 12, 16, 20, 24, 32, 40, 64]px` scale.
 -   **Don't** apply rounded corners to buttons or input fields; maintain the `0px` border radius.
--   **Don't** use `36px` `Mulish 400` for body text; reserve it for Display/H1 and H2 roles.
+-   **Don't** use `36px` `Montserrat 400` for body text; reserve it for Display/H1 and H2 roles.
 -   **Don't** use any color other than `#5d6b3a` for primary interactive elements to maintain brand consistency.
 -   **Don't** use complex animations; stick to simple CSS transitions like `0.3s ease-in-out`.
 
@@ -588,28 +588,28 @@ Note: breakpoints below are extracted from the source CSS.
 ## 9. Agent Prompt Guide
 -   **Quick Color Reference**:
     -   `primary`: `#5d6b3a`
-    -   `primary-hover`: `#879650`
+    -   `primary-hover`: `#8BA064`
     -   `background`: `#fcfbfb`
-    -   `surface`: `#f4f0e8`
-    -   `text-primary`: `#555558`
-    -   `text-secondary`: `#5b5b5b`
+    -   `surface`: `#F5F0E0`
+    -   `text-primary`: `#4F4D4B`
+    -   `text-secondary`: `#4F4D4B`
     -   `text-muted`: `#b8b8b8`
     -   `text-inverse`: `#ffffff`
-    -   `text-heading`: `#2f2f2f`
-    -   `border`: `#d1cdcd`
+    -   `text-heading`: `#4F4D4B`
+    -   `border`: `#EAEAEA`
     -   `error`: `#e03a43`
     -   `success`: `#2a4c39`
     -   `warning`: `#ffc117`
 -   **Iteration Guide**:
-    1.  Always use `Mulish` as the primary font family for all text elements.
+    1.  Always use `Montserrat` as the primary font family for all text elements.
     2.  Ensure primary calls-to-action use `background-color: #5d6b3a` and `color: #ffffff`.
     3.  Apply `border-radius: 0px` consistently to all buttons and input fields.
     4.  Utilize the spacing scale: `[4, 8, 12, 16, 20, 24, 32, 40, 64]px` for all layout and component spacing.
-    5.  Set body text to `Mulish 16px 300` with `line-height: 1.5` and `color: #555558`.
-    6.  Implement button hover states with `background-color: #879650` for primary buttons.
+    5.  Set body text to `Montserrat 16px 300` with `line-height: 1.5` and `color: #4F4D4B`.
+    6.  Implement button hover states with `background-color: #8BA064` for primary buttons.
     7.  Ensure input fields show an `outline: 1px solid #5d6b3a` on `:focus`.
     8.  Use `transition: color 0.3s ease-in-out` for link and button text color changes.
     9.  Maintain a maximum content width of `1564px` with `32px` horizontal page padding.
     10. Collapse main navigation into a mobile menu at `991px` max-width.
-    11. Verify text contrast: `#555558` on `#fcfbfb` (7.19 AAA) and `#ffffff` on `#5d6b3a` (5.79 AA).
+    11. Verify text contrast: `#4F4D4B` on `#fcfbfb` (7.19 AAA) and `#ffffff` on `#5d6b3a` (5.79 AA).
     12. Avoid any box-shadows; manage element layering strictly with z-index values.

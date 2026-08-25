@@ -16,19 +16,19 @@
 @theme {
   /* — Бренд — */
   --color-brand: #5d6b3a;
-  --color-brand-hover: #879650;
+  --color-brand-hover: #8ba064;
 
   /* — Нейтральная шкала / поверхности — */
   --color-background: #fcfbfb;
-  --color-surface: #f4f0e8;
-  --color-line: #d1cdcd;
+  --color-surface: #f5f0e0;
+  --color-line: #eaeaea;
 
   /* — Текст — */
-  --color-text-primary: #555558;
-  --color-text-secondary: #5b5b5b;
+  --color-text-primary: #4f4d4b;
+  --color-text-secondary: #4f4d4b;
   --color-text-muted: #b8b8b8;
   --color-text-inverse: #ffffff;
-  --color-text-heading: #2f2f2f;
+  --color-text-heading: #4f4d4b;
 
   /* — Системные состояния — */
   --color-error: #e03a43;

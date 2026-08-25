@@ -40,7 +40,7 @@ export function PartnersPageContent({
           {hero.text ? (
             <StaticProse
               html={hero.text}
-              className="text-center text-[#5B5B5B] [&_p:last-child]:mb-0"
+              className="text-center text-text-secondary [&_p:last-child]:mb-0"
             />
           ) : null}
         </div>

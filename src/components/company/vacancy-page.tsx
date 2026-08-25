@@ -67,7 +67,7 @@ function VacancyHero({
           {hero.text ? (
             <StaticProse
               html={hero.text}
-              className="text-center text-[#5B5B5B] [&_p:last-child]:mb-0"
+              className="text-center text-text-secondary [&_p:last-child]:mb-0"
             />
           ) : null}
         </div>
@@ -85,10 +85,10 @@ function VacancyHrCell({
 }) {
   return (
     <div className="flex flex-col gap-1">
-      <span className="text-[18px] leading-[22px] font-normal text-[#2F2F2F]">
+      <span className="text-[18px] leading-[22px] font-normal text-text-heading">
         {label}
       </span>
-      <span className="text-[#5B5B5B]">{children}</span>
+      <span className="text-text-secondary">{children}</span>
     </div>
   );
 }
@@ -105,7 +105,7 @@ function VacancyHrBlock({
   return (
     <section className="flex flex-col gap-6 border-y border-[#E6E8EB] py-8">
       {hr.heading ? (
-        <h2 className="text-[24px] font-medium text-[#2F2F2F] uppercase">
+        <h2 className="text-[24px] font-medium text-text-heading uppercase">
           {hr.heading}
         </h2>
       ) : null}
@@ -157,7 +157,7 @@ function VacancyMetaRow({
   if (cells.length === 0) return null;
 
   return (
-    <div className="flex flex-wrap gap-6 text-[#5B5B5B]">
+    <div className="flex flex-wrap gap-6 text-text-secondary">
       {cells.map((cell) => (
         <span key={cell.key}>{cell.value.trim()}</span>
       ))}
@@ -175,7 +175,7 @@ function VacancyList({
   return (
     <section className="flex flex-col gap-8">
       {vacancies.heading ? (
-        <h2 className="text-[24px] font-semibold text-[#2F2F2F] uppercase">
+        <h2 className="text-[24px] font-semibold text-text-heading uppercase">
           {vacancies.heading}
         </h2>
       ) : null}
@@ -187,7 +187,7 @@ function VacancyList({
               <details className="group rounded-none border border-[#E6E8EB] transition-colors hover:border-brand-hover open:border-brand-hover">
                 <summary className="relative flex cursor-pointer list-none items-start justify-between gap-4 p-8 focus-visible:ring-1 focus-visible:ring-ring focus-visible:outline-none [&::-webkit-details-marker]:hidden">
                   <div className="flex min-w-0 flex-1 flex-col gap-3">
-                    <span className="text-[20px] leading-[24px] font-medium text-[#2F2F2F] uppercase">
+                    <span className="text-[20px] leading-[24px] font-medium text-text-heading uppercase">
                       {item.title}
                     </span>
                     <VacancyMetaRow
@@ -197,18 +197,18 @@ function VacancyList({
                     />
                   </div>
                   {salary ? (
-                    <span className="shrink-0 pr-8 text-base font-medium text-[#2F2F2F]">
+                    <span className="shrink-0 pr-8 text-base font-medium text-text-heading">
                       {salary}
                     </span>
                   ) : null}
                   <span
-                    className="absolute top-[38px] right-8 text-[16px] leading-none text-[#5B5B5B] group-open:hidden"
+                    className="absolute top-[38px] right-8 text-[16px] leading-none text-text-secondary group-open:hidden"
                     aria-hidden
                   >
                     +
                   </span>
                   <span
-                    className="absolute top-[38px] right-8 hidden text-[16px] leading-none text-[#5B5B5B] group-open:inline"
+                    className="absolute top-[38px] right-8 hidden text-[16px] leading-none text-text-secondary group-open:inline"
                     aria-hidden
                   >
                     −

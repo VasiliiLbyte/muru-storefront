@@ -30,7 +30,7 @@ const brandColors: Swatch[] = [
   {
     name: "Brand Hover",
     token: "--color-brand-hover",
-    hex: "#879650",
+    hex: "#8BA064",
     className: "bg-brand-hover",
   },
 ];
@@ -46,14 +46,14 @@ const neutralColors: Swatch[] = [
   {
     name: "Surface",
     token: "--color-surface",
-    hex: "#f4f0e8",
+    hex: "#F5F0E0",
     className: "bg-surface",
     border: true,
   },
   {
     name: "Line / Border",
     token: "--color-line",
-    hex: "#d1cdcd",
+    hex: "#EAEAEA",
     className: "bg-line",
   },
 ];
@@ -62,25 +62,25 @@ const textColors: Swatch[] = [
   {
     name: "Text Heading",
     token: "--color-text-heading",
-    hex: "#2f2f2f",
+    hex: "#4F4D4B",
     className: "bg-text-heading",
   },
   {
     name: "Text Primary",
     token: "--color-text-primary",
-    hex: "#555558",
+    hex: "#4F4D4B",
     className: "bg-text-primary",
   },
   {
     name: "Text Secondary",
     token: "--color-text-secondary",
-    hex: "#5b5b5b",
+    hex: "#4F4D4B",
     className: "bg-text-secondary",
   },
   {
     name: "Text Muted",
     token: "--color-text-muted",
-    hex: "#b8b8b8",
+    hex: "#B8B8B8",
     className: "bg-text-muted",
   },
   {
@@ -204,7 +204,7 @@ export default function StyleguidePage() {
 
         <Section
           title="Typography"
-          subtitle="Mulish · дисплей и тело одним семейством (веса 300/400/500)"
+          subtitle="Montserrat · дисплей и тело одним семейством (веса 300/400/500/600)"
         >
           <div className="flex flex-col gap-6">
             <div className="flex flex-col gap-1">
@@ -407,7 +407,7 @@ export default function StyleguidePage() {
             <Card>
               <CardHeader>
                 <CardTitle>Типографика</CardTitle>
-                <CardDescription>Mulish · light</CardDescription>
+                <CardDescription>Montserrat · light</CardDescription>
               </CardHeader>
               <CardContent>
                 Лёгкие начертания и щедрые межстрочные интервалы.

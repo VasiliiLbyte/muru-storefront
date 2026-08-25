@@ -68,7 +68,7 @@ function CompanyHeroSection({
           {text ? (
             <StaticProse
               html={text}
-              className="text-center text-[#5B5B5B] [&_p:last-child]:mb-0"
+              className="text-center text-text-secondary [&_p:last-child]:mb-0"
             />
           ) : null}
         </div>
@@ -155,7 +155,7 @@ function CompanyPromoSection({
                   <h3 className="text-[clamp(1.25rem,2vw,1.5rem)] leading-[calc(1em+8px)] font-light tracking-normal text-[#6B6B6B] uppercase">
                     {card.title}
                   </h3>
-                  <p className="text-base leading-5 font-light text-[#5B5B5B]">
+                  <p className="text-base leading-5 font-light text-text-secondary">
                     {card.text}
                   </p>
                 </div>
