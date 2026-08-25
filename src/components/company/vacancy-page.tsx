@@ -61,7 +61,7 @@ function VacancyHero({
           <Breadcrumbs items={breadcrumbs} />
         </div>
         <div className="absolute top-1/2 left-1/2 z-10 flex w-[calc(100%-2rem)] max-w-[700px] -translate-x-1/2 -translate-y-1/2 flex-col items-center gap-4 bg-background/80 px-[70px] py-10 text-center backdrop-blur supports-[backdrop-filter]:bg-background/70 max-md:px-4 max-md:py-8 max-sm:static max-sm:mx-auto max-sm:w-full max-sm:translate-x-0 max-sm:translate-y-0">
-          <h1 className="text-[24px] leading-[29px] font-light tracking-normal text-[#6B6B6B] uppercase">
+          <h1 className="font-display text-h2 font-light tracking-normal text-text-heading uppercase">
             {hero.heading}
           </h1>
           {hero.text ? (
@@ -85,7 +85,7 @@ function VacancyHrCell({
 }) {
   return (
     <div className="flex flex-col gap-1">
-      <span className="text-[18px] leading-[22px] font-normal text-text-heading">
+      <span className="text-body font-medium text-text-heading">
         {label}
       </span>
       <span className="text-text-secondary">{children}</span>
@@ -105,7 +105,7 @@ function VacancyHrBlock({
   return (
     <section className="flex flex-col gap-6 border-y border-[#E6E8EB] py-8">
       {hr.heading ? (
-        <h2 className="text-[24px] font-medium text-text-heading uppercase">
+        <h2 className="font-display text-h2 font-light text-text-heading uppercase">
           {hr.heading}
         </h2>
       ) : null}
@@ -175,7 +175,7 @@ function VacancyList({
   return (
     <section className="flex flex-col gap-8">
       {vacancies.heading ? (
-        <h2 className="text-[24px] font-semibold text-text-heading uppercase">
+        <h2 className="font-display text-h2 font-light text-text-heading uppercase">
           {vacancies.heading}
         </h2>
       ) : null}
@@ -197,7 +197,7 @@ function VacancyList({
                     />
                   </div>
                   {salary ? (
-                    <span className="shrink-0 pr-8 text-base font-medium text-text-heading">
+                    <span className="shrink-0 pr-8 text-body font-medium text-text-heading">
                       {salary}
                     </span>
                   ) : null}
@@ -216,7 +216,7 @@ function VacancyList({
                 </summary>
                 <div className="flex flex-col gap-6 border-t border-[#E6E8EB] px-8 pt-6 pb-8 group-open:border-brand-hover/40">
                   {item.description ? (
-                    <StaticProse html={item.description} className="text-[15px]" />
+                    <StaticProse html={item.description} className="text-body" />
                   ) : null}
                   <ResumeMailtoButton email={resumeEmail} />
                 </div>

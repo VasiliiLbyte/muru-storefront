@@ -3,7 +3,9 @@
 import { useEffect, useMemo, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { ShoppingBag } from "lucide-react";
+import { Minus, Plus } from "lucide-react";
+
+import { IconBasket } from "@/components/icons";
 
 import { buttonVariants } from "@/components/ui/button";
 import { badgeClass } from "@/components/layout/header-actions";
@@ -20,7 +22,7 @@ import { useCartTotals } from "@/lib/cart/use-cart-totals";
 import { formatPrice } from "@/lib/format";
 import { catalogHref } from "@/lib/site";
 import type { Product } from "@/lib/schemas";
-import { useCartCount, useCartItems } from "@/stores/cart-store";
+import { useCartCount, useCartItems, useCartStore } from "@/stores/cart-store";
 import { cn } from "@/lib/utils";
 
 const PREVIEW_LIMIT = 5;
@@ -36,6 +38,7 @@ export function MiniCart({
   const [open, setOpen] = useState(false);
   const count = useCartCount();
   const items = useCartItems();
+  const updateQty = useCartStore((s) => s.updateQty);
   const [productsBySku, setProductsBySku] = useState<Map<string, Product>>(
     () => new Map(),
   );
@@ -72,7 +75,7 @@ export function MiniCart({
         style={{ width: 44, height: 44, minWidth: 44, minHeight: 44 }}
       >
         <span className="relative inline-flex size-6 items-center justify-center">
-          <ShoppingBag className="size-5" />
+          <IconBasket className="size-5" />
           {count ? (
             <span aria-hidden="true" className={badgeClass}>
               {count}
@@ -128,7 +131,7 @@ export function MiniCart({
                         />
                       ) : null}
                     </Link>
-                    <div className="flex min-w-0 flex-col gap-1">
+                    <div className="flex min-w-0 flex-1 flex-col gap-1.5">
                       <Link
                         href={productHref(product)}
                         onClick={() => setOpen(false)}
@@ -136,9 +139,37 @@ export function MiniCart({
                       >
                         {product.title}
                       </Link>
-                      <p className="text-small text-text-muted">
-                        {item.qty} × {formatPrice(product.price, product.currency)}
+                      <p className="text-small font-medium text-text-heading">
+                        {formatPrice(product.price, product.currency)}
                       </p>
+                      <div
+                        className="inline-flex w-fit items-center border border-border"
+                        role="group"
+                        aria-label={`Количество: ${product.title}`}
+                      >
+                        <button
+                          type="button"
+                          aria-label="Уменьшить количество"
+                          onClick={() => updateQty(item.sku, item.qty - 1)}
+                          className="inline-flex size-8 items-center justify-center text-text-secondary transition-colors hover:text-brand focus-visible:ring-1 focus-visible:ring-ring focus-visible:outline-none"
+                        >
+                          <Minus className="size-3.5" />
+                        </button>
+                        <span
+                          className="min-w-8 border-x border-border px-1 text-center text-small text-foreground"
+                          aria-live="polite"
+                        >
+                          {item.qty}
+                        </span>
+                        <button
+                          type="button"
+                          aria-label="Увеличить количество"
+                          onClick={() => updateQty(item.sku, item.qty + 1)}
+                          className="inline-flex size-8 items-center justify-center text-text-secondary transition-colors hover:text-brand focus-visible:ring-1 focus-visible:ring-ring focus-visible:outline-none"
+                        >
+                          <Plus className="size-3.5" />
+                        </button>
+                      </div>
                     </div>
                   </li>
                 );

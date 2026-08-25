@@ -47,7 +47,12 @@ export function HotspotProductCard({
       <div className="mt-2 flex flex-wrap items-baseline gap-2">
         {product ? (
           <>
-            <span className="text-body font-medium text-text-heading">
+            <span
+              className={cn(
+                "text-body font-medium",
+                showSale ? "text-brand" : "text-text-heading",
+              )}
+            >
               {formatPrice(product.price, product.currency)}
             </span>
             {showSale ? (

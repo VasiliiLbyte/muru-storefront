@@ -34,7 +34,7 @@ export function PartnersPageContent({
           <Breadcrumbs items={breadcrumbs} />
         </div>
         <div className="absolute top-1/2 left-1/2 z-10 flex w-[calc(100%-2rem)] max-w-[700px] -translate-x-1/2 -translate-y-1/2 flex-col items-center gap-4 bg-background/80 px-[70px] py-10 text-center backdrop-blur supports-[backdrop-filter]:bg-background/70 max-md:px-4 max-md:py-8 max-sm:static max-sm:mx-auto max-sm:w-full max-sm:translate-x-0 max-sm:translate-y-0">
-          <h1 className="text-[24px] leading-[29px] font-light tracking-normal text-[#6B6B6B] uppercase">
+          <h1 className="font-display text-h2 font-light tracking-normal text-text-heading uppercase">
             {hero.heading}
           </h1>
           {hero.text ? (

@@ -215,29 +215,29 @@ export default async function CatalogPage({ params, searchParams }: PageProps) {
         : undefined;
   const isSaleListing = categorySlug ? isSaleCategorySlug(categorySlug) : false;
 
-  const listing = await getProducts(
-    isSaleListing
-      ? {
-          ...listingQuery,
-          pageSize: 8,
-          onSale: true,
-        }
-      : {
-          ...listingQuery,
-          pageSize: 8,
-          category: isCatalogBackendEnabled()
-            ? route.type === "subcategory"
-              ? route.parentSlug
-              : route.type === "category"
-                ? route.slug
-                : undefined
+  const listQuery = isSaleListing
+    ? {
+        ...listingQuery,
+        pageSize: 8 as const,
+        onSale: true as const,
+      }
+    : {
+        ...listingQuery,
+        pageSize: 8 as const,
+        category: isCatalogBackendEnabled()
+          ? route.type === "subcategory"
+            ? route.parentSlug
             : route.type === "category"
               ? route.slug
-              : undefined,
-          subcategory:
-            route.type === "subcategory" ? route.subSlug : undefined,
-        },
-  );
+              : undefined
+          : route.type === "category"
+            ? route.slug
+            : undefined,
+        subcategory:
+          route.type === "subcategory" ? route.subSlug : undefined,
+      };
+
+  const listing = await getProducts(listQuery);
 
   const breadcrumbs = catalogBreadcrumbBase();
 
@@ -285,8 +285,7 @@ export default async function CatalogPage({ params, searchParams }: PageProps) {
         parentSlug={route.type === "category" ? route.slug : undefined}
         categories={allCategories}
         listing={listing}
-        query={listingQuery}
-        pathname={pathname}
+        query={listQuery}
       />
     </main>
   );

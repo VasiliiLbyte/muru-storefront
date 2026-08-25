@@ -11,7 +11,9 @@ import {
   useRef,
   useState,
 } from "react";
-import { Clock, Loader2, Mic, Search, Tag, X } from "lucide-react";
+import { Clock, Loader2, Mic, Tag, X } from "lucide-react";
+
+import { IconSearch } from "@/components/icons";
 
 import {
   Dialog,
@@ -243,7 +245,7 @@ function SearchDropdown({
                       className="flex size-10 shrink-0 items-center justify-center bg-surface text-text-muted"
                       aria-hidden
                     >
-                      <Search className="size-4" />
+                      <IconSearch className="size-4" />
                     </span>
                   )}
                   <span className="min-w-0 flex-1">
@@ -344,7 +346,7 @@ function SearchDropdown({
                   onMouseDown={(e) => e.preventDefault()}
                   onClick={() => onSelect(item)}
                 >
-                  <Search className="size-4" aria-hidden />
+                  <IconSearch className="size-4" aria-hidden />
                   Все результаты по «{item.query}»
                 </button>
               );
@@ -541,7 +543,7 @@ function SearchFormWithSuggest({
             aria-label="Найти"
             className="inline-flex size-11 items-center justify-center transition-colors hover:text-brand lg:size-auto"
           >
-            <Search className="size-5" aria-hidden />
+            <IconSearch className="size-5" aria-hidden />
           </button>
         </div>
       </form>
@@ -599,7 +601,7 @@ export function HeaderMobileSearch() {
         style={{ width: 44, height: 44, minWidth: 44, minHeight: 44 }}
         onClick={() => setOpen(true)}
       >
-        <Search className="size-5" aria-hidden />
+        <IconSearch className="size-5" aria-hidden />
       </button>
       {open ? (
         <DialogContent

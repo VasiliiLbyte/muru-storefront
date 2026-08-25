@@ -2,7 +2,8 @@
 
 import type { ReactNode } from "react";
 import Link from "next/link";
-import { Heart } from "lucide-react";
+
+import { IconFavorites } from "@/components/icons";
 
 import { AuthSuccessToast } from "@/components/account/auth-success-toast";
 import { AddedToCartToast } from "@/components/cart/added-to-cart-toast";
@@ -73,7 +74,7 @@ export function HeaderActions({ className }: { className?: string }) {
         label="Избранное"
         count={favorites}
       >
-        <Heart className="size-5" />
+        <IconFavorites className="size-5" />
       </HeaderActionLink>
       <MiniCart />
     </div>

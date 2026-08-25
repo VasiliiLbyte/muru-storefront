@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 
-import { CatalogPagination } from "@/components/catalog/catalog-pagination";
-import { ProductGrid } from "@/components/catalog/product-grid";
+import { CatalogProductFeed } from "@/components/catalog/catalog-product-feed";
 import { ContentShell } from "@/components/content/content-shell";
 import { getProducts, getStaticPage } from "@/lib/api/endpoints";
 import { contentBreadcrumbs } from "@/lib/content/breadcrumbs";
@@ -41,8 +40,6 @@ export default async function NewArrivalsPage({ searchParams }: PageProps) {
     getProducts(query),
   ]);
 
-  const totalPages = Math.max(1, Math.ceil(listing.total / listing.pageSize));
-
   return (
     <main id="main" className="flex flex-1 flex-col">
       <ContentShell
@@ -50,19 +47,13 @@ export default async function NewArrivalsPage({ searchParams }: PageProps) {
         breadcrumbs={contentBreadcrumbs({ name: page.title, href: "/new/" })}
       >
         {listing.items.length > 0 ? (
-          <>
-            <ProductGrid products={listing.items} />
-            {totalPages > 1 ? (
-              <CatalogPagination
-                pathname="/new/"
-                query={{ sort: "new", newArrival: true }}
-                page={listing.page}
-                pageSize={listing.pageSize}
-                total={listing.total}
-                className="mt-10"
-              />
-            ) : null}
-          </>
+          <CatalogProductFeed
+            initialItems={listing.items}
+            total={listing.total}
+            pageSize={listing.pageSize}
+            page={listing.page}
+            query={{ sort: "new", newArrival: true }}
+          />
         ) : (
           <p className="py-12 text-center text-body text-text-muted">
             Пока нет новинок

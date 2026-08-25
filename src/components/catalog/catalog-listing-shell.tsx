@@ -4,10 +4,9 @@ import {
   Breadcrumbs,
   catalogBreadcrumbBase,
 } from "@/components/catalog/breadcrumbs";
-import { CatalogPagination } from "@/components/catalog/catalog-pagination";
+import { CatalogProductFeed } from "@/components/catalog/catalog-product-feed";
 import { CatalogToolbar } from "@/components/catalog/catalog-toolbar";
 import { CategoryGrid } from "@/components/catalog/category-grid";
-import { ProductGrid } from "@/components/catalog/product-grid";
 import type { ProductListQueryInput, ProductListResponse } from "@/lib/schemas";
 import type { Category } from "@/lib/schemas";
 import type { BreadcrumbItem } from "@/lib/seo/jsonld";
@@ -23,7 +22,6 @@ export function CatalogListingShell({
   categories,
   listing,
   query,
-  pathname,
   className,
 }: {
   variant: "hub" | "listing";
@@ -33,8 +31,8 @@ export function CatalogListingShell({
   parentSlug?: string;
   categories: Category[];
   listing: ProductListResponse;
+  /** Filter/sort fields for BFF load-more (without relying on page). */
   query: ProductListQueryInput;
-  pathname: string;
   className?: string;
 }) {
   return (
@@ -76,16 +74,13 @@ export function CatalogListingShell({
             <CatalogToolbar facets={listing.facets} />
           </Suspense>
 
-          <div className="mb-10">
-            <ProductGrid products={listing.items} />
-          </div>
-
-          <CatalogPagination
-            pathname={pathname}
-            query={query}
-            page={listing.page}
-            pageSize={listing.pageSize}
+          <CatalogProductFeed
+            className="mb-10"
+            initialItems={listing.items}
             total={listing.total}
+            pageSize={listing.pageSize}
+            page={listing.page}
+            query={query}
           />
         </>
       )}

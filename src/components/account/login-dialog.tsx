@@ -1,7 +1,9 @@
 "use client";
 
 import { Suspense, useEffect, useRef, useState } from "react";
-import { Phone, User, X } from "lucide-react";
+import { Phone, X } from "lucide-react";
+
+import { IconCabinet } from "@/components/icons";
 import { useRouter } from "next/navigation";
 
 import { LoginForm } from "@/components/account/login-form";
@@ -105,7 +107,7 @@ export function LoginDialogGuest({ compact = false }: { compact?: boolean }) {
         style={{ width: 44, height: 44, minWidth: 44, minHeight: 44 }}
       >
         <span className="relative inline-flex size-6 items-center justify-center">
-          <User className="size-5" />
+          <IconCabinet className="size-5" />
         </span>
         <span className="hidden text-[12px] leading-none text-text-secondary lg:block">
           Войти

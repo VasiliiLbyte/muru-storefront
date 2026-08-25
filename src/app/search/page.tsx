@@ -1,8 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 
-import { CatalogPagination } from "@/components/catalog/catalog-pagination";
-import { ProductGrid } from "@/components/catalog/product-grid";
+import { CatalogProductFeed } from "@/components/catalog/catalog-product-feed";
 import { getCategories, searchProducts } from "@/lib/api/endpoints";
 import { buildPageMetadata } from "@/lib/seo/page-metadata";
 import { catalogHref } from "@/lib/site";
@@ -80,7 +79,11 @@ export default async function SearchPage({ searchParams }: PageProps) {
     );
   }
 
-  const results = await searchProducts({ q: query, page: pageNum });
+  const results = await searchProducts({
+    q: query,
+    page: pageNum,
+    pageSize: 24,
+  });
 
   return (
     <main
@@ -97,17 +100,13 @@ export default async function SearchPage({ searchParams }: PageProps) {
       </p>
 
       {results.items.length > 0 ? (
-        <>
-          <ProductGrid products={results.items} />
-          <CatalogPagination
-            pathname="/search/"
-            query={{}}
-            page={results.page}
-            pageSize={results.pageSize}
-            total={results.total}
-            extra={{ q: query }}
-          />
-        </>
+        <CatalogProductFeed
+          initialItems={results.items}
+          total={results.total}
+          pageSize={results.pageSize}
+          page={results.page}
+          query={{ q: query }}
+        />
       ) : (
         <EmptySearchState />
       )}

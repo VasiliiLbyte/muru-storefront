@@ -52,16 +52,19 @@ export function ProductCard({
         href={productHref(product)}
         className="flex min-w-0 flex-col gap-1 focus-visible:ring-1 focus-visible:ring-ring focus-visible:outline-none"
       >
-        {product.inStock ? (
-          <span className="text-caption text-text-secondary lowercase">
-            в наличии
-          </span>
-        ) : null}
+        <span className="text-caption text-text-secondary lowercase">
+          {product.inStock ? "в наличии" : "отсутствует"}
+        </span>
         <h3 className="line-clamp-2 text-body text-text-heading transition-colors group-hover:text-brand">
           {product.title}
         </h3>
         <div className="flex flex-wrap items-baseline gap-2">
-          <span className="text-body font-medium text-text-heading">
+          <span
+            className={cn(
+              "text-body font-medium",
+              showSale ? "text-brand" : "text-text-heading",
+            )}
+          >
             {formatPrice(product.price, product.currency)}
           </span>
           {showSale ? (

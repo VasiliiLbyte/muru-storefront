@@ -11,7 +11,6 @@ import {
   SheetTrigger,
 } from "@/components/ui/sheet";
 import { isSaleCategorySlug } from "@/lib/catalog/sale-category";
-import { mainNav } from "@/lib/site";
 import { cn } from "@/lib/utils";
 
 const linkClass =
@@ -29,6 +28,7 @@ type CatalogMenuPanelProps = {
 
 /**
  * Десктопное меню «Каталог» — левый drawer (как .catalog-side-panel на muru.ru).
+ * Только категории (catalog_only) — без mainNav.
  */
 export function CatalogMenuPanel({ catalogItems }: CatalogMenuPanelProps) {
   const [open, setOpen] = useState(false);
@@ -40,43 +40,30 @@ export function CatalogMenuPanel({ catalogItems }: CatalogMenuPanelProps) {
       <SheetContent
         side="left"
         backdropClassName="bg-black/30"
-        className="w-full gap-0 p-8 sm:w-[520px] sm:max-w-[520px]"
+        className="w-full gap-0 p-8 sm:w-[320px] sm:max-w-[360px]"
       >
         <SheetTitle className="sr-only">Каталог</SheetTitle>
-        <div className="grid grid-cols-2 gap-8">
-          <nav aria-label="Сайт">
-            <ul className="flex flex-col gap-y-3">
-              {mainNav.map((item) => (
+        <nav aria-label="Каталог">
+          <ul className="flex flex-col gap-y-3">
+            {catalogItems.map((item) => {
+              const sale = isSaleCategorySlug(catalogSlugFromHref(item.href));
+              return (
                 <li key={item.href}>
-                  <Link href={item.href} onClick={close} className={linkClass}>
+                  <Link
+                    href={item.href}
+                    onClick={close}
+                    className={cn(
+                      linkClass,
+                      sale && "text-brand hover:text-brand",
+                    )}
+                  >
                     {item.label}
                   </Link>
                 </li>
-              ))}
-            </ul>
-          </nav>
-          <nav aria-label="Каталог">
-            <ul className="flex flex-col gap-y-3">
-              {catalogItems.map((item) => {
-                const sale = isSaleCategorySlug(catalogSlugFromHref(item.href));
-                return (
-                  <li key={item.href}>
-                    <Link
-                      href={item.href}
-                      onClick={close}
-                      className={cn(
-                        linkClass,
-                        sale && "text-brand hover:text-brand",
-                      )}
-                    >
-                      {item.label}
-                    </Link>
-                  </li>
-                );
-              })}
-            </ul>
-          </nav>
-        </div>
+              );
+            })}
+          </ul>
+        </nav>
       </SheetContent>
     </Sheet>
   );

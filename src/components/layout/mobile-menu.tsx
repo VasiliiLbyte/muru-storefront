@@ -3,7 +3,9 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import { Accordion } from "@base-ui/react/accordion";
-import { ChevronDown, Heart, LogOut, Menu, ShoppingBag, User } from "lucide-react";
+import { ChevronDown, LogOut, Menu } from "lucide-react";
+
+import { IconBasket, IconCabinet, IconFavorites } from "@/components/icons";
 
 import { openLoginDialog } from "@/components/account/login-dialog";
 import {
@@ -92,7 +94,7 @@ export function MobileMenu({ contacts }: { contacts: SiteContacts }) {
                 onClick={close}
                 className="inline-flex min-h-9 items-center gap-2 py-1.5 text-body text-text-primary transition-colors hover:text-brand"
               >
-                <User className="size-5 shrink-0" aria-hidden />
+                <IconCabinet className="size-5 shrink-0" aria-hidden />
                 Личный кабинет
               </Link>
               <button
@@ -113,7 +115,7 @@ export function MobileMenu({ contacts }: { contacts: SiteContacts }) {
               onClick={handleLogin}
               className="inline-flex min-h-9 items-center gap-2 py-1.5 text-left text-body text-text-primary transition-colors hover:text-brand focus-visible:ring-1 focus-visible:ring-ring focus-visible:outline-none"
             >
-              <User className="size-5 shrink-0" aria-hidden />
+              <IconCabinet className="size-5 shrink-0" aria-hidden />
               Войти
             </button>
           )}
@@ -124,7 +126,7 @@ export function MobileMenu({ contacts }: { contacts: SiteContacts }) {
             className="inline-flex min-h-9 items-center justify-between gap-2 py-1.5 text-body text-text-primary transition-colors hover:text-brand"
           >
             <span className="inline-flex items-center gap-2">
-              <Heart className="size-5 shrink-0" aria-hidden />
+              <IconFavorites className="size-5 shrink-0" aria-hidden />
               Избранное
             </span>
             {favorites > 0 ? (
@@ -139,7 +141,7 @@ export function MobileMenu({ contacts }: { contacts: SiteContacts }) {
             className="inline-flex min-h-9 items-center justify-between gap-2 py-1.5 text-body text-text-primary transition-colors hover:text-brand"
           >
             <span className="inline-flex items-center gap-2">
-              <ShoppingBag className="size-5 shrink-0" aria-hidden />
+              <IconBasket className="size-5 shrink-0" aria-hidden />
               Корзина
             </span>
             {cartCount > 0 ? (

@@ -81,7 +81,14 @@ export function ProductStickyBuyBar({
       aria-hidden={!visible}
     >
       <div className="mx-auto flex max-w-[1564px] items-center gap-3 px-4 py-3">
-        <span className="min-w-0 flex-1 truncate text-body font-medium text-text-heading">
+        <span
+          className={cn(
+            "min-w-0 flex-1 truncate text-body font-medium",
+            product.isOnSale && product.oldPrice
+              ? "text-brand"
+              : "text-text-heading",
+          )}
+        >
           {formatPrice(product.price, product.currency)}
         </span>
         <Button

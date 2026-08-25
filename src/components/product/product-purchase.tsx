@@ -41,7 +41,12 @@ export function ProductPurchase({
       </div>
 
       <div className="flex flex-wrap items-baseline gap-3">
-        <span className="text-h2 font-medium text-text-heading">
+        <span
+          className={cn(
+            "text-h2 font-medium",
+            showSale ? "text-brand" : "text-text-heading",
+          )}
+        >
           {formatPrice(product.price, product.currency)}
         </span>
         {showSale ? (

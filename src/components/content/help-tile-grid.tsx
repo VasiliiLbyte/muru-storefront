@@ -1,14 +1,15 @@
 import Link from "next/link";
-import type { LucideIcon } from "lucide-react";
-import {
-  CreditCard,
-  Gift,
-  MessageSquare,
-  RotateCcw,
-  Settings,
-  Truck,
-} from "lucide-react";
+import type { ComponentType } from "react";
 
+import {
+  IconCard,
+  IconDelivery,
+  IconGift,
+  IconReturn,
+  IconReview,
+  IconService,
+  type MuruIconProps,
+} from "@/components/icons";
 import { cn } from "@/lib/utils";
 
 export type HelpTile = {
@@ -17,16 +18,16 @@ export type HelpTile = {
   href: string;
 };
 
-function iconForTitle(title: string): LucideIcon {
+function iconForTitle(title: string): ComponentType<MuruIconProps> {
   const key = title.toLowerCase();
-  if (key.includes("доставк")) return Truck;
-  if (key.includes("отзыв")) return MessageSquare;
-  if (key.includes("обслуживан") || key.includes("услови")) return Settings;
-  if (key.includes("корпоратив")) return Gift;
-  if (key.includes("возврат")) return RotateCcw;
-  if (key.includes("карт")) return CreditCard;
-  if (key.includes("подар")) return Gift;
-  return Settings;
+  if (key.includes("доставк")) return IconDelivery;
+  if (key.includes("отзыв")) return IconReview;
+  if (key.includes("обслуживан") || key.includes("услови")) return IconService;
+  if (key.includes("корпоратив")) return IconGift;
+  if (key.includes("возврат")) return IconReturn;
+  if (key.includes("карт")) return IconCard;
+  if (key.includes("подар")) return IconGift;
+  return IconService;
 }
 
 /**
@@ -54,11 +55,7 @@ export function HelpTileGrid({
             href={item.href}
             className="group flex flex-col gap-4 border border-border bg-background p-6 transition-colors hover:border-brand focus-visible:ring-1 focus-visible:ring-ring focus-visible:outline-none"
           >
-            <Icon
-              className="size-8 text-text-secondary"
-              strokeWidth={1.25}
-              aria-hidden
-            />
+            <Icon className="size-8 text-text-secondary" aria-hidden />
             <span className="font-display text-body tracking-[0.08em] text-text-heading uppercase transition-colors group-hover:text-brand">
               {item.title}
             </span>

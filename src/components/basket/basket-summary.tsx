@@ -23,7 +23,7 @@ export function BasketSummary({
         // Mobile: fixed bottom bar
         "max-lg:fixed max-lg:inset-x-0 max-lg:bottom-0 max-lg:z-30 max-lg:border-t max-lg:p-4 max-lg:pb-safe",
         // Desktop: in-column sticky
-        "lg:sticky lg:top-24 lg:gap-6 lg:border lg:p-6",
+        "lg:sticky lg:top-24 lg:gap-6 lg:p-6",
         className,
       )}
     >

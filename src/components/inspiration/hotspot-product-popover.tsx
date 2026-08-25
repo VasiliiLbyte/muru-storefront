@@ -106,7 +106,7 @@ export function HotspotProductPopover({
       onMouseEnter={onMouseEnter}
       onMouseLeave={onMouseLeave}
       className={cn(
-        "fixed z-50 w-56 border border-border bg-background p-3 shadow-(--shadow-overlay)",
+        "fixed z-50 w-56 border border-border bg-background p-3",
         !position && "invisible",
       )}
       style={

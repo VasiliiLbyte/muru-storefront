@@ -62,7 +62,7 @@ function CompanyHeroSection({
           <Breadcrumbs items={breadcrumbs} />
         </div>
         <div className="absolute top-1/2 left-1/2 z-10 flex w-[calc(100%-2rem)] max-w-[700px] -translate-x-1/2 -translate-y-1/2 flex-col items-center gap-4 bg-background/80 px-[70px] py-10 text-center backdrop-blur supports-[backdrop-filter]:bg-background/70 max-md:px-4 max-md:py-8 max-sm:static max-sm:mx-auto max-sm:w-full max-sm:translate-x-0 max-sm:translate-y-0">
-          <h1 className="text-[24px] leading-[29px] font-light tracking-normal text-[#6B6B6B] uppercase">
+          <h1 className="font-display text-h2 font-light tracking-normal text-text-heading uppercase">
             {heading}
           </h1>
           {text ? (
@@ -94,7 +94,9 @@ function CompanyMissionSection({
             {label}
           </p>
         ) : null}
-        <h2 className="mb-4 font-display text-h3 text-text-heading">{heading}</h2>
+        <h2 className="mb-4 font-display text-h2 font-light text-text-heading">
+          {heading}
+        </h2>
         <StaticProse html={text} />
       </div>
       {shown.length > 0 ? (
@@ -150,10 +152,10 @@ function CompanyPromoSection({
                 className="flex w-full max-w-[370px] flex-1 flex-col items-start gap-32 bg-background/80 p-6 text-left backdrop-blur supports-[backdrop-filter]:bg-background/70 max-lg:gap-16"
               >
                 <div className="flex flex-col gap-2">
-                  <h3 className="text-[clamp(1.25rem,2vw,1.5rem)] leading-[calc(1em+8px)] font-light tracking-normal text-[#6B6B6B] uppercase">
+                  <h3 className="text-[20px] leading-[24px] font-medium tracking-normal text-text-heading uppercase">
                     {card.title}
                   </h3>
-                  <p className="text-base leading-5 font-light text-text-secondary">
+                  <p className="text-body text-text-secondary">
                     {card.text}
                   </p>
                 </div>
