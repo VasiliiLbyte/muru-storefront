@@ -12,6 +12,7 @@ import {
   LoginDialogGuest,
   GO_ACCOUNT_EVENT,
 } from "@/components/account/login-dialog";
+import { actionTriggerClass, actionTriggerStyle } from "@/components/layout/header-actions";
 import { ensureAccessToken } from "@/lib/account/account-fetch";
 import { logoutCustomer } from "@/lib/account/logout";
 import { getAccessToken } from "@/lib/account/session";
@@ -49,8 +50,8 @@ function AuthenticatedAccountMenu({
             href="/account/"
             aria-label={`Личный кабинет, ${firstName}`}
             aria-haspopup="menu"
-            className="relative inline-flex flex-col items-center justify-center text-text-secondary transition-colors hover:text-text-heading focus-visible:ring-1 focus-visible:ring-ring focus-visible:outline-none lg:min-h-0 lg:min-w-[3.5rem] lg:w-auto lg:gap-1 lg:px-2"
-            style={{ width: 44, height: 44, minWidth: 44, minHeight: 44 }}
+            className={actionTriggerClass}
+            style={actionTriggerStyle}
           />
         }
       >

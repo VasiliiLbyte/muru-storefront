@@ -9,6 +9,9 @@ import { HeaderTopNav } from "./header-top-nav";
 import { Logo } from "./logo";
 import { MobileMenu } from "./mobile-menu";
 import { FavoritesSessionBridge } from "@/components/favorites/favorites-session-bridge";
+import { cn } from "@/lib/utils";
+
+const headerGridClass = "mx-auto w-full max-w-[1564px] px-4 sm:px-8";
 
 function CatalogMenuFallback() {
   return <span className={catalogTriggerClass}>Каталог</span>;
@@ -25,7 +28,7 @@ export function Header({ contacts }: { contacts: SiteContacts }) {
       <FavoritesSessionBridge />
       {/* Utility-строка — desktop, уезжает при скролле */}
       <div className="home-snap-origin hidden lg:block">
-        <div className="mx-auto flex h-11 w-full max-w-[1564px] items-center justify-between px-4 sm:px-8">
+        <div className={cn(headerGridClass, "flex h-11 items-center justify-between")}>
           <HeaderTopNav />
           <a
             href={contacts.phoneHref}
@@ -38,7 +41,7 @@ export function Header({ contacts }: { contacts: SiteContacts }) {
 
       {/* Нижний бар — sticky на всю страницу (containing block = body) */}
       <header className="sticky top-0 z-40 bg-background/95 pt-safe-header backdrop-blur supports-[backdrop-filter]:bg-background/80">
-        <div className="mx-auto w-full max-w-[1564px] px-4 sm:px-8 lg:px-8">
+        <div className={headerGridClass}>
           <div className="flex h-14 items-center gap-2 lg:min-h-[calc(var(--header-height)-2.75rem)] lg:gap-4 lg:py-2">
             <div className="lg:hidden">
               <MobileMenu contacts={contacts} />

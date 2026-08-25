@@ -8,7 +8,11 @@ import { Minus, Plus } from "lucide-react";
 import { IconBasket } from "@/components/icons";
 
 import { buttonVariants } from "@/components/ui/button";
-import { badgeClass } from "@/components/layout/header-actions";
+import {
+  actionTriggerClass,
+  actionTriggerStyle,
+  badgeClass,
+} from "@/components/layout/header-actions";
 import {
   Sheet,
   SheetContent,
@@ -68,11 +72,8 @@ export function MiniCart({
     <Sheet open={open} onOpenChange={setOpen}>
       <SheetTrigger
         aria-label={count ? `Корзина (${count})` : "Корзина"}
-        className={cn(
-          "relative inline-flex flex-col items-center justify-center text-text-secondary transition-colors hover:text-text-heading focus-visible:ring-1 focus-visible:ring-ring focus-visible:outline-none lg:min-h-0 lg:min-w-[3.5rem] lg:w-auto lg:gap-1 lg:px-2",
-          className,
-        )}
-        style={{ width: 44, height: 44, minWidth: 44, minHeight: 44 }}
+        className={cn(actionTriggerClass, className)}
+        style={actionTriggerStyle}
       >
         <span className="relative inline-flex size-6 items-center justify-center">
           <IconBasket className="size-5" />

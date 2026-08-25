@@ -4,6 +4,10 @@ import { Suspense, useEffect, useRef, useState } from "react";
 import { Phone, X } from "lucide-react";
 
 import { IconCabinet } from "@/components/icons";
+import {
+  actionTriggerClass,
+  actionTriggerStyle,
+} from "@/components/layout/header-actions";
 import { useRouter } from "next/navigation";
 
 import { LoginForm } from "@/components/account/login-form";
@@ -103,8 +107,8 @@ export function LoginDialogGuest({ compact = false }: { compact?: boolean }) {
         aria-label="Войти"
         aria-haspopup="dialog"
         onClick={() => setOpen(true)}
-        className="relative inline-flex flex-col items-center justify-center text-text-secondary transition-colors hover:text-text-heading focus-visible:ring-1 focus-visible:ring-ring focus-visible:outline-none lg:min-h-0 lg:min-w-[3.5rem] lg:w-auto lg:gap-1 lg:px-2"
-        style={{ width: 44, height: 44, minWidth: 44, minHeight: 44 }}
+        className={actionTriggerClass}
+        style={actionTriggerStyle}
       >
         <span className="relative inline-flex size-6 items-center justify-center">
           <IconCabinet className="size-5" />

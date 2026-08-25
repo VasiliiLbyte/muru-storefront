@@ -23,7 +23,7 @@ const catalogLinkClass = cn(
 );
 
 const columnHeadingClass =
-  "mb-3 text-small font-medium tracking-[0.08em] text-text-heading uppercase";
+  "mb-3 text-caption font-medium tracking-[0.12em] text-text-muted uppercase";
 
 /**
  * Подвал ≈ PDF: колонки выше, caps-меню, watermark справа #B8B8B8, © + legal.

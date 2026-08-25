@@ -14,7 +14,7 @@ import { useFavoriteCount } from "@/lib/favorites/favorites-facade";
 import { cn } from "@/lib/utils";
 
 const actionTriggerClass =
-  "relative inline-flex flex-col items-center justify-center text-text-secondary transition-colors hover:text-text-heading focus-visible:ring-1 focus-visible:ring-ring focus-visible:outline-none lg:min-h-0 lg:min-w-[3.5rem] lg:w-auto lg:px-2 lg:gap-1";
+  "relative inline-flex flex-col items-center justify-center text-text-secondary transition-colors hover:text-text-heading focus-visible:ring-1 focus-visible:ring-ring focus-visible:outline-none lg:min-h-0 lg:min-w-0 lg:w-auto lg:gap-1 lg:!min-w-0 lg:!w-auto lg:!h-auto";
 
 const actionTriggerStyle = {
   width: 44,
@@ -63,7 +63,7 @@ export function HeaderActions({ className }: { className?: string }) {
   const favorites = useFavoriteCount();
 
   return (
-    <div className={cn("flex items-center gap-0.5 sm:gap-1 lg:items-start lg:gap-8", className)}>
+    <div className={cn("flex items-center gap-0.5 sm:gap-1 lg:items-start lg:gap-8 lg:pr-0", className)}>
       {/* Mobile: search → account → favorites → cart (M8-8) */}
       <HeaderMobileSearch />
       <HeaderAccount />
