@@ -48,7 +48,7 @@ export function CategoryGrid({
                   />
                 ) : null}
               </div>
-              <h3 className="font-display text-body tracking-[0.04em] text-text-heading uppercase transition-colors group-hover:text-brand">
+              <h3 className="font-display text-body tracking-[0.04em] text-text-heading lowercase first-letter:uppercase transition-colors group-hover:text-brand">
                 {child.title}
               </h3>
             </Link>

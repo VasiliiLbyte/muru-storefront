@@ -5,9 +5,11 @@ import { Breadcrumbs } from "@/components/catalog/breadcrumbs";
 import { InfoTileGrid } from "@/components/content/info-tile-grid";
 import { StaticProse } from "@/components/content/static-prose";
 import { Button } from "@/components/ui/button";
+import { glassPlaqueClass } from "@/components/ui/glass-plaque";
 import { staticBlurProps } from "@/lib/images";
 import type { CompanySections, Image as ImageData } from "@/lib/schemas";
 import type { BreadcrumbItem } from "@/lib/seo/jsonld";
+import { cn } from "@/lib/utils";
 
 const PROMO_HREFS = [
   "/company/vacancy/",
@@ -61,7 +63,12 @@ function CompanyHeroSection({
         <div className="absolute top-0 left-0 z-10 w-full max-w-[1564px] px-4 pt-8 sm:px-8 [&_ol]:text-white [&_a]:text-white/90 [&_a:hover]:text-white [&_span]:text-white [text-shadow:0_1px_2px_rgba(0,0,0,0.55)]">
           <Breadcrumbs items={breadcrumbs} />
         </div>
-        <div className="absolute top-1/2 left-1/2 z-10 flex w-[calc(100%-2rem)] max-w-[700px] -translate-x-1/2 -translate-y-1/2 flex-col items-center gap-4 bg-background/80 px-[70px] py-10 text-center backdrop-blur supports-[backdrop-filter]:bg-background/70 max-md:px-4 max-md:py-8 max-sm:static max-sm:mx-auto max-sm:w-full max-sm:translate-x-0 max-sm:translate-y-0">
+        <div
+          className={cn(
+            "absolute top-1/2 left-1/2 z-10 flex w-[calc(100%-2rem)] max-w-[700px] -translate-x-1/2 -translate-y-1/2 flex-col items-center gap-4 px-[70px] py-10 text-center max-md:px-4 max-md:py-8 max-sm:static max-sm:mx-auto max-sm:w-full max-sm:translate-x-0 max-sm:translate-y-0",
+            glassPlaqueClass,
+          )}
+        >
           <h1 className="font-display text-h2 font-light tracking-normal text-text-heading uppercase">
             {heading}
           </h1>
@@ -149,7 +156,10 @@ function CompanyPromoSection({
             return (
               <div
                 key={card.key}
-                className="flex w-full max-w-[370px] flex-1 flex-col items-start gap-32 bg-background/80 p-6 text-left backdrop-blur supports-[backdrop-filter]:bg-background/70 max-lg:gap-16"
+                className={cn(
+                  "flex w-full max-w-[370px] flex-1 flex-col items-start gap-32 p-6 text-left max-lg:gap-16",
+                  glassPlaqueClass,
+                )}
               >
                 <div className="flex flex-col gap-2">
                   <h3 className="text-[20px] leading-[24px] font-medium tracking-normal text-text-heading uppercase">

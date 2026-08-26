@@ -3,7 +3,7 @@ import type { Metadata } from "next";
 import { CatalogProductFeed } from "@/components/catalog/catalog-product-feed";
 import { ContentShell } from "@/components/content/content-shell";
 import { getProducts, getStaticPage } from "@/lib/api/endpoints";
-import { contentBreadcrumbs } from "@/lib/content/breadcrumbs";
+import { contentBreadcrumbs, toSentenceCaseRu } from "@/lib/content/breadcrumbs";
 import { buildPageMetadata } from "@/lib/seo/page-metadata";
 import { ProductListQuerySchema } from "@/lib/schemas";
 
@@ -44,7 +44,10 @@ export default async function GiftsPage({ searchParams }: PageProps) {
     <main id="main" className="flex flex-1 flex-col">
       <ContentShell
         title={page.title}
-        breadcrumbs={contentBreadcrumbs({ name: page.title, href: "/gifts/" })}
+        breadcrumbs={contentBreadcrumbs({
+          name: toSentenceCaseRu(page.title),
+          href: "/gifts/",
+        })}
       >
         {listing.items.length > 0 ? (
           <CatalogProductFeed

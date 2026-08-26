@@ -6,7 +6,7 @@ import { ContentShell } from "@/components/content/content-shell";
 import { HelpHero } from "@/components/content/help-hero";
 import { StaticProse } from "@/components/content/static-prose";
 import { getStaticPage } from "@/lib/api/endpoints";
-import { companyCrumb, contentBreadcrumbs } from "@/lib/content/breadcrumbs";
+import { companyCrumb, contentBreadcrumbs, toSentenceCaseRu } from "@/lib/content/breadcrumbs";
 import { isVacancySections } from "@/lib/schemas";
 import { buildPageMetadata } from "@/lib/seo/page-metadata";
 
@@ -32,7 +32,7 @@ export default async function VacancyPage() {
   const page = await getStaticPage("vacancy");
   const breadcrumbs = contentBreadcrumbs(
     companyCrumb(),
-    { name: page.title, href: PAGE_PATH },
+    { name: toSentenceCaseRu(page.title), href: PAGE_PATH },
   );
 
   if (isVacancySections(page.sections)) {

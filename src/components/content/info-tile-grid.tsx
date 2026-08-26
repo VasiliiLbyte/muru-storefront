@@ -28,7 +28,7 @@ export function InfoTileGrid({
           href={item.href}
           className="group flex flex-col gap-2 border border-border bg-background p-6 transition-colors hover:border-brand focus-visible:ring-1 focus-visible:ring-ring focus-visible:outline-none"
         >
-          <span className="text-caption font-medium tracking-[0.12em] text-text-heading uppercase transition-colors group-hover:text-brand">
+          <span className="text-caption font-medium tracking-[0.12em] text-text-heading lowercase first-letter:uppercase transition-colors group-hover:text-brand">
             {item.title}
           </span>
           {item.description ? (

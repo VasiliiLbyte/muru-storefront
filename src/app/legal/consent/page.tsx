@@ -3,7 +3,7 @@ import type { Metadata } from "next";
 import { ContentShell } from "@/components/content/content-shell";
 import { StaticProse } from "@/components/content/static-prose";
 import { getStaticPage } from "@/lib/api/endpoints";
-import { contentBreadcrumbs } from "@/lib/content/breadcrumbs";
+import { contentBreadcrumbs, toSentenceCaseRu } from "@/lib/content/breadcrumbs";
 import { buildPageMetadata } from "@/lib/seo/page-metadata";
 
 export const revalidate = 300;
@@ -25,7 +25,7 @@ export default async function ConsentPage() {
       <ContentShell
         title={page.title}
         breadcrumbs={contentBreadcrumbs({
-          name: page.title,
+          name: toSentenceCaseRu(page.title),
           href: "/legal/consent/",
         })}
       >

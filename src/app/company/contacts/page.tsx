@@ -3,7 +3,7 @@ import type { Metadata } from "next";
 import { ContactsPageContent } from "@/components/contacts/contacts-page-content";
 import { ContentShell } from "@/components/content/content-shell";
 import { getSiteContacts, getStaticPage } from "@/lib/api/endpoints";
-import { companyCrumb, contentBreadcrumbs } from "@/lib/content/breadcrumbs";
+import { companyCrumb, contentBreadcrumbs, toSentenceCaseRu } from "@/lib/content/breadcrumbs";
 import { buildPageMetadata } from "@/lib/seo/page-metadata";
 
 export const revalidate = 300;
@@ -29,7 +29,7 @@ export default async function ContactsPage() {
         title={page.title}
         breadcrumbs={contentBreadcrumbs(
           companyCrumb(),
-          { name: page.title, href: "/company/contacts/" },
+          { name: toSentenceCaseRu(page.title), href: "/company/contacts/" },
         )}
       >
         <ContactsPageContent heroImage={page.heroImage} contacts={contacts} />

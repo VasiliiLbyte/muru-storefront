@@ -2,6 +2,7 @@ import Link from "next/link";
 
 import { HomeBannerMedia } from "@/components/home/home-banner-media";
 import { Button } from "@/components/ui/button";
+import { glassPlaqueClass } from "@/components/ui/glass-plaque";
 import { cn } from "@/lib/utils";
 
 export type HomeBannerProps = {
@@ -42,13 +43,13 @@ function BannerCopy({
       className={cn(
         "mx-auto flex w-full flex-col items-center gap-1 text-center",
         isMobile
-          ? // parity: muru.ru mobile .mp-front-wrapper — padding 24px, white, full width
-            "bg-white px-6 py-6"
+          ? // parity: muru.ru mobile .mp-front-wrapper — white, full width
+            "bg-white px-6 py-8"
           : cn(
-              "max-w-[568px] px-10 py-2.5",
+              "max-w-[568px] px-10 py-14",
               isScrim
                 ? "bg-black/35 backdrop-blur-[1px]"
-                : "bg-background/80 backdrop-blur supports-[backdrop-filter]:bg-background/70",
+                : glassPlaqueClass,
             ),
       )}
     >

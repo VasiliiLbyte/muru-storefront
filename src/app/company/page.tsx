@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 
 import { AboutPage } from "@/components/company/about-page";
 import { getStaticPage } from "@/lib/api/endpoints";
-import { contentBreadcrumbs } from "@/lib/content/breadcrumbs";
+import { companyCrumb, contentBreadcrumbs } from "@/lib/content/breadcrumbs";
 import { isCompanySections } from "@/lib/schemas";
 import { buildPageMetadata } from "@/lib/seo/page-metadata";
 
@@ -19,10 +19,7 @@ export async function generateMetadata(): Promise<Metadata> {
 
 export default async function CompanyPage() {
   const page = await getStaticPage("company");
-  const breadcrumbs = contentBreadcrumbs({
-    name: page.title,
-    href: "/company/",
-  });
+  const breadcrumbs = contentBreadcrumbs(companyCrumb());
   const sections = isCompanySections(page.sections) ? page.sections : null;
 
   return (

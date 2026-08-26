@@ -3,7 +3,7 @@ import type { Metadata } from "next";
 import { RequisitesTable } from "@/components/company/requisites-table";
 import { ContentShell } from "@/components/content/content-shell";
 import { getRequisites, getStaticPage } from "@/lib/api/endpoints";
-import { companyCrumb, contentBreadcrumbs } from "@/lib/content/breadcrumbs";
+import { companyCrumb, contentBreadcrumbs, toSentenceCaseRu } from "@/lib/content/breadcrumbs";
 import { buildPageMetadata } from "@/lib/seo/page-metadata";
 
 export const revalidate = 300;
@@ -29,7 +29,7 @@ export default async function RequisitesPage() {
         title={page.title}
         breadcrumbs={contentBreadcrumbs(
           companyCrumb(),
-          { name: page.title, href: "/company/requisites/" },
+          { name: toSentenceCaseRu(page.title), href: "/company/requisites/" },
         )}
       >
         <RequisitesTable rows={rows} />

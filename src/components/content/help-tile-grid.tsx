@@ -31,7 +31,7 @@ function iconForTitle(title: string): ComponentType<MuruIconProps> {
 }
 
 /**
- * Плитки «Клиентам»: иконка + uppercase title + brand «Подробнее».
+ * Плитки «Клиентам»: иконка + title + brand «Подробнее».
  */
 export function HelpTileGrid({
   items,
@@ -56,7 +56,7 @@ export function HelpTileGrid({
             className="group flex flex-col gap-4 border border-border bg-background p-6 transition-colors hover:border-brand focus-visible:ring-1 focus-visible:ring-ring focus-visible:outline-none"
           >
             <Icon className="size-8 text-text-secondary" aria-hidden />
-            <span className="font-display text-body tracking-[0.08em] text-text-heading uppercase transition-colors group-hover:text-brand">
+            <span className="font-display text-body tracking-[0.08em] text-text-heading lowercase first-letter:uppercase transition-colors group-hover:text-brand">
               {item.title}
             </span>
             <span className="mt-auto inline-flex h-[45px] w-fit items-center bg-brand px-8 text-body text-text-inverse transition-colors group-hover:bg-brand-hover">

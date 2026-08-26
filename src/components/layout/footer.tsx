@@ -12,14 +12,14 @@ import { cn } from "@/lib/utils";
 
 const companyLinkClass = cn(
   "inline-flex min-h-11 items-center font-light text-text-secondary transition-colors hover:text-brand",
-  "max-lg:text-[16px] max-lg:leading-5 max-lg:uppercase",
-  "lg:text-body lg:uppercase",
+  "max-lg:text-[16px] max-lg:leading-5",
+  "lg:text-body",
 );
 
 const catalogLinkClass = cn(
   "inline-flex min-h-11 items-center font-light text-text-secondary transition-colors hover:text-brand",
-  "max-lg:text-[16px] max-lg:leading-5 max-lg:uppercase",
-  "lg:text-body lg:uppercase",
+  "max-lg:text-[16px] max-lg:leading-5",
+  "lg:text-body",
 );
 
 const columnHeadingClass =
@@ -44,8 +44,8 @@ export async function Footer({ contacts }: { contacts: SiteContacts }) {
 
   return (
     <footer className="mt-auto border-t border-border bg-surface">
-      <div className="mx-auto w-full max-w-[1564px] px-4 pt-8 pb-12 sm:px-8">
-        <div className="relative pb-14 sm:pb-16 lg:pb-20">
+      <div className="mx-auto w-full max-w-[1564px] px-4 pt-20 pb-12 sm:px-8">
+        <div className="relative pb-20">
           <div className="grid grid-cols-1 gap-10 md:grid-cols-3 md:gap-8">
             <nav aria-label="Компания">
               <p className={columnHeadingClass}>Компания</p>
@@ -101,8 +101,8 @@ export async function Footer({ contacts }: { contacts: SiteContacts }) {
             aria-hidden="true"
             className="pointer-events-none absolute right-0 bottom-0 bg-text-muted"
             style={{
-              width: 280,
-              height: 56,
+              width: 206,
+              height: 40,
               WebkitMaskImage: "url(/brand/muru-logo.svg)",
               maskImage: "url(/brand/muru-logo.svg)",
               WebkitMaskRepeat: "no-repeat",
