@@ -32,6 +32,7 @@ function iconForTitle(title: string): ComponentType<MuruIconProps> {
 
 /**
  * Плитки «Клиентам»: иконка + title + brand «Подробнее».
+ * Фикс. высота блока иконки + title, чтобы интервалы не «плыли» из‑за разной метрики SVG/длины строки.
  */
 export function HelpTileGrid({
   items,
@@ -53,12 +54,16 @@ export function HelpTileGrid({
           <Link
             key={item.title}
             href={item.href}
-            className="group flex flex-col gap-4 border border-border bg-background p-6 transition-colors hover:border-brand focus-visible:ring-1 focus-visible:ring-ring focus-visible:outline-none"
+            className="group flex h-full flex-col gap-6 border border-border bg-background p-6 transition-colors hover:border-brand focus-visible:ring-1 focus-visible:ring-ring focus-visible:outline-none"
           >
-            <Icon className="size-8 text-text-secondary" aria-hidden />
-            <span className="font-display text-body tracking-[0.08em] text-text-heading lowercase first-letter:uppercase transition-colors group-hover:text-brand">
-              {item.title}
-            </span>
+            <div className="flex flex-col gap-4">
+              <span className="inline-flex size-8 shrink-0 items-center justify-center text-text-secondary">
+                <Icon className="size-8" aria-hidden />
+              </span>
+              <span className="min-h-[2.75rem] font-display text-body leading-snug tracking-[0.08em] text-text-heading lowercase first-letter:uppercase transition-colors group-hover:text-brand">
+                {item.title}
+              </span>
+            </div>
             <span className="mt-auto inline-flex h-[45px] w-fit items-center bg-brand px-8 text-body text-text-inverse transition-colors group-hover:bg-brand-hover">
               Подробнее
             </span>
