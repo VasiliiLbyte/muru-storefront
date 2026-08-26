@@ -1,5 +1,6 @@
 import Link from "next/link";
 
+import { ContactAddress } from "@/components/contacts/contact-address";
 import { getCategories } from "@/lib/api/endpoints";
 import { toSentenceCaseRu } from "@/lib/content/breadcrumbs";
 import {
@@ -82,9 +83,10 @@ export async function Footer({ contacts }: { contacts: SiteContacts }) {
               className="flex flex-col gap-1 text-small text-text-secondary not-italic"
             >
               <p className={columnHeadingClass}>Контакты</p>
-              <span className="block max-w-[18rem] py-2">
-                {contacts.address}
-              </span>
+              <ContactAddress
+                address={contacts.address}
+                className="max-w-[18rem] py-2 text-small text-text-secondary"
+              />
               <a
                 href={contacts.phoneHref}
                 className="inline-flex min-h-11 items-center font-medium text-text-primary transition-colors hover:text-brand"
@@ -105,8 +107,8 @@ export async function Footer({ contacts }: { contacts: SiteContacts }) {
             aria-hidden="true"
             className="pointer-events-none absolute right-0 bottom-0 bg-text-muted"
             style={{
-              width: 206,
-              height: 40,
+              width: 155,
+              height: 30,
               WebkitMaskImage: "url(/brand/muru-logo.svg)",
               maskImage: "url(/brand/muru-logo.svg)",
               WebkitMaskRepeat: "no-repeat",
@@ -121,7 +123,7 @@ export async function Footer({ contacts }: { contacts: SiteContacts }) {
 
         <div className="mt-10 flex flex-col gap-4 pt-6 sm:flex-row sm:items-center sm:justify-between">
           <p className="text-small text-text-secondary">© {year} MURU</p>
-          <ul className="flex flex-wrap gap-x-6 gap-y-1">
+          <ul className="flex flex-wrap justify-end gap-x-6 gap-y-1">
             {legalNav.map((item) => (
               <li key={item.href}>
                 <Link

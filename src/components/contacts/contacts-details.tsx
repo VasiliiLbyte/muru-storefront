@@ -1,5 +1,7 @@
 import type { SiteContacts } from "@/lib/site";
 
+import { ContactAddress } from "./contact-address";
+
 export function ContactsDetails({ contacts }: { contacts: SiteContacts }) {
   return (
     <div className="flex flex-col gap-3">
@@ -7,7 +9,10 @@ export function ContactsDetails({ contacts }: { contacts: SiteContacts }) {
         Контакты
       </h2>
 
-      <p className="text-body text-text-secondary">{contacts.address}</p>
+      <ContactAddress
+        address={contacts.address}
+        className="text-body text-text-secondary"
+      />
 
       <a
         href={contacts.phoneHref}

@@ -49,7 +49,7 @@ export async function HomeProductRail({
 
   return (
     <section
-      className="flex flex-col gap-6 bg-background px-4 py-10 sm:px-8 lg:hidden"
+      className="flex flex-col gap-6 bg-surface px-4 py-10 sm:px-8 lg:hidden"
       aria-labelledby="home-novinki-heading"
     >
       <div className="flex items-end justify-between gap-4">

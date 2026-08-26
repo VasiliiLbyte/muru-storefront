@@ -1,3 +1,4 @@
+import { normalizeContactAddress } from "@/lib/contact-address";
 import { cn } from "@/lib/utils";
 
 export type ContactMapProps = {
@@ -22,18 +23,20 @@ export function ContactMap({
   src.searchParams.set("pt", `${lng},${lat},pm2rdm`);
   src.searchParams.set("lang", "ru_RU");
 
+  const normalizedAddress = normalizeContactAddress(address);
+
   return (
     <div className={cn("relative", className)}>
       <iframe
         src={src.toString()}
-        title={`Карта: ${address}`}
+        title={`Карта: ${normalizedAddress}`}
         loading="lazy"
         referrerPolicy="no-referrer-when-downgrade"
         allow="fullscreen"
         className="h-[min(60vh,28rem)] w-full border border-border bg-surface"
       />
       <noscript>
-        <p className="mt-2 text-small text-text-muted">{address}</p>
+        <p className="mt-2 text-small text-text-muted">{normalizedAddress}</p>
       </noscript>
     </div>
   );

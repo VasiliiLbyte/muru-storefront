@@ -124,12 +124,8 @@ export function LoginDialogGuest({ compact = false }: { compact?: boolean }) {
             side="bottom"
             showClose={false}
             finalFocus={triggerRef}
-            className="max-h-[90dvh] gap-0 rounded-t-2xl px-6 pt-3 pb-6"
+            className="max-h-[90dvh] gap-0 rounded-t-2xl border-0 px-6 pt-3 pb-6"
           >
-            <span
-              aria-hidden
-              className="mx-auto mb-5 block h-1 w-10 rounded-full bg-border"
-            />
             <SheetClose
               aria-label="Закрыть"
               className="absolute top-4 right-4 inline-flex size-11 items-center justify-center rounded-sm text-text-secondary transition-colors hover:text-text-heading focus-visible:ring-1 focus-visible:ring-ring focus-visible:outline-none"

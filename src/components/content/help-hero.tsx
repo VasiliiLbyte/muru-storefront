@@ -37,22 +37,24 @@ export function HelpHero({
   return (
     <section
       className={cn(
-        "relative flex min-h-[320px] w-full items-center justify-center overflow-hidden bg-surface aspect-[21/9]",
+        "relative isolate flex w-full flex-col overflow-hidden bg-background lg:block lg:aspect-[21/9] lg:min-h-[320px] lg:items-center lg:justify-center lg:bg-surface",
         className,
       )}
     >
-      <Image
-        src={image.url}
-        alt={image.alt ?? ""}
-        fill
-        priority
-        sizes="100vw"
-        className="object-cover"
-        {...staticBlurProps()}
-      />
+      <div className="relative aspect-[4/3] w-full shrink-0 bg-surface lg:absolute lg:inset-0 lg:aspect-auto">
+        <Image
+          src={image.url}
+          alt={image.alt ?? ""}
+          fill
+          priority
+          sizes="100vw"
+          className="object-cover"
+          {...staticBlurProps()}
+        />
+      </div>
       <div
         className={cn(
-          "relative z-10 mx-4 w-full max-w-xl px-4 py-10 text-center sm:px-12 sm:py-12",
+          "relative z-10 w-full px-4 py-8 text-center sm:px-8 lg:absolute lg:mx-4 lg:max-w-xl lg:px-12 lg:py-12",
           glassPlaqueClass,
         )}
       >

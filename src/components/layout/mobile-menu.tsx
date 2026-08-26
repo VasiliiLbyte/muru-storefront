@@ -74,7 +74,7 @@ export function MobileMenu({ contacts }: { contacts: SiteContacts }) {
         className="inline-flex items-center justify-center text-text-secondary transition-colors hover:text-text-heading focus-visible:ring-1 focus-visible:ring-ring focus-visible:outline-none lg:hidden"
         style={{ width: 44, height: 44, minWidth: 44, minHeight: 44 }}
       >
-        <Menu className="size-6" />
+        <Menu className="size-5" strokeWidth={1.5} />
       </SheetTrigger>
       <SheetContent side="left" className="gap-3 bg-background p-4">
         <SheetHeader>
@@ -166,15 +166,15 @@ export function MobileMenu({ contacts }: { contacts: SiteContacts }) {
           ))}
         </nav>
 
-        <div>
-          <p className="mb-1 text-caption font-medium tracking-wide text-text-secondary uppercase">
+        <div className="mb-6">
+          <p className="mb-1 text-[17px] leading-6 font-light tracking-wide text-text-secondary uppercase">
             Каталог
           </p>
           <Accordion.Root className="flex flex-col">
             {catalogTree.map((top) => (
               <Accordion.Item
                 key={top.slug}
-                className="border-b border-border"
+                className="border-b border-border last:border-b-0"
               >
                 {top.children?.length ? (
                   <>
@@ -190,7 +190,7 @@ export function MobileMenu({ contacts }: { contacts: SiteContacts }) {
                           <Link
                             href={catalogHref.top(top.slug)}
                             onClick={close}
-                            className="block py-1 text-small text-text-primary transition-colors hover:text-brand"
+                            className="block py-1 text-small font-light text-text-primary transition-colors hover:text-brand"
                           >
                             Все: {toSentenceCaseRu(top.title)}
                           </Link>
@@ -200,7 +200,7 @@ export function MobileMenu({ contacts }: { contacts: SiteContacts }) {
                             <Link
                               href={catalogHref.sub(top.slug, sub.slug)}
                               onClick={close}
-                              className="block py-1 text-small text-text-secondary transition-colors hover:text-text-primary"
+                              className="block py-1 text-small font-light text-text-secondary transition-colors hover:text-text-primary"
                             >
                               {toSentenceCaseRu(sub.title)}
                             </Link>
@@ -223,7 +223,7 @@ export function MobileMenu({ contacts }: { contacts: SiteContacts }) {
           </Accordion.Root>
         </div>
 
-        <div className="mt-auto flex flex-col gap-1 border-t border-border pt-4 text-small text-text-secondary">
+        <div className="mt-auto flex flex-col gap-1 pt-4 text-small text-text-secondary">
           <a
             href={contacts.phoneHref}
             className="font-medium text-text-primary transition-colors hover:text-brand"

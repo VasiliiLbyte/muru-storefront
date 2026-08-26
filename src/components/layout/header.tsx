@@ -47,7 +47,7 @@ export function Header({ contacts }: { contacts: SiteContacts }) {
               <MobileMenu contacts={contacts} />
             </div>
 
-            <Logo className="min-w-0 max-w-[4.5rem] shrink lg:max-w-none lg:shrink-0 [&_img]:h-7 [&_img]:w-auto lg:[&_img]:h-10" />
+            <Logo className="min-w-0 max-w-[4.5rem] shrink lg:max-w-none lg:shrink-0 [&_img]:h-5 [&_img]:w-auto lg:[&_img]:h-10" />
 
             <div className="hidden lg:block">
               <Suspense fallback={<CatalogMenuFallback />}>

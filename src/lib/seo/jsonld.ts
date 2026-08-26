@@ -1,5 +1,6 @@
 import type { Product } from "@/lib/schemas";
 import { productHref } from "@/lib/catalog/urls";
+import { normalizeContactAddress } from "@/lib/contact-address";
 import {
   absoluteUrl,
   SITE_CONTACTS_FALLBACK,
@@ -54,7 +55,7 @@ export function organizationJsonLd(contacts: SiteContacts = SITE_CONTACTS_FALLBA
     logo: absoluteUrl("/brand/muru-logo.svg"),
     address: {
       "@type": "PostalAddress",
-      streetAddress: contacts.address,
+      streetAddress: normalizeContactAddress(contacts.address),
       addressLocality: "Санкт-Петербург",
       addressCountry: "RU",
     },

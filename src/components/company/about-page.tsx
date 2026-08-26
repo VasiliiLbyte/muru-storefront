@@ -45,6 +45,9 @@ function CompanyHeroSection({
 }) {
   return (
     <section className="relative w-full bg-surface">
+      <div className="mx-auto w-full max-w-[1564px] px-4 pt-8 sm:px-8 lg:hidden">
+        <Breadcrumbs items={breadcrumbs} />
+      </div>
       <div className="relative w-full">
         {image?.url ? (
           <Image
@@ -60,7 +63,7 @@ function CompanyHeroSection({
         ) : (
           <div className="aspect-video w-full bg-surface" aria-hidden />
         )}
-        <div className="absolute top-0 left-0 z-10 w-full max-w-[1564px] px-4 pt-8 sm:px-8 [&_ol]:text-white [&_a]:text-white/90 [&_a:hover]:text-white [&_span]:text-white [text-shadow:0_1px_2px_rgba(0,0,0,0.55)]">
+        <div className="absolute top-0 left-0 z-10 hidden w-full max-w-[1564px] px-4 pt-8 sm:px-8 lg:block [&_ol]:text-white [&_a]:text-white/90 [&_a:hover]:text-white [&_span]:text-white [text-shadow:0_1px_2px_rgba(0,0,0,0.55)]">
           <Breadcrumbs items={breadcrumbs} />
         </div>
         <div

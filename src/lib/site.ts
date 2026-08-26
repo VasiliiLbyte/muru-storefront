@@ -50,7 +50,8 @@ export type SiteContacts = {
 
 /** Статический fallback при выключенном backend / ошибке / null-полях API. */
 export const SITE_CONTACTS_FALLBACK: SiteContacts = {
-  address: "192102, г. Санкт-Петербург, ул. Дубровская д.13, литера А, пом.27",
+  address:
+    "192102, г. Санкт-Петербург, ул. Дубровская д. 13, литера А, пом. 27",
   phoneDisplay: "+7 (981) 292-09-00",
   phoneHref: "tel:+79812920900",
   email: "hello@muru.ru",

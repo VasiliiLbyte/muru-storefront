@@ -44,7 +44,8 @@ function BannerCopy({
         "mx-auto flex w-full flex-col items-center gap-1 text-center",
         isMobile
           ? // parity: muru.ru mobile .mp-front-wrapper — white, full width
-            "bg-white px-6 py-8"
+            // N1 center + O1 air above title (media ↔ copy)
+            "justify-center bg-white px-6 pt-12 pb-8"
           : cn(
               "max-w-[568px] px-10 py-14",
               isScrim
@@ -72,7 +73,7 @@ function BannerCopy({
           className={cn(
             "text-[16px] leading-5 font-light",
             isMobile
-              ? "text-text-secondary"
+              ? "text-pretty text-text-secondary"
               : isScrim
                 ? "text-text-inverse/90"
                 : "text-text-secondary",
