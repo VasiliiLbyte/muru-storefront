@@ -5,7 +5,10 @@ import { ProductGrid } from "@/components/catalog/product-grid";
 import { ContentShell } from "@/components/content/content-shell";
 import { LookbookHeroHotspots } from "@/components/inspiration/lookbook-hero-hotspots";
 import { getLookbook, getLookbooks, getProductBySku } from "@/lib/api/endpoints";
-import { contentBreadcrumbs } from "@/lib/content/breadcrumbs";
+import {
+  contentBreadcrumbs,
+  toSentenceCaseRu,
+} from "@/lib/content/breadcrumbs";
 import { lookbooks as staticLookbooks } from "@/lib/content/lookbooks";
 import { buildPageMetadata } from "@/lib/seo/page-metadata";
 
@@ -79,7 +82,10 @@ export default async function LookbookDetailPage({ params }: PageProps) {
         title={lookbook.title}
         breadcrumbs={contentBreadcrumbs(
           { name: "Вдохновение", href: "/lookbooks/" },
-          { name: lookbook.title, href: `/lookbooks/${slug}/` },
+          {
+            name: toSentenceCaseRu(lookbook.title),
+            href: `/lookbooks/${slug}/`,
+          },
         )}
       >
         {lookbook.description ? (

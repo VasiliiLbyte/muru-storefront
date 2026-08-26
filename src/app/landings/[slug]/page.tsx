@@ -4,7 +4,10 @@ import { notFound } from "next/navigation";
 import { ProductGrid } from "@/components/catalog/product-grid";
 import { ContentShell } from "@/components/content/content-shell";
 import { getCollection, getProductBySku } from "@/lib/api/endpoints";
-import { contentBreadcrumbs } from "@/lib/content/breadcrumbs";
+import {
+  contentBreadcrumbs,
+  toSentenceCaseRu,
+} from "@/lib/content/breadcrumbs";
 import { collections } from "@/mocks/fixtures/collections";
 import { buildPageMetadata } from "@/lib/seo/page-metadata";
 
@@ -63,7 +66,10 @@ export default async function LandingDetailPage({ params }: PageProps) {
         titleAlign="center"
         breadcrumbs={contentBreadcrumbs(
           { name: "Коллекции", href: "/landings/" },
-          { name: collection.title, href: `/landings/${slug}/` },
+          {
+            name: toSentenceCaseRu(collection.title),
+            href: `/landings/${slug}/`,
+          },
         )}
       >
         {collection.description ? (

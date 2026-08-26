@@ -1,6 +1,7 @@
 import Link from "next/link";
 
 import { getCategories } from "@/lib/api/endpoints";
+import { toSentenceCaseRu } from "@/lib/content/breadcrumbs";
 import {
   catalogHref,
   companyLinks,
@@ -37,7 +38,10 @@ export async function Footer({ contacts }: { contacts: SiteContacts }) {
     catalogLinks = (await getCategories())
       .filter((c) => !c.parentSlug)
       .sort((a, b) => a.sortOrder - b.sortOrder)
-      .map((c) => ({ label: c.title, href: catalogHref.top(c.slug) }));
+      .map((c) => ({
+        label: toSentenceCaseRu(c.title),
+        href: catalogHref.top(c.slug),
+      }));
   } catch (err) {
     console.warn("[footer] categories fetch failed", err);
   }

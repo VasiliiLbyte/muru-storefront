@@ -21,6 +21,7 @@ import {
   categoriesToNavTree,
   type CatalogNavNode,
 } from "@/lib/catalog/catalog-nav";
+import { toSentenceCaseRu } from "@/lib/content/breadcrumbs";
 import { catalogHref, mainNav, type SiteContacts } from "@/lib/site";
 import { useCartCount } from "@/stores/cart-store";
 import {
@@ -179,7 +180,7 @@ export function MobileMenu({ contacts }: { contacts: SiteContacts }) {
                   <>
                     <Accordion.Header className="m-0">
                       <Accordion.Trigger className="group flex min-h-9 w-full items-center justify-between gap-2 py-2 text-body text-text-heading transition-colors hover:text-brand focus-visible:outline-none">
-                        {top.title}
+                        {toSentenceCaseRu(top.title)}
                         <ChevronDown className="size-4 transition-transform duration-300 ease-in-out group-data-[panel-open]:rotate-180 motion-reduce:transition-none motion-reduce:group-data-[panel-open]:rotate-0" />
                       </Accordion.Trigger>
                     </Accordion.Header>
@@ -191,7 +192,7 @@ export function MobileMenu({ contacts }: { contacts: SiteContacts }) {
                             onClick={close}
                             className="block py-1 text-small text-text-primary transition-colors hover:text-brand"
                           >
-                            Все: {top.title}
+                            Все: {toSentenceCaseRu(top.title)}
                           </Link>
                         </li>
                         {top.children.map((sub) => (
@@ -201,7 +202,7 @@ export function MobileMenu({ contacts }: { contacts: SiteContacts }) {
                               onClick={close}
                               className="block py-1 text-small text-text-secondary transition-colors hover:text-text-primary"
                             >
-                              {sub.title}
+                              {toSentenceCaseRu(sub.title)}
                             </Link>
                           </li>
                         ))}
@@ -214,7 +215,7 @@ export function MobileMenu({ contacts }: { contacts: SiteContacts }) {
                     onClick={close}
                     className="block min-h-9 py-2 text-body text-text-heading transition-colors hover:text-brand"
                   >
-                    {top.title}
+                    {toSentenceCaseRu(top.title)}
                   </Link>
                 )}
               </Accordion.Item>

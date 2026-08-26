@@ -27,6 +27,7 @@ import {
   productHref,
   productPathMatches,
 } from "@/lib/catalog/urls";
+import { toSentenceCaseRu } from "@/lib/content/breadcrumbs";
 import { breadcrumbJsonLd, itemListJsonLd, productJsonLd } from "@/lib/seo/jsonld";
 import { buildPageMetadata } from "@/lib/seo/page-metadata";
 import { catalogHref } from "@/lib/site";
@@ -243,17 +244,17 @@ export default async function CatalogPage({ params, searchParams }: PageProps) {
 
   if (route.type === "category") {
     breadcrumbs.push({
-      name: route.node.title,
+      name: toSentenceCaseRu(route.node.title),
       href: catalogHref.top(route.slug),
     });
   } else {
     breadcrumbs.push(
       {
-        name: route.parentNode.title,
+        name: toSentenceCaseRu(route.parentNode.title),
         href: catalogHref.top(route.parentSlug),
       },
       {
-        name: route.node.title,
+        name: toSentenceCaseRu(route.node.title),
         href: catalogHref.sub(route.parentSlug, route.subSlug),
       },
     );

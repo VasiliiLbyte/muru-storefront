@@ -1,3 +1,4 @@
+import { toSentenceCaseRu } from "@/lib/content/breadcrumbs";
 import { catalogHref } from "@/lib/site";
 import type { BreadcrumbItem } from "@/lib/seo/jsonld";
 import type { Category, Product } from "@/lib/schemas";
@@ -22,7 +23,7 @@ export function buildProductBreadcrumbs(
   const topCat = bySlug.get(top);
   if (topCat) {
     items.push({
-      name: topCat.title,
+      name: toSentenceCaseRu(topCat.title),
       href: catalogHref.top(top),
     });
   }
@@ -31,14 +32,14 @@ export function buildProductBreadcrumbs(
     const leafCat = bySlug.get(leaf);
     if (leafCat) {
       items.push({
-        name: leafCat.title,
+        name: toSentenceCaseRu(leafCat.title),
         href: catalogHref.sub(top, leaf),
       });
     }
   }
 
   items.push({
-    name: product.title,
+    name: toSentenceCaseRu(product.title),
     href: productHref(product),
   });
 

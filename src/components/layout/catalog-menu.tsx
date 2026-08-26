@@ -1,4 +1,5 @@
 import { getCategories } from "@/lib/api/endpoints";
+import { toSentenceCaseRu } from "@/lib/content/breadcrumbs";
 import { catalogHref } from "@/lib/site";
 
 import { CatalogMenuPanel } from "./catalog-menu-panel";
@@ -13,7 +14,10 @@ export async function CatalogMenu() {
     catalogItems = (await getCategories())
       .filter((c) => !c.parentSlug)
       .sort((a, b) => a.sortOrder - b.sortOrder)
-      .map((c) => ({ label: c.title, href: catalogHref.top(c.slug) }));
+      .map((c) => ({
+        label: toSentenceCaseRu(c.title),
+        href: catalogHref.top(c.slug),
+      }));
   } catch (err) {
     console.warn(
       "[catalog-menu] categories fetch failed, rendering empty menu",
