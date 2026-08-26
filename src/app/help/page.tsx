@@ -6,7 +6,7 @@ import { HelpHero } from "@/components/content/help-hero";
 import { HelpTileGrid } from "@/components/content/help-tile-grid";
 import { StaticProse } from "@/components/content/static-prose";
 import { getStaticPage } from "@/lib/api/endpoints";
-import { contentBreadcrumbs } from "@/lib/content/breadcrumbs";
+import { contentBreadcrumbs, helpCrumb } from "@/lib/content/breadcrumbs";
 import { buildPageMetadata } from "@/lib/seo/page-metadata";
 
 export const revalidate = 300;
@@ -33,10 +33,7 @@ export async function generateMetadata(): Promise<Metadata> {
 export default async function HelpPage() {
   const page = await getStaticPage("help");
   const hasHero = Boolean(page.heroImage?.url);
-  const breadcrumbs = contentBreadcrumbs({
-    name: page.title,
-    href: "/help/",
-  });
+  const breadcrumbs = contentBreadcrumbs(helpCrumb());
 
   if (hasHero && page.heroImage) {
     return (
