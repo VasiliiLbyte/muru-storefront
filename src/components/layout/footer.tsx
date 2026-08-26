@@ -47,7 +47,7 @@ export async function Footer({ contacts }: { contacts: SiteContacts }) {
   }
 
   return (
-    <footer className="mt-auto border-t border-border bg-surface">
+    <footer className="mt-auto bg-surface">
       <div className="mx-auto w-full max-w-[1564px] px-4 pt-20 pb-12 sm:px-8">
         <div className="relative pb-20">
           <div className="grid grid-cols-1 gap-10 md:grid-cols-3 md:gap-8">
@@ -119,7 +119,7 @@ export async function Footer({ contacts }: { contacts: SiteContacts }) {
           />
         </div>
 
-        <div className="mt-10 flex flex-col gap-4 border-t border-border pt-6 sm:flex-row sm:items-center sm:justify-between">
+        <div className="mt-10 flex flex-col gap-4 pt-6 sm:flex-row sm:items-center sm:justify-between">
           <p className="text-small text-text-secondary">© {year} MURU</p>
           <ul className="flex flex-wrap gap-x-6 gap-y-1">
             {legalNav.map((item) => (
