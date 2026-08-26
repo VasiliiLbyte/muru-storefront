@@ -1,7 +1,6 @@
 "use client";
 
-import { Heart } from "lucide-react";
-
+import { IconFavorites } from "@/components/icons";
 import {
   useIsFavorite,
   useToggleFavorite,
@@ -41,7 +40,7 @@ export function FavoriteToggle({
         className,
       )}
     >
-      <Heart className={cn("size-5", active && "fill-current")} />
+      <IconFavorites className="size-5" aria-hidden />
     </button>
   );
 }
