@@ -1,5 +1,6 @@
 import Image from "next/image";
 
+import { glassPlaqueClass } from "@/components/ui/glass-plaque";
 import type { Image as ImageData } from "@/lib/schemas";
 import { staticBlurProps } from "@/lib/images";
 import { cn } from "@/lib/utils";
@@ -17,7 +18,7 @@ const FALLBACK_INTRO =
   "Важная информация для клиентов: доставка, обслуживание, отзывы и подарочные сервисы.";
 
 /**
- * Full-bleed hero «Клиентам»: фото + белый бокс с title и текстом.
+ * Full-bleed hero «Клиентам»: фото + glass-плашка (как на главной / company).
  */
 export function HelpHero({
   title,
@@ -49,7 +50,12 @@ export function HelpHero({
         className="object-cover"
         {...staticBlurProps()}
       />
-      <div className="relative z-10 mx-4 w-full max-w-xl bg-background px-4 py-10 text-center sm:px-12 sm:py-12">
+      <div
+        className={cn(
+          "relative z-10 mx-4 w-full max-w-xl px-4 py-10 text-center sm:px-12 sm:py-12",
+          glassPlaqueClass,
+        )}
+      >
         <h1 className="font-display text-[clamp(1.25rem,2.5vw,1.75rem)] leading-[1.2] font-normal tracking-[0.08em] text-text-heading uppercase">
           {title}
         </h1>
