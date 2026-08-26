@@ -529,7 +529,7 @@ function SearchFormWithSuggest({
             inputClassName,
           )}
         />
-        <div className="absolute top-1/2 right-3 flex -translate-y-1/2 items-center gap-2.5 text-text-muted">
+        <div className="absolute top-1/2 right-3 flex -translate-y-1/2 items-center gap-2.5 text-text-secondary">
           <button
             type="button"
             aria-label="Голосовой поиск"

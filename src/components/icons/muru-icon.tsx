@@ -18,6 +18,7 @@ export function MuruIcon({
     <svg
       viewBox={viewBox}
       xmlns="http://www.w3.org/2000/svg"
+      fill="currentColor"
       aria-hidden={title ? undefined : true}
       role={title ? "img" : undefined}
       className={cn("size-5 shrink-0", className)}
