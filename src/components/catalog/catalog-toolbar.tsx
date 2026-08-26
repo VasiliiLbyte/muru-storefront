@@ -98,32 +98,6 @@ function FilterControls({
         </select>
       </label>
 
-      <fieldset className="flex flex-wrap gap-4">
-        <legend className="sr-only">Фильтры</legend>
-        <label className="flex min-h-11 cursor-pointer items-center gap-2 text-small text-text-secondary">
-          <input
-            type="checkbox"
-            checked={draft.inStock}
-            onChange={(e) =>
-              setDraft((prev) => ({ ...prev, inStock: e.target.checked }))
-            }
-            className="size-4 rounded-sm border-input accent-brand"
-          />
-          В наличии
-        </label>
-        <label className="flex min-h-11 cursor-pointer items-center gap-2 text-small text-text-secondary">
-          <input
-            type="checkbox"
-            checked={draft.onSale}
-            onChange={(e) =>
-              setDraft((prev) => ({ ...prev, onSale: e.target.checked }))
-            }
-            className="size-4 rounded-sm border-input accent-brand"
-          />
-          Распродажа
-        </label>
-      </fieldset>
-
       {materialFacet && materialFacet.options.length > 0 ? (
         <label className="flex flex-col gap-1 text-small text-text-secondary">
           Материал
@@ -185,7 +159,7 @@ function FilterControls({
             type="number"
             min={0}
             inputMode="numeric"
-            placeholder="∞"
+            placeholder=""
             value={draft.maxPrice}
             className="w-24"
             onChange={(e) =>
@@ -194,6 +168,32 @@ function FilterControls({
           />
         </label>
       </div>
+
+      <fieldset className="flex flex-wrap gap-4">
+        <legend className="sr-only">Фильтры</legend>
+        <label className="flex min-h-11 cursor-pointer items-center gap-2 text-small text-text-secondary">
+          <input
+            type="checkbox"
+            checked={draft.inStock}
+            onChange={(e) =>
+              setDraft((prev) => ({ ...prev, inStock: e.target.checked }))
+            }
+            className="size-4 rounded-sm border-input accent-brand"
+          />
+          В наличии
+        </label>
+        <label className="flex min-h-11 cursor-pointer items-center gap-2 text-small text-text-secondary">
+          <input
+            type="checkbox"
+            checked={draft.onSale}
+            onChange={(e) =>
+              setDraft((prev) => ({ ...prev, onSale: e.target.checked }))
+            }
+            className="size-4 rounded-sm border-input accent-brand"
+          />
+          Распродажа
+        </label>
+      </fieldset>
     </div>
   );
 }
@@ -315,14 +315,13 @@ export function CatalogToolbar({
       </div>
 
       {/* Desktop: sort + filters in one horizontal row */}
-      <div className="hidden flex-wrap items-end gap-4 lg:flex">
-        <label className="flex items-center gap-2 text-small text-text-secondary">
-          <span className="sr-only">Сортировка</span>
-          <span aria-hidden="true">Сортировка:</span>
+      <div className="hidden flex-wrap items-end gap-x-6 gap-y-3 lg:flex">
+        <label className="flex flex-col gap-1 text-small text-text-secondary">
+          Сортировка
           <select
             value={urlDraft.sort}
             onChange={(e) => updateParams({ sort: e.target.value })}
-            className="h-11 rounded-sm border border-input bg-background px-2 text-base text-foreground focus-visible:border-ring focus-visible:ring-1 focus-visible:ring-ring focus-visible:outline-none sm:h-9"
+            className={cn(controlSelectClass, "w-auto min-w-[180px]")}
           >
             {SORT_OPTIONS.map((opt) => (
               <option key={opt.value} value={opt.value}>
@@ -332,7 +331,94 @@ export function CatalogToolbar({
           </select>
         </label>
 
-        <fieldset className="flex flex-wrap gap-4">
+        {materialFacet && materialFacet.options.length > 0 ? (
+          <label className="flex flex-col gap-1 text-small text-text-secondary">
+            Материал
+            <select
+              value={urlDraft.material}
+              onChange={(e) =>
+                updateParams({ material: e.target.value || null })
+              }
+              className={cn(controlSelectClass, "min-w-[140px]")}
+            >
+              <option value="">Все</option>
+              {materialFacet.options.map((opt) => (
+                <option key={opt.value} value={opt.value}>
+                  {opt.label} ({opt.count})
+                </option>
+              ))}
+            </select>
+          </label>
+        ) : null}
+
+        {colorFacet && colorFacet.options.length > 0 ? (
+          <label className="flex flex-col gap-1 text-small text-text-secondary">
+            Цвет
+            <select
+              value={urlDraft.color}
+              onChange={(e) =>
+                updateParams({ color: e.target.value || null })
+              }
+              className={cn(controlSelectClass, "min-w-[140px]")}
+            >
+              <option value="">Все</option>
+              {colorFacet.options.map((opt) => (
+                <option key={opt.value} value={opt.value}>
+                  {opt.label} ({opt.count})
+                </option>
+              ))}
+            </select>
+          </label>
+        ) : null}
+
+        <label className="flex flex-col gap-1 text-small text-text-secondary">
+          Цена от
+          <Input
+            type="number"
+            min={0}
+            inputMode="numeric"
+            placeholder="0"
+            defaultValue={urlDraft.minPrice}
+            key={`min-${urlDraft.minPrice}`}
+            className="h-9 w-24"
+            onBlur={(e) => {
+              const v = e.target.value.trim();
+              if (v !== urlDraft.minPrice)
+                updateParams({ minPrice: v || null });
+            }}
+            onKeyDown={(e) => {
+              if (e.key === "Enter") {
+                const v = (e.target as HTMLInputElement).value.trim();
+                updateParams({ minPrice: v || null });
+              }
+            }}
+          />
+        </label>
+        <label className="flex flex-col gap-1 text-small text-text-secondary">
+          до
+          <Input
+            type="number"
+            min={0}
+            inputMode="numeric"
+            placeholder=""
+            defaultValue={urlDraft.maxPrice}
+            key={`max-${urlDraft.maxPrice}`}
+            className="h-9 w-24"
+            onBlur={(e) => {
+              const v = e.target.value.trim();
+              if (v !== urlDraft.maxPrice)
+                updateParams({ maxPrice: v || null });
+            }}
+            onKeyDown={(e) => {
+              if (e.key === "Enter") {
+                const v = (e.target as HTMLInputElement).value.trim();
+                updateParams({ maxPrice: v || null });
+              }
+            }}
+          />
+        </label>
+
+        <fieldset className="flex h-9 items-center gap-4 self-end">
           <legend className="sr-only">Фильтры</legend>
           <label className="flex cursor-pointer items-center gap-2 text-small text-text-secondary">
             <input
@@ -361,93 +447,6 @@ export function CatalogToolbar({
             Распродажа
           </label>
         </fieldset>
-
-        {materialFacet && materialFacet.options.length > 0 ? (
-          <label className="flex flex-col gap-1 text-small text-text-secondary">
-            Материал
-            <select
-              value={urlDraft.material}
-              onChange={(e) =>
-                updateParams({ material: e.target.value || null })
-              }
-              className="h-11 min-w-[140px] rounded-sm border border-input bg-background px-2 text-base text-foreground focus-visible:border-ring focus-visible:ring-1 focus-visible:ring-ring focus-visible:outline-none sm:h-9"
-            >
-              <option value="">Все</option>
-              {materialFacet.options.map((opt) => (
-                <option key={opt.value} value={opt.value}>
-                  {opt.label} ({opt.count})
-                </option>
-              ))}
-            </select>
-          </label>
-        ) : null}
-
-        {colorFacet && colorFacet.options.length > 0 ? (
-          <label className="flex flex-col gap-1 text-small text-text-secondary">
-            Цвет
-            <select
-              value={urlDraft.color}
-              onChange={(e) =>
-                updateParams({ color: e.target.value || null })
-              }
-              className="h-11 min-w-[140px] rounded-sm border border-input bg-background px-2 text-base text-foreground focus-visible:border-ring focus-visible:ring-1 focus-visible:ring-ring focus-visible:outline-none sm:h-9"
-            >
-              <option value="">Все</option>
-              {colorFacet.options.map((opt) => (
-                <option key={opt.value} value={opt.value}>
-                  {opt.label} ({opt.count})
-                </option>
-              ))}
-            </select>
-          </label>
-        ) : null}
-
-        <label className="flex flex-col gap-1 text-small text-text-secondary">
-          Цена от
-          <Input
-            type="number"
-            min={0}
-            inputMode="numeric"
-            placeholder="0"
-            defaultValue={urlDraft.minPrice}
-            key={`min-${urlDraft.minPrice}`}
-            className="w-24"
-            onBlur={(e) => {
-              const v = e.target.value.trim();
-              if (v !== urlDraft.minPrice)
-                updateParams({ minPrice: v || null });
-            }}
-            onKeyDown={(e) => {
-              if (e.key === "Enter") {
-                const v = (e.target as HTMLInputElement).value.trim();
-                updateParams({ minPrice: v || null });
-              }
-            }}
-          />
-        </label>
-        <label className="flex flex-col gap-1 text-small text-text-secondary">
-          до
-          <Input
-            type="number"
-            min={0}
-            inputMode="numeric"
-            placeholder="∞"
-            defaultValue={urlDraft.maxPrice}
-            key={`max-${urlDraft.maxPrice}`}
-            className="w-24"
-            onBlur={(e) => {
-              const v = e.target.value.trim();
-              if (v !== urlDraft.maxPrice)
-                updateParams({ maxPrice: v || null });
-            }}
-            onKeyDown={(e) => {
-              if (e.key === "Enter") {
-                const v = (e.target as HTMLInputElement).value.trim();
-                updateParams({ maxPrice: v || null });
-              }
-            }}
-          />
-        </label>
       </div>
 
       <Sheet open={sheetOpen} onOpenChange={setSheetOpen}>
