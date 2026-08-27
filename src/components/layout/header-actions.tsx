@@ -56,7 +56,7 @@ export function HeaderActions({ className }: { className?: string }) {
     <div
       className={cn(
         "flex items-center gap-0.5 sm:gap-1",
-        "lg:grid lg:w-[18.75rem] lg:grid-cols-3 lg:items-center lg:justify-items-center lg:gap-0",
+        "lg:grid lg:w-[13.5rem] lg:grid-cols-3 lg:items-center lg:justify-items-center lg:gap-0",
         className,
       )}
     >
@@ -72,7 +72,7 @@ export function HeaderActions({ className }: { className?: string }) {
       >
         <IconFavorites className="size-5" />
       </HeaderActionLink>
-      <MiniCart className="lg:justify-self-end" />
+      <MiniCart />
     </div>
   );
 }
