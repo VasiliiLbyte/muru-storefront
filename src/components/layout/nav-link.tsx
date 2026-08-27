@@ -20,11 +20,13 @@ export function NavLink({
   children: React.ReactNode;
   className?: string;
   onClick?: () => void;
-  /** Always brand color (hover stays brand). */
+  /** Brand on home (accent items) or when the link is the current page. */
   accent?: boolean;
 }) {
   const pathname = usePathname();
+  const isHome = pathname === "/" || pathname === "";
   const isActive = pathname === href || pathname.startsWith(href + "/");
+  const showBrand = accent ? isHome || isActive : isActive;
 
   return (
     <Link
@@ -33,11 +35,9 @@ export function NavLink({
       onClick={onClick}
       className={cn(
         "text-[14px] font-medium tracking-normal transition-colors focus-visible:ring-1 focus-visible:ring-ring focus-visible:outline-none",
-        accent
+        showBrand
           ? "text-brand hover:text-brand"
-          : isActive
-            ? "text-brand"
-            : "text-text-muted hover:text-text-primary",
+          : "text-text-muted hover:text-text-primary",
         className,
       )}
     >

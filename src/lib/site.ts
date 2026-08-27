@@ -64,7 +64,7 @@ export const SITE_CONTACTS_FALLBACK: SiteContacts = {
 export type NavItem = {
   label: string;
   href: string;
-  /** Always brand color in desktop top-nav (e.g. Новинки). */
+  /** Brand on home for this item (e.g. Новинки), or when the route is active. */
   accent?: boolean;
 };
 

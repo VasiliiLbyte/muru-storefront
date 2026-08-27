@@ -6,7 +6,7 @@ export function HeaderTopNav({ className }: { className?: string }) {
   return (
     <nav
       aria-label="Верхнее меню"
-      className={cn("hidden items-center gap-6 lg:flex", className)}
+      className={cn("hidden items-center gap-6 uppercase lg:flex", className)}
     >
       {mainNav.map((item) => (
         <NavLink
