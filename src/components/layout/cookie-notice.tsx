@@ -49,7 +49,8 @@ export function CookieNotice() {
     >
       <div className="mx-auto flex max-w-[1564px] flex-col gap-3 p-4 sm:flex-row sm:items-center sm:justify-between sm:gap-6">
         <p className="text-body text-text-secondary">
-          Мы используем технические cookies, необходимые для работы сайта.
+          Мы используем технические cookies, необходимые для работы сайта, а
+          также cookies аналитики (Яндекс.Метрика) для улучшения сервиса.
           Подробнее — в{" "}
           <Link
             href="/legal/privacy/"
