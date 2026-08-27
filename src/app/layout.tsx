@@ -4,6 +4,7 @@ import { MSWProvider } from "@/components/msw-provider";
 import { Header } from "@/components/layout/header";
 import { Footer } from "@/components/layout/footer";
 import { CookieNotice } from "@/components/layout/cookie-notice";
+import { YandexMetrikaGate } from "@/components/analytics/yandex-metrika-gate";
 import { JsonLdScript } from "@/components/seo/jsonld-script";
 import { getSiteContacts } from "@/lib/api/endpoints";
 import { organizationJsonLd } from "@/lib/seo/jsonld";
@@ -77,6 +78,7 @@ export default async function RootLayout({
           {children}
           <Footer contacts={contacts} />
           <CookieNotice />
+          <YandexMetrikaGate />
         </MSWProvider>
       </body>
     </html>
