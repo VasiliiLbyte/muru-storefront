@@ -52,9 +52,6 @@ function HeaderActionLink({
           </span>
         ) : null}
       </span>
-      <span className="hidden text-[12px] leading-none text-text-secondary lg:block">
-        {label}
-      </span>
     </Link>
   );
 }
@@ -63,7 +60,7 @@ export function HeaderActions({ className }: { className?: string }) {
   const favorites = useFavoriteCount();
 
   return (
-    <div className={cn("flex items-center gap-0.5 sm:gap-1 lg:items-start lg:gap-8 lg:pr-0", className)}>
+    <div className={cn("flex items-center gap-0.5 sm:gap-1 lg:items-center lg:gap-5 lg:pr-0", className)}>
       {/* Mobile: search → account → favorites → cart (M8-8) */}
       <HeaderMobileSearch />
       <HeaderAccount />

@@ -83,9 +83,6 @@ export function MiniCart({
             </span>
           ) : null}
         </span>
-        <span className="hidden text-[12px] leading-none text-text-secondary lg:block">
-          Корзина
-        </span>
       </SheetTrigger>
 
       <SheetContent side="right" className="gap-4">

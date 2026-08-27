@@ -58,9 +58,6 @@ function AuthenticatedAccountMenu({
         <span className="relative inline-flex size-6 items-center justify-center">
           <IconCabinet className="size-5" />
         </span>
-        <span className="hidden max-w-[5.5rem] truncate text-[12px] leading-none text-text-secondary lg:block">
-          {firstName}
-        </span>
       </Menu.Trigger>
 
       <Menu.Portal>

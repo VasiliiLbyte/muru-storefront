@@ -113,9 +113,6 @@ export function LoginDialogGuest({ compact = false }: { compact?: boolean }) {
         <span className="relative inline-flex size-6 items-center justify-center">
           <IconCabinet className="size-5" />
         </span>
-        <span className="hidden text-[12px] leading-none text-text-secondary lg:block">
-          Войти
-        </span>
       </button>
 
       {isSheet ? (
