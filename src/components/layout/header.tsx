@@ -42,7 +42,7 @@ export function Header({ contacts }: { contacts: SiteContacts }) {
       {/* Нижний бар — sticky на всю страницу (containing block = body) */}
       <header className="sticky top-0 z-40 bg-background/95 pt-safe-header backdrop-blur supports-[backdrop-filter]:bg-background/80">
         <div className={headerGridClass}>
-          <div className="flex h-14 items-center gap-2 lg:grid lg:min-h-[calc(var(--header-height)-2.75rem)] lg:grid-cols-[auto_auto_minmax(0,1fr)_auto] lg:items-center lg:gap-x-4 lg:py-2">
+          <div className="flex h-14 items-center gap-2 lg:min-h-[calc(var(--header-height)-2.75rem)] lg:gap-4 lg:py-2">
             <div className="lg:hidden">
               <MobileMenu contacts={contacts} />
             </div>
@@ -55,7 +55,7 @@ export function Header({ contacts }: { contacts: SiteContacts }) {
               </Suspense>
             </div>
 
-            <HeaderSearch className="lg:min-w-0 lg:w-full" />
+            <HeaderSearch className="lg:flex-1" />
 
             <HeaderActions className="ml-auto shrink-0 lg:ml-0" />
           </div>
