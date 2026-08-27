@@ -61,6 +61,29 @@ export const CustomerOrderSummarySchema = z.object({
 });
 export type CustomerOrderSummary = z.infer<typeof CustomerOrderSummarySchema>;
 
+export const CustomerOrderItemSchema = z.object({
+  sku: z.string(),
+  name: z.string(),
+  price: z.number(),
+  quantity: z.number(),
+});
+export type CustomerOrderItem = z.infer<typeof CustomerOrderItemSchema>;
+
+export const CustomerOrderDetailSchema = CustomerOrderSummarySchema.extend({
+  deliveryMode: z.enum(["delivery", "pickup"]).optional(),
+  address: z.string().optional(),
+  trackNumber: z.string().nullable().optional(),
+  cdekStatus: z.string().nullable().optional(),
+  deliveryCity: z.string().nullable().optional(),
+  pvzAddress: z.string().nullable().optional(),
+  pvzCode: z.string().nullable().optional(),
+  deliveryPrice: z.number().nullable().optional(),
+  deliveryEta: z.string().nullable().optional(),
+  deliveryOption: z.string().nullable().optional(),
+  items: z.array(CustomerOrderItemSchema),
+});
+export type CustomerOrderDetail = z.infer<typeof CustomerOrderDetailSchema>;
+
 export const AccountFavoriteSchema = z.object({
   sku: z.string(),
   name: z.string(),

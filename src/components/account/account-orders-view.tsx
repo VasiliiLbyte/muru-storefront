@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import Link from "next/link";
 
 import { AccountShell } from "@/components/account/account-shell";
 import {
@@ -22,31 +23,37 @@ function OrderCard({ order }: { order: CustomerOrderSummary }) {
   const pct = total > 0 && step > 0 ? Math.round((step / total) * 100) : 0;
 
   return (
-    <li className="border border-border px-4 py-4">
-      <div className="flex flex-wrap items-baseline justify-between gap-2">
-        <p className="text-body text-text-heading">Заказ № {order.id}</p>
-        <p className="text-body text-text-secondary">
-          {order.total.toLocaleString("ru-RU")} ₽
-        </p>
-      </div>
-      <p className="mt-1 text-small text-text-muted">
-        {new Date(order.createdAt).toLocaleDateString("ru-RU")} · {order.status}
-      </p>
-      {step > 0 && !["Отменён", "Возврат"].includes(order.status) ? (
-        <div
-          className="mt-3 h-1.5 w-full bg-surface"
-          role="progressbar"
-          aria-valuenow={step}
-          aria-valuemin={0}
-          aria-valuemax={total}
-          aria-label={`Статус: ${order.status}`}
-        >
-          <div
-            className="h-full bg-brand transition-[width]"
-            style={{ width: `${pct}%` }}
-          />
+    <li>
+      <Link
+        href={`/account/orders/${order.id}/`}
+        className="block border border-border px-4 py-4 transition-colors hover:border-brand hover:bg-surface focus-visible:ring-1 focus-visible:ring-ring focus-visible:outline-none"
+      >
+        <div className="flex flex-wrap items-baseline justify-between gap-2">
+          <p className="text-body text-text-heading">Заказ № {order.id}</p>
+          <p className="text-body text-text-secondary">
+            {order.total.toLocaleString("ru-RU")} ₽
+          </p>
         </div>
-      ) : null}
+        <p className="mt-1 text-small text-text-muted">
+          {new Date(order.createdAt).toLocaleDateString("ru-RU")} ·{" "}
+          {order.status}
+        </p>
+        {step > 0 && !["Отменён", "Возврат"].includes(order.status) ? (
+          <div
+            className="mt-3 h-1.5 w-full bg-surface"
+            role="progressbar"
+            aria-valuenow={step}
+            aria-valuemin={0}
+            aria-valuemax={total}
+            aria-label={`Статус: ${order.status}`}
+          >
+            <div
+              className="h-full bg-brand transition-[width]"
+              style={{ width: `${pct}%` }}
+            />
+          </div>
+        ) : null}
+      </Link>
     </li>
   );
 }
