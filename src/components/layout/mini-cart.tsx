@@ -10,7 +10,6 @@ import { IconBasket } from "@/components/icons";
 import { buttonVariants } from "@/components/ui/button";
 import {
   actionTriggerClass,
-  actionTriggerStyle,
   badgeClass,
 } from "@/components/layout/header-actions";
 import {
@@ -73,7 +72,6 @@ export function MiniCart({
       <SheetTrigger
         aria-label={count ? `Корзина (${count})` : "Корзина"}
         className={cn(actionTriggerClass, className)}
-        style={actionTriggerStyle}
       >
         <span className="relative inline-flex size-6 items-center justify-center">
           <IconBasket className="size-5" />
@@ -82,9 +80,6 @@ export function MiniCart({
               {count}
             </span>
           ) : null}
-        </span>
-        <span className="hidden text-[12px] leading-none text-text-secondary lg:block">
-          Корзина
         </span>
       </SheetTrigger>
 
