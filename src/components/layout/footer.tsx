@@ -121,9 +121,9 @@ export async function Footer({ contacts }: { contacts: SiteContacts }) {
           />
         </div>
 
-        <div className="mt-10 flex flex-col gap-4 pt-6 sm:flex-row sm:items-center sm:justify-between">
+        <div className="mt-10 flex flex-col items-end gap-4 pt-6 sm:flex-row sm:items-center sm:justify-between">
           <p className="text-small text-text-secondary">© {year} MURU</p>
-          <ul className="flex flex-wrap justify-start gap-x-6 gap-y-1 sm:justify-end">
+          <ul className="flex flex-wrap justify-end gap-x-6 gap-y-1 text-right">
             {legalNav.map((item) => (
               <li key={item.href}>
                 <Link
