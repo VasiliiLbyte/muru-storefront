@@ -129,6 +129,7 @@ describe("adaptProduct SEO", () => {
     expect(product.seo.title).toBe("Ваза");
     expect(product.seo.description).toBe("Описание вазы");
     expect(product.seoH1).toBe("Ваза");
+    expect(product.seoTitleCustom).toBe(false);
   });
 
   it("uses partial SEO overrides from backend", () => {
@@ -143,6 +144,19 @@ describe("adaptProduct SEO", () => {
     expect(product.seo.title).toBe("SEO title");
     expect(product.seo.description).toBe("Ваза");
     expect(product.seoH1).toBe("SEO H1");
+    expect(product.seoTitleCustom).toBe(true);
+  });
+
+  it("treats whitespace-only seoTitle as non-custom", () => {
+    const product = adaptProduct(
+      stubBackendProduct({
+        name: "Ваза",
+        seoTitle: "   ",
+      }),
+    );
+
+    expect(product.seo.title).toBe("Ваза");
+    expect(product.seoTitleCustom).toBe(false);
   });
 });
 
@@ -175,5 +189,19 @@ describe("adaptTree SEO", () => {
     expect(sub?.seoH1).toBe("SEO H1");
     expect(sub?.seoIntroTop).toBe("Intro top");
     expect(sub?.seoTextBottom).toBe("<p>Bottom</p>");
+    expect(sub?.seoTitleCustom).toBe(true);
+  });
+
+  it("sets seoTitleCustom false when seoTitle is missing", () => {
+    const nodes: BackendTreeNode[] = [
+      {
+        name: "Декор",
+        slug: "dekor",
+        children: [],
+      },
+    ];
+
+    const categories = adaptTree(nodes);
+    expect(categories[0]?.seoTitleCustom).toBe(false);
   });
 });

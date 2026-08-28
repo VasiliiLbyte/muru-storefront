@@ -93,6 +93,7 @@ export async function generateMetadata({
         description: product.seo.description,
         path: productHref(product),
         ogImage: product.images[0]?.url,
+        titleAbsolute: product.seoTitleCustom,
       });
     } catch {
       return { title: "Страница не найдена" };
@@ -120,6 +121,7 @@ export async function generateMetadata({
       description: category.seo.description,
       path,
       ogImage: category.image?.url,
+      titleAbsolute: category.seoTitleCustom,
     });
   } catch {
     return { title: "Страница не найдена" };

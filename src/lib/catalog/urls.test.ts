@@ -23,6 +23,7 @@ function stubProduct(overrides: Partial<Product> & Pick<Product, "slug">): Produ
     unit: "pcs",
     seo: { title: "Stub", description: "Stub" },
     seoH1: "Stub",
+    seoTitleCustom: false,
     ...overrides,
   };
 }

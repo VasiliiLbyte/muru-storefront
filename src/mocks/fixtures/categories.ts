@@ -24,6 +24,7 @@ function toCategory(
       description: `${node.title}: подборка предметов декора MURU.`,
     },
     seoH1: node.title,
+    seoTitleCustom: false,
     ...(node.slug === "vazy-i-aksessuary"
       ? {
           seoIntroTop: "Вазы и аксессуары для спокойного интерьера.",

@@ -12,6 +12,7 @@ const categories: Category[] = [
     sortOrder: 0,
     seo: { title: "Декор", description: "Декор" },
     seoH1: "Декор",
+    seoTitleCustom: false,
   },
   {
     id: "podsvechniki",
@@ -21,6 +22,7 @@ const categories: Category[] = [
     sortOrder: 0,
     seo: { title: "Подсвечники", description: "Подсвечники" },
     seoH1: "Подсвечники",
+    seoTitleCustom: false,
   },
   {
     id: "podsvechniki",
@@ -30,6 +32,7 @@ const categories: Category[] = [
     sortOrder: 0,
     seo: { title: "Подсвечники кухня", description: "Подсвечники кухня" },
     seoH1: "Подсвечники кухня",
+    seoTitleCustom: false,
   },
 ];
 

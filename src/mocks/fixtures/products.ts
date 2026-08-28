@@ -135,6 +135,7 @@ function buildProduct(leaf: string, i: number): Product {
       description: `${title}: купить в MURU. Нейтральный плейсхолдер описания.`,
     },
     seoH1: title,
+    seoTitleCustom: false,
   };
 }
 

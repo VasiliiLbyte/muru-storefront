@@ -55,6 +55,7 @@ export const ProductSchema = z.object({
   external_id: z.string().optional(),
   seo: SeoSchema,
   seoH1: z.string(),
+  seoTitleCustom: z.boolean().optional().default(false),
 });
 export type Product = z.infer<typeof ProductSchema>;
 

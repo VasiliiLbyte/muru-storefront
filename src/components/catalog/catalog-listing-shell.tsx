@@ -94,7 +94,9 @@ export function CatalogListingShell({
           />
 
           {seoTextBottom?.trim() ? (
-            <StaticProse html={seoTextBottom} className="mb-10" />
+            <div className="mt-12 border-t border-border pt-8">
+              <StaticProse html={seoTextBottom} variant="seo-footer" />
+            </div>
           ) : null}
         </>
       )}

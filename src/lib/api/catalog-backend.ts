@@ -120,14 +120,16 @@ function nonEmpty(value: unknown): string | undefined {
 
 function resolveCategorySeo(node: BackendTreeNode) {
   const name = node.name;
+  const customTitle = nonEmpty(node.seoTitle);
   return {
     seo: {
-      title: nonEmpty(node.seoTitle) ?? name,
+      title: customTitle ?? name,
       description: nonEmpty(node.seoDescription) ?? name,
     },
     seoH1: nonEmpty(node.seoH1) ?? name,
     seoIntroTop: nonEmpty(node.seoIntroTop),
     seoTextBottom: nonEmpty(node.seoTextBottom),
+    seoTitleCustom: customTitle != null,
   };
 }
 
@@ -141,15 +143,17 @@ function resolveProductSeo(
     seoDescription?: string | null;
     seoH1?: string | null;
   };
+  const customTitle = nonEmpty(detail.seoTitle);
   return {
     seo: {
-      title: nonEmpty(detail.seoTitle) ?? name,
+      title: customTitle ?? name,
       description:
         nonEmpty(detail.seoDescription) ??
         nonEmpty(description) ??
         name,
     },
     seoH1: nonEmpty(detail.seoH1) ?? name,
+    seoTitleCustom: customTitle != null,
   };
 }
 
@@ -171,6 +175,7 @@ function adaptTreeNode(
     seoH1: seo.seoH1,
     seoIntroTop: seo.seoIntroTop,
     seoTextBottom: seo.seoTextBottom,
+    seoTitleCustom: seo.seoTitleCustom,
     image: coverUrl ? { url: coverUrl, alt: node.name } : undefined,
   });
 }
@@ -305,7 +310,11 @@ export function adaptProduct(
     },
     ...(() => {
       const seo = resolveProductSeo(b, detail.description);
-      return { seo: seo.seo, seoH1: seo.seoH1 };
+      return {
+        seo: seo.seo,
+        seoH1: seo.seoH1,
+        seoTitleCustom: seo.seoTitleCustom,
+      };
     })(),
   });
 }

@@ -16,6 +16,7 @@ export const CategorySchema = z.object({
   seoH1: z.string().optional(),
   seoIntroTop: z.string().optional(),
   seoTextBottom: z.string().optional(),
+  seoTitleCustom: z.boolean().optional().default(false),
   image: ImageSchema.optional(),
   external_id: z.string().optional(),
 });
