@@ -52,11 +52,6 @@ export function CatalogListingShell({
       >
         {seoH1}
       </h1>
-      {seoIntroTop?.trim() ? (
-        <p className="mb-4 text-body text-text-secondary lg:mb-8">
-          {seoIntroTop}
-        </p>
-      ) : null}
 
       {variant === "hub" ? (
         subcategories && parentSlug && subcategories.length > 0 ? (
@@ -93,9 +88,16 @@ export function CatalogListingShell({
             query={query}
           />
 
-          {seoTextBottom?.trim() ? (
+          {(seoIntroTop?.trim() || seoTextBottom?.trim()) ? (
             <div className="mt-12 border-t border-border pt-8">
-              <StaticProse html={seoTextBottom} variant="seo-footer" />
+              {seoIntroTop?.trim() ? (
+                <p className="mb-3 text-[12px] leading-relaxed text-text-muted">
+                  {seoIntroTop}
+                </p>
+              ) : null}
+              {seoTextBottom?.trim() ? (
+                <StaticProse html={seoTextBottom} variant="seo-footer" />
+              ) : null}
             </div>
           ) : null}
         </>
