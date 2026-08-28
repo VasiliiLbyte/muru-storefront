@@ -1,3 +1,5 @@
+import DOMPurify from "isomorphic-dompurify";
+
 import { cn } from "@/lib/utils";
 
 /**
@@ -10,6 +12,8 @@ export function StaticProse({
   html: string;
   className?: string;
 }) {
+  const safeHtml = DOMPurify.sanitize(html);
+
   return (
     <div
       className={cn(
@@ -24,7 +28,7 @@ export function StaticProse({
         "[&_table]:block [&_table]:max-w-full [&_table]:overflow-x-auto",
         className,
       )}
-      dangerouslySetInnerHTML={{ __html: html }}
+      dangerouslySetInnerHTML={{ __html: safeHtml }}
     />
   );
 }

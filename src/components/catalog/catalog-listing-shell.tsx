@@ -7,6 +7,7 @@ import {
 import { CatalogProductFeed } from "@/components/catalog/catalog-product-feed";
 import { CatalogToolbar } from "@/components/catalog/catalog-toolbar";
 import { CategoryGrid } from "@/components/catalog/category-grid";
+import { StaticProse } from "@/components/content/static-prose";
 import type { ProductListQueryInput, ProductListResponse } from "@/lib/schemas";
 import type { Category } from "@/lib/schemas";
 import type { BreadcrumbItem } from "@/lib/seo/jsonld";
@@ -15,7 +16,9 @@ import { cn } from "@/lib/utils";
 
 export function CatalogListingShell({
   variant,
-  title,
+  seoH1,
+  seoIntroTop,
+  seoTextBottom,
   breadcrumbs,
   subcategories,
   parentSlug,
@@ -25,7 +28,9 @@ export function CatalogListingShell({
   className,
 }: {
   variant: "hub" | "listing";
-  title: string;
+  seoH1: string;
+  seoIntroTop?: string;
+  seoTextBottom?: string;
   breadcrumbs: BreadcrumbItem[];
   subcategories?: CatalogNavNode[];
   parentSlug?: string;
@@ -45,8 +50,13 @@ export function CatalogListingShell({
           "lg:mb-8 lg:text-display lg:leading-[var(--text-display--line-height)]",
         )}
       >
-        {title}
+        {seoH1}
       </h1>
+      {seoIntroTop?.trim() ? (
+        <p className="mb-4 text-body text-text-secondary lg:mb-8">
+          {seoIntroTop}
+        </p>
+      ) : null}
 
       {variant === "hub" ? (
         subcategories && parentSlug && subcategories.length > 0 ? (
@@ -82,6 +92,10 @@ export function CatalogListingShell({
             page={listing.page}
             query={query}
           />
+
+          {seoTextBottom?.trim() ? (
+            <StaticProse html={seoTextBottom} className="mb-10" />
+          ) : null}
         </>
       )}
     </div>

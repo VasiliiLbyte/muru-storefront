@@ -134,6 +134,7 @@ function buildProduct(leaf: string, i: number): Product {
       title: `${title} — MURU`,
       description: `${title}: купить в MURU. Нейтральный плейсхолдер описания.`,
     },
+    seoH1: title,
   };
 }
 

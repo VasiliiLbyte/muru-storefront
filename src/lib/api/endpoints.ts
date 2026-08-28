@@ -1,6 +1,7 @@
 import { z } from "zod";
 import { cache } from "react";
 
+import { findCategory } from "@/lib/catalog/find-category";
 import { getAccessToken } from "@/lib/account/session";
 import { applyProductListQuery } from "@/mocks/resolve";
 import { buildFallbackHomeBanners } from "@/lib/content/home-banners";
@@ -86,9 +87,12 @@ export function getCategories(): Promise<Category[]> {
 }
 
 /** Категория по slug. */
-export async function getCategory(slug: string): Promise<Category> {
+export async function getCategory(
+  slug: string,
+  parentSlug?: string,
+): Promise<Category> {
   if (isCatalogBackendEnabled()) {
-    const category = (await fetchCatalogTree()).find((c) => c.slug === slug);
+    const category = findCategory(await fetchCatalogTree(), slug, parentSlug);
     if (!category) {
       throw new ApiError(404, slug);
     }

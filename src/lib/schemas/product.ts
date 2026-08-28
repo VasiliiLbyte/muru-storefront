@@ -54,6 +54,7 @@ export const ProductSchema = z.object({
   unit: UnitSchema,
   external_id: z.string().optional(),
   seo: SeoSchema,
+  seoH1: z.string(),
 });
 export type Product = z.infer<typeof ProductSchema>;
 

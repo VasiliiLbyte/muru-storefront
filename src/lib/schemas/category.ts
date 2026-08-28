@@ -13,6 +13,9 @@ export const CategorySchema = z.object({
   parentSlug: z.string().optional(),
   sortOrder: z.number().int().default(0),
   seo: SeoSchema,
+  seoH1: z.string().optional(),
+  seoIntroTop: z.string().optional(),
+  seoTextBottom: z.string().optional(),
   image: ImageSchema.optional(),
   external_id: z.string().optional(),
 });

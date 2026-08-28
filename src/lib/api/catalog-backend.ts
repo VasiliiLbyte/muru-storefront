@@ -26,6 +26,11 @@ export type BackendTreeNode = {
   slug: string;
   children: BackendTreeNode[];
   coverImageUrl?: string | null;
+  seoTitle?: string | null;
+  seoDescription?: string | null;
+  seoH1?: string | null;
+  seoIntroTop?: string | null;
+  seoTextBottom?: string | null;
 };
 
 export const BackendTreeNodeSchema: z.ZodType<BackendTreeNode> = z.lazy(() =>
@@ -107,12 +112,54 @@ export function buildCategorySlugMaps(
   return { topByLeaf, topByName };
 }
 
+function nonEmpty(value: unknown): string | undefined {
+  if (typeof value !== "string") return undefined;
+  const trimmed = value.trim();
+  return trimmed.length > 0 ? trimmed : undefined;
+}
+
+function resolveCategorySeo(node: BackendTreeNode) {
+  const name = node.name;
+  return {
+    seo: {
+      title: nonEmpty(node.seoTitle) ?? name,
+      description: nonEmpty(node.seoDescription) ?? name,
+    },
+    seoH1: nonEmpty(node.seoH1) ?? name,
+    seoIntroTop: nonEmpty(node.seoIntroTop),
+    seoTextBottom: nonEmpty(node.seoTextBottom),
+  };
+}
+
+function resolveProductSeo(
+  b: BackendProduct | BackendProductDetail,
+  description?: string,
+) {
+  const name = b.name;
+  const detail = b as BackendProductDetail & {
+    seoTitle?: string | null;
+    seoDescription?: string | null;
+    seoH1?: string | null;
+  };
+  return {
+    seo: {
+      title: nonEmpty(detail.seoTitle) ?? name,
+      description:
+        nonEmpty(detail.seoDescription) ??
+        nonEmpty(description) ??
+        name,
+    },
+    seoH1: nonEmpty(detail.seoH1) ?? name,
+  };
+}
+
 function adaptTreeNode(
   node: BackendTreeNode,
   sortOrder: number,
   parentSlug?: string,
 ): Category {
   const coverUrl = resolveCatalogImageUrl(node.coverImageUrl);
+  const seo = resolveCategorySeo(node);
 
   return CategorySchema.parse({
     id: node.slug,
@@ -120,7 +167,10 @@ function adaptTreeNode(
     title: node.name,
     parentSlug,
     sortOrder,
-    seo: { title: node.name, description: node.name },
+    seo: seo.seo,
+    seoH1: seo.seoH1,
+    seoIntroTop: seo.seoIntroTop,
+    seoTextBottom: seo.seoTextBottom,
     image: coverUrl ? { url: coverUrl, alt: node.name } : undefined,
   });
 }
@@ -253,10 +303,10 @@ export function adaptProduct(
         ? { value: detail.weightGrams, unit: "g" }
         : undefined,
     },
-    seo: {
-      title: b.name,
-      description: detail.description ?? b.name,
-    },
+    ...(() => {
+      const seo = resolveProductSeo(b, detail.description);
+      return { seo: seo.seo, seoH1: seo.seoH1 };
+    })(),
   });
 }
 

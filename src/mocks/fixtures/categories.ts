@@ -23,6 +23,14 @@ function toCategory(
       title: `${node.title} — MURU`,
       description: `${node.title}: подборка предметов декора MURU.`,
     },
+    seoH1: node.title,
+    ...(node.slug === "vazy-i-aksessuary"
+      ? {
+          seoIntroTop: "Вазы и аксессуары для спокойного интерьера.",
+          seoTextBottom:
+            "<p>Нейтральный SEO-текст внизу листинга — плейсхолдер для CRM.</p>",
+        }
+      : {}),
     image: makeImage(node.title),
     external_id: `1c-cat-${node.slug}`,
   };

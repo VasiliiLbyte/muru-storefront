@@ -31,7 +31,7 @@ export function ProductPurchase({
     <div className={cn("flex flex-col gap-6", className)}>
       <div className="flex items-start justify-between gap-4">
         <h1 className="font-display text-display text-text-heading">
-          {product.title}
+          {product.seoH1}
         </h1>
         <FavoriteToggle
           sku={product.sku}

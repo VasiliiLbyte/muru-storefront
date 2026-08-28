@@ -12,12 +12,12 @@ import { MediaCard } from "@/components/home/media-card";
 import { JsonLdScript } from "@/components/seo/jsonld-script";
 import {
   getCategories,
-  getCategory,
   getProduct,
   getProducts,
 } from "@/lib/api/endpoints";
 import { isCatalogBackendEnabled } from "@/lib/api/catalog-backend";
 import { categoriesToNavTree } from "@/lib/catalog/catalog-nav";
+import { findCategory } from "@/lib/catalog/find-category";
 import { buildProductBreadcrumbs } from "@/lib/catalog/product-breadcrumbs";
 import { parseListingSearchParams } from "@/lib/catalog/search-params";
 import { isSaleCategorySlug } from "@/lib/catalog/sale-category";
@@ -101,9 +101,15 @@ export async function generateMetadata({
 
   const categorySlug =
     route.type === "category" ? route.slug : route.subSlug;
+  const parentSlug =
+    route.type === "subcategory" ? route.parentSlug : undefined;
 
   try {
-    const category = await getCategory(categorySlug);
+    const allCategories = await getCategories();
+    const category = findCategory(allCategories, categorySlug, parentSlug);
+    if (!category) {
+      return { title: "Страница не найдена" };
+    }
     const path =
       route.type === "category"
         ? catalogHref.top(route.slug)
@@ -260,7 +266,13 @@ export default async function CatalogPage({ params, searchParams }: PageProps) {
     );
   }
 
-  const title = route.node.title;
+  const parentSlug =
+    route.type === "subcategory" ? route.parentSlug : undefined;
+  const listingCategory =
+    categorySlug != null
+      ? findCategory(allCategories, categorySlug, parentSlug)
+      : undefined;
+  if (!listingCategory) notFound();
 
   const jsonLd: Record<string, unknown>[] = [breadcrumbJsonLd(breadcrumbs)];
   if (listing.items.length > 0) {
@@ -280,7 +292,9 @@ export default async function CatalogPage({ params, searchParams }: PageProps) {
       <JsonLdScript data={jsonLd} />
       <CatalogListingShell
         variant={variant}
-        title={title}
+        seoH1={listingCategory.seoH1 ?? listingCategory.title}
+        seoIntroTop={listingCategory.seoIntroTop}
+        seoTextBottom={listingCategory.seoTextBottom}
         breadcrumbs={breadcrumbs}
         subcategories={subcategories}
         parentSlug={route.type === "category" ? route.slug : undefined}

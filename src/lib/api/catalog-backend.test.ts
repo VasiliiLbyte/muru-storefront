@@ -2,8 +2,10 @@ import { describe, expect, it } from "vitest";
 
 import {
   adaptProduct,
+  adaptTree,
   buildCategorySlugMaps,
   type BackendProduct,
+  type BackendTreeNode,
 } from "./catalog-backend";
 
 function stubBackendProduct(
@@ -112,5 +114,66 @@ describe("adaptProduct webSubcategorySlugs", () => {
     expect(product.categorySlugs).toContain("khranenie-i-poryadok");
     expect(product.categorySlugs).toContain("kukhnya-i-stolovaya");
     expect(product.categorySlugs).toContain("naturalnyy-dekor");
+  });
+});
+
+describe("adaptProduct SEO", () => {
+  it("falls back to name and description when SEO fields are empty", () => {
+    const product = adaptProduct(
+      stubBackendProduct({
+        name: "Ваза",
+        description: "Описание вазы",
+      }),
+    );
+
+    expect(product.seo.title).toBe("Ваза");
+    expect(product.seo.description).toBe("Описание вазы");
+    expect(product.seoH1).toBe("Ваза");
+  });
+
+  it("uses partial SEO overrides from backend", () => {
+    const product = adaptProduct(
+      stubBackendProduct({
+        name: "Ваза",
+        seoTitle: "SEO title",
+        seoH1: "SEO H1",
+      }),
+    );
+
+    expect(product.seo.title).toBe("SEO title");
+    expect(product.seo.description).toBe("Ваза");
+    expect(product.seoH1).toBe("SEO H1");
+  });
+});
+
+describe("adaptTree SEO", () => {
+  it("passes through category SEO fields with fallbacks", () => {
+    const nodes: BackendTreeNode[] = [
+      {
+        name: "Декор",
+        slug: "dekor",
+        children: [
+          {
+            name: "Подсвечники",
+            slug: "podsvechniki",
+            children: [],
+            seoTitle: "SEO title",
+            seoDescription: "SEO description",
+            seoH1: "SEO H1",
+            seoIntroTop: "Intro top",
+            seoTextBottom: "<p>Bottom</p>",
+          },
+        ],
+      },
+    ];
+
+    const categories = adaptTree(nodes);
+    const sub = categories.find((c) => c.slug === "podsvechniki");
+
+    expect(sub?.seo.title).toBe("SEO title");
+    expect(sub?.seo.description).toBe("SEO description");
+    expect(sub?.seoH1).toBe("SEO H1");
+    expect(sub?.seoIntroTop).toBe("Intro top");
+    expect(sub?.seoTextBottom).toBe("<p>Bottom</p>");
   });
 });
