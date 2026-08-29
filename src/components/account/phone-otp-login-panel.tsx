@@ -39,9 +39,11 @@ const TOO_MANY_ATTEMPTS = "Слишком много попыток, попро�
 const OTP_UNAVAILABLE = "Вход по телефону временно недоступен";
 
 const CODE_LENGTH = 4;
-const NO_CALL_HINT_DELAY_MS = 20_000;
+const SMS_AVAILABLE_DELAY_SEC = 45;
+const SMS_RESEND_DELAY_SEC = 45;
 
 export type OtpStep = "phone" | "code";
+type OtpDeliveryMode = "call" | "sms";
 
 function isCaptchaError(err: AccountApiError): boolean {
   const body = err.body as {
@@ -83,9 +85,12 @@ export function PhoneOtpLoginPanel({
   const [captchaToken, setCaptchaToken] = useState("");
   const [captchaRequired, setCaptchaRequired] = useState(false);
   const [resendSeconds, setResendSeconds] = useState(0);
+  const [deliveryMode, setDeliveryMode] = useState<OtpDeliveryMode>("call");
+  const [smsAvailableSeconds, setSmsAvailableSeconds] = useState(0);
+  const [smsResendSeconds, setSmsResendSeconds] = useState(0);
+  const [smsSentNotice, setSmsSentNotice] = useState(false);
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const [showNoCallHint, setShowNoCallHint] = useState(false);
   const [codeFocusSignal, setCodeFocusSignal] = useState(0);
 
   const phoneInputRef = useRef<HTMLInputElement | null>(null);
@@ -119,12 +124,36 @@ export function PhoneOtpLoginPanel({
     return () => window.clearInterval(id);
   }, [resendSeconds]);
 
+  useEffect(() => {
+    if (smsAvailableSeconds <= 0) return;
+    const id = window.setInterval(() => {
+      setSmsAvailableSeconds((s) => (s <= 1 ? 0 : s - 1));
+    }, 1000);
+    return () => window.clearInterval(id);
+  }, [smsAvailableSeconds]);
+
+  useEffect(() => {
+    if (smsResendSeconds <= 0) return;
+    const id = window.setInterval(() => {
+      setSmsResendSeconds((s) => (s <= 1 ? 0 : s - 1));
+    }, 1000);
+    return () => window.clearInterval(id);
+  }, [smsResendSeconds]);
+
   const requestOtp = useCallback(
-    async (phone: string, options?: { fromResend?: boolean }) => {
+    async (
+      phone: string,
+      options?: { fromResend?: boolean; channel?: OtpDeliveryMode },
+    ) => {
+      const channel = options?.channel ?? "call";
       setError(null);
       setSubmitting(true);
       try {
-        const payload: { phone: string; captchaToken?: string } = { phone };
+        const payload: {
+          phone: string;
+          channel: OtpDeliveryMode;
+          captchaToken?: string;
+        } = { phone, channel };
         if (captchaToken.trim()) {
           payload.captchaToken = captchaToken.trim();
         }
@@ -142,10 +171,21 @@ export function PhoneOtpLoginPanel({
         setCaptchaRequired(result.captchaRequired);
         setResendSeconds(result.resendAfterSec);
         setStep("code");
-        setShowNoCallHint(false);
         lastSubmittedCodeRef.current = null;
-        if (!options?.fromResend) {
+
+        if (channel === "call") {
+          setDeliveryMode("call");
+          setSmsAvailableSeconds(SMS_AVAILABLE_DELAY_SEC);
+          setSmsSentNotice(false);
+          if (!options?.fromResend) {
+            setCode("");
+          }
+        } else {
+          setDeliveryMode("sms");
+          setSmsSentNotice(true);
+          setSmsResendSeconds(SMS_RESEND_DELAY_SEC);
           setCode("");
+          setCodeFocusSignal((n) => n + 1);
         }
       } catch (err) {
         if (err instanceof AccountApiError) {
@@ -229,15 +269,6 @@ export function PhoneOtpLoginPanel({
     void verifyCode(code);
   }, [code, step, submitting, verifyCode]);
 
-  useEffect(() => {
-    if (step !== "code" || showNoCallHint) return;
-    const id = window.setTimeout(
-      () => setShowNoCallHint(true),
-      NO_CALL_HINT_DELAY_MS,
-    );
-    return () => window.clearTimeout(id);
-  }, [step, showNoCallHint]);
-
   async function onRequestPhone(e: React.FormEvent) {
     e.preventDefault();
     const normalized = normalizeRussianPhoneForApi(`+7${phoneDigits}`);
@@ -245,23 +276,43 @@ export function PhoneOtpLoginPanel({
       setError(INVALID_PHONE);
       return;
     }
-    await requestOtp(normalized);
+    await requestOtp(normalized, { channel: "call" });
   }
 
   function onChangeNumber() {
     setStep("phone");
     setCode("");
     setError(null);
+    setDeliveryMode("call");
+    setSmsAvailableSeconds(0);
+    setSmsResendSeconds(0);
+    setSmsSentNotice(false);
     lastSubmittedCodeRef.current = null;
   }
 
-  async function onResend() {
+  async function onResendCall() {
     if (!normalizedPhone || resendSeconds > 0 || submitting) return;
     setCode("");
-    await requestOtp(normalizedPhone, { fromResend: true });
+    await requestOtp(normalizedPhone, { fromResend: true, channel: "call" });
+  }
+
+  async function onRequestSms() {
+    if (!normalizedPhone || submitting) return;
+    if (deliveryMode === "call" && smsAvailableSeconds > 0) return;
+    if (deliveryMode === "sms" && smsResendSeconds > 0) return;
+    await requestOtp(normalizedPhone, { channel: "sms" });
   }
 
   if (step === "code") {
+    const codeLabel =
+      deliveryMode === "sms" ? "Код из SMS" : "Код из звонка";
+    const codeHint =
+      deliveryMode === "sms"
+        ? "4 цифры из SMS"
+        : "Последние 4 цифры номера входящего звонка";
+    const statusPrefix =
+      deliveryMode === "sms" ? "SMS отправлено на" : "Звонок отправлен на";
+
     return (
       <form
         className={stackClassName}
@@ -272,7 +323,7 @@ export function PhoneOtpLoginPanel({
         noValidate
       >
         <p className="text-body text-text-secondary">
-          Звонок отправлен на{" "}
+          {statusPrefix}{" "}
           <span className="text-text-heading">
             {formatRussianPhoneForDisplay(normalizedPhone ?? "")}
           </span>{" "}
@@ -287,7 +338,7 @@ export function PhoneOtpLoginPanel({
 
         <div>
           <span id={codeLabelId} className={cn(fieldLabelClassName, "block")}>
-            Код из звонка
+            {codeLabel}
           </span>
           <OtpInput
             value={code}
@@ -301,9 +352,7 @@ export function PhoneOtpLoginPanel({
             autoFocus
             focusSignal={codeFocusSignal}
           />
-          <p className={fieldHintClassName}>
-            Последние 4 цифры номера входящего звонка
-          </p>
+          <p className={fieldHintClassName}>{codeHint}</p>
         </div>
 
         {error ? (
@@ -328,23 +377,57 @@ export function PhoneOtpLoginPanel({
           )}
         </Button>
 
-        {showNoCallHint ? (
+        {smsSentNotice ? (
+          <p className="text-small text-text-muted">Отправили SMS с кодом</p>
+        ) : null}
+
+        {deliveryMode === "call" && smsAvailableSeconds > 0 ? (
           <p className="text-small text-text-muted">
-            Звонок не поступил? Позвоните снова или войдите по email.
+            Можно запросить SMS через {formatCountdown(smsAvailableSeconds)}
           </p>
         ) : null}
 
+        {deliveryMode === "call" &&
+        smsAvailableSeconds === 0 &&
+        !submitting ? (
+          <div className="flex flex-col gap-1">
+            <button
+              type="button"
+              className="inline-flex min-h-11 items-center text-left text-small text-text-muted hover:text-text-heading hover:underline"
+              onClick={() => void onRequestSms()}
+            >
+              Не приходит звонок? Получить код по SMS
+            </button>
+            <p className="text-small text-text-muted">
+              или войдите по email
+            </p>
+          </div>
+        ) : null}
+
         <div className="flex flex-col gap-1 text-small text-text-muted">
-          <button
-            type="button"
-            disabled={resendSeconds > 0 || submitting}
-            className="inline-flex min-h-11 items-center text-left hover:text-text-heading hover:underline disabled:cursor-not-allowed disabled:no-underline disabled:opacity-70"
-            onClick={() => void onResend()}
-          >
-            {resendSeconds > 0
-              ? `Позвонить снова через ${formatCountdown(resendSeconds)}`
-              : "Позвонить снова"}
-          </button>
+          {deliveryMode === "call" ? (
+            <button
+              type="button"
+              disabled={resendSeconds > 0 || submitting}
+              className="inline-flex min-h-11 items-center text-left hover:text-text-heading hover:underline disabled:cursor-not-allowed disabled:no-underline disabled:opacity-70"
+              onClick={() => void onResendCall()}
+            >
+              {resendSeconds > 0
+                ? `Позвонить снова через ${formatCountdown(resendSeconds)}`
+                : "Позвонить снова"}
+            </button>
+          ) : (
+            <button
+              type="button"
+              disabled={smsResendSeconds > 0 || submitting}
+              className="inline-flex min-h-11 items-center text-left hover:text-text-heading hover:underline disabled:cursor-not-allowed disabled:no-underline disabled:opacity-70"
+              onClick={() => void onRequestSms()}
+            >
+              {smsResendSeconds > 0
+                ? `Отправить SMS снова через ${formatCountdown(smsResendSeconds)}`
+                : "Отправить SMS снова"}
+            </button>
+          )}
           <button
             type="button"
             className="inline-flex min-h-11 items-center text-left hover:text-text-heading hover:underline"
