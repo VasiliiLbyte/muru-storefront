@@ -1,14 +1,21 @@
-import { beforeEach, describe, expect, it } from "vitest";
+import { beforeEach, describe, expect, it, vi } from "vitest";
 
 import {
+  acceptAnalyticsCookies,
+  COOKIE_CONSENT_ACCEPTED,
+  COOKIE_CONSENT_REJECTED,
   COOKIE_NOTICE_KEY,
   COOKIE_NOTICE_VALUE,
-  dismissCookieNotice,
-  isCookieNoticeDismissed,
+  getCookieConsent,
+  hasCookieConsentChoice,
+  isAnalyticsConsentGranted,
+  rejectAnalyticsCookies,
 } from "./cookie-notice";
 
 function installLocalStorageMock() {
   const store = new Map<string, string>();
+  const listeners = new Map<string, Set<EventListener>>();
+
   const localStorage = {
     getItem: (key: string) => store.get(key) ?? null,
     setItem: (key: string, value: string) => {
@@ -21,16 +28,33 @@ function installLocalStorageMock() {
       store.clear();
     },
   };
+
+  const windowStub = {
+    localStorage,
+    addEventListener: (type: string, listener: EventListener) => {
+      if (!listeners.has(type)) listeners.set(type, new Set());
+      listeners.get(type)!.add(listener);
+    },
+    removeEventListener: (type: string, listener: EventListener) => {
+      listeners.get(type)?.delete(listener);
+    },
+    dispatchEvent: (event: Event) => {
+      listeners.get(event.type)?.forEach((listener) => listener(event));
+      return true;
+    },
+  };
+
   Object.defineProperty(globalThis, "window", {
     configurable: true,
     writable: true,
-    value: { localStorage },
+    value: windowStub,
   });
   Object.defineProperty(globalThis, "localStorage", {
     configurable: true,
     writable: true,
     value: localStorage,
   });
+
   return store;
 }
 
@@ -41,18 +65,35 @@ describe("cookie-notice", () => {
     store = installLocalStorageMock();
   });
 
-  it("returns false when key is missing", () => {
-    expect(isCookieNoticeDismissed()).toBe(false);
+  it("returns null when no choice stored", () => {
+    expect(getCookieConsent()).toBeNull();
+    expect(hasCookieConsentChoice()).toBe(false);
+    expect(isAnalyticsConsentGranted()).toBe(false);
   });
 
-  it("returns false for unexpected values", () => {
-    store.set(COOKIE_NOTICE_KEY, "0");
-    expect(isCookieNoticeDismissed()).toBe(false);
+  it("migrates legacy dismiss value to accepted", () => {
+    store.set(COOKIE_NOTICE_KEY, COOKIE_NOTICE_VALUE);
+    expect(getCookieConsent()).toBe(COOKIE_CONSENT_ACCEPTED);
+    expect(isAnalyticsConsentGranted()).toBe(true);
   });
 
-  it("dismiss sets key and isCookieNoticeDismissed becomes true", () => {
-    dismissCookieNotice();
-    expect(store.get(COOKIE_NOTICE_KEY)).toBe(COOKIE_NOTICE_VALUE);
-    expect(isCookieNoticeDismissed()).toBe(true);
+  it("accept stores accepted and grants analytics", () => {
+    acceptAnalyticsCookies();
+    expect(store.get(COOKIE_NOTICE_KEY)).toBe(COOKIE_CONSENT_ACCEPTED);
+    expect(isAnalyticsConsentGranted()).toBe(true);
+  });
+
+  it("reject stores rejected and blocks analytics", () => {
+    rejectAnalyticsCookies();
+    expect(store.get(COOKIE_NOTICE_KEY)).toBe(COOKIE_CONSENT_REJECTED);
+    expect(isAnalyticsConsentGranted()).toBe(false);
+    expect(hasCookieConsentChoice()).toBe(true);
+  });
+
+  it("dispatches consent change event on accept", () => {
+    const handler = vi.fn();
+    window.addEventListener("muru:cookie-consent-changed", handler);
+    acceptAnalyticsCookies();
+    expect(handler).toHaveBeenCalledOnce();
   });
 });

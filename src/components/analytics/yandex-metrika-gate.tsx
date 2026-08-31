@@ -1,11 +1,35 @@
-import { Suspense } from "react";
+"use client";
+
+import { Suspense, useEffect, useState } from "react";
+
+import {
+  COOKIE_CONSENT_CHANGED_EVENT,
+  isAnalyticsConsentGranted,
+} from "@/lib/cookie-notice";
 
 import { YandexMetrika } from "./yandex-metrika";
 
-/** Server wrapper: only mount Metrika when public env id is set. */
+/**
+ * Loads Yandex Metrika only after the user accepts analytics cookies.
+ * Counter id from NEXT_PUBLIC_YANDEX_METRIKA_ID — omitted when unset.
+ */
 export function YandexMetrikaGate() {
   const counterId = process.env.NEXT_PUBLIC_YANDEX_METRIKA_ID?.trim();
-  if (!counterId) return null;
+  const [analyticsAllowed, setAnalyticsAllowed] = useState(false);
+
+  useEffect(() => {
+    function syncConsent() {
+      setAnalyticsAllowed(isAnalyticsConsentGranted());
+    }
+
+    syncConsent();
+    window.addEventListener(COOKIE_CONSENT_CHANGED_EVENT, syncConsent);
+    return () => {
+      window.removeEventListener(COOKIE_CONSENT_CHANGED_EVENT, syncConsent);
+    };
+  }, []);
+
+  if (!counterId || !analyticsAllowed) return null;
 
   return (
     <Suspense fallback={null}>
