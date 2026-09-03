@@ -30,7 +30,9 @@ export function ProductDeliveryInfo({ className }: { className?: string }) {
         ))}
       </dl>
 
-      <div className="mt-4 flex flex-wrap gap-x-6 gap-y-2 border-t border-border pt-4">
+      {/* Без своей разделительной линии: строка доставки одна, три
+          хайрлайна подряд читались как мусор. */}
+      <div className="flex flex-wrap gap-x-6 gap-y-2">
         {DELIVERY_HELP_LINKS.map((link) => (
           <Link
             key={link.href}

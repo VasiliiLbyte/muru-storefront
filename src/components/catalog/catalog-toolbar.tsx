@@ -460,23 +460,35 @@ export function CatalogToolbar({
         className,
       )}
     >
-      {/* Mobile compact row */}
-      <div className="py-1 lg:hidden">
+      {/* Mobile: одна тонкая строка вместо коробки в две строки —
+          «Фильтры» слева, текущая сортировка справа. Оба контрола
+          открывают один и тот же лист. */}
+      <div className="flex items-center justify-between gap-3 lg:hidden">
         <button
           type="button"
           onClick={openSheet}
-          className="inline-flex min-h-11 w-full items-center gap-2 border border-input bg-background px-3 text-body text-text-primary focus-visible:ring-1 focus-visible:ring-ring focus-visible:outline-none"
+          className="inline-flex min-h-11 shrink-0 items-center gap-2 text-body text-text-heading transition-colors hover:text-brand focus-visible:ring-1 focus-visible:ring-ring focus-visible:outline-none"
         >
           <SlidersHorizontal className="size-4 shrink-0" aria-hidden />
-          <span className="flex min-w-0 flex-1 flex-col items-start gap-0.5 text-left">
-            <span className="truncate">
-              Сортировка и фильтры
-              {activeFilterCount > 0 ? ` (${activeFilterCount})` : ""}
+          <span>Фильтры</span>
+          {activeFilterCount > 0 ? (
+            <span
+              aria-label={`активных фильтров: ${activeFilterCount}`}
+              className="inline-flex h-4 min-w-4 items-center justify-center rounded-full bg-brand px-1 text-[10px] leading-none font-medium text-text-inverse"
+            >
+              {activeFilterCount}
             </span>
-            <span className="truncate text-small text-text-secondary">
-              {sortLabel}
-            </span>
-          </span>
+          ) : null}
+        </button>
+
+        <button
+          type="button"
+          onClick={openSheet}
+          aria-label={`Сортировка: ${sortLabel}`}
+          className="inline-flex min-h-11 min-w-0 items-center gap-1.5 text-body text-text-secondary transition-colors hover:text-brand focus-visible:ring-1 focus-visible:ring-ring focus-visible:outline-none"
+        >
+          <span className="truncate">{sortLabel}</span>
+          <ChevronDown className="size-4 shrink-0" aria-hidden />
         </button>
       </div>
 

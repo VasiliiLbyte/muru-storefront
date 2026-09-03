@@ -65,5 +65,9 @@ export function HomeHeaderSentinel() {
     };
   }, []);
 
-  return <div ref={ref} aria-hidden className="h-px w-full shrink-0" />;
+  // `-mb-px` гасит собственную высоту: без него между первым баннером и
+  // следующей секцией просвечивала полоска фона body в 1px.
+  return (
+    <div ref={ref} aria-hidden className="-mb-px h-px w-full shrink-0" />
+  );
 }

@@ -66,12 +66,13 @@ export function ProductGallery({
           >
             {images.map((image, index) => (
               <span
-                key={`seg-${image.url}-${index}`}
+                key={`dot-${image.url}-${index}`}
                 className={cn(
-                  "h-0.5 rounded-full transition-all duration-200 motion-reduce:transition-none",
+                  // Те же точки, что в карточке сетки (product-card-images)
+                  "size-1.5 rounded-full transition-colors motion-reduce:transition-none",
                   index === activeIndex
-                    ? "w-6 bg-text-heading"
-                    : "w-1.5 bg-text-heading/35",
+                    ? "bg-brand"
+                    : "bg-white/80 ring-1 ring-black/10",
                 )}
               />
             ))}
