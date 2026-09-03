@@ -39,6 +39,7 @@ export function CatalogMenuPanel({ catalogItems }: CatalogMenuPanelProps) {
       <SheetTrigger className={catalogTriggerClass}>Каталог</SheetTrigger>
       <SheetContent
         side="left"
+        onSwipeClose={close}
         backdropClassName="bg-black/30"
         className="w-full gap-0 p-8 sm:w-[320px] sm:max-w-[360px]"
       >

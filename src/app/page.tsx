@@ -3,7 +3,6 @@ import type { ReactNode } from "react";
 
 import { HomeBanner } from "@/components/home/home-banner";
 import { HomeCategoryTiles } from "@/components/home/home-category-tiles";
-import { HomeHeaderSentinel } from "@/components/home/home-header-sentinel";
 import { getHomeBanners } from "@/lib/api/endpoints";
 import { FALLBACK_ABOUT_BANNER_ID } from "@/lib/content/home-banners";
 
@@ -53,10 +52,6 @@ export default async function Home() {
         isFirst={isFirst}
       />,
     );
-    if (isFirst) {
-      // Дальше этой точки десктопная шапка становится прозрачной
-      nodes.push(<HomeHeaderSentinel key="home-header-sentinel" />);
-    }
     if (index === tilesAfterIndex) {
       nodes.push(<HomeCategoryTiles key="home-category-tiles" />);
     }

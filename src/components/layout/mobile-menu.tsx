@@ -77,7 +77,11 @@ export function MobileMenu({ contacts }: { contacts: SiteContacts }) {
       >
         <Menu className="size-5" strokeWidth={1.5} />
       </SheetTrigger>
-      <SheetContent side="left" className="gap-3 bg-background p-4">
+      <SheetContent
+        side="left"
+        onSwipeClose={close}
+        className="gap-3 bg-background p-4"
+      >
         <SheetHeader>
           <SheetTitle className="sr-only">Меню</SheetTitle>
           <div onClick={close}>

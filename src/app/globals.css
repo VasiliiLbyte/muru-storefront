@@ -212,75 +212,73 @@
 }
 
 /* ---------------------------------------------------------------------------
-   Мобильная главная (макет `сайт_2.pdf`, 2026-08-28 / DESIGN-002)
+   Хром главной страницы (макет `сайт_2.pdf`)
 
-   Баннеры на весь экран, шапка — прозрачный оверлей с бургером слева и лого
-   справа, иконки уезжают в нижний ряд поверх фото. Признак страницы —
-   `main[data-home-snap]`, тот же приём `:has()`, что и у scroll-snap ниже.
+   На главной шапка одинакова на всех баннерах и на всех вьюпортах:
+   прозрачный оверлей поверх кадра — бургер, лого и иконки. Белого бара с
+   навигацией, кнопкой «Каталог» и полем поиска на главной нет: всё это
+   живёт в бургер-меню. Признак страницы — `main[data-home-snap]`, тем же
+   приёмом `:has()`, что и scroll-snap ниже.
+
+   Шапка именно `fixed`, а не `sticky`: она не должна занимать место в
+   потоке, иначе первый баннер не начнётся от верха вьюпорта.
    --------------------------------------------------------------------------- */
+body:has(main[data-home-snap]) [data-app-header] {
+  position: fixed;
+  inset-inline: 0;
+  top: 0;
+  background: transparent;
+  /* Без blur: backdrop-filter создаёт containing block, и фиксированный
+     нижний ряд иконок внутри шапки прилипал бы к ней, а не к вьюпорту.
+     Префикс не писать — Lightning CSS схлопывает пару и теряет unprefixed. */
+  backdrop-filter: none;
+}
+
+/* Скрим под шапкой: белые бургер и лого читаются на любом кадре из CMS */
+body:has(main[data-home-snap]) [data-app-header]::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: linear-gradient(to bottom, rgb(0 0 0 / 0.32), rgb(0 0 0 / 0));
+  pointer-events: none;
+}
+
+/* Строка с навигацией и телефоном, кнопка «Каталог» и поле поиска —
+   не на главной. Навигация доступна из бургера. */
+body:has(main[data-home-snap]) [data-header-utility],
+body:has(main[data-home-snap]) [data-header-catalog],
+body:has(main[data-home-snap]) [data-header-search] {
+  display: none;
+}
+
+/* Бургер и иконка поиска живут под `lg:hidden` — на главной они нужны
+   и на десктопе. */
+body:has(main[data-home-snap]) [data-header-burger] {
+  display: block;
+}
+
+body:has(main[data-home-snap]) [data-menu-trigger],
+body:has(main[data-home-snap]) [data-search-trigger] {
+  display: inline-flex;
+}
+
+body:has(main[data-home-snap]) [data-header-burger] button,
+body:has(main[data-home-snap]) [data-header-actions] a,
+body:has(main[data-home-snap]) [data-header-actions] button {
+  color: var(--color-text-inverse);
+  filter: drop-shadow(0 1px 6px rgb(0 0 0 / 0.35));
+}
+
+/* Лого белым — отдельный ассет не нужен */
+body:has(main[data-home-snap]) [data-app-header] img[alt="muru"] {
+  filter: brightness(0) invert(1) drop-shadow(0 1px 6px rgb(0 0 0 / 0.35));
+}
+
 @media (max-width: 1023px) {
-  body:has(main[data-home-snap]) [data-app-header] {
-    /* fixed, а не sticky: баннер должен начинаться от верха вьюпорта */
-    position: fixed;
-    inset-inline: 0;
-    top: 0;
-    background: transparent;
-    /* Без blur: backdrop-filter создаёт containing block, и фиксированный
-       нижний ряд иконок внутри шапки прилипал бы к ней, а не к вьюпорту.
-       Префикс не писать — Lightning CSS схлопывает пару и теряет unprefixed. */
-    backdrop-filter: none;
-  }
-
-  /* Скрим под шапкой: белые бургер и лого читаются на любом кадре из CMS */
-  body:has(main[data-home-snap]) [data-app-header]::before {
-    content: "";
-    position: absolute;
-    inset: 0;
-    z-index: -1;
-    background: linear-gradient(
-      to bottom,
-      rgb(0 0 0 / 0.32),
-      rgb(0 0 0 / 0)
-    );
-    pointer-events: none;
-  }
-
-  /* Такой же скрим под нижним рядом иконок */
-  body:has(main[data-home-snap]) [data-header-actions]::before {
-    content: "";
-    position: absolute;
-    inset: -0.75rem 0 -2rem;
-    z-index: -1;
-    background: linear-gradient(
-      to top,
-      rgb(0 0 0 / 0.32),
-      rgb(0 0 0 / 0)
-    );
-    pointer-events: none;
-  }
-
   /* В потоке остаются только бургер и лого → края бара */
   body:has(main[data-home-snap]) [data-header-bar] {
     justify-content: space-between;
-  }
-
-  /* Лого белым — отдельный ассет не нужен */
-  body:has(main[data-home-snap]) [data-app-header] img[alt="muru"] {
-    filter: brightness(0) invert(1);
-  }
-
-  /* Бургер белым + тень: под ним произвольное фото из CMS */
-  body:has(main[data-home-snap]) [data-header-burger] button {
-    color: var(--color-text-inverse);
-  }
-
-  body:has(main[data-home-snap]) [data-header-burger] button,
-  body:has(main[data-home-snap]) [data-app-header] img[alt="muru"] {
-    filter: drop-shadow(0 1px 6px rgb(0 0 0 / 0.35));
-  }
-
-  body:has(main[data-home-snap]) [data-app-header] img[alt="muru"] {
-    filter: brightness(0) invert(1) drop-shadow(0 1px 6px rgb(0 0 0 / 0.35));
   }
 
   /* Иконки — фиксированный ряд по низу экрана, поверх фото */
@@ -295,76 +293,24 @@
     padding-inline: 1rem;
   }
 
-  body:has(main[data-home-snap]) [data-header-actions] a,
-  body:has(main[data-home-snap]) [data-header-actions] button {
-    color: var(--color-text-inverse);
-    filter: drop-shadow(0 1px 6px rgb(0 0 0 / 0.35));
+  /* Такой же скрим под нижним рядом иконок */
+  body:has(main[data-home-snap]) [data-header-actions]::before {
+    content: "";
+    position: absolute;
+    inset: -0.75rem 0 -2rem;
+    z-index: -1;
+    background: linear-gradient(to top, rgb(0 0 0 / 0.32), rgb(0 0 0 / 0));
+    pointer-events: none;
   }
 }
 
-/* ---------------------------------------------------------------------------
-   Десктопная главная: шапка упрощается после первого баннера
-   (макет `сайт_2.pdf` — «при прокручивании упрощается»).
-
-   Признак ставит `HomeHeaderSentinel`. Высоту коробки шапки НЕ меняем:
-   она в потоке, а страница под scroll-snap — любое изменение высоты даёт
-   скачок скролла. Меняются только покраска и видимость содержимого.
-   Утилити-строку не прячем по той же причине (она в потоке и к этому
-   моменту всё равно уехала за верх экрана).
-   --------------------------------------------------------------------------- */
 @media (min-width: 1024px) {
-  html[data-home-simplified] [data-app-header] {
-    background: transparent;
-    backdrop-filter: none;
-  }
-
-  html[data-home-simplified] [data-app-header]::before {
-    content: "";
-    position: absolute;
-    inset: 0;
-    z-index: -1;
-    background: linear-gradient(to bottom, rgb(0 0 0 / 0.28), rgb(0 0 0 / 0));
-    pointer-events: none;
-  }
-
-  /* Остаются только бургер, лого и иконки */
-  html[data-home-simplified] [data-header-catalog],
-  html[data-home-simplified] [data-header-search] {
-    display: none;
-  }
-
-  html[data-home-simplified] [data-header-burger] {
-    display: block;
-  }
-
-  /* Бургер и иконка поиска живут под `lg:hidden` — в упрощённом
-     состоянии они нужны и на десктопе (в макете шапка = бургер + лого + 4 иконки). */
-  html[data-home-simplified] [data-menu-trigger],
-  html[data-home-simplified] [data-search-trigger] {
-    display: inline-flex;
-  }
-
-  html[data-home-simplified] [data-header-burger] button {
-    color: var(--color-text-inverse);
-    filter: drop-shadow(0 1px 6px rgb(0 0 0 / 0.35));
-  }
-
-  html[data-home-simplified] [data-app-header] img[alt="muru"] {
-    filter: brightness(0) invert(1) drop-shadow(0 1px 6px rgb(0 0 0 / 0.35));
-  }
-
-  html[data-home-simplified] [data-header-actions] a,
-  html[data-home-simplified] [data-header-actions] button {
-    color: var(--color-text-inverse);
-    filter: drop-shadow(0 1px 6px rgb(0 0 0 / 0.35));
-  }
-
-  /* Бургер и лого — к левому краю, иконки — к правому */
-  html[data-home-simplified] [data-header-bar] {
+  /* Бургер и лого слева, иконки справа */
+  body:has(main[data-home-snap]) [data-header-bar] {
     justify-content: flex-start;
   }
 
-  html[data-home-simplified] [data-header-actions] {
+  body:has(main[data-home-snap]) [data-header-actions] {
     margin-left: auto;
   }
 }
@@ -372,11 +318,9 @@
 /* Home: desktop scroll-snap между баннерами и футером (только при data-home-snap). */
 @media (min-width: 1024px) {
   :root {
-    /* Первый баннер живёт ПОД белой шапкой: утилити-строка + бар. */
-    --home-offset-first: var(--header-height);
-    /* Баннеры со второго — во весь экран: к этому моменту шапка уже
-       прозрачная (data-home-simplified) и лежит поверх кадра. Ненулевой
-       офсет оставлял сверху полосу с низом предыдущего баннера. */
+    /* На главной белого бара нет — шапка прозрачная и `fixed`, поэтому
+       все баннеры, включая первый, занимают весь экран. */
+    --home-offset-first: 0px;
     --home-offset-rest: 0px;
   }
 

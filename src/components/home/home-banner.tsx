@@ -128,8 +128,11 @@ export function HomeBanner({
         // Mobile: полноэкранный баннер. svh, а не dvh — чтобы не дёргалось
         // при появлении/скрытии адресной строки на iOS.
         "h-[100svh] min-h-[100svh]",
+        // Первый баннер теперь такой же, как остальные: белого бара над ним
+        // нет, шапка лежит поверх кадра. Отдельный офсет остался переменной
+        // на случай возврата бара.
         isFirst
-          ? "lg:h-[calc(100dvh-var(--home-offset-first))] lg:min-h-[calc(100dvh-var(--home-offset-first))]"
+          ? "lg:h-[calc(100dvh-var(--home-offset-first))] lg:min-h-[calc(100dvh-var(--home-offset-first))] lg:snap-start lg:snap-always lg:scroll-mt-[var(--home-offset-first)]"
           : "lg:h-[calc(100dvh-var(--home-offset-rest))] lg:min-h-[calc(100dvh-var(--home-offset-rest))] lg:snap-start lg:snap-always lg:scroll-mt-[var(--home-offset-rest)]",
       )}
     >

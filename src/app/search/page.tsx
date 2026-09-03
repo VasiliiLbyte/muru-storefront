@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 
 import { CatalogProductFeed } from "@/components/catalog/catalog-product-feed";
+import { SearchSuggestions } from "@/components/search/search-suggestions";
 import { getCategories, searchProducts } from "@/lib/api/endpoints";
 import { buildPageMetadata } from "@/lib/seo/page-metadata";
 import { catalogHref } from "@/lib/site";
@@ -56,8 +57,9 @@ export default async function SearchPage({ searchParams }: PageProps) {
         <p className="mb-8 text-body text-text-secondary">
           Введите запрос в поле поиска (минимум 2 символа).
         </p>
+
         {topCategories.length > 0 && (
-          <div>
+          <div className="mb-12">
             <p className="mb-3 text-caption font-medium text-text-muted">
               Популярные категории
             </p>
@@ -75,6 +77,8 @@ export default async function SearchPage({ searchParams }: PageProps) {
             </ul>
           </div>
         )}
+
+        <SearchSuggestions />
       </main>
     );
   }

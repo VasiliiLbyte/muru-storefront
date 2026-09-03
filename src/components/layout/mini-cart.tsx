@@ -85,7 +85,11 @@ export function MiniCart({
         </span>
       </SheetTrigger>
 
-      <SheetContent side="right" className="gap-4">
+      <SheetContent
+        side="right"
+        onSwipeClose={() => setOpen(false)}
+        className="gap-4"
+      >
         <SheetHeader>
           <SheetTitle className="font-display text-h2 text-text-heading">
             Корзина

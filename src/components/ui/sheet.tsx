@@ -43,25 +43,102 @@ const sideClasses = {
     "inset-x-0 bottom-0 max-h-[85dvh] w-full max-w-none rounded-t-lg border-t data-[starting-style]:translate-y-full data-[ending-style]:translate-y-full",
 } as const;
 
+/** Насколько нужно протянуть, чтобы шторка закрылась. */
+const SWIPE_CLOSE_RATIO = 0.3;
+const SWIPE_CLOSE_MIN_PX = 56;
+/** Ниже этого угла жест считаем вертикальной прокруткой, а не свайпом. */
+const SWIPE_DIRECTION_LOCK_PX = 12;
+
 function SheetContent({
   className,
   children,
   side = "left",
   showClose = true,
   backdropClassName,
+  onSwipeClose,
   ...props
 }: React.ComponentProps<typeof SheetPrimitive.Popup> & {
   side?: keyof typeof sideClasses;
   showClose?: boolean;
   backdropClassName?: string;
+  /** Закрытие свайпом «наружу»: влево для левой шторки, вправо для правой. */
+  onSwipeClose?: () => void;
 }) {
+  const popupRef = React.useRef<HTMLDivElement>(null);
+  const drag = React.useRef<{
+    startX: number;
+    startY: number;
+    dx: number;
+    axis: "none" | "x" | "y";
+  } | null>(null);
+
+  const swipeable = Boolean(onSwipeClose) && (side === "left" || side === "right");
+  // Наружу = влево для левой шторки, вправо для правой.
+  const outward = side === "left" ? -1 : 1;
+
+  const setOffset = (px: number, animate: boolean) => {
+    const el = popupRef.current;
+    if (!el) return;
+    el.style.transition = animate ? "" : "none";
+    el.style.transform = px === 0 ? "" : `translateX(${px}px)`;
+  };
+
+  const onTouchStart: React.TouchEventHandler<HTMLDivElement> = (e) => {
+    if (!swipeable || e.touches.length !== 1) return;
+    const t = e.touches[0]!;
+    drag.current = { startX: t.clientX, startY: t.clientY, dx: 0, axis: "none" };
+  };
+
+  const onTouchMove: React.TouchEventHandler<HTMLDivElement> = (e) => {
+    const d = drag.current;
+    if (!swipeable || !d || e.touches.length !== 1) return;
+    const t = e.touches[0]!;
+    const dx = t.clientX - d.startX;
+    const dy = t.clientY - d.startY;
+
+    if (d.axis === "none") {
+      if (Math.abs(dx) < SWIPE_DIRECTION_LOCK_PX && Math.abs(dy) < SWIPE_DIRECTION_LOCK_PX) return;
+      // Один раз решаем, это свайп или прокрутка содержимого.
+      d.axis = Math.abs(dx) > Math.abs(dy) ? "x" : "y";
+    }
+    if (d.axis !== "x") return;
+
+    // Тянуть можно только наружу; внутрь шторка не уезжает.
+    const offset = outward < 0 ? Math.min(0, dx) : Math.max(0, dx);
+    d.dx = offset;
+    setOffset(offset, false);
+  };
+
+  const onTouchEnd: React.TouchEventHandler<HTMLDivElement> = () => {
+    const d = drag.current;
+    drag.current = null;
+    if (!swipeable || !d || d.axis !== "x") return;
+
+    const width = popupRef.current?.offsetWidth ?? 0;
+    const threshold = Math.max(SWIPE_CLOSE_MIN_PX, width * SWIPE_CLOSE_RATIO);
+
+    if (Math.abs(d.dx) >= threshold) {
+      // Отдаём анимацию закрытия самой шторке (data-ending-style).
+      setOffset(0, true);
+      onSwipeClose?.();
+    } else {
+      setOffset(0, true);
+    }
+  };
+
   return (
     <SheetPortal>
       <SheetBackdrop className={backdropClassName} />
       <SheetPrimitive.Popup
+        ref={popupRef}
+        onTouchStart={swipeable ? onTouchStart : undefined}
+        onTouchMove={swipeable ? onTouchMove : undefined}
+        onTouchEnd={swipeable ? onTouchEnd : undefined}
+        onTouchCancel={swipeable ? onTouchEnd : undefined}
         className={cn(
           "fixed z-[61] flex flex-col gap-6 overflow-y-auto bg-surface p-6 shadow-(--shadow-overlay) outline-none",
           "border-border transition-transform duration-300 ease-in-out",
+          swipeable && "touch-pan-y",
           sideClasses[side],
           className,
         )}
