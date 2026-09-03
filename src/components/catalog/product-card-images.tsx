@@ -157,7 +157,8 @@ export function ProductCardImages({
     <div
       className={cn(
         "pointer-events-none absolute left-1/2 z-30 flex -translate-x-1/2 gap-1.5",
-        variant === "compact" ? "bottom-3" : "bottom-12",
+        // Полосы «Добавить в корзину» под точками больше нет (CARD-001)
+        "bottom-3",
       )}
       aria-hidden
     >

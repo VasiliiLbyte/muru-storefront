@@ -5,6 +5,7 @@ export {
   IconCard,
   IconDelivery,
   IconFavorites,
+  IconFavoritesFilled,
   IconGift,
   IconReturn,
   IconReview,

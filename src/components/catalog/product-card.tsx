@@ -30,24 +30,33 @@ export function ProductCard({
           href={productHref(product)}
           priority={priority}
         />
-        {showSale && discount > 0 ? (
-          <span className="absolute top-2 left-2 z-10 bg-brand px-2 py-0.5 text-caption font-medium text-text-inverse">
-            −{discount}%
-          </span>
-        ) : showSale ? (
-          <span className="absolute top-2 left-2 z-10 bg-brand px-2 py-0.5 text-caption font-medium text-text-inverse">
-            Распродажа
+
+        {/* Сердце — слева сверху, корзина — справа сверху, скидка — снизу
+            справа (макет `сайт_2.pdf` / CARD-001). Всё без подложек. */}
+        <div className="absolute top-1 left-1 z-20">
+          <FavoriteToggle
+            sku={product.sku}
+            productTitle={product.title}
+            variant="bare"
+          />
+        </div>
+
+        <div className="absolute top-1 right-1 z-20">
+          <AddToCartButton
+            sku={product.sku}
+            productTitle={product.title}
+            imageUrl={product.images[0]?.url}
+            variant="icon"
+          />
+        </div>
+
+        {showSale ? (
+          <span className="absolute right-0 bottom-0 z-10 bg-brand px-2 py-1 text-caption font-medium text-text-inverse">
+            {discount > 0 ? `−${discount}%` : "Распродажа"}
           </span>
         ) : null}
-        <div className="absolute top-2 right-2 z-10">
-          <FavoriteToggle sku={product.sku} productTitle={product.title} />
-        </div>
-        <AddToCartButton
-          sku={product.sku}
-          productTitle={product.title}
-          imageUrl={product.images[0]?.url}
-        />
       </div>
+
       <Link
         href={productHref(product)}
         className="flex min-w-0 flex-col gap-1 focus-visible:ring-1 focus-visible:ring-ring focus-visible:outline-none"
