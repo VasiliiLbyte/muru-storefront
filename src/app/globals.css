@@ -372,8 +372,12 @@
 /* Home: desktop scroll-snap между баннерами и футером (только при data-home-snap). */
 @media (min-width: 1024px) {
   :root {
+    /* Первый баннер живёт ПОД белой шапкой: утилити-строка + бар. */
     --home-offset-first: var(--header-height);
-    --home-offset-rest: calc(var(--header-height) - 2.75rem);
+    /* Баннеры со второго — во весь экран: к этому моменту шапка уже
+       прозрачная (data-home-simplified) и лежит поверх кадра. Ненулевой
+       офсет оставлял сверху полосу с низом предыдущего баннера. */
+    --home-offset-rest: 0px;
   }
 
   html:has([data-home-snap]) {

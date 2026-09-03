@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef, useState } from "react";
+import { useState } from "react";
 
 import { FavoriteToggle } from "@/components/catalog/favorite-toggle";
 import { OneClickBuyDialog } from "@/components/product/one-click-buy-dialog";
@@ -21,7 +21,6 @@ export function ProductPurchase({
   const addItem = useCartStore((s) => s.addItem);
   const showAddedToast = useCartStore((s) => s.showAddedToast);
   const [oneClickOpen, setOneClickOpen] = useState(false);
-  const cartCtaRef = useRef<HTMLDivElement>(null);
   const showSale = product.isOnSale && product.oldPrice;
   const discount = showSale
     ? discountPercent(product.price, product.oldPrice!)
@@ -74,8 +73,11 @@ export function ProductPurchase({
         {product.inStock ? "В наличии" : "Нет в наличии"}
       </p>
 
+      {/* На мобиле кнопок в потоке нет — весь CTA живёт в закреплённой
+          нижней панели (`ProductStickyBuyBar`), чтобы до покупки не надо
+          было прокручивать страницу. */}
       {product.inStock ? (
-        <div className="flex flex-col gap-3 lg:flex-row lg:flex-wrap">
+        <div className="hidden gap-3 lg:flex lg:flex-row lg:flex-wrap">
           <Button
             type="button"
             variant="outline"
@@ -85,23 +87,21 @@ export function ProductPurchase({
           >
             Купить в 1 клик
           </Button>
-          <div ref={cartCtaRef} className="w-full lg:w-auto">
-            <Button
-              type="button"
-              size="lg"
-              className="min-h-12 w-full bg-brand px-6 text-body text-text-inverse hover:bg-brand-hover lg:h-11 lg:w-auto"
-              onClick={() => {
-                addItem(product.sku);
-                showAddedToast({
-                  sku: product.sku,
-                  title: product.title,
-                  imageUrl: product.images[0]?.url,
-                });
-              }}
-            >
-              В корзину
-            </Button>
-          </div>
+          <Button
+            type="button"
+            size="lg"
+            className="min-h-12 w-full bg-brand px-6 text-body text-text-inverse hover:bg-brand-hover lg:h-11 lg:w-auto"
+            onClick={() => {
+              addItem(product.sku);
+              showAddedToast({
+                sku: product.sku,
+                title: product.title,
+                imageUrl: product.images[0]?.url,
+              });
+            }}
+          >
+            В корзину
+          </Button>
         </div>
       ) : null}
 
@@ -112,7 +112,10 @@ export function ProductPurchase({
             open={oneClickOpen}
             onOpenChange={setOneClickOpen}
           />
-          <ProductStickyBuyBar product={product} cartCtaRef={cartCtaRef} />
+          <ProductStickyBuyBar
+            product={product}
+            onOneClick={() => setOneClickOpen(true)}
+          />
         </>
       ) : null}
     </div>
