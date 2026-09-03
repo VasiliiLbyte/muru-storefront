@@ -302,6 +302,73 @@
   }
 }
 
+/* ---------------------------------------------------------------------------
+   Десктопная главная: шапка упрощается после первого баннера
+   (макет `сайт_2.pdf` — «при прокручивании упрощается»).
+
+   Признак ставит `HomeHeaderSentinel`. Высоту коробки шапки НЕ меняем:
+   она в потоке, а страница под scroll-snap — любое изменение высоты даёт
+   скачок скролла. Меняются только покраска и видимость содержимого.
+   Утилити-строку не прячем по той же причине (она в потоке и к этому
+   моменту всё равно уехала за верх экрана).
+   --------------------------------------------------------------------------- */
+@media (min-width: 1024px) {
+  html[data-home-simplified] [data-app-header] {
+    background: transparent;
+    backdrop-filter: none;
+  }
+
+  html[data-home-simplified] [data-app-header]::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    background: linear-gradient(to bottom, rgb(0 0 0 / 0.28), rgb(0 0 0 / 0));
+    pointer-events: none;
+  }
+
+  /* Остаются только бургер, лого и иконки */
+  html[data-home-simplified] [data-header-catalog],
+  html[data-home-simplified] [data-header-search] {
+    display: none;
+  }
+
+  html[data-home-simplified] [data-header-burger] {
+    display: block;
+  }
+
+  /* Бургер и иконка поиска живут под `lg:hidden` — в упрощённом
+     состоянии они нужны и на десктопе (в макете шапка = бургер + лого + 4 иконки). */
+  html[data-home-simplified] [data-menu-trigger],
+  html[data-home-simplified] [data-search-trigger] {
+    display: inline-flex;
+  }
+
+  html[data-home-simplified] [data-header-burger] button {
+    color: var(--color-text-inverse);
+    filter: drop-shadow(0 1px 6px rgb(0 0 0 / 0.35));
+  }
+
+  html[data-home-simplified] [data-app-header] img[alt="muru"] {
+    filter: brightness(0) invert(1) drop-shadow(0 1px 6px rgb(0 0 0 / 0.35));
+  }
+
+  html[data-home-simplified] [data-header-actions] a,
+  html[data-home-simplified] [data-header-actions] button {
+    color: var(--color-text-inverse);
+    filter: drop-shadow(0 1px 6px rgb(0 0 0 / 0.35));
+  }
+
+  /* Бургер и лого — к левому краю, иконки — к правому */
+  html[data-home-simplified] [data-header-bar] {
+    justify-content: flex-start;
+  }
+
+  html[data-home-simplified] [data-header-actions] {
+    margin-left: auto;
+  }
+}
+
 /* Home: desktop scroll-snap между баннерами и футером (только при data-home-snap). */
 @media (min-width: 1024px) {
   :root {

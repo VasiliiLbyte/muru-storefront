@@ -71,6 +71,7 @@ export function MobileMenu({ contacts }: { contacts: SiteContacts }) {
     <Sheet open={open} onOpenChange={setOpen}>
       <SheetTrigger
         aria-label="Открыть меню"
+        data-menu-trigger
         className="inline-flex items-center justify-center text-text-secondary transition-colors hover:text-text-heading focus-visible:ring-1 focus-visible:ring-ring focus-visible:outline-none lg:hidden"
         style={{ width: 44, height: 44, minWidth: 44, minHeight: 44 }}
       >

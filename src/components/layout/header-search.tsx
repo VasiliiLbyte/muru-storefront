@@ -597,6 +597,7 @@ export function HeaderMobileSearch() {
       <button
         type="button"
         aria-label="Открыть поиск"
+        data-search-trigger
         className="inline-flex shrink-0 items-center justify-center text-text-secondary transition-colors hover:text-text-heading focus-visible:ring-1 focus-visible:ring-ring focus-visible:outline-none lg:hidden"
         style={{ width: 44, height: 44, minWidth: 44, minHeight: 44 }}
         onClick={() => setOpen(true)}
