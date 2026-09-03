@@ -571,7 +571,7 @@ export function HeaderSearch({ className }: { className?: string }) {
   const desktopId = useId();
 
   return (
-    <div className={cn("hidden lg:block", className)}>
+    <div data-header-search className={cn("hidden lg:block", className)}>
       <SearchFormWithSuggest id={desktopId} />
     </div>
   );

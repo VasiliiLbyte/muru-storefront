@@ -60,12 +60,13 @@ export function HeaderActions({ className }: { className?: string }) {
   const favorites = useFavoriteCount();
 
   return (
-    <div className={cn("flex items-center gap-0.5 sm:gap-1 lg:items-center lg:gap-5 lg:pr-0", className)}>
-      {/* Mobile: search → account → favorites → cart (M8-8) */}
+    <div
+      data-header-actions
+      className={cn("flex items-center gap-0.5 sm:gap-1 lg:items-center lg:gap-5 lg:pr-0", className)}
+    >
+      {/* Порядок по макету `сайт_2.pdf`: поиск → избранное → ЛК → корзина.
+          Одинаков на мобиле и десктопе (заменяет порядок из M8-8). */}
       <HeaderMobileSearch />
-      <HeaderAccount />
-      <AuthSuccessToast />
-      <AddedToCartToast />
       <HeaderActionLink
         href="/personal/favorite/"
         label="Избранное"
@@ -73,7 +74,10 @@ export function HeaderActions({ className }: { className?: string }) {
       >
         <IconFavorites className="size-5" />
       </HeaderActionLink>
+      <HeaderAccount />
       <MiniCart />
+      <AuthSuccessToast />
+      <AddedToCartToast />
     </div>
   );
 }

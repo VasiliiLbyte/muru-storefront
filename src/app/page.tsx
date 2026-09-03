@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import type { ReactNode } from "react";
 
 import { HomeBanner } from "@/components/home/home-banner";
-import { HomeProductRail } from "@/components/home/home-product-rail";
+import { HomeCategoryTiles } from "@/components/home/home-category-tiles";
 import { getHomeBanners } from "@/lib/api/endpoints";
 import { FALLBACK_ABOUT_BANNER_ID } from "@/lib/content/home-banners";
 
@@ -29,9 +29,9 @@ export default async function Home() {
     (a, b) => a.sortOrder - b.sortOrder,
   );
 
+  // Плитка категорий идёт сразу после баннера «Новинки» (HOME-001).
   const novinkiIndex = banners.findIndex((b) => /новинк/i.test(b.title));
-  const railAfterIndex = novinkiIndex >= 0 ? novinkiIndex : 0;
-  const railHeadingSrOnly = novinkiIndex >= 0;
+  const tilesAfterIndex = novinkiIndex >= 0 ? novinkiIndex : 0;
 
   const nodes: ReactNode[] = [];
   banners.forEach((banner, index) => {
@@ -52,19 +52,14 @@ export default async function Home() {
         isFirst={isFirst}
       />,
     );
-    if (index === railAfterIndex) {
-      nodes.push(
-        <HomeProductRail
-          key="home-novinki-rail"
-          headingSrOnly={railHeadingSrOnly}
-        />,
-      );
+    if (index === tilesAfterIndex) {
+      nodes.push(<HomeCategoryTiles key="home-category-tiles" />);
     }
   });
 
-  // No banners — still show rail if API products exist
+  // Нет баннеров — плитка категорий всё равно даёт вход в каталог
   if (banners.length === 0) {
-    nodes.push(<HomeProductRail key="home-novinki-rail" />);
+    nodes.push(<HomeCategoryTiles key="home-category-tiles" />);
   }
 
   return (

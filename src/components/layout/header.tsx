@@ -27,7 +27,7 @@ export function Header({ contacts }: { contacts: SiteContacts }) {
     <>
       <FavoritesSessionBridge />
       {/* Utility-строка — desktop, уезжает при скролле */}
-      <div className="home-snap-origin hidden lg:block">
+      <div data-header-utility className="home-snap-origin hidden lg:block">
         <div className={cn(headerGridClass, "flex h-11 items-center justify-between")}>
           <HeaderTopNav />
           <a
@@ -40,16 +40,24 @@ export function Header({ contacts }: { contacts: SiteContacts }) {
       </div>
 
       {/* Нижний бар — sticky на всю страницу (containing block = body) */}
-      <header className="sticky top-0 z-40 bg-background/95 pt-safe-header backdrop-blur supports-[backdrop-filter]:bg-background/80">
+      <header
+        data-app-header
+        className="sticky top-0 z-40 bg-background/95 pt-safe-header backdrop-blur supports-[backdrop-filter]:bg-background/80"
+      >
         <div className={headerGridClass}>
-          <div className="flex h-14 items-center gap-2 lg:min-h-[calc(var(--header-height)-2.75rem)] lg:gap-4 lg:py-2">
-            <div className="lg:hidden">
+          <div
+            data-header-bar
+            className="flex h-14 items-center gap-2 lg:min-h-[calc(var(--header-height)-2.75rem)] lg:gap-4 lg:py-2"
+          >
+            <div data-header-burger className="lg:hidden">
               <MobileMenu contacts={contacts} />
             </div>
 
-            <Logo className="min-w-0 max-w-[4.5rem] shrink lg:max-w-none lg:shrink-0 [&_img]:h-5 [&_img]:w-auto lg:[&_img]:h-10" />
+            <Logo
+              className="min-w-0 max-w-[4.5rem] shrink lg:max-w-none lg:shrink-0 [&_img]:h-5 [&_img]:w-auto lg:[&_img]:h-10"
+            />
 
-            <div className="hidden lg:block">
+            <div data-header-catalog className="hidden lg:block">
               <Suspense fallback={<CatalogMenuFallback />}>
                 <CatalogMenu />
               </Suspense>

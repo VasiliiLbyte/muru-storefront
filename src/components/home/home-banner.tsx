@@ -20,14 +20,16 @@ export type HomeBannerProps = {
   as?: "h1" | "h2";
 };
 
-function BannerCopy({
+/**
+ * Десктопная плашка с текстом. На мобиле плашки нет (см. `MobileBannerCopy`).
+ */
+function DesktopBannerCopy({
   title,
   subtitle,
   href,
   ctaLabel,
   HeadingTag,
   isScrim,
-  variant,
 }: {
   title: string;
   subtitle?: string;
@@ -35,35 +37,18 @@ function BannerCopy({
   ctaLabel: string;
   HeadingTag: "h1" | "h2";
   isScrim: boolean;
-  variant: "mobile" | "desktop";
 }) {
-  const isMobile = variant === "mobile";
   return (
     <div
       className={cn(
-        "mx-auto flex w-full flex-col items-center gap-1 text-center",
-        isMobile
-          ? // parity: muru.ru mobile .mp-front-wrapper — white, full width
-            // N1 center + O1 air above title (media ↔ copy)
-            "justify-center bg-white px-6 pt-12 pb-8"
-          : cn(
-              "max-w-[568px] px-10 py-14",
-              isScrim
-                ? "bg-black/35 backdrop-blur-[1px]"
-                : glassPlaqueClass,
-            ),
+        "mx-auto flex w-full max-w-[568px] flex-col items-center gap-1 px-10 py-14 text-center",
+        isScrim ? "bg-black/35 backdrop-blur-[1px]" : glassPlaqueClass,
       )}
     >
       <HeadingTag
         className={cn(
-          "font-display font-light tracking-normal uppercase",
-          isMobile
-            ? // parity: muru.ru mobile h2.font_36 — ~26px / 300 / uppercase
-              "text-[26px] leading-[34px] text-text-heading"
-            : cn(
-                "text-[36px] leading-[44px]",
-                isScrim ? "text-text-inverse" : "text-text-heading",
-              ),
+          "font-display text-[36px] leading-[44px] font-light tracking-normal uppercase",
+          isScrim ? "text-text-inverse" : "text-text-heading",
         )}
       >
         {title}
@@ -72,11 +57,7 @@ function BannerCopy({
         <p
           className={cn(
             "text-[16px] leading-5 font-light",
-            isMobile
-              ? "text-pretty text-text-secondary"
-              : isScrim
-                ? "text-text-inverse/90"
-                : "text-text-secondary",
+            isScrim ? "text-text-inverse/90" : "text-text-secondary",
           )}
         >
           {subtitle}
@@ -84,11 +65,7 @@ function BannerCopy({
       ) : null}
       <Button
         render={<Link href={href} />}
-        className={cn(
-          "mt-4 h-[45px] text-[14px] leading-[17px] font-light",
-          // parity: muru.ru mobile a.btn.btn-lg — ~141×45 / 14px
-          isMobile ? "min-w-[141px] px-8" : "px-8",
-        )}
+        className="mt-4 h-[45px] px-8 text-[14px] leading-[17px] font-light"
       >
         {ctaLabel}
       </Button>
@@ -97,8 +74,35 @@ function BannerCopy({
 }
 
 /**
+ * Мобильный текст баннера — поверх фото, белым, без плашки и без кнопки
+ * (макет `сайт_2.pdf`, 2026-08-28). Тап по всему баннеру ведёт по `href`.
+ */
+function MobileBannerCopy({
+  title,
+  subtitle,
+  HeadingTag,
+}: {
+  title: string;
+  subtitle?: string;
+  HeadingTag: "h1" | "h2";
+}) {
+  return (
+    <div className="flex w-full flex-col items-center gap-2 px-8 text-center [text-shadow:0_1px_14px_rgba(0,0,0,0.38)]">
+      <HeadingTag className="font-display text-[26px] leading-[34px] font-light tracking-[0.06em] text-text-inverse uppercase">
+        {title}
+      </HeadingTag>
+      {subtitle ? (
+        <p className="text-pretty text-[16px] leading-[22px] font-light text-text-inverse">
+          {subtitle}
+        </p>
+      ) : null}
+    </div>
+  );
+}
+
+/**
  * Full-bleed баннер главной.
- * Mobile (&lt;lg): stacked photo (4:3 contain + white) + text below.
+ * Mobile (&lt;lg): фото на весь экран (`100svh`, object-cover) + текст поверх, без плашки.
  * Desktop (≥lg): overlay card + scroll-snap (object-cover full-bleed).
  */
 export function HomeBanner({
@@ -120,21 +124,16 @@ export function HomeBanner({
   return (
     <section
       className={cn(
-        "relative isolate overflow-hidden",
-        "flex flex-col",
-        "lg:block",
+        "relative isolate block overflow-hidden",
+        // Mobile: полноэкранный баннер. svh, а не dvh — чтобы не дёргалось
+        // при появлении/скрытии адресной строки на iOS.
+        "h-[100svh] min-h-[100svh]",
         isFirst
           ? "lg:h-[calc(100dvh-var(--home-offset-first))] lg:min-h-[calc(100dvh-var(--home-offset-first))]"
           : "lg:h-[calc(100dvh-var(--home-offset-rest))] lg:min-h-[calc(100dvh-var(--home-offset-rest))] lg:snap-start lg:snap-always lg:scroll-mt-[var(--home-offset-rest)]",
       )}
     >
-      {/* Shared media: 4:3 contain on mobile, fill section on desktop */}
-      <div
-        className={cn(
-          "relative aspect-[4/3] w-full shrink-0 bg-white",
-          "lg:absolute lg:inset-0 lg:aspect-auto lg:h-full lg:bg-transparent",
-        )}
-      >
+      <div className="absolute inset-0 bg-white lg:bg-transparent">
         <HomeBannerMedia
           imageUrl={src}
           alt={alt}
@@ -143,29 +142,37 @@ export function HomeBanner({
         />
       </div>
 
-      {/* Mobile text under photo */}
-      <div className="relative z-10 w-full lg:hidden">
-        <BannerCopy
+      {/* Скрим только на мобиле: белый текст поверх произвольного фото из CMS */}
+      <div
+        aria-hidden
+        className="absolute inset-0 bg-linear-to-b from-black/25 via-black/5 to-black/35 lg:hidden"
+      />
+
+      {/* Mobile: текст по центру экрана поверх фото */}
+      <div className="absolute inset-0 z-10 flex items-center justify-center lg:hidden">
+        <MobileBannerCopy
           title={title}
           subtitle={subtitle}
-          href={href}
-          ctaLabel={ctaLabel}
           HeadingTag={HeadingTag}
-          isScrim={isScrim}
-          variant="mobile"
         />
       </div>
 
+      {/* Кнопки на мобиле нет — кликабелен весь баннер */}
+      <Link
+        href={href}
+        aria-label={title}
+        className="absolute inset-0 z-20 lg:hidden"
+      />
+
       {/* Desktop overlay card centered in viewport slide */}
       <div className="relative z-10 mx-auto hidden h-full w-full max-w-[1564px] items-center px-4 py-16 sm:px-8 lg:flex">
-        <BannerCopy
+        <DesktopBannerCopy
           title={title}
           subtitle={subtitle}
           href={href}
           ctaLabel={ctaLabel}
           HeadingTag={HeadingTag}
           isScrim={isScrim}
-          variant="desktop"
         />
       </div>
     </section>
