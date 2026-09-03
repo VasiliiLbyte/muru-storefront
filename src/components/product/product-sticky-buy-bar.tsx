@@ -2,8 +2,8 @@
 
 import { useEffect, useState, type RefObject } from "react";
 
+import { FavoriteToggle } from "@/components/catalog/favorite-toggle";
 import { Button } from "@/components/ui/button";
-import { formatPrice } from "@/lib/format";
 import type { Product } from "@/lib/schemas";
 import { useCartStore } from "@/stores/cart-store";
 import { cn } from "@/lib/utils";
@@ -80,21 +80,13 @@ export function ProductStickyBuyBar({
       )}
       aria-hidden={!visible}
     >
-      <div className="mx-auto flex max-w-[1564px] items-center gap-3 px-4 py-3">
-        <span
-          className={cn(
-            "min-w-0 flex-1 truncate text-body font-medium",
-            product.isOnSale && product.oldPrice
-              ? "text-brand"
-              : "text-text-heading",
-          )}
-        >
-          {formatPrice(product.price, product.currency)}
-        </span>
+      {/* Кнопка во всю ширину + сердце рядом (стилистика kuchenland).
+          Цена уже видна выше по странице, здесь её не дублируем. */}
+      <div className="mx-auto flex max-w-[1564px] items-center gap-2 px-4 py-3">
         <Button
           type="button"
           size="lg"
-          className="min-h-12 shrink-0 bg-brand px-6 text-body text-text-inverse hover:bg-brand-hover"
+          className="min-h-12 flex-1 bg-brand px-6 text-body text-text-inverse hover:bg-brand-hover"
           tabIndex={visible ? 0 : -1}
           onClick={() => {
             addItem(product.sku);
@@ -107,6 +99,11 @@ export function ProductStickyBuyBar({
         >
           В корзину
         </Button>
+        <FavoriteToggle
+          sku={product.sku}
+          productTitle={product.title}
+          className="size-12 shrink-0 border border-border bg-transparent backdrop-blur-none"
+        />
       </div>
     </div>
   );

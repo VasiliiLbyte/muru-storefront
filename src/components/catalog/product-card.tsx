@@ -70,7 +70,9 @@ export function ProductCard({
         <div className="flex flex-wrap items-baseline gap-2">
           <span
             className={cn(
-              "text-body font-medium",
+              // См. product-purchase: размерный `text-body` терялся в cn()
+              // рядом с цветовым `text-*`.
+              "text-[length:var(--text-body)] font-medium",
               showSale ? "text-brand" : "text-text-heading",
             )}
           >

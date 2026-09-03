@@ -29,42 +29,45 @@ export function ProductPurchase({
 
   return (
     <div className={cn("flex flex-col gap-6", className)}>
-      <div className="flex items-start justify-between gap-4">
-        <h1 className="font-display text-display text-text-heading">
-          {product.seoH1}
-        </h1>
-        <FavoriteToggle
-          sku={product.sku}
-          productTitle={product.title}
-          className="shrink-0"
-        />
-      </div>
+      {/* На мобиле цена идёт НАД названием и крупнее его (стилистика
+          kuchenland). В DOM `<h1>` остаётся первым — порядок только
+          визуальный, через `order`. */}
+      <div className="flex flex-col gap-1 lg:gap-6">
+        <div className="flex items-start justify-between gap-4 max-lg:order-2">
+          <h1 className="font-display text-display text-text-heading max-lg:text-[17px] max-lg:leading-[24px] max-lg:font-normal">
+            {product.seoH1}
+          </h1>
+          {/* На мобиле сердце живёт в липкой нижней панели */}
+          <FavoriteToggle
+            sku={product.sku}
+            productTitle={product.title}
+            className="shrink-0 max-lg:hidden"
+          />
+        </div>
 
-      <div className="flex flex-wrap items-baseline gap-3">
-        <span
-          className={cn(
-            "text-h2 font-medium",
-            showSale ? "text-brand" : "text-text-heading",
-          )}
-        >
-          {formatPrice(product.price, product.currency)}
-        </span>
-        {showSale ? (
-          <>
-            <span className="text-body text-text-secondary line-through">
-              {formatPrice(product.oldPrice!, product.currency)}
-            </span>
-            {discount > 0 ? (
-              <span className="bg-brand px-2 py-0.5 text-caption font-medium text-text-inverse">
-                −{discount}%
-              </span>
-            ) : (
-              <span className="bg-brand px-2 py-0.5 text-caption font-medium text-text-inverse">
-                Распродажа
-              </span>
+        <div className="flex flex-wrap items-baseline gap-3 max-lg:order-1">
+          <span
+            className={cn(
+              // `text-[length:…]`, а не `text-h2`: tailwind-merge не отличает
+              // размерный `text-h2` от цветового `text-text-heading` и молча
+              // выбрасывал первый — цена на десктопе съезжала на 16px.
+              "text-[length:var(--text-h2)] font-medium max-lg:text-[28px] max-lg:leading-[34px]",
+              showSale ? "text-brand" : "text-text-heading",
             )}
-          </>
-        ) : null}
+          >
+            {formatPrice(product.price, product.currency)}
+          </span>
+          {showSale ? (
+            <>
+              <span className="text-body text-text-secondary line-through">
+                {formatPrice(product.oldPrice!, product.currency)}
+              </span>
+              <span className="bg-brand px-2 py-0.5 text-caption font-medium text-text-inverse">
+                {discount > 0 ? `−${discount}%` : "Распродажа"}
+              </span>
+            </>
+          ) : null}
+        </div>
       </div>
 
       <p className="text-small text-text-secondary">

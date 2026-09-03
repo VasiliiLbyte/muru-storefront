@@ -32,8 +32,9 @@ export function ProductGallery({
 
   return (
     <div className="flex flex-col gap-4">
-      {/* Mobile: horizontal snap carousel */}
-      <div className="relative lg:hidden">
+      {/* Mobile: галерея во всю ширину экрана + сегментный индикатор поверх
+          нижнего края кадра (стилистика kuchenland). */}
+      <div className="relative -mx-4 sm:-mx-8 lg:hidden">
         <div
           ref={scrollRef}
           onScroll={updateActiveFromScroll}
@@ -43,7 +44,7 @@ export function ProductGallery({
           {images.map((image, index) => (
             <div
               key={`${image.url}-${index}`}
-              className="relative aspect-square min-w-full shrink-0 snap-center overflow-hidden bg-surface"
+              className="relative aspect-[3/4] min-w-full shrink-0 snap-center overflow-hidden bg-surface"
             >
               <Image
                 src={image.url}
@@ -60,23 +61,20 @@ export function ProductGallery({
         </div>
         {images.length > 1 ? (
           <div
-            className="mt-3 flex items-center justify-center gap-2"
+            className="pointer-events-none absolute inset-x-0 bottom-4 flex items-center justify-center gap-1.5"
             aria-hidden
           >
-            <div className="flex gap-1.5">
-              {images.map((image, index) => (
-                <span
-                  key={`dot-${image.url}-${index}`}
-                  className={cn(
-                    "size-1.5 rounded-full transition-colors",
-                    index === activeIndex ? "bg-brand" : "bg-brand/35",
-                  )}
-                />
-              ))}
-            </div>
-            <span className="text-caption text-text-secondary">
-              {activeIndex + 1}/{images.length}
-            </span>
+            {images.map((image, index) => (
+              <span
+                key={`seg-${image.url}-${index}`}
+                className={cn(
+                  "h-0.5 rounded-full transition-all duration-200 motion-reduce:transition-none",
+                  index === activeIndex
+                    ? "w-6 bg-text-heading"
+                    : "w-1.5 bg-text-heading/35",
+                )}
+              />
+            ))}
           </div>
         ) : null}
       </div>
