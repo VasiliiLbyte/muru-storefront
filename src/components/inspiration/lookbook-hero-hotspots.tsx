@@ -187,19 +187,25 @@ export function LookbookHeroHotspots({
                 if (isFineHover) scheduleClose();
               }}
               className={cn(
-                "relative flex size-7 items-center justify-center rounded-full border border-white/70 bg-white/25 text-lg leading-none text-white shadow-(--shadow-overlay) backdrop-blur-sm max-md:size-6 max-md:border-white/50 max-md:bg-white/10",
+                "relative flex size-7 items-center justify-center rounded-full border border-white/70 bg-white/25 text-lg leading-none text-white shadow-(--shadow-overlay) backdrop-blur-sm",
                 "transition-transform motion-reduce:transition-none",
                 "hover:scale-105 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring motion-reduce:hover:scale-100",
-                isActive && "bg-white/40 ring-1 ring-white/80 max-md:bg-white/25",
+                isActive && "bg-white/40 ring-1 ring-white/80",
+                // Мобайл: спокойная точка 10px вместо «+» с пульсацией —
+                // маркеров на кадре бывает под десяток, они перекрывали фото.
+                // Зона нажатия остаётся 44×44 через прозрачный ::before.
+                "max-md:size-2.5 max-md:border-black/15 max-md:bg-white/90 max-md:shadow-none max-md:backdrop-blur-none",
+                "max-md:before:absolute max-md:before:-inset-[17px] max-md:before:content-['']",
+                isActive && "max-md:border-white/80 max-md:bg-brand",
               )}
             >
               {!isActive ? (
                 <span
                   aria-hidden
-                  className="absolute inset-0 rounded-full bg-white/25 animate-ping motion-reduce:animate-none max-md:bg-white/10"
+                  className="absolute inset-0 rounded-full bg-white/25 animate-ping motion-reduce:animate-none max-md:hidden"
                 />
               ) : null}
-              <span className="relative">+</span>
+              <span className="relative max-md:hidden">+</span>
             </button>
           </div>
         );
