@@ -35,6 +35,7 @@ export function About() {
           </p>
           <div>
             <Button
+              nativeButton={false}
               render={<Link href="/company/" />}
               variant="outline"
               className="mt-2 h-[45px] px-8"

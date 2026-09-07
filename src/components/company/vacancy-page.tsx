@@ -25,6 +25,7 @@ function ResumeMailtoButton({
 
   return (
     <Button
+      nativeButton={false}
       render={<Link href={`mailto:${trimmed}`} />}
       size="sm"
       className={cn(RESUME_BTN_CLASS, className)}
@@ -109,7 +110,7 @@ function VacancyHrBlock({
   const name = hr.contactName.trim();
 
   return (
-    <section className="flex flex-col gap-6 border-y border-[#E6E8EB] py-8">
+    <section className="flex flex-col gap-6 border-b border-[#E6E8EB] py-8">
       {hr.heading ? (
         <h2 className="font-display text-h2 font-light text-text-heading uppercase">
           {hr.heading}

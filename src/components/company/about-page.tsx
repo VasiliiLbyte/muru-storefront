@@ -174,6 +174,7 @@ function CompanyPromoSection({
                   </p>
                 </div>
                 <Button
+                  nativeButton={false}
                   render={<Link href={href} />}
                   className={cn("self-start rounded-none font-medium hover:bg-brand-hover", brandButtonSize)}
                 >
