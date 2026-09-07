@@ -41,7 +41,7 @@ export function Breadcrumbs({
             <li key={item.href} className="flex shrink-0 items-center gap-1">
               {index > 0 ? (
                 <span aria-hidden="true" className="text-text-muted">
-                  /
+                  |
                 </span>
               ) : null}
               {isLast ? (

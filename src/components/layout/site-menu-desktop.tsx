@@ -34,7 +34,7 @@ export function SiteMenuDesktop({
           <Link
             href="/new/"
             onClick={onNavigate}
-            className="relative py-1.5 ps-7 text-[13px] leading-5 tracking-[0.08em] text-text-primary uppercase transition-colors hover:text-brand"
+            className="py-1.5 text-[13px] leading-5 tracking-[0.08em] text-text-primary uppercase transition-colors hover:text-brand"
           >
             Новинки
           </Link>
@@ -49,22 +49,14 @@ export function SiteMenuDesktop({
                 onMouseEnter={() => setActiveSlug(node.slug)}
                 onFocus={() => setActiveSlug(node.slug)}
                 className={cn(
-                  // ps-7 — постоянное место под стрелку слева, чтобы названия
-                  // не сдвигались, когда активный раздел меняется
-                  "relative flex items-center py-1.5 ps-7 text-[13px] leading-5 tracking-[0.08em] uppercase transition-colors",
+                  "flex items-center justify-between gap-3 py-1.5 text-[13px] leading-5 tracking-[0.08em] uppercase transition-colors",
                   isActive ? "text-brand" : "text-text-primary hover:text-brand",
                 )}
               >
-                <ArrowRight
-                  aria-hidden
-                  className={cn(
-                    "absolute start-0 size-4 shrink-0 transition-opacity",
-                    isActive && node.children?.length
-                      ? "opacity-100"
-                      : "opacity-0",
-                  )}
-                />
                 {node.title}
+                {isActive && node.children?.length ? (
+                  <ArrowRight className="size-4 shrink-0" aria-hidden />
+                ) : null}
               </Link>
             );
           })}

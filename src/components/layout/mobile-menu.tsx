@@ -51,8 +51,10 @@ export function MobileMenu({
       >
         <SheetHeader>
           <SheetTitle className="sr-only">Меню</SheetTitle>
-          <div onClick={close}>
-            <Logo className="[&_img]:h-6 [&_img]:w-auto" />
+          {/* На десктопе логотип встаёт ровно там же, где в шапке (80×28 при
+              padding панели 40px): +40px слева, −22px сверху. */}
+          <div onClick={close} className="lg:-mt-[22px] lg:ml-10">
+            <Logo className="[&_img]:h-5 [&_img]:w-auto lg:[&_img]:h-6" />
           </div>
         </SheetHeader>
 
