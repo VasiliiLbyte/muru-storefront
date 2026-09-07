@@ -11,7 +11,7 @@ import type { BreadcrumbItem } from "@/lib/seo/jsonld";
 import { cn } from "@/lib/utils";
 
 const RESUME_BTN_CLASS =
-  "h-11 self-start rounded-none px-8 text-base font-medium hover:bg-brand-hover lg:h-6 lg:text-[13px]";
+  "h-11 self-start rounded-none px-8 text-base font-medium hover:bg-brand-hover lg:h-8 lg:text-[14px]";
 
 function ResumeMailtoButton({
   email,
