@@ -19,7 +19,8 @@
   --color-brand-hover: #8ba064;
 
   /* — Нейтральная шкала / поверхности — */
-  --color-background: #fcfbfb;
+  /* Брендовый фон: единый по всему сайту (был молочный #fcfbfb) */
+  --color-background: #f5f0e0;
   --color-surface: #f5f0e0;
   --color-line: #eaeaea;
 
@@ -156,7 +157,7 @@
   --home-offset-first: calc(3.75rem + env(safe-area-inset-top, 0px));
   --home-offset-rest: calc(3.75rem + env(safe-area-inset-top, 0px));
 
-  --background: #fcfbfb;
+  --background: #f5f0e0;
   --foreground: var(--color-text-primary);
 
   --card: var(--color-background);
@@ -212,18 +213,19 @@
 }
 
 /* ---------------------------------------------------------------------------
-   Хром главной страницы (макет `сайт_2.pdf`)
+   Хром главной страницы
 
-   На главной шапка одинакова на всех баннерах и на всех вьюпортах:
-   прозрачный оверлей поверх кадра — бургер, лого и иконки. Белого бара с
-   навигацией, кнопкой «Каталог» и полем поиска на главной нет: всё это
-   живёт в бургер-меню. Признак страницы — `main[data-home-snap]`, тем же
-   приёмом `:has()`, что и scroll-snap ниже.
+   Шапка одинакова везде по составу (бургер, логотип, иконки). Отличается
+   только покраска: на обычных страницах белый фон с зелёным логотипом,
+   на главной — прозрачный оверлей поверх кадра с белым логотипом.
+   При наведении на шапку главной она принимает тот же белый вид.
 
-   Шапка именно `fixed`, а не `sticky`: она не должна занимать место в
-   потоке, иначе первый баннер не начнётся от верха вьюпорта.
+   Признак страницы — `main[data-home-snap]`, тем же приёмом `:has()`,
+   что и scroll-snap ниже. `:where()` держит специфичность низкой, чтобы
+   утилитарные классы в разметке продолжали перебивать эти правила.
    --------------------------------------------------------------------------- */
 body:has(main[data-home-snap]) [data-app-header] {
+  /* fixed, а не sticky: баннер должен начинаться от верха вьюпорта */
   position: fixed;
   inset-inline: 0;
   top: 0;
@@ -242,25 +244,7 @@ body:has(main[data-home-snap]) [data-app-header]::before {
   z-index: -1;
   background: linear-gradient(to bottom, rgb(0 0 0 / 0.32), rgb(0 0 0 / 0));
   pointer-events: none;
-}
-
-/* Строка с навигацией и телефоном, кнопка «Каталог» и поле поиска —
-   не на главной. Навигация доступна из бургера. */
-body:has(main[data-home-snap]) [data-header-utility],
-body:has(main[data-home-snap]) [data-header-catalog],
-body:has(main[data-home-snap]) [data-header-search] {
-  display: none;
-}
-
-/* Бургер и иконка поиска живут под `lg:hidden` — на главной они нужны
-   и на десктопе. */
-body:has(main[data-home-snap]) [data-header-burger] {
-  display: block;
-}
-
-body:has(main[data-home-snap]) [data-menu-trigger],
-body:has(main[data-home-snap]) [data-search-trigger] {
-  display: inline-flex;
+  transition: opacity 0.2s ease-in-out;
 }
 
 body:has(main[data-home-snap]) [data-header-burger] button,
@@ -270,9 +254,33 @@ body:has(main[data-home-snap]) [data-header-actions] button {
   filter: drop-shadow(0 1px 6px rgb(0 0 0 / 0.35));
 }
 
-/* Лого белым — отдельный ассет не нужен */
+/* Логотип белым — отдельный ассет не нужен */
 body:has(main[data-home-snap]) [data-app-header] img[alt="muru"] {
   filter: brightness(0) invert(1) drop-shadow(0 1px 6px rgb(0 0 0 / 0.35));
+}
+
+/* Наведение на шапку главной → тот же вид, что на остальных страницах.
+   Только там, где указатель реально есть: на тач-устройствах :hover
+   «залипает» после тапа. */
+@media (hover: hover) and (pointer: fine) {
+  body:has(main[data-home-snap]) [data-app-header]:hover {
+    background: #fff;
+  }
+
+  body:has(main[data-home-snap]) [data-app-header]:hover::before {
+    opacity: 0;
+  }
+
+  body:has(main[data-home-snap]) [data-app-header]:hover [data-header-burger] button,
+  body:has(main[data-home-snap]) [data-app-header]:hover [data-header-actions] a,
+  body:has(main[data-home-snap]) [data-app-header]:hover [data-header-actions] button {
+    color: var(--color-text-secondary);
+    filter: none;
+  }
+
+  body:has(main[data-home-snap]) [data-app-header]:hover img[alt="muru"] {
+    filter: none;
+  }
 }
 
 @media (max-width: 1023px) {

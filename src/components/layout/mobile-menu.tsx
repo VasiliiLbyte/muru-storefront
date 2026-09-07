@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import Link from "next/link";
 import { Accordion } from "@base-ui/react/accordion";
 import { ChevronDown, LogOut, Menu } from "lucide-react";
@@ -16,11 +16,7 @@ import {
   SheetTrigger,
 } from "@/components/ui/sheet";
 import { logoutCustomer } from "@/lib/account/logout";
-import { getCategories } from "@/lib/api/endpoints";
-import {
-  categoriesToNavTree,
-  type CatalogNavNode,
-} from "@/lib/catalog/catalog-nav";
+import type { CatalogNavNode } from "@/lib/catalog/catalog-nav";
 import { toSentenceCaseRu } from "@/lib/content/breadcrumbs";
 import { catalogHref, mainNav, type SiteContacts } from "@/lib/site";
 import { useCartCount } from "@/stores/cart-store";
@@ -32,34 +28,26 @@ import {
 import { useFavoriteCount } from "@/lib/favorites/favorites-facade";
 
 import { Logo } from "./logo";
+import { SiteMenuDesktop } from "./site-menu-desktop";
 
 /**
  * Мобильное меню через Sheet (boost shadcn/base-ui Dialog).
  * Каталог — Accordion из API / MSW.
  */
-export function MobileMenu({ contacts }: { contacts: SiteContacts }) {
+export function MobileMenu({
+  contacts,
+  catalogTree,
+}: {
+  contacts: SiteContacts;
+  catalogTree: CatalogNavNode[];
+}) {
   const [open, setOpen] = useState(false);
-  const [catalogTree, setCatalogTree] = useState<CatalogNavNode[]>([]);
   const close = () => setOpen(false);
   const status = useCustomerSessionStatus();
   const customer = useCustomerSessionCustomer();
   const favorites = useFavoriteCount();
   const cartCount = useCartCount();
   const firstName = customerFirstName(customer);
-
-  useEffect(() => {
-    let cancelled = false;
-    getCategories()
-      .then((cats) => {
-        if (!cancelled) setCatalogTree(categoriesToNavTree(cats));
-      })
-      .catch((err) => {
-        console.warn("[mobile-menu] categories fetch failed", err);
-      });
-    return () => {
-      cancelled = true;
-    };
-  }, []);
 
   function handleLogin() {
     close();
@@ -72,7 +60,7 @@ export function MobileMenu({ contacts }: { contacts: SiteContacts }) {
       <SheetTrigger
         aria-label="Открыть меню"
         data-menu-trigger
-        className="inline-flex items-center justify-center text-text-secondary transition-colors hover:text-text-heading focus-visible:ring-1 focus-visible:ring-ring focus-visible:outline-none lg:hidden"
+        className="inline-flex items-center justify-center text-text-secondary transition-colors hover:text-text-heading focus-visible:ring-1 focus-visible:ring-ring focus-visible:outline-none"
         style={{ width: 44, height: 44, minWidth: 44, minHeight: 44 }}
       >
         <Menu className="size-5" strokeWidth={1.5} />
@@ -80,16 +68,19 @@ export function MobileMenu({ contacts }: { contacts: SiteContacts }) {
       <SheetContent
         side="left"
         onSwipeClose={close}
-        className="gap-3 bg-background p-4"
+        className="gap-3 bg-white p-4 lg:w-[52vw] lg:max-w-[820px] lg:gap-8 lg:p-10"
       >
         <SheetHeader>
           <SheetTitle className="sr-only">Меню</SheetTitle>
           <div onClick={close}>
-            <Logo className="[&_img]:h-7 [&_img]:w-auto" />
+            <Logo className="[&_img]:h-6 [&_img]:w-auto" />
           </div>
         </SheetHeader>
 
-        <div className="flex flex-col gap-1 border-b border-border pb-3">
+        {/* Десктоп — две колонки по макету дизайнера */}
+        <SiteMenuDesktop catalogTree={catalogTree} onNavigate={close} />
+
+        <div className="flex flex-col gap-1 border-b border-border pb-3 lg:hidden">
           {status === "authenticated" ? (
             <>
               <p className="py-1.5 text-body text-text-heading">
@@ -158,7 +149,7 @@ export function MobileMenu({ contacts }: { contacts: SiteContacts }) {
           </Link>
         </div>
 
-        <nav aria-label="Основная навигация" className="flex flex-col gap-0.5">
+        <nav aria-label="Основная навигация" className="flex flex-col gap-0.5 lg:hidden">
           {mainNav.map((item) => (
             <Link
               key={item.href}
@@ -171,7 +162,7 @@ export function MobileMenu({ contacts }: { contacts: SiteContacts }) {
           ))}
         </nav>
 
-        <div className="mb-6">
+        <div className="mb-6 lg:hidden">
           <p className="mb-1 text-[17px] leading-6 font-light tracking-wide text-text-secondary uppercase">
             Каталог
           </p>
@@ -228,7 +219,7 @@ export function MobileMenu({ contacts }: { contacts: SiteContacts }) {
           </Accordion.Root>
         </div>
 
-        <div className="mt-auto flex flex-col gap-1 pt-4 text-small text-text-secondary">
+        <div className="mt-auto flex flex-col gap-1 pt-4 text-small text-text-secondary lg:hidden">
           <a
             href={contacts.phoneHref}
             className="font-medium text-text-primary transition-colors hover:text-brand"

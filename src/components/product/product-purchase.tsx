@@ -82,7 +82,7 @@ export function ProductPurchase({
             type="button"
             variant="outline"
             size="lg"
-            className="min-h-12 w-full px-6 text-body lg:h-11 lg:w-auto"
+            className="min-h-12 w-full px-6 text-body lg:h-8 lg:min-h-0 lg:w-auto lg:px-8 lg:text-[13px]"
             onClick={() => setOneClickOpen(true)}
           >
             Купить в 1 клик
@@ -90,7 +90,7 @@ export function ProductPurchase({
           <Button
             type="button"
             size="lg"
-            className="min-h-12 w-full bg-brand px-6 text-body text-text-inverse hover:bg-brand-hover lg:h-11 lg:w-auto"
+            className="min-h-12 w-full bg-brand px-6 text-body text-text-inverse hover:bg-brand-hover lg:h-8 lg:min-h-0 lg:w-auto lg:px-8 lg:text-[13px]"
             onClick={() => {
               addItem(product.sku);
               showAddedToast({

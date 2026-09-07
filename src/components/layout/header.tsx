@@ -1,75 +1,64 @@
-import { catalogTriggerClass } from "@/components/layout/catalog-trigger-class";
-import type { SiteContacts } from "@/lib/site";
-import { Suspense } from "react";
-
-import { CatalogMenu } from "./catalog-menu";
-import { HeaderActions } from "./header-actions";
-import { HeaderSearch } from "./header-search";
-import { HeaderTopNav } from "./header-top-nav";
-import { Logo } from "./logo";
-import { MobileMenu } from "./mobile-menu";
 import { FavoritesSessionBridge } from "@/components/favorites/favorites-session-bridge";
+import { getCategories } from "@/lib/api/endpoints";
+import {
+  categoriesToNavTree,
+  type CatalogNavNode,
+} from "@/lib/catalog/catalog-nav";
+import { MobileMenu } from "@/components/layout/mobile-menu";
+import type { SiteContacts } from "@/lib/site";
 import { cn } from "@/lib/utils";
+
+import { HeaderActions } from "./header-actions";
+import { Logo } from "./logo";
 
 const headerGridClass = "mx-auto w-full max-w-[1564px] px-4 sm:px-8";
 
-function CatalogMenuFallback() {
-  return <span className={catalogTriggerClass}>Каталог</span>;
-}
-
 /**
- * Utility-строка (desktop) + sticky нижний бар.
- * &lt;lg: одна строка ~60px — бургер | лого | поиск-иконка | actions.
- * ≥lg: лого | каталог | инлайн-поиск | actions (без регрессий).
+ * Шапка сайта — одинакова на всех страницах: бургер, логотип, иконки.
+ *
+ * Верхняя строка с навигацией и телефоном, кнопка «Каталог» и поле поиска
+ * убраны — всё это живёт в меню за бургером, поиск открывается по иконке.
+ *
+ * Покраска — в `globals.css`:
+ *   • обычные страницы — белый фон, зелёный логотип, тёмные иконки;
+ *   • главная — прозрачный оверлей поверх кадра, белый логотип и иконки;
+ *   • главная при наведении — тот же белый вид, что и на остальных страницах.
  */
-export function Header({ contacts }: { contacts: SiteContacts }) {
+export async function Header({ contacts }: { contacts: SiteContacts }) {
+  // Дерево каталога считаем на сервере: клиентский фетч упирался в CORS
+  // (прод-API не пускает сторонние origin) и давал пустое меню на первый кадр.
+  let catalogTree: CatalogNavNode[] = [];
+  try {
+    catalogTree = categoriesToNavTree(await getCategories());
+  } catch (err) {
+    console.warn("[header] categories fetch failed", err);
+  }
+
   return (
     <>
       <FavoritesSessionBridge />
-      {/* Utility-строка — desktop, уезжает при скролле */}
-      <div data-header-utility className="home-snap-origin hidden lg:block">
-        <div className={cn(headerGridClass, "flex h-11 items-center justify-between")}>
-          <HeaderTopNav />
-          <a
-            href={contacts.phoneHref}
-            className="text-body font-light text-text-secondary transition-colors hover:text-brand focus-visible:ring-1 focus-visible:ring-ring focus-visible:outline-none"
-          >
-            {contacts.phoneDisplay}
-          </a>
-        </div>
-      </div>
 
-      {/* Нижний бар — sticky на всю страницу (containing block = body) */}
       <header
         data-app-header
-        className="sticky top-0 z-40 bg-background/95 pt-safe-header backdrop-blur supports-[backdrop-filter]:bg-background/80"
+        className="sticky top-0 z-40 bg-white pt-safe-header transition-colors duration-200"
       >
         <div className={headerGridClass}>
           <div
             data-header-bar
-            className="flex h-14 items-center gap-2 lg:min-h-[calc(var(--header-height)-2.75rem)] lg:gap-4 lg:py-2"
+            className={cn(
+              "flex h-14 items-center gap-2 lg:h-20 lg:gap-4",
+            )}
           >
             {/* -ml-3 гасит внутренний отступ кнопки: хит-таргет остаётся
                 44×44, но сам глиф встаёт на линию сетки контейнера. */}
-            <div data-header-burger className="-ml-3 lg:hidden">
-              <MobileMenu contacts={contacts} />
+            <div data-header-burger className="-ml-3">
+              <MobileMenu contacts={contacts} catalogTree={catalogTree} />
             </div>
 
-            <Logo
-              className="min-w-0 max-w-[4.5rem] shrink lg:max-w-none lg:shrink-0 [&_img]:h-5 [&_img]:w-auto lg:[&_img]:h-6"
-            />
+            <Logo className="min-w-0 max-w-[4.5rem] shrink lg:max-w-none lg:shrink-0 [&_img]:h-5 [&_img]:w-auto lg:[&_img]:h-6" />
 
-            <div data-header-catalog className="hidden lg:block">
-              <Suspense fallback={<CatalogMenuFallback />}>
-                <CatalogMenu />
-              </Suspense>
-            </div>
-
-            <HeaderSearch className="lg:flex-1" />
-
-            {/* -mr-0.5 — та же компенсация с правого края (там бокс иконки
-                уже, поэтому и поправка меньше) */}
-            <HeaderActions className="ml-auto shrink-0 lg:mr-[-2px] lg:ml-0" />
+            {/* -mr-[2px] — та же компенсация с правого края */}
+            <HeaderActions className="ml-auto shrink-0 lg:mr-[-2px]" />
           </div>
         </div>
       </header>

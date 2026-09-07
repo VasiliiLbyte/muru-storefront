@@ -10,6 +10,7 @@ import {
   IconService,
   type MuruIconProps,
 } from "@/components/icons";
+import { brandButtonSize } from "@/components/ui/brand-button-class";
 import { cn } from "@/lib/utils";
 
 export type HelpTile = {
@@ -64,7 +65,7 @@ export function HelpTileGrid({
                 {item.title}
               </span>
             </div>
-            <span className="mt-auto inline-flex h-[45px] w-fit items-center bg-brand px-8 text-body text-text-inverse transition-colors group-hover:bg-brand-hover">
+            <span className={cn("mt-auto inline-flex w-fit items-center bg-brand text-text-inverse transition-colors group-hover:bg-brand-hover", brandButtonSize)}>
               Подробнее
             </span>
           </Link>

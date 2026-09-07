@@ -9,6 +9,7 @@ import { glassPlaqueClass } from "@/components/ui/glass-plaque";
 import { staticBlurProps } from "@/lib/images";
 import type { CompanySections, Image as ImageData } from "@/lib/schemas";
 import type { BreadcrumbItem } from "@/lib/seo/jsonld";
+import { brandButtonSize } from "@/components/ui/brand-button-class";
 import { cn } from "@/lib/utils";
 
 const PROMO_HREFS = [
@@ -174,7 +175,7 @@ function CompanyPromoSection({
                 </div>
                 <Button
                   render={<Link href={href} />}
-                  className="h-[45px] self-start rounded-none px-8 text-[15px] font-medium hover:bg-brand-hover"
+                  className={cn("self-start rounded-none font-medium hover:bg-brand-hover", brandButtonSize)}
                 >
                   Подробнее
                 </Button>

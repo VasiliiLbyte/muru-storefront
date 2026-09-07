@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 import { ProductGrid } from "@/components/catalog/product-grid";
 import { Button } from "@/components/ui/button";
 import type { Product } from "@/lib/schemas";
+import { brandButtonSize } from "@/components/ui/brand-button-class";
 import { cn } from "@/lib/utils";
 
 export type CatalogFeedQuery = Record<
@@ -141,7 +142,7 @@ export function CatalogProductFeed({
           ) : null}
           <Button
             type="button"
-            className="h-[45px] px-8"
+            className={brandButtonSize}
             disabled={loading}
             onClick={() => void loadMore()}
           >

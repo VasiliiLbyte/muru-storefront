@@ -14,6 +14,10 @@ import {
 import { Clock, Loader2, Mic, Tag, X } from "lucide-react";
 
 import { IconSearch } from "@/components/icons";
+import {
+  actionTriggerClass,
+  actionTriggerStyle,
+} from "@/components/layout/header-actions";
 
 import {
   Dialog,
@@ -598,11 +602,20 @@ export function HeaderMobileSearch() {
         type="button"
         aria-label="Открыть поиск"
         data-search-trigger
-        className="inline-flex shrink-0 items-center justify-center text-text-secondary transition-colors hover:text-text-heading focus-visible:ring-1 focus-visible:ring-ring focus-visible:outline-none lg:hidden"
-        style={{ width: 44, height: 44, minWidth: 44, minHeight: 44 }}
+        className={cn(
+          actionTriggerClass,
+          // без этого бокс поиска был 44px против 24px у соседей,
+          // и промежуток «поиск → избранное» получался на 10px больше
+          "shrink-0",
+        )}
+        style={actionTriggerStyle}
         onClick={() => setOpen(true)}
       >
-        <IconSearch className="size-5" aria-hidden />
+        {/* Обёртка size-6 — как у остальных иконок в HeaderActions,
+            иначе бокс поиска на 4px уже и промежуток не совпадает */}
+        <span className="relative inline-flex size-6 items-center justify-center">
+          <IconSearch className="size-5" aria-hidden />
+        </span>
       </button>
       {open ? (
         <DialogContent

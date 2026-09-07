@@ -3,6 +3,7 @@ import Link from "next/link";
 import { HomeBannerMedia } from "@/components/home/home-banner-media";
 import { Button } from "@/components/ui/button";
 import { glassPlaqueClass } from "@/components/ui/glass-plaque";
+import { brandButtonSize } from "@/components/ui/brand-button-class";
 import { cn } from "@/lib/utils";
 
 export type HomeBannerProps = {
@@ -64,8 +65,11 @@ function DesktopBannerCopy({
         </p>
       ) : null}
       <Button
+        // Кнопка рендерит <a>: без этого Base UI ругается, что теряется
+        // нативная семантика <button>. Здесь она и не нужна — это ссылка.
+        nativeButton={false}
         render={<Link href={href} />}
-        className="mt-4 h-[45px] px-8 text-[14px] leading-[17px] font-light"
+        className={cn("mt-4 font-light", brandButtonSize)}
       >
         {ctaLabel}
       </Button>
