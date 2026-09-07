@@ -107,8 +107,9 @@ export async function Footer({ contacts }: { contacts: SiteContacts }) {
             aria-hidden="true"
             className="pointer-events-none absolute right-0 bottom-0 bg-text-muted"
             style={{
-              width: 206,
-              height: 40,
+              // Тот же размер, что в шапке (206×40 → 124×24)
+              width: 124,
+              height: 24,
               WebkitMaskImage: "url(/brand/muru-logo.svg)",
               maskImage: "url(/brand/muru-logo.svg)",
               WebkitMaskRepeat: "no-repeat",

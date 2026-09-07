@@ -49,12 +49,14 @@ export function Header({ contacts }: { contacts: SiteContacts }) {
             data-header-bar
             className="flex h-14 items-center gap-2 lg:min-h-[calc(var(--header-height)-2.75rem)] lg:gap-4 lg:py-2"
           >
-            <div data-header-burger className="lg:hidden">
+            {/* -ml-3 гасит внутренний отступ кнопки: хит-таргет остаётся
+                44×44, но сам глиф встаёт на линию сетки контейнера. */}
+            <div data-header-burger className="-ml-3 lg:hidden">
               <MobileMenu contacts={contacts} />
             </div>
 
             <Logo
-              className="min-w-0 max-w-[4.5rem] shrink lg:max-w-none lg:shrink-0 [&_img]:h-5 [&_img]:w-auto lg:[&_img]:h-10"
+              className="min-w-0 max-w-[4.5rem] shrink lg:max-w-none lg:shrink-0 [&_img]:h-5 [&_img]:w-auto lg:[&_img]:h-6"
             />
 
             <div data-header-catalog className="hidden lg:block">
@@ -65,7 +67,9 @@ export function Header({ contacts }: { contacts: SiteContacts }) {
 
             <HeaderSearch className="lg:flex-1" />
 
-            <HeaderActions className="ml-auto shrink-0 lg:ml-0" />
+            {/* -mr-0.5 — та же компенсация с правого края (там бокс иконки
+                уже, поэтому и поправка меньше) */}
+            <HeaderActions className="ml-auto shrink-0 lg:mr-[-2px] lg:ml-0" />
           </div>
         </div>
       </header>
