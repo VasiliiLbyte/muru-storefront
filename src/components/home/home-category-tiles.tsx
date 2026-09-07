@@ -1,7 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
 
-import { cn } from "@/lib/utils";
 
 import { getCategories } from "@/lib/api/endpoints";
 import { staticBlurProps } from "@/lib/images";
@@ -68,15 +67,7 @@ export async function HomeCategoryTiles() {
             className="absolute inset-x-0 top-0 h-1/3 bg-linear-to-b from-black/45 to-transparent"
           />
 
-          <span
-            className={cn(
-              "absolute right-4 left-4 z-10 text-[16px] leading-[22px] font-light text-text-inverse [text-shadow:0_1px_10px_rgba(0,0,0,0.45)]",
-              // Верхний ряд уходит из-под прозрачной шапки (бургер + лого)
-              index < 2
-                ? "top-[calc(3.5rem+env(safe-area-inset-top,0px)+0.75rem)]"
-                : "top-4",
-            )}
-          >
+          <span className="absolute top-4 right-4 left-4 z-10 text-[16px] leading-[22px] font-light text-text-inverse [text-shadow:0_1px_10px_rgba(0,0,0,0.45)]">
             {tile.title}
           </span>
         </Link>

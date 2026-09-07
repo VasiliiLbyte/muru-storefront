@@ -644,14 +644,14 @@ export function CatalogToolbar({
             <button
               type="button"
               onClick={resetAndClose}
-              className="inline-flex h-11 flex-1 items-center justify-center border border-input bg-background text-[13px] leading-none text-text-primary transition-colors hover:border-brand focus-visible:ring-1 focus-visible:ring-ring focus-visible:outline-none"
+              className="inline-flex h-11 flex-1 items-center justify-center border border-input bg-background text-body text-text-primary transition-colors hover:border-brand focus-visible:ring-1 focus-visible:ring-ring focus-visible:outline-none"
             >
               Сбросить
             </button>
             <button
               type="button"
               onClick={applyDraftAndClose}
-              className="inline-flex flex-1 items-center justify-center transition-colors relative isolate h-11 bg-transparent text-[13px] leading-none text-text-inverse before:absolute before:inset-x-0 before:top-1/2 before:-z-10 before:h-5 before:-translate-y-1/2 before:bg-brand before:content-[''] hover:bg-transparent hover:before:bg-brand-hover focus-visible:ring-1 focus-visible:ring-ring focus-visible:outline-none"
+              className="inline-flex h-11 flex-1 items-center justify-center bg-brand text-body text-text-inverse transition-colors hover:bg-brand-hover focus-visible:ring-1 focus-visible:ring-ring focus-visible:outline-none"
             >
               Показать
             </button>

@@ -63,7 +63,7 @@ export default async function Home() {
   }
 
   return (
-    <main id="main" data-home-snap className="flex flex-1 flex-col max-lg:pb-12">
+    <main id="main" data-home-snap className="flex flex-1 flex-col">
       <h1 className="sr-only">{HOME_TITLE}</h1>
       {nodes}
     </main>

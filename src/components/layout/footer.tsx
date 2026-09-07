@@ -110,11 +110,9 @@ export async function Footer({ contacts }: { contacts: SiteContacts }) {
 
           <div
             aria-hidden="true"
-            className="pointer-events-none absolute right-0 bottom-0 bg-text-muted"
+            /* Размер ровно как у логотипа в шапке: 72×20 на мобиле, 124×24 на десктопе */
+            className="pointer-events-none absolute right-0 bottom-0 h-5 w-[72px] bg-text-muted lg:h-6 lg:w-[124px]"
             style={{
-              // Тот же размер, что в шапке (206×40 → 124×24)
-              width: 124,
-              height: 24,
               WebkitMaskImage: "url(/brand/muru-logo.svg)",
               maskImage: "url(/brand/muru-logo.svg)",
               WebkitMaskRepeat: "no-repeat",
@@ -128,13 +126,15 @@ export async function Footer({ contacts }: { contacts: SiteContacts }) {
         </div>
 
         <div className="mt-10 flex flex-row items-start justify-between gap-4 pt-6 sm:items-center">
-          <p className="text-small text-text-secondary">© {year} MURU</p>
-          <ul className="flex flex-col items-end gap-y-1 text-right sm:flex-row sm:flex-wrap sm:gap-x-6">
+          <p className="inline-flex min-h-11 items-center text-small leading-5 text-text-secondary">
+            © {year} MURU
+          </p>
+          <ul className="flex flex-col items-end text-right sm:flex-row sm:flex-wrap sm:gap-x-6">
             {legalNav.map((item) => (
               <li key={item.href}>
                 <Link
                   href={item.href}
-                  className="inline-flex min-h-11 items-center text-small text-text-secondary transition-colors hover:text-text-primary"
+                  className="inline-flex min-h-11 items-center text-small leading-5 text-text-secondary transition-colors hover:text-text-primary"
                 >
                   {item.label}
                 </Link>
