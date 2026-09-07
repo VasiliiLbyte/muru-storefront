@@ -5,7 +5,7 @@ colors:
   primary: '#5d6b3a'
   primary-hover: '#8BA064'
   background: '#fcfbfb'
-  surface: '#F5F0E0'
+  surface: '#F5F5F5'
   text-primary: '#4F4D4B'
   text-secondary: '#4F4D4B'
   text-muted: '#b8b8b8'
@@ -111,7 +111,7 @@ The MURU color palette is grounded in natural tones, emphasizing a calm and soph
     -   **Primary Hover (`#8BA064`)** — A lighter, more vibrant green, used for the hover state of primary interactive elements.
 -   **Neutral Scale**
     -   **Background (`#fcfbfb`)** — The dominant light background color for pages and main content areas, providing a clean canvas.
-    -   **Surface (`#F5F0E0`)** — A subtle beige, used for secondary background elements like the footer and accent sections.
+    -   **Surface (`#F5F5F5`)** — A neutral light grey, used for secondary background elements like the footer and accent sections. Replaced the earlier cream `#F5F0E0` (2026-09-03).
     -   **Text Primary (`#4F4D4B`)** — A dark gray, used for primary body text and main headings, ensuring high readability on light backgrounds.
     -   **Text Secondary (`#4F4D4B`)** — A slightly lighter dark gray, used for secondary text, descriptions, and less prominent information.
     -   **Text Muted (`#b8b8b8`)** — A light gray, used for muted text, inactive navigation links, and subtle informational elements.
@@ -553,7 +553,7 @@ Shadow Philosophy: The MURU design system deliberately avoids prominent box-shad
 -   **Do** use `Montserrat 14px 500` with `#b8b8b8` for navigation links, transitioning to `#4F4D4B` on hover.
 -   **Do** apply a `0.3s ease-in-out` transition for color changes on interactive elements like links and buttons.
 -   **Do** use `#ffffff` text on `#5d6b3a` for primary buttons, which passes AA contrast with a ratio of 5.79.
--   **Do** use `#4F4D4B` text on `#F5F0E0` for secondary content, passing AA contrast with a ratio of 5.97.
+-   **Do** use `#4F4D4B` text on `#F5F5F5` for secondary content — contrast ratio 7.72, passes AA and AAA. (The previously documented 5.97 was inaccurate even for the old cream surface, where the real ratio was 7.38.)
 
 ### Don'ts
 -   **Don't** introduce shadows on interactive elements; depth is managed solely by z-index.
@@ -590,7 +590,7 @@ Note: breakpoints below are extracted from the source CSS.
     -   `primary`: `#5d6b3a`
     -   `primary-hover`: `#8BA064`
     -   `background`: `#fcfbfb`
-    -   `surface`: `#F5F0E0`
+    -   `surface`: `#F5F5F5`
     -   `text-primary`: `#4F4D4B`
     -   `text-secondary`: `#4F4D4B`
     -   `text-muted`: `#b8b8b8`

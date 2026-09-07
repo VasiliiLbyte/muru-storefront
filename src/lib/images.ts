@@ -5,9 +5,9 @@
 
 import { ASSETS_BASE } from "@/lib/assets-base";
 
-/** Крошечный blurDataURL (однотонный surface-цвет #F5F0E0) для next/image. */
+/** Крошечный blurDataURL (однотонный surface-цвет #F5F5F5) для next/image. */
 export const PLACEHOLDER_BLUR =
-  "data:image/gif;base64,R0lGODlhAQABAPAAAPTw6P///yH5BAAAAAAALAAAAAABAAEAAAICRAEAOw==";
+  "data:image/gif;base64,R0lGODlhAQABAPAAAPX19f///yH5BAAAAAAALAAAAAABAAEAAAICRAEAOw==";
 
 /** Blur-плейсхолдер для статичных SVG/растров из /public. */
 export function staticBlurProps() {

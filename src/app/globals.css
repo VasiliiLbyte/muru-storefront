@@ -19,9 +19,9 @@
   --color-brand-hover: #8ba064;
 
   /* — Нейтральная шкала / поверхности — */
-  /* Брендовый фон: единый по всему сайту (был молочный #fcfbfb) */
-  --color-background: #f5f0e0;
-  --color-surface: #f5f0e0;
+  --color-background: #fcfbfb;
+  /* Нейтральный серый вместо прежнего кремового #f5f0e0 */
+  --color-surface: #f5f5f5;
   --color-line: #eaeaea;
 
   /* — Текст — */
@@ -157,7 +157,7 @@
   --home-offset-first: calc(3.75rem + env(safe-area-inset-top, 0px));
   --home-offset-rest: calc(3.75rem + env(safe-area-inset-top, 0px));
 
-  --background: #f5f0e0;
+  --background: #fcfbfb;
   --foreground: var(--color-text-primary);
 
   --card: var(--color-background);

@@ -46,7 +46,7 @@ const neutralColors: Swatch[] = [
   {
     name: "Surface",
     token: "--color-surface",
-    hex: "#F5F0E0",
+    hex: "#F5F5F5",
     className: "bg-surface",
     border: true,
   },
