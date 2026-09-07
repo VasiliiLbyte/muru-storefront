@@ -232,7 +232,7 @@ export function LookbookHeroHotspots({
           <SheetContent
             side="bottom"
             showClose={false}
-            className="gap-0 overflow-hidden rounded-t-2xl p-0"
+            className="gap-0 overflow-hidden p-0"
           >
             <SheetTitle className="sr-only">
               {productsBySku[activeHotspot.product.sku]?.title ??

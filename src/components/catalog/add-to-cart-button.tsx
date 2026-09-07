@@ -58,7 +58,7 @@ export function AddToCartButton({
         aria-label={qty >= 1 ? `${label} (в корзине: ${qty})` : label}
         onClick={add}
         className={cn(
-          "inline-flex size-11 items-center justify-center text-text-heading transition-colors [filter:drop-shadow(0_0_2px_rgb(255_255_255_/_0.9))_drop-shadow(0_1px_5px_rgb(255_255_255_/_0.75))] hover:text-brand focus-visible:ring-1 focus-visible:ring-ring focus-visible:outline-none",
+          "inline-flex size-11 items-center justify-center text-text-heading transition-colors hover:text-brand focus-visible:ring-1 focus-visible:ring-ring focus-visible:outline-none",
           qty >= 1 && "text-brand",
           className,
         )}

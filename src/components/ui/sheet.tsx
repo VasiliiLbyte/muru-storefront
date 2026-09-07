@@ -40,7 +40,7 @@ const sideClasses = {
   right:
     "inset-y-0 right-0 h-full w-[88vw] max-w-sm border-l data-[starting-style]:translate-x-full data-[ending-style]:translate-x-full",
   bottom:
-    "inset-x-0 bottom-0 max-h-[85dvh] w-full max-w-none rounded-t-lg border-t data-[starting-style]:translate-y-full data-[ending-style]:translate-y-full",
+    "inset-x-0 bottom-0 max-h-[85dvh] w-full max-w-none border-t data-[starting-style]:translate-y-full data-[ending-style]:translate-y-full",
 } as const;
 
 /** Насколько нужно протянуть, чтобы шторка закрылась. */

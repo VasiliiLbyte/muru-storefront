@@ -625,9 +625,9 @@ export function CatalogToolbar({
         <SheetContent
           side="bottom"
           showClose={false}
-          className="max-h-[min(85dvh,calc(100dvh-7rem-env(safe-area-inset-top)))] gap-0 overflow-hidden rounded-t-2xl border-0 p-0"
+          className="max-h-[min(85dvh,calc(100dvh-7rem-env(safe-area-inset-top)))] gap-0 overflow-hidden border-0 p-0"
         >
-          <SheetHeader className="border-b border-border px-6 py-4">
+          <SheetHeader className="px-6 py-4">
             <SheetTitle className="font-display text-h2 text-text-heading">
               Сортировка и фильтры
             </SheetTitle>
@@ -640,18 +640,18 @@ export function CatalogToolbar({
               colorFacet={colorFacet}
             />
           </div>
-          <div className="flex shrink-0 gap-3 border-t border-border bg-surface px-6 py-4 pb-safe">
+          <div className="flex shrink-0 gap-3 bg-surface px-6 py-4 pb-safe">
             <button
               type="button"
               onClick={resetAndClose}
-              className="inline-flex h-11 flex-1 items-center justify-center border border-input bg-background text-body text-text-primary transition-colors hover:border-brand focus-visible:ring-1 focus-visible:ring-ring focus-visible:outline-none"
+              className="inline-flex h-11 flex-1 items-center justify-center border border-input bg-background text-[13px] leading-none text-text-primary transition-colors hover:border-brand focus-visible:ring-1 focus-visible:ring-ring focus-visible:outline-none"
             >
               Сбросить
             </button>
             <button
               type="button"
               onClick={applyDraftAndClose}
-              className="inline-flex h-11 flex-1 items-center justify-center bg-brand text-body text-text-inverse transition-colors hover:bg-brand-hover focus-visible:ring-1 focus-visible:ring-ring focus-visible:outline-none"
+              className="inline-flex flex-1 items-center justify-center transition-colors relative isolate h-11 bg-transparent text-[13px] leading-none text-text-inverse before:absolute before:inset-x-0 before:top-1/2 before:-z-10 before:h-5 before:-translate-y-1/2 before:bg-brand before:content-[''] hover:bg-transparent hover:before:bg-brand-hover focus-visible:ring-1 focus-visible:ring-ring focus-visible:outline-none"
             >
               Показать
             </button>

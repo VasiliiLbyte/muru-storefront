@@ -12,17 +12,15 @@ import {
 } from "@/lib/site";
 import { cn } from "@/lib/utils";
 
-const companyLinkClass = cn(
+// На мобиле ссылки капслоком и в две колонки — по макету дизайнера.
+const footerLinkClass = cn(
   "inline-flex min-h-11 items-center font-light text-text-secondary transition-colors hover:text-brand",
-  "max-lg:text-[16px] max-lg:leading-5",
+  "max-lg:text-[15px] max-lg:leading-5 max-lg:tracking-[0.04em] max-lg:uppercase",
   "lg:text-body",
 );
 
-const catalogLinkClass = cn(
-  "inline-flex min-h-11 items-center font-light text-text-secondary transition-colors hover:text-brand",
-  "max-lg:text-[16px] max-lg:leading-5",
-  "lg:text-body",
-);
+const companyLinkClass = footerLinkClass;
+const catalogLinkClass = footerLinkClass;
 
 const columnHeadingClass =
   "mb-3 text-caption font-medium tracking-[0.12em] text-text-muted uppercase";
@@ -51,7 +49,7 @@ export async function Footer({ contacts }: { contacts: SiteContacts }) {
     <footer className="mt-auto bg-surface">
       <div className="mx-auto w-full max-w-[1564px] px-4 pt-20 pb-12 sm:px-8">
         <div className="relative pb-20">
-          <div className="grid grid-cols-1 gap-10 md:grid-cols-3 md:gap-8">
+          <div className="grid grid-cols-2 gap-x-6 gap-y-12 md:grid-cols-3 md:gap-8">
             <nav aria-label="Компания">
               <p className={columnHeadingClass}>Компания</p>
               <ul className="flex flex-col gap-y-0.5">
@@ -80,26 +78,33 @@ export async function Footer({ contacts }: { contacts: SiteContacts }) {
 
             <address
               aria-label="Контакты"
-              className="flex flex-col gap-1 text-small text-text-secondary not-italic"
+              className="col-span-2 text-small text-text-secondary not-italic md:col-span-1"
             >
               <p className={columnHeadingClass}>Контакты</p>
-              <ContactAddress
-                address={contacts.address}
-                className="max-w-[18rem] py-2 text-small text-text-secondary"
-              />
-              <a
-                href={contacts.phoneHref}
-                className="inline-flex min-h-11 items-center font-medium text-text-primary transition-colors hover:text-brand"
-              >
-                {contacts.phoneDisplay}
-              </a>
-              <a
-                href={contacts.emailHref}
-                className="inline-flex min-h-11 items-center transition-colors hover:text-brand"
-              >
-                {contacts.email}
-              </a>
-              <span className="py-2 text-text-secondary">{contacts.hours}</span>
+              {/* На мобиле адрес слева, связь справа — как в макете */}
+              <div className="grid grid-cols-2 gap-x-6 md:grid-cols-1">
+                <ContactAddress
+                  address={contacts.address}
+                  className="max-w-[18rem] py-2 text-small text-text-secondary"
+                />
+                <div className="flex flex-col">
+                  <a
+                    href={contacts.phoneHref}
+                    className="inline-flex min-h-11 items-center font-medium text-text-primary transition-colors hover:text-brand"
+                  >
+                    {contacts.phoneDisplay}
+                  </a>
+                  <a
+                    href={contacts.emailHref}
+                    className="inline-flex min-h-11 items-center transition-colors hover:text-brand"
+                  >
+                    {contacts.email}
+                  </a>
+                  <span className="py-2 text-text-secondary">
+                    {contacts.hours}
+                  </span>
+                </div>
+              </div>
             </address>
           </div>
 
@@ -122,9 +127,9 @@ export async function Footer({ contacts }: { contacts: SiteContacts }) {
           />
         </div>
 
-        <div className="mt-10 flex flex-col items-end gap-4 pt-6 sm:flex-row sm:items-center sm:justify-between">
+        <div className="mt-10 flex flex-row items-start justify-between gap-4 pt-6 sm:items-center">
           <p className="text-small text-text-secondary">© {year} MURU</p>
-          <ul className="flex flex-wrap justify-end gap-x-6 gap-y-1 text-right">
+          <ul className="flex flex-col items-end gap-y-1 text-right sm:flex-row sm:flex-wrap sm:gap-x-6">
             {legalNav.map((item) => (
               <li key={item.href}>
                 <Link

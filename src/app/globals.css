@@ -283,6 +283,25 @@ body:has(main[data-home-snap]) [data-app-header] img[alt="muru"] {
   }
 }
 
+/* Подвал в кадре: белый хром со скримом читался бы как грязь на светлом
+   фоне, поэтому бургер, лого и нижний ряд иконок становятся брендовыми
+   зелёными, а скрим гасится. Признак ставит `FooterChromeWatch`. */
+html[data-footer-visible] body:has(main[data-home-snap]) [data-app-header]::before,
+html[data-footer-visible] body:has(main[data-home-snap]) [data-header-actions]::before {
+  opacity: 0;
+}
+
+html[data-footer-visible] body:has(main[data-home-snap]) [data-header-burger] button,
+html[data-footer-visible] body:has(main[data-home-snap]) [data-header-actions] a,
+html[data-footer-visible] body:has(main[data-home-snap]) [data-header-actions] button {
+  color: var(--color-brand);
+  filter: none;
+}
+
+html[data-footer-visible] body:has(main[data-home-snap]) [data-app-header] img[alt="muru"] {
+  filter: none;
+}
+
 @media (max-width: 1023px) {
   /* В потоке остаются только бургер и лого → края бара */
   body:has(main[data-home-snap]) [data-header-bar] {

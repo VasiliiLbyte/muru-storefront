@@ -80,7 +80,7 @@ export function HotspotProductCard({
   if (isSheet) {
     return (
       <div className={cn("min-w-0", className)}>
-        <div className="relative aspect-square w-full overflow-hidden rounded-t-2xl bg-surface">
+        <div className="relative aspect-square w-full overflow-hidden bg-surface">
           {useCarousel && product ? (
             <ProductCardImages
               images={product.images}

@@ -46,7 +46,7 @@ function LoginHeaderIcon() {
   return (
     <span
       aria-hidden
-      className="mb-3 inline-flex size-12 items-center justify-center rounded-2xl bg-brand/10"
+      className="mb-3 inline-flex size-12 items-center justify-center bg-brand/10"
     >
       <Phone className="size-5 text-brand" />
     </span>
@@ -121,7 +121,7 @@ export function LoginDialogGuest({ compact = false }: { compact?: boolean }) {
             side="bottom"
             showClose={false}
             finalFocus={triggerRef}
-            className="max-h-[90dvh] gap-0 rounded-t-2xl border-0 px-6 pt-3 pb-6"
+            className="max-h-[90dvh] gap-0 border-0 px-6 pt-3 pb-6"
           >
             <SheetClose
               aria-label="Закрыть"
@@ -142,7 +142,7 @@ export function LoginDialogGuest({ compact = false }: { compact?: boolean }) {
         <Dialog open={open} onOpenChange={setOpen}>
           <DialogContent
             finalFocus={triggerRef}
-            className="w-[min(100vw-1.5rem,26rem)] rounded-2xl p-8"
+            className="w-[min(100vw-1.5rem,26rem)] p-8"
           >
             <DialogHeader className="mb-6">
               <LoginHeaderIcon />

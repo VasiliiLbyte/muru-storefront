@@ -48,7 +48,7 @@ export function FavoriteToggle({
       className={cn(
         "inline-flex size-11 items-center justify-center transition-colors focus-visible:ring-1 focus-visible:ring-ring focus-visible:outline-none",
         isBare
-          ? "text-text-heading [filter:drop-shadow(0_0_2px_rgb(255_255_255_/_0.9))_drop-shadow(0_1px_5px_rgb(255_255_255_/_0.75))] hover:text-brand"
+          ? "text-text-heading hover:text-brand"
           : "rounded-sm bg-background/80 text-text-secondary backdrop-blur-sm hover:text-brand",
         active && "text-brand",
         className,

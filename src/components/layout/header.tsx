@@ -4,6 +4,7 @@ import {
   categoriesToNavTree,
   type CatalogNavNode,
 } from "@/lib/catalog/catalog-nav";
+import { FooterChromeWatch } from "@/components/layout/footer-chrome-watch";
 import { MobileMenu } from "@/components/layout/mobile-menu";
 import type { SiteContacts } from "@/lib/site";
 import { cn } from "@/lib/utils";
@@ -37,6 +38,7 @@ export async function Header({ contacts }: { contacts: SiteContacts }) {
   return (
     <>
       <FavoritesSessionBridge />
+      <FooterChromeWatch />
 
       <header
         data-app-header
@@ -55,10 +57,12 @@ export async function Header({ contacts }: { contacts: SiteContacts }) {
               <MobileMenu contacts={contacts} catalogTree={catalogTree} />
             </div>
 
-            <Logo className="min-w-0 max-w-[4.5rem] shrink lg:max-w-none lg:shrink-0 [&_img]:h-5 [&_img]:w-auto lg:[&_img]:h-6" />
+            {/* Мобайл (кроме главной): иконки идут сразу после бургера,
+                логотип уезжает вправо. На главной иконки живут в нижнем
+                ряду, там порядок задаётся в globals.css. */}
+            <HeaderActions className="order-2 ml-2 shrink-0 max-lg:order-1 lg:order-3 lg:mr-[-2px] lg:ml-auto" />
 
-            {/* -mr-[2px] — та же компенсация с правого края */}
-            <HeaderActions className="ml-auto shrink-0 lg:mr-[-2px]" />
+            <Logo className="order-3 ml-auto min-w-0 max-w-[4.5rem] shrink max-lg:order-2 lg:order-2 lg:ml-0 lg:max-w-none lg:shrink-0 [&_img]:h-5 [&_img]:w-auto lg:[&_img]:h-6" />
           </div>
         </div>
       </header>

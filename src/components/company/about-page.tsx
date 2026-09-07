@@ -46,9 +46,6 @@ function CompanyHeroSection({
 }) {
   return (
     <section className="relative w-full bg-surface">
-      <div className="mx-auto w-full max-w-[1564px] px-4 pt-8 sm:px-8 lg:hidden">
-        <Breadcrumbs items={breadcrumbs} />
-      </div>
       <div className="relative w-full">
         {image?.url ? (
           <Image
@@ -64,7 +61,8 @@ function CompanyHeroSection({
         ) : (
           <div className="aspect-video w-full bg-surface" aria-hidden />
         )}
-        <div className="absolute top-0 left-0 z-10 hidden w-full max-w-[1564px] px-4 pt-8 sm:px-8 lg:block [&_ol]:text-white [&_a]:text-white/90 [&_a:hover]:text-white [&_span]:text-white [text-shadow:0_1px_2px_rgba(0,0,0,0.55)]">
+        {/* Крошки лежат поверх кадра на всех вьюпортах — отдельной строки с отступом над картинкой больше нет */}
+        <div className="absolute top-0 left-0 z-10 w-full max-w-[1564px] px-4 pt-4 sm:px-8 lg:pt-8 [&_ol]:text-white [&_a]:text-white/90 [&_a:hover]:text-white [&_span]:text-white [text-shadow:0_1px_2px_rgba(0,0,0,0.55)]">
           <Breadcrumbs items={breadcrumbs} />
         </div>
         <div
@@ -99,7 +97,7 @@ function CompanyMissionSection({
 
   return (
     <section className="grid gap-8 lg:grid-cols-[minmax(0,1fr)_minmax(0,1fr)] lg:items-start lg:gap-12">
-      <div className="max-w-xl">
+      <div className="order-2 max-w-xl lg:order-1">
         {label ? (
           <p className="mb-3 text-caption font-medium tracking-[0.12em] text-text-muted uppercase">
             {label}
@@ -111,7 +109,8 @@ function CompanyMissionSection({
         <StaticProse html={text} />
       </div>
       {shown.length > 0 ? (
-        <div className="grid grid-cols-2 gap-4">
+        // На мобиле фото идут первыми, на десктопе остаются правой колонкой
+        <div className="order-1 grid grid-cols-2 gap-4 lg:order-2">
           {shown.map((image, index) => (
             <MissionImage key={`${image.url}-${index}`} image={image} />
           ))}

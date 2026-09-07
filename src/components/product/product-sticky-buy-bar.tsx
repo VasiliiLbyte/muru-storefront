@@ -83,7 +83,7 @@ export function ProductStickyBuyBar({
           type="button"
           variant="outline"
           size="lg"
-          className="min-h-12 min-w-0 flex-1 px-3 text-[14px] leading-[17px]"
+          className="h-11 min-h-0 min-w-0 flex-1 px-3 text-[13px] leading-none"
           tabIndex={visible ? 0 : -1}
           onClick={onOneClick}
         >
@@ -92,7 +92,7 @@ export function ProductStickyBuyBar({
         <Button
           type="button"
           size="lg"
-          className="min-h-12 min-w-0 flex-1 bg-brand px-3 text-[14px] leading-[17px] text-text-inverse hover:bg-brand-hover"
+          className="relative isolate h-11 bg-transparent text-[13px] leading-none text-text-inverse before:absolute before:inset-x-0 before:top-1/2 before:-z-10 before:h-5 before:-translate-y-1/2 before:bg-brand before:content-[''] hover:bg-transparent hover:before:bg-brand-hover min-h-0 min-w-0 flex-1 px-3"
           tabIndex={visible ? 0 : -1}
           onClick={() => {
             addItem(product.sku);
