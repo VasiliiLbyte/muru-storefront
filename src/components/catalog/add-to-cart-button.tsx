@@ -3,6 +3,7 @@
 import { Minus, Plus } from "lucide-react";
 
 import { IconBasket } from "@/components/icons";
+import { cardGlyphClass } from "@/components/catalog/favorite-toggle";
 import { badgeClass } from "@/components/layout/header-actions";
 import { cn } from "@/lib/utils";
 import { useCartQty, useCartStore } from "@/stores/cart-store";
@@ -14,8 +15,9 @@ export type AddToCartVariant = "bar" | "icon";
  *
  * `bar` — полноширинная полоса + степпер (легаси, остался для мест,
  * где карточка не в сетке каталога).
- * `icon` — контурная корзина в углу фото со счётчиком (сетка каталога,
- * макет `сайт_2.pdf` / CARD-001). Тап = +1, уменьшение — в корзине.
+ * `icon` — белая контурная корзина в углу фото со счётчиком (сетка
+ * каталога, макет `сайт_2.pdf` / CARD-001). Тап = +1, уменьшение — в
+ * корзине. Цвет и тень — как у сердца, см. `FavoriteToggle`.
  */
 export function AddToCartButton({
   sku,
@@ -58,13 +60,12 @@ export function AddToCartButton({
         aria-label={qty >= 1 ? `${label} (в корзине: ${qty})` : label}
         onClick={add}
         className={cn(
-          "inline-flex size-11 items-center justify-center text-text-heading transition-colors hover:text-brand focus-visible:ring-1 focus-visible:ring-ring focus-visible:outline-none",
-          qty >= 1 && "text-brand",
+          "inline-flex size-11 items-center justify-center text-white drop-shadow-[0_1px_2px_rgba(0,0,0,0.45)] transition-colors hover:text-brand focus-visible:ring-1 focus-visible:ring-ring focus-visible:outline-none",
           className,
         )}
       >
-        <span className="relative inline-flex size-[22px] items-center justify-center">
-          <IconBasket className="size-[22px]" />
+        <span className={cn("relative inline-flex items-center justify-center", cardGlyphClass)}>
+          <IconBasket className={cardGlyphClass} />
           {qty >= 1 ? (
             <span aria-hidden="true" className={badgeClass}>
               {qty}

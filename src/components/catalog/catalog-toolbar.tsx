@@ -10,15 +10,19 @@ import {
   useState,
   useTransition,
 } from "react";
-import { Check, ChevronDown, SlidersHorizontal } from "lucide-react";
+import { Check, ChevronDown, X } from "lucide-react";
 
+import { IconFilter } from "@/components/icons";
+import { actionGlyphClass } from "@/components/layout/header-actions";
 import { Input } from "@/components/ui/input";
 import {
   Sheet,
+  SheetClose,
   SheetContent,
   SheetHeader,
   SheetTitle,
 } from "@/components/ui/sheet";
+import { useMatchMedia } from "@/hooks/use-match-media";
 import type { Facet, ProductSort } from "@/lib/schemas";
 import { cn } from "@/lib/utils";
 
@@ -376,6 +380,10 @@ export function CatalogToolbar({
   const searchParams = useSearchParams();
   const [pending, startTransition] = useTransition();
   const [sheetOpen, setSheetOpen] = useState(false);
+  // Десктоп — панель выезжает справа, мобайл — снизу (SSR отдаёт `bottom`,
+  // но панель монтируется только после открытия, т.е. уже после гидрации).
+  const isDesktop = useMatchMedia("(min-width: 1024px)");
+  const sheetSide = isDesktop ? "right" : "bottom";
   const [draft, setDraft] = useState<DraftState>(() =>
     draftFromParams(searchParams),
   );
@@ -400,11 +408,6 @@ export function CatalogToolbar({
   const colorFacet = facets?.find((f) => f.key === "color");
   const activeFilterCount = useMemo(
     () => countActiveFilters(searchParams),
-    [searchParams],
-  );
-
-  const urlDraft = useMemo(
-    () => draftFromParams(searchParams),
     [searchParams],
   );
 
@@ -443,10 +446,6 @@ export function CatalogToolbar({
     setSheetOpen(false);
   };
 
-  const sortLabel =
-    SORT_OPTIONS.find((o) => o.value === urlDraft.sort)?.label ??
-    "Сортировка";
-
   return (
     <div
       className={cn(
@@ -460,16 +459,18 @@ export function CatalogToolbar({
         className,
       )}
     >
-      {/* Mobile: одна тонкая строка вместо коробки в две строки —
-          «Фильтры» слева, текущая сортировка справа. Оба контрола
-          открывают один и тот же лист. */}
-      <div className="flex items-center justify-between gap-3 lg:hidden">
+      {/* Один и тот же контрол на всех вьюпортах: иконка + «Фильтры».
+          На мобиле слева, на десктопе прижат вправо (макет от 2026-09-10).
+          Сортировка живёт внутри панели, отдельной кнопки для неё нет. */}
+      <div className="flex items-center lg:justify-end">
         <button
           type="button"
           onClick={openSheet}
+          aria-haspopup="dialog"
+          aria-expanded={sheetOpen}
           className="inline-flex min-h-11 shrink-0 items-center gap-2 text-body text-text-heading transition-colors hover:text-brand focus-visible:ring-1 focus-visible:ring-ring focus-visible:outline-none"
         >
-          <SlidersHorizontal className="size-4 shrink-0" aria-hidden />
+          <IconFilter className={actionGlyphClass} aria-hidden />
           <span>Фильтры</span>
           {activeFilterCount > 0 ? (
             <span
@@ -480,157 +481,34 @@ export function CatalogToolbar({
             </span>
           ) : null}
         </button>
-
-        <button
-          type="button"
-          onClick={openSheet}
-          aria-label={`Сортировка: ${sortLabel}`}
-          className="inline-flex min-h-11 min-w-0 items-center gap-1.5 text-body text-text-secondary transition-colors hover:text-brand focus-visible:ring-1 focus-visible:ring-ring focus-visible:outline-none"
-        >
-          <span className="truncate">{sortLabel}</span>
-          <ChevronDown className="size-4 shrink-0" aria-hidden />
-        </button>
-      </div>
-
-      {/* Desktop: sort + filters in one horizontal row */}
-      <div className="hidden flex-wrap items-end gap-x-6 gap-y-3 lg:flex">
-        <label className="flex flex-col gap-1 text-small text-text-secondary">
-          Сортировка
-          <select
-            value={urlDraft.sort}
-            onChange={(e) => updateParams({ sort: e.target.value })}
-            className={cn(controlSelectClass, "w-auto min-w-[180px]")}
-          >
-            {SORT_OPTIONS.map((opt) => (
-              <option key={opt.value} value={opt.value}>
-                {opt.label}
-              </option>
-            ))}
-          </select>
-        </label>
-
-        {materialFacet && materialFacet.options.length > 0 ? (
-          <label className="flex flex-col gap-1 text-small text-text-secondary">
-            Материал
-            <select
-              value={urlDraft.material}
-              onChange={(e) =>
-                updateParams({ material: e.target.value || null })
-              }
-              className={cn(controlSelectClass, "min-w-[140px]")}
-            >
-              <option value="">Все</option>
-              {materialFacet.options.map((opt) => (
-                <option key={opt.value} value={opt.value}>
-                  {opt.label} ({opt.count})
-                </option>
-              ))}
-            </select>
-          </label>
-        ) : null}
-
-        {colorFacet && colorFacet.options.length > 0 ? (
-          <label className="flex flex-col gap-1 text-small text-text-secondary">
-            Цвет
-            <select
-              value={urlDraft.color}
-              onChange={(e) =>
-                updateParams({ color: e.target.value || null })
-              }
-              className={cn(controlSelectClass, "min-w-[140px]")}
-            >
-              <option value="">Все</option>
-              {colorFacet.options.map((opt) => (
-                <option key={opt.value} value={opt.value}>
-                  {opt.label} ({opt.count})
-                </option>
-              ))}
-            </select>
-          </label>
-        ) : null}
-
-        <label className="flex flex-col gap-1 text-small text-text-secondary">
-          Цена от
-          <Input
-            type="number"
-            min={0}
-            inputMode="numeric"
-            placeholder="0"
-            defaultValue={urlDraft.minPrice}
-            key={`min-${urlDraft.minPrice}`}
-            className="h-9 w-24"
-            onBlur={(e) => {
-              const v = e.target.value.trim();
-              if (v !== urlDraft.minPrice)
-                updateParams({ minPrice: v || null });
-            }}
-            onKeyDown={(e) => {
-              if (e.key === "Enter") {
-                const v = (e.target as HTMLInputElement).value.trim();
-                updateParams({ minPrice: v || null });
-              }
-            }}
-          />
-        </label>
-        <label className="flex flex-col gap-1 text-small text-text-secondary">
-          до
-          <Input
-            type="number"
-            min={0}
-            inputMode="numeric"
-            placeholder=""
-            defaultValue={urlDraft.maxPrice}
-            key={`max-${urlDraft.maxPrice}`}
-            className="h-9 w-24"
-            onBlur={(e) => {
-              const v = e.target.value.trim();
-              if (v !== urlDraft.maxPrice)
-                updateParams({ maxPrice: v || null });
-            }}
-            onKeyDown={(e) => {
-              if (e.key === "Enter") {
-                const v = (e.target as HTMLInputElement).value.trim();
-                updateParams({ maxPrice: v || null });
-              }
-            }}
-          />
-        </label>
-
-        <fieldset className="flex h-9 items-center gap-4 self-end">
-          <legend className="sr-only">Фильтры</legend>
-          <FilterCheckbox
-            checked={urlDraft.inStock}
-            onChange={(inStock) =>
-              updateParams({
-                inStock: inStock ? "true" : null,
-              })
-            }
-            label="В наличии"
-            className="min-h-0"
-          />
-          <FilterCheckbox
-            checked={urlDraft.onSale}
-            onChange={(onSale) =>
-              updateParams({
-                onSale: onSale ? "true" : null,
-              })
-            }
-            label="Распродажа"
-            className="min-h-0"
-          />
-        </fieldset>
       </div>
 
       <Sheet open={sheetOpen} onOpenChange={setSheetOpen}>
         <SheetContent
-          side="bottom"
+          side={sheetSide}
           showClose={false}
-          className="max-h-[min(85dvh,calc(100dvh-7rem-env(safe-area-inset-top)))] gap-0 overflow-hidden border-0 p-0"
+          onSwipeClose={
+            sheetSide === "right" ? () => setSheetOpen(false) : undefined
+          }
+          className={cn(
+            "gap-0 overflow-hidden border-0 p-0",
+            sheetSide === "bottom"
+              ? "max-h-[min(85dvh,calc(100dvh-7rem-env(safe-area-inset-top)))]"
+              : "w-[min(92vw,420px)] max-w-none",
+          )}
         >
-          <SheetHeader className="px-6 py-4">
-            <SheetTitle className="font-display text-h2 text-text-heading">
+          <SheetHeader className="flex-row items-center justify-between gap-4 px-6 py-4 pr-4">
+            {/* text-h2 (до 36px) в панели шириной 420px ломался на две
+                строки и наезжал на крестик — фиксируем размер. */}
+            <SheetTitle className="font-display text-[20px] leading-[1.2] font-normal text-text-heading lg:text-[22px]">
               Сортировка и фильтры
             </SheetTitle>
+            <SheetClose
+              aria-label="Закрыть фильтры"
+              className="-mr-2 inline-flex size-11 shrink-0 items-center justify-center text-text-secondary transition-colors hover:text-text-heading focus-visible:ring-1 focus-visible:ring-ring focus-visible:outline-none"
+            >
+              <X className={actionGlyphClass} aria-hidden />
+            </SheetClose>
           </SheetHeader>
           <div className="min-h-0 flex-1 overflow-y-auto px-6 py-4">
             <FilterControls

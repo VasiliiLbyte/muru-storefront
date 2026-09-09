@@ -88,3 +88,25 @@ export function IconCard(props: MuruIconProps) {
     </MuruIcon>
   );
 }
+
+/**
+ * Бургер и фильтр нарисованы в той же сетке 26×26, что и остальные
+ * брендовые иконки: у lucide глиф занимает 18 из 24 единиц, поэтому рядом
+ * с сердцем и корзиной он смотрелся мельче. Толщина штриха 1.3 совпадает
+ * с контуром брендовых глифов.
+ */
+export function IconBurger(props: MuruIconProps) {
+  return (
+    <MuruIcon {...props}>
+      <path d="M0 4.85h26v1.3H0zM0 12.35h26v1.3H0zM0 19.85h26v1.3H0z" />
+    </MuruIcon>
+  );
+}
+
+export function IconFilter(props: MuruIconProps) {
+  return (
+    <MuruIcon {...props}>
+      <path d="M0 4.85h26v1.3H0zM0 12.35h26v1.3H0zM0 19.85h26v1.3H0zM16.85 2.2h1.3v6.6h-1.3zM7.85 9.7h1.3v6.6h-1.3zM16.85 17.2h1.3v6.6h-1.3z" />
+    </MuruIcon>
+  );
+}

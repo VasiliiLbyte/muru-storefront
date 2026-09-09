@@ -9,6 +9,8 @@ import { IconBasket } from "@/components/icons";
 
 import { buttonVariants } from "@/components/ui/button";
 import {
+  actionGlyphClass,
+  actionIconBoxClass,
   actionTriggerClass,
   actionTriggerStyle,
   badgeClass,
@@ -75,8 +77,8 @@ export function MiniCart({
         className={cn(actionTriggerClass, className)}
         style={actionTriggerStyle}
       >
-        <span className="relative inline-flex size-6 items-center justify-center">
-          <IconBasket className="size-5" />
+        <span className={actionIconBoxClass}>
+          <IconBasket className={actionGlyphClass} />
           {count ? (
             <span aria-hidden="true" className={badgeClass}>
               {count}

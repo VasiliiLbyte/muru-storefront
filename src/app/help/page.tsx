@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
 
-import { Breadcrumbs } from "@/components/catalog/breadcrumbs";
 import { ContentShell } from "@/components/content/content-shell";
 import { HelpHero } from "@/components/content/help-hero";
 import { HelpTileGrid } from "@/components/content/help-tile-grid";
@@ -38,13 +37,11 @@ export default async function HelpPage() {
   if (hasHero && page.heroImage) {
     return (
       <main id="main" className="flex flex-1 flex-col">
-        <div className="mx-auto w-full max-w-[1564px] px-4 sm:px-8">
-          <Breadcrumbs items={breadcrumbs} className="mb-6 pt-8" />
-        </div>
         <HelpHero
           title={page.title}
           bodyHtml={page.body}
           image={page.heroImage}
+          breadcrumbs={breadcrumbs}
         />
         <ContentShell
           title={page.title}

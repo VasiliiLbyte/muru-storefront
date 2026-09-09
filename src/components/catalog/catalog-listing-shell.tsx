@@ -71,7 +71,7 @@ export function CatalogListingShell({
           <Suspense
             fallback={
               <div
-                className="mb-1 min-h-[57px] animate-pulse rounded-sm bg-surface lg:mb-8 lg:min-h-[138px]"
+                className="mb-1 min-h-[57px] animate-pulse rounded-sm bg-surface lg:mb-8 lg:min-h-[68px]"
                 aria-hidden="true"
               />
             }

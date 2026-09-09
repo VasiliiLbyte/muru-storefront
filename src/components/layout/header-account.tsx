@@ -12,7 +12,12 @@ import {
   LoginDialogGuest,
   GO_ACCOUNT_EVENT,
 } from "@/components/account/login-dialog";
-import { actionTriggerClass, actionTriggerStyle } from "@/components/layout/header-actions";
+import {
+  actionGlyphClass,
+  actionIconBoxClass,
+  actionTriggerClass,
+  actionTriggerStyle,
+} from "@/components/layout/header-actions";
 import { ensureAccessToken } from "@/lib/account/account-fetch";
 import { logoutCustomer } from "@/lib/account/logout";
 import { getAccessToken } from "@/lib/account/session";
@@ -55,8 +60,8 @@ function AuthenticatedAccountMenu({
           />
         }
       >
-        <span className="relative inline-flex size-6 items-center justify-center">
-          <IconCabinet className="size-5" />
+        <span className={actionIconBoxClass}>
+          <IconCabinet className={actionGlyphClass} />
         </span>
       </Menu.Trigger>
 

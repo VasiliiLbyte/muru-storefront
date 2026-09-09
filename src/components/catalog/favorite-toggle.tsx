@@ -9,12 +9,17 @@ import { cn } from "@/lib/utils";
 
 export type FavoriteToggleVariant = "plaque" | "bare";
 
+/** Глиф на карточке: 18px на мобиле (−20% к прежним 22px), 22px от `lg`. */
+export const cardGlyphClass = "size-[18px] lg:size-[22px]";
+
 /**
  * Тоггл избранного на карточке / PDP (auth → server, guest → local).
  *
  * `plaque` — с полупрозрачной подложкой (PDP, оверлеи на светлом).
- * `bare` — без фона, контурная иконка поверх фото (сетка каталога,
- * макет `сайт_2.pdf` / CARD-001). Хит-таргет 44×44 в обоих вариантах.
+ * `bare` — без фона, белая контурная иконка поверх фото (сетка каталога,
+ * макет `сайт_2.pdf` / CARD-001). Белая, а не серая: чисто белых кадров в
+ * каталоге нет, а на тёмных фото серый контур пропадал; тень держит глиф
+ * читаемым и на светлых кадрах. Хит-таргет 44×44 в обоих вариантах.
  */
 export function FavoriteToggle({
   sku,
@@ -48,20 +53,22 @@ export function FavoriteToggle({
       className={cn(
         "inline-flex size-11 items-center justify-center transition-colors focus-visible:ring-1 focus-visible:ring-ring focus-visible:outline-none",
         isBare
-          ? "text-text-heading hover:text-brand"
-          : "rounded-sm bg-background/80 text-text-secondary backdrop-blur-sm hover:text-brand",
-        active && "text-brand",
+          ? "text-white drop-shadow-[0_1px_2px_rgba(0,0,0,0.45)] hover:text-brand"
+          : cn(
+              "rounded-sm bg-background/80 text-text-secondary backdrop-blur-sm hover:text-brand",
+              active && "text-brand",
+            ),
         className,
       )}
     >
       {active ? (
         <IconFavoritesFilled
-          className={isBare ? "size-[22px]" : "size-5"}
+          className={isBare ? cardGlyphClass : "size-5"}
           aria-hidden
         />
       ) : (
         <IconFavorites
-          className={isBare ? "size-[22px]" : "size-5"}
+          className={isBare ? cardGlyphClass : "size-5"}
           aria-hidden
         />
       )}

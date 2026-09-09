@@ -22,8 +22,13 @@ const footerLinkClass = cn(
 const companyLinkClass = footerLinkClass;
 const catalogLinkClass = footerLinkClass;
 
-const columnHeadingClass =
-  "mb-3 text-caption font-medium tracking-[0.12em] text-text-muted uppercase";
+// На мобиле заголовки колонок мельче — по макету дизайнера они заметно
+// меньше пунктов меню, а не вровень с ними.
+const columnHeadingClass = cn(
+  "mb-3 font-medium tracking-[0.12em] text-text-muted uppercase",
+  "max-lg:text-[11px] max-lg:leading-[1.2] max-lg:tracking-[0.14em]",
+  "lg:text-caption",
+);
 
 /**
  * Подвал ≈ PDF: колонки выше, caps-меню, watermark справа #B8B8B8, © + legal.
@@ -78,14 +83,16 @@ export async function Footer({ contacts }: { contacts: SiteContacts }) {
 
             <address
               aria-label="Контакты"
-              className="col-span-2 text-small text-text-secondary not-italic md:col-span-1"
+              className="col-span-2 text-text-secondary not-italic max-lg:text-[13px] max-lg:leading-[1.5] md:col-span-1 lg:text-small"
             >
               <p className={columnHeadingClass}>Контакты</p>
-              {/* На мобиле адрес слева, связь справа — как в макете */}
-              <div className="grid grid-cols-2 gap-x-6 md:grid-cols-1">
+              {/* На мобиле адрес слева, связь справа — как в макете.
+                  Колонка адреса чуть шире: при 13px «192102, г. Санкт-
+                  Петербург,» ровно не влезал в половину и рвался по городу. */}
+              <div className="grid grid-cols-[1.15fr_1fr] gap-x-6 md:grid-cols-1">
                 <ContactAddress
                   address={contacts.address}
-                  className="max-w-[18rem] py-2 text-small text-text-secondary"
+                  className="max-w-[18rem] py-2 text-text-secondary max-lg:text-[13px] max-lg:leading-[1.5] lg:text-small"
                 />
                 <div className="flex flex-col">
                   <a

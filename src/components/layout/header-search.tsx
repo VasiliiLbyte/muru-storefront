@@ -11,10 +11,12 @@ import {
   useRef,
   useState,
 } from "react";
-import { Clock, Loader2, Mic, Tag, X } from "lucide-react";
+import { Clock, Loader2, Tag, X } from "lucide-react";
 
 import { IconSearch } from "@/components/icons";
 import {
+  actionGlyphClass,
+  actionIconBoxClass,
   actionTriggerClass,
   actionTriggerStyle,
 } from "@/components/layout/header-actions";
@@ -529,19 +531,13 @@ function SearchFormWithSuggest({
           autoComplete="off"
           style={{ fontSize: 16 }}
           className={cn(
-            "h-[45px] w-full rounded-none border border-[#d7d8da] bg-background py-2.5 pr-24 pl-8 text-[16px] font-normal text-text-primary placeholder:text-text-secondary focus-visible:border-ring focus-visible:ring-1 focus-visible:ring-ring focus-visible:outline-none lg:text-[15px]",
+            "h-[45px] w-full rounded-none border border-[#d7d8da] bg-background py-2.5 pr-12 pl-8 text-[16px] font-normal text-text-primary placeholder:text-text-secondary focus-visible:border-ring focus-visible:ring-1 focus-visible:ring-ring focus-visible:outline-none lg:text-[15px]",
+            // Родной крестик type=search в Chromium наезжал на лупу
+            "[&::-webkit-search-cancel-button]:appearance-none",
             inputClassName,
           )}
         />
-        <div className="absolute top-1/2 right-3 flex -translate-y-1/2 items-center gap-2.5 text-text-secondary">
-          <button
-            type="button"
-            aria-label="Голосовой поиск"
-            className="inline-flex size-11 items-center justify-center transition-colors hover:text-brand lg:size-auto"
-          >
-            <Mic className="size-5" aria-hidden />
-          </button>
-          <span className="h-5 w-px bg-border" aria-hidden />
+        <div className="absolute top-1/2 right-3 flex -translate-y-1/2 items-center text-text-secondary">
           <button
             type="submit"
             aria-label="Найти"
@@ -611,10 +607,10 @@ export function HeaderMobileSearch() {
         style={actionTriggerStyle}
         onClick={() => setOpen(true)}
       >
-        {/* Обёртка size-6 — как у остальных иконок в HeaderActions,
-            иначе бокс поиска на 4px уже и промежуток не совпадает */}
-        <span className="relative inline-flex size-6 items-center justify-center">
-          <IconSearch className="size-5" aria-hidden />
+        {/* Обёртка общая с остальными иконками HeaderActions, иначе бокс
+            поиска уже соседних и промежуток не совпадает */}
+        <span className={actionIconBoxClass}>
+          <IconSearch className={actionGlyphClass} aria-hidden />
         </span>
       </button>
       {open ? (

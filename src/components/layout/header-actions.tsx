@@ -23,6 +23,16 @@ const actionTriggerStyle = {
   minHeight: 44,
 } as const;
 
+/**
+ * Единый размер глифа для всей шапки: 16px на мобиле (на 20% меньше
+ * прежних 20px — на телефоне иконки были слишком крупными) и 20px от `lg`.
+ * Бокс совпадает с глифом, поэтому счётчик садится на угол самой иконки.
+ */
+const actionGlyphClass = "size-4 lg:size-5";
+
+const actionIconBoxClass =
+  "relative inline-flex size-4 items-center justify-center lg:size-5";
+
 const badgeClass =
   "absolute -top-1 -right-1 inline-flex h-4 min-w-4 items-center justify-center rounded-full bg-brand px-0.5 text-[10px] leading-none font-medium text-text-inverse";
 
@@ -44,7 +54,7 @@ function HeaderActionLink({
       className={actionTriggerClass}
       style={actionTriggerStyle}
     >
-      <span className="relative inline-flex size-6 items-center justify-center">
+      <span className={actionIconBoxClass}>
         {children}
         {count ? (
           <span aria-hidden="true" className={badgeClass}>
@@ -72,7 +82,7 @@ export function HeaderActions({ className }: { className?: string }) {
         label="Избранное"
         count={favorites}
       >
-        <IconFavorites className="size-5" />
+        <IconFavorites className={actionGlyphClass} />
       </HeaderActionLink>
       <HeaderAccount />
       <MiniCart />
@@ -82,4 +92,10 @@ export function HeaderActions({ className }: { className?: string }) {
   );
 }
 
-export { actionTriggerClass, badgeClass, actionTriggerStyle };
+export {
+  actionTriggerClass,
+  actionGlyphClass,
+  actionIconBoxClass,
+  badgeClass,
+  actionTriggerStyle,
+};

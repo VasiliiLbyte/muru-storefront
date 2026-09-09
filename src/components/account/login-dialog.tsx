@@ -1,10 +1,12 @@
 "use client";
 
 import { Suspense, useEffect, useRef, useState } from "react";
-import { Phone, X } from "lucide-react";
+import { X } from "lucide-react";
 
 import { IconCabinet } from "@/components/icons";
 import {
+  actionGlyphClass,
+  actionIconBoxClass,
   actionTriggerClass,
   actionTriggerStyle,
 } from "@/components/layout/header-actions";
@@ -40,17 +42,6 @@ export function openLoginDialog() {
     return;
   }
   window.dispatchEvent(new CustomEvent(OPEN_LOGIN_EVENT));
-}
-
-function LoginHeaderIcon() {
-  return (
-    <span
-      aria-hidden
-      className="mb-3 inline-flex size-12 items-center justify-center bg-brand/10"
-    >
-      <Phone className="size-5 text-brand" />
-    </span>
-  );
 }
 
 /**
@@ -110,8 +101,8 @@ export function LoginDialogGuest({ compact = false }: { compact?: boolean }) {
         className={actionTriggerClass}
         style={actionTriggerStyle}
       >
-        <span className="relative inline-flex size-6 items-center justify-center">
-          <IconCabinet className="size-5" />
+        <span className={actionIconBoxClass}>
+          <IconCabinet className={actionGlyphClass} />
         </span>
       </button>
 
@@ -130,7 +121,6 @@ export function LoginDialogGuest({ compact = false }: { compact?: boolean }) {
               <X className="size-5" />
             </SheetClose>
             <SheetHeader className="mb-6">
-              <LoginHeaderIcon />
               <SheetTitle className="font-display text-h3 text-text-heading">
                 {TITLE}
               </SheetTitle>
@@ -145,7 +135,6 @@ export function LoginDialogGuest({ compact = false }: { compact?: boolean }) {
             className="w-[min(100vw-1.5rem,26rem)] p-8"
           >
             <DialogHeader className="mb-6">
-              <LoginHeaderIcon />
               <DialogTitle className="font-display text-h3 text-text-heading">
                 {TITLE}
               </DialogTitle>
