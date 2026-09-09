@@ -33,14 +33,26 @@ describe("splitContactAddress", () => {
   it("splits fallback into city line and street line", () => {
     expect(splitContactAddress(FALLBACK_RAW)).toEqual({
       line1: "192102, г. Санкт-Петербург,",
-      line2: "ул. Дубровская д. 13, литера А, пом. 27",
+      line2: "ул. Дубровская д. 13,",
+      line3: "литера А, пом. 27",
     });
   });
 
   it("normalizes CMS strings without spaces before split", () => {
     expect(splitContactAddress(FALLBACK_RAW)).toEqual({
       line1: "192102, г. Санкт-Петербург,",
-      line2: "ул. Дубровская д. 13, литера А, пом. 27",
+      line2: "ул. Дубровская д. 13,",
+      line3: "литера А, пом. 27",
+    });
+  });
+
+  it("keeps the street on one line when there is no «литера»", () => {
+    expect(
+      splitContactAddress("192102, г. Санкт-Петербург, ул. Дубровская д. 13"),
+    ).toEqual({
+      line1: "192102, г. Санкт-Петербург,",
+      line2: "ул. Дубровская д. 13",
+      line3: "",
     });
   });
 
@@ -48,6 +60,7 @@ describe("splitContactAddress", () => {
     expect(splitContactAddress("192102, г. Санкт-Петербург")).toEqual({
       line1: "192102, г. Санкт-Петербург",
       line2: "",
+      line3: "",
     });
   });
 });

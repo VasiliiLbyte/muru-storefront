@@ -13,10 +13,13 @@ import {
 import { cn } from "@/lib/utils";
 
 // На мобиле ссылки капслоком и в две колонки — по макету дизайнера.
+// 12px/0.02em — самый крупный кегль, при котором длинные пункты
+// («Комплексные наборы», «Натуральный декор») ещё держатся в одну строку
+// в половине 390-й ширины; шаг строк 32px даёт ту же плотность, что в макете.
 const footerLinkClass = cn(
-  "inline-flex min-h-11 items-center font-light text-text-secondary transition-colors hover:text-brand",
-  "max-lg:text-[15px] max-lg:leading-5 max-lg:tracking-[0.04em] max-lg:uppercase",
-  "lg:text-body",
+  "inline-flex items-center font-light text-text-secondary transition-colors hover:text-brand",
+  "max-lg:min-h-8 max-lg:text-[12px] max-lg:leading-[1.4] max-lg:tracking-[0.02em] max-lg:uppercase",
+  "lg:min-h-11 lg:text-body",
 );
 
 const companyLinkClass = footerLinkClass;
@@ -25,9 +28,9 @@ const catalogLinkClass = footerLinkClass;
 // На мобиле заголовки колонок мельче — по макету дизайнера они заметно
 // меньше пунктов меню, а не вровень с ними.
 const columnHeadingClass = cn(
-  "mb-3 font-medium tracking-[0.12em] text-text-muted uppercase",
-  "max-lg:text-[11px] max-lg:leading-[1.2] max-lg:tracking-[0.14em]",
-  "lg:text-caption",
+  "font-medium tracking-[0.12em] text-text-muted uppercase",
+  "max-lg:mb-2 max-lg:text-[10px] max-lg:leading-[1.2] max-lg:tracking-[0.16em]",
+  "lg:mb-3 lg:text-caption",
 );
 
 /**
@@ -54,7 +57,7 @@ export async function Footer({ contacts }: { contacts: SiteContacts }) {
     <footer className="mt-auto bg-surface">
       <div className="mx-auto w-full max-w-[1564px] px-4 pt-20 pb-12 sm:px-8">
         <div className="relative pb-20">
-          <div className="grid grid-cols-2 gap-x-6 gap-y-12 md:grid-cols-3 md:gap-8">
+          <div className="grid grid-cols-2 gap-x-4 gap-y-10 md:grid-cols-3 md:gap-8">
             <nav aria-label="Компания">
               <p className={columnHeadingClass}>Компания</p>
               <ul className="flex flex-col gap-y-0.5">
@@ -83,31 +86,29 @@ export async function Footer({ contacts }: { contacts: SiteContacts }) {
 
             <address
               aria-label="Контакты"
-              className="col-span-2 text-text-secondary not-italic max-lg:text-[13px] max-lg:leading-[1.5] md:col-span-1 lg:text-small"
+              className="col-span-2 text-text-secondary not-italic max-lg:text-[12px] max-lg:leading-[1.5] md:col-span-1 lg:text-small"
             >
               <p className={columnHeadingClass}>Контакты</p>
-              {/* На мобиле адрес слева, связь справа — как в макете.
-                  Колонка адреса чуть шире: при 13px «192102, г. Санкт-
-                  Петербург,» ровно не влезал в половину и рвался по городу. */}
-              <div className="grid grid-cols-[1.15fr_1fr] gap-x-6 md:grid-cols-1">
+              {/* На мобиле адрес слева, связь справа — как в макете */}
+              <div className="grid grid-cols-2 gap-x-4 md:grid-cols-1">
                 <ContactAddress
                   address={contacts.address}
-                  className="max-w-[18rem] py-2 text-text-secondary max-lg:text-[13px] max-lg:leading-[1.5] lg:text-small"
+                  className="max-w-[18rem] text-text-secondary max-lg:text-[12px] max-lg:leading-[1.5] lg:py-2 lg:text-small"
                 />
                 <div className="flex flex-col">
                   <a
                     href={contacts.phoneHref}
-                    className="inline-flex min-h-11 items-center font-medium text-text-primary transition-colors hover:text-brand"
+                    className="inline-flex items-center font-medium text-text-primary transition-colors hover:text-brand max-lg:min-h-6 lg:min-h-11"
                   >
                     {contacts.phoneDisplay}
                   </a>
                   <a
                     href={contacts.emailHref}
-                    className="inline-flex min-h-11 items-center transition-colors hover:text-brand"
+                    className="inline-flex items-center transition-colors hover:text-brand max-lg:min-h-6 lg:min-h-11"
                   >
                     {contacts.email}
                   </a>
-                  <span className="py-2 text-text-secondary">
+                  <span className="text-text-secondary max-lg:py-0.5 lg:py-2">
                     {contacts.hours}
                   </span>
                 </div>
@@ -133,7 +134,7 @@ export async function Footer({ contacts }: { contacts: SiteContacts }) {
         </div>
 
         <div className="mt-10 flex flex-row items-start justify-between gap-4 pt-6 sm:items-center">
-          <p className="inline-flex min-h-11 items-center text-small leading-5 text-text-secondary">
+          <p className="inline-flex items-center leading-5 text-text-secondary max-lg:min-h-8 max-lg:text-[12px] lg:min-h-11 lg:text-small">
             © {year} MURU
           </p>
           <ul className="flex flex-col items-end text-right sm:flex-row sm:flex-wrap sm:gap-x-6">
@@ -141,7 +142,7 @@ export async function Footer({ contacts }: { contacts: SiteContacts }) {
               <li key={item.href}>
                 <Link
                   href={item.href}
-                  className="inline-flex min-h-11 items-center text-small leading-5 text-text-secondary transition-colors hover:text-text-primary"
+                  className="inline-flex items-center leading-5 text-text-secondary transition-colors hover:text-text-primary max-lg:min-h-8 max-lg:text-[12px] lg:min-h-11 lg:text-small"
                 >
                   {item.label}
                 </Link>

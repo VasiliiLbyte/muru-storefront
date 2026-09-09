@@ -33,6 +33,13 @@ const actionGlyphClass = "size-4 lg:size-5";
 const actionIconBoxClass =
   "relative inline-flex size-4 items-center justify-center lg:size-5";
 
+/**
+ * Лупа — замкнутое кольцо во всю сетку 26×26, поэтому при одинаковом боксе
+ * она читается крупнее сердца и корзины. На мобиле гасим это оптически:
+ * 14px вместо 16px.
+ */
+const actionGlyphSearchClass = "size-[14px] lg:size-5";
+
 const badgeClass =
   "absolute -top-1 -right-1 inline-flex h-4 min-w-4 items-center justify-center rounded-full bg-brand px-0.5 text-[10px] leading-none font-medium text-text-inverse";
 
@@ -95,6 +102,7 @@ export function HeaderActions({ className }: { className?: string }) {
 export {
   actionTriggerClass,
   actionGlyphClass,
+  actionGlyphSearchClass,
   actionIconBoxClass,
   badgeClass,
   actionTriggerStyle,

@@ -8,12 +8,13 @@ export function ContactAddress({
   address: string;
   className?: string;
 }) {
-  const { line1, line2 } = splitContactAddress(address);
+  const { line1, line2, line3 } = splitContactAddress(address);
 
   return (
     <span className={cn("block", className)}>
       <span className="block">{line1}</span>
       {line2 ? <span className="block">{line2}</span> : null}
+      {line3 ? <span className="block">{line3}</span> : null}
     </span>
   );
 }

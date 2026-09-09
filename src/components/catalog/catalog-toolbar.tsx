@@ -518,7 +518,7 @@ export function CatalogToolbar({
               colorFacet={colorFacet}
             />
           </div>
-          <div className="flex shrink-0 gap-3 bg-surface px-6 py-4 pb-safe">
+          <div className="flex shrink-0 gap-3 bg-surface px-6 pt-4 pb-[calc(2rem+env(safe-area-inset-bottom))]">
             <button
               type="button"
               onClick={resetAndClose}
