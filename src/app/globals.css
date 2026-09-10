@@ -236,15 +236,18 @@ body:has(main[data-home-snap]) [data-app-header] {
   backdrop-filter: none;
 }
 
-/* Скрим под шапкой: белые бургер и лого читаются на любом кадре из CMS */
-body:has(main[data-home-snap]) [data-app-header]::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  z-index: -1;
-  background: linear-gradient(to bottom, rgb(0 0 0 / 0.32), rgb(0 0 0 / 0));
-  pointer-events: none;
-  transition: opacity 0.2s ease-in-out;
+/* Скрим под шапкой — только на десктопе. На мобиле дизайнер убрал затемнение
+   сверху и снизу, читаемость белого хрома держит drop-shadow глифов. */
+@media (min-width: 1024px) {
+  body:has(main[data-home-snap]) [data-app-header]::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    background: linear-gradient(to bottom, rgb(0 0 0 / 0.32), rgb(0 0 0 / 0));
+    pointer-events: none;
+    transition: opacity 0.2s ease-in-out;
+  }
 }
 
 body:has(main[data-home-snap]) [data-header-burger] button,
@@ -257,6 +260,7 @@ body:has(main[data-home-snap]) [data-header-actions] button {
 /* Логотип белым — отдельный ассет не нужен */
 body:has(main[data-home-snap]) [data-app-header] img[alt="muru"] {
   filter: brightness(0) invert(1) drop-shadow(0 1px 6px rgb(0 0 0 / 0.35));
+  transition: filter 0.2s ease-in-out;
 }
 
 /* Наведение на шапку главной → тот же вид, что на остальных страницах.
@@ -283,22 +287,46 @@ body:has(main[data-home-snap]) [data-app-header] img[alt="muru"] {
   }
 }
 
-/* Подвал в кадре: белый хром со скримом читался бы как грязь на светлом
-   фоне, поэтому бургер, лого и нижний ряд иконок становятся брендовыми
-   зелёными, а скрим гасится. Признак ставит `FooterChromeWatch`. */
-html[data-footer-visible] body:has(main[data-home-snap]) [data-app-header]::before,
-html[data-footer-visible] body:has(main[data-home-snap]) [data-header-actions]::before {
-  opacity: 0;
+/* Подвал наезжает на хром: белый со скримом читался бы как грязь на светлом
+   фоне, поэтому хром становится брендовым зелёным. Не разом, а по этажам —
+   признаки ставит `FooterChromeWatch`:
+   шаг 1 — подвал дошёл до нижнего ряда иконок (мобильная главная);
+   шаг 2 — дошёл до шапки, зеленеют бургер и логотип. */
+@media (max-width: 1023px) {
+  html[data-footer-chrome-actions]
+    body:has(main[data-home-snap])
+    [data-header-actions] a,
+  html[data-footer-chrome-actions]
+    body:has(main[data-home-snap])
+    [data-header-actions] button {
+    color: var(--color-brand);
+    filter: none;
+  }
 }
 
-html[data-footer-visible] body:has(main[data-home-snap]) [data-header-burger] button,
-html[data-footer-visible] body:has(main[data-home-snap]) [data-header-actions] a,
-html[data-footer-visible] body:has(main[data-home-snap]) [data-header-actions] button {
+/* На десктопе иконки живут в самой шапке — там этаж один. */
+@media (min-width: 1024px) {
+  html[data-footer-chrome-header] body:has(main[data-home-snap]) [data-app-header]::before {
+    opacity: 0;
+  }
+
+  html[data-footer-chrome-header]
+    body:has(main[data-home-snap])
+    [data-header-actions] a,
+  html[data-footer-chrome-header]
+    body:has(main[data-home-snap])
+    [data-header-actions] button {
+    color: var(--color-brand);
+    filter: none;
+  }
+}
+
+html[data-footer-chrome-header] body:has(main[data-home-snap]) [data-header-burger] button {
   color: var(--color-brand);
   filter: none;
 }
 
-html[data-footer-visible] body:has(main[data-home-snap]) [data-app-header] img[alt="muru"] {
+html[data-footer-chrome-header] body:has(main[data-home-snap]) [data-app-header] img[alt="muru"] {
   filter: none;
 }
 
@@ -324,15 +352,6 @@ html[data-footer-visible] body:has(main[data-home-snap]) [data-app-header] img[a
     padding-inline: 1rem;
   }
 
-  /* Такой же скрим под нижним рядом иконок */
-  body:has(main[data-home-snap]) [data-header-actions]::before {
-    content: "";
-    position: absolute;
-    inset: -0.75rem 0 -2rem;
-    z-index: -1;
-    background: linear-gradient(to top, rgb(0 0 0 / 0.32), rgb(0 0 0 / 0));
-    pointer-events: none;
-  }
 }
 
 @media (min-width: 1024px) {
