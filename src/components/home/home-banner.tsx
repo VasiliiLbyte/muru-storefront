@@ -106,7 +106,7 @@ function MobileBannerCopy({
 
 /**
  * Full-bleed баннер главной.
- * Mobile (&lt;lg): фото на весь экран (`100dvh`, object-cover) + текст поверх, без плашки.
+ * Mobile (&lt;lg): фото на весь экран (`100lvh`, object-cover) + текст поверх, без плашки.
  * Desktop (≥lg): overlay card + scroll-snap (object-cover full-bleed).
  */
 export function HomeBanner({
@@ -129,11 +129,12 @@ export function HomeBanner({
     <section
       className={cn(
         "relative isolate block overflow-hidden",
-        // Mobile: полноэкранный баннер ровно в текущий вьюпорт. Был `svh`
-        // (высота при раскрытой панели Safari) — с плавающей адресной строкой
-        // iOS 26 секция оказывалась короче экрана и снизу выглядывала
-        // следующая. `dvh` всегда равен видимой части.
-        "h-[100dvh] min-h-[100dvh]",
+        // Mobile: полноэкранный баннер. `lvh` — высота экрана без учёта
+        // панели Safari: она плавающая и лежит поверх страницы, поэтому при
+        // `svh`/`dvh` секция оказывалась короче экрана на высоту панели и
+        // снизу выглядывала следующая. `min-h-screen` — фолбэк для браузеров
+        // без поддержки `lvh`.
+        "h-[100lvh] min-h-screen",
         // Первый баннер теперь такой же, как остальные: белого бара над ним
         // нет, шапка лежит поверх кадра. Отдельный офсет остался переменной
         // на случай возврата бара.
@@ -150,12 +151,6 @@ export function HomeBanner({
           priority={priority}
         />
       </div>
-
-      {/* Скрим только на мобиле: белый текст поверх произвольного фото из CMS */}
-      <div
-        aria-hidden
-        className="absolute inset-0 bg-linear-to-b from-black/25 via-black/5 to-black/35 lg:hidden"
-      />
 
       {/* Mobile: текст по центру экрана поверх фото */}
       <div className="absolute inset-0 z-10 flex items-center justify-center lg:hidden">
