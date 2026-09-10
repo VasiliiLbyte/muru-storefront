@@ -356,6 +356,16 @@ html[data-footer-chrome-header] body:has(main[data-home-snap]) [data-app-header]
     padding-inline: 1rem;
   }
 
+  /* Подвал — такая же полноэкранная секция, как баннеры: добираем высоту
+     вниз, чтобы над ним не выглядывал предыдущий кадр. Сверху — запас под
+     фиксированную шапку (56px + вырез), иначе бургер накрывает «Компанию»:
+     40px макета отсчитываются от нижней кромки шапки. */
+  body:has(main[data-home-snap]) footer {
+    min-height: 100vh;
+    min-height: 100lvh;
+    padding-top: calc(3.5rem + env(safe-area-inset-top, 0px));
+  }
+
   /* Такой же скрим под нижним рядом иконок */
   body:has(main[data-home-snap]) [data-header-actions]::before {
     content: "";

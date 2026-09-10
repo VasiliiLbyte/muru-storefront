@@ -120,8 +120,8 @@ export async function Footer({ contacts }: { contacts: SiteContacts }) {
 
           <div
             aria-hidden="true"
-            /* Размер ровно как у логотипа в шапке: 86×24 на мобиле, 124×24 на десктопе */
-            className="pointer-events-none absolute right-0 bottom-0 h-6 w-[86px] bg-text-muted lg:w-[124px]"
+            /* Размер ровно как у логотипа в шапке — 124×24 на всех вьюпортах */
+            className="pointer-events-none absolute right-0 bottom-0 h-6 w-[124px] bg-text-muted"
             style={{
               WebkitMaskImage: "url(/brand/muru-logo.svg)",
               maskImage: "url(/brand/muru-logo.svg)",
