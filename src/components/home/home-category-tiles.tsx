@@ -41,7 +41,7 @@ export async function HomeCategoryTiles() {
   return (
     <section
       aria-label="Категории каталога"
-      className="grid h-[100svh] grid-cols-2 grid-rows-2 lg:hidden"
+      className="grid h-[100dvh] grid-cols-2 grid-rows-2 lg:hidden"
     >
       {tiles.map((tile, index) => (
         <Link

@@ -106,7 +106,7 @@ function MobileBannerCopy({
 
 /**
  * Full-bleed баннер главной.
- * Mobile (&lt;lg): фото на весь экран (`100svh`, object-cover) + текст поверх, без плашки.
+ * Mobile (&lt;lg): фото на весь экран (`100dvh`, object-cover) + текст поверх, без плашки.
  * Desktop (≥lg): overlay card + scroll-snap (object-cover full-bleed).
  */
 export function HomeBanner({
@@ -129,9 +129,11 @@ export function HomeBanner({
     <section
       className={cn(
         "relative isolate block overflow-hidden",
-        // Mobile: полноэкранный баннер. svh, а не dvh — чтобы не дёргалось
-        // при появлении/скрытии адресной строки на iOS.
-        "h-[100svh] min-h-[100svh]",
+        // Mobile: полноэкранный баннер ровно в текущий вьюпорт. Был `svh`
+        // (высота при раскрытой панели Safari) — с плавающей адресной строкой
+        // iOS 26 секция оказывалась короче экрана и снизу выглядывала
+        // следующая. `dvh` всегда равен видимой части.
+        "h-[100dvh] min-h-[100dvh]",
         // Первый баннер теперь такой же, как остальные: белого бара над ним
         // нет, шапка лежит поверх кадра. Отдельный офсет остался переменной
         // на случай возврата бара.
