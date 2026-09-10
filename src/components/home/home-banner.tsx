@@ -152,6 +152,13 @@ export function HomeBanner({
         />
       </div>
 
+      {/* Скрим только на мобиле: белый текст поверх произвольного фото из CMS.
+          Пробовали снимать — без затемнения хуже, вернули (2026-09-10). */}
+      <div
+        aria-hidden
+        className="absolute inset-0 bg-linear-to-b from-black/25 via-black/5 to-black/35 lg:hidden"
+      />
+
       {/* Mobile: текст по центру экрана поверх фото */}
       <div className="absolute inset-0 z-10 flex items-center justify-center lg:hidden">
         <MobileBannerCopy

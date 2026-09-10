@@ -236,18 +236,16 @@ body:has(main[data-home-snap]) [data-app-header] {
   backdrop-filter: none;
 }
 
-/* Скрим под шапкой — только на десктопе. На мобиле дизайнер убрал затемнение
-   сверху и снизу, читаемость белого хрома держит drop-shadow глифов. */
-@media (min-width: 1024px) {
-  body:has(main[data-home-snap]) [data-app-header]::before {
-    content: "";
-    position: absolute;
-    inset: 0;
-    z-index: -1;
-    background: linear-gradient(to bottom, rgb(0 0 0 / 0.32), rgb(0 0 0 / 0));
-    pointer-events: none;
-    transition: opacity 0.2s ease-in-out;
-  }
+/* Скрим под шапкой: белые бургер и лого читаются на любом кадре из CMS.
+   Пробовали убирать его на мобиле — без затемнения хуже, вернули (2026-09-10). */
+body:has(main[data-home-snap]) [data-app-header]::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: linear-gradient(to bottom, rgb(0 0 0 / 0.32), rgb(0 0 0 / 0));
+  pointer-events: none;
+  transition: opacity 0.2s ease-in-out;
 }
 
 body:has(main[data-home-snap]) [data-header-burger] button,
@@ -295,6 +293,12 @@ body:has(main[data-home-snap]) [data-app-header] img[alt="muru"] {
 @media (max-width: 1023px) {
   html[data-footer-chrome-actions]
     body:has(main[data-home-snap])
+    [data-header-actions]::before {
+    opacity: 0;
+  }
+
+  html[data-footer-chrome-actions]
+    body:has(main[data-home-snap])
     [data-header-actions] a,
   html[data-footer-chrome-actions]
     body:has(main[data-home-snap])
@@ -304,12 +308,12 @@ body:has(main[data-home-snap]) [data-app-header] img[alt="muru"] {
   }
 }
 
+html[data-footer-chrome-header] body:has(main[data-home-snap]) [data-app-header]::before {
+  opacity: 0;
+}
+
 /* На десктопе иконки живут в самой шапке — там этаж один. */
 @media (min-width: 1024px) {
-  html[data-footer-chrome-header] body:has(main[data-home-snap]) [data-app-header]::before {
-    opacity: 0;
-  }
-
   html[data-footer-chrome-header]
     body:has(main[data-home-snap])
     [data-header-actions] a,
@@ -352,6 +356,16 @@ html[data-footer-chrome-header] body:has(main[data-home-snap]) [data-app-header]
     padding-inline: 1rem;
   }
 
+  /* Такой же скрим под нижним рядом иконок */
+  body:has(main[data-home-snap]) [data-header-actions]::before {
+    content: "";
+    position: absolute;
+    inset: -0.75rem 0 -2rem;
+    z-index: -1;
+    background: linear-gradient(to top, rgb(0 0 0 / 0.32), rgb(0 0 0 / 0));
+    pointer-events: none;
+    transition: opacity 0.2s ease-in-out;
+  }
 }
 
 @media (min-width: 1024px) {
