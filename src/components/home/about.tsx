@@ -3,6 +3,8 @@ import Link from "next/link";
 
 import { Button } from "@/components/ui/button";
 import { staticBlurProps } from "@/lib/images";
+import { brandButtonSize } from "@/components/ui/brand-button-class";
+import { cn } from "@/lib/utils";
 
 /**
  * Блок «О нас» на главной. Текст — нейтральный плейсхолдер той же структуры.
@@ -38,7 +40,7 @@ export function About() {
               nativeButton={false}
               render={<Link href="/company/" />}
               variant="outline"
-              className="mt-2 h-[45px] px-8"
+              className={cn("mt-2", brandButtonSize)}
             >
               Подробнее о MURU
             </Button>

@@ -22,6 +22,7 @@ import { formatPrice } from "@/lib/format";
 import type { Product } from "@/lib/schemas";
 import { useCartItems, useCartStore } from "@/stores/cart-store";
 import { cn } from "@/lib/utils";
+import { brandButtonSize } from "@/components/ui/brand-button-class";
 
 const textareaClassName =
   "flex min-h-24 w-full min-w-0 rounded-sm border border-input bg-background px-2 py-2 text-base text-foreground transition-[color,border-color,box-shadow] outline-none placeholder:text-muted-foreground focus-visible:border-ring focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-70";
@@ -501,7 +502,7 @@ export function CheckoutView() {
               form="checkout-form"
               size="lg"
               disabled={!canSubmit}
-              className="hidden h-11 w-full lg:flex"
+              className={cn(brandButtonSize, "hidden w-full lg:flex")}
             >
               {submitting ? "Переход к оплате…" : "Оплатить"}
             </Button>

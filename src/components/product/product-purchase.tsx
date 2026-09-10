@@ -10,6 +10,7 @@ import { discountPercent, formatPrice } from "@/lib/format";
 import type { Product } from "@/lib/schemas";
 import { useCartStore } from "@/stores/cart-store";
 import { cn } from "@/lib/utils";
+import { brandButtonSize } from "@/components/ui/brand-button-class";
 
 export function ProductPurchase({
   product,
@@ -82,7 +83,7 @@ export function ProductPurchase({
             type="button"
             variant="outline"
             size="lg"
-            className="min-h-12 w-full px-6 text-body lg:h-8 lg:min-h-0 lg:w-auto lg:px-8 lg:text-[14px]"
+            className={cn(brandButtonSize, "w-full lg:w-auto")}
             onClick={() => setOneClickOpen(true)}
           >
             Купить в 1 клик
@@ -90,7 +91,10 @@ export function ProductPurchase({
           <Button
             type="button"
             size="lg"
-            className="min-h-12 w-full bg-brand px-6 text-body text-text-inverse hover:bg-brand-hover lg:h-8 lg:min-h-0 lg:w-auto lg:px-8 lg:text-[14px]"
+            className={cn(
+              brandButtonSize,
+              "w-full bg-brand text-text-inverse hover:bg-brand-hover lg:w-auto",
+            )}
             onClick={() => {
               addItem(product.sku);
               showAddedToast({

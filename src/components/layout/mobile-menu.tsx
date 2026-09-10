@@ -6,7 +6,7 @@ import { Accordion } from "@base-ui/react/accordion";
 import { ChevronDown } from "lucide-react";
 
 import { IconBurger } from "@/components/icons";
-import { actionGlyphClass } from "@/components/layout/header-actions";
+
 import {
   Sheet,
   SheetContent,
@@ -43,7 +43,9 @@ export function MobileMenu({
         className="inline-flex items-center justify-center text-text-secondary transition-colors hover:text-text-heading focus-visible:ring-1 focus-visible:ring-ring focus-visible:outline-none"
         style={{ width: 44, height: 44, minWidth: 44, minHeight: 44 }}
       >
-        <IconBurger className={actionGlyphClass} />
+        {/* На мобиле бургер вровень с остальными иконками (21px). На десктопе
+            оставляем прежний оптический размер: там его не увеличивали. */}
+        <IconBurger className="size-[21px] lg:size-[15px]" />
       </SheetTrigger>
       <SheetContent
         side="left"

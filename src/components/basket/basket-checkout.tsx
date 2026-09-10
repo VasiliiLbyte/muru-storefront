@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import type { CartItem } from "@/lib/schemas";
 import { cn } from "@/lib/utils";
+import { brandButtonSize } from "@/components/ui/brand-button-class";
 
 export function BasketCheckout({
   items: _items,
@@ -21,10 +22,9 @@ export function BasketCheckout({
     <div className={cn("flex flex-col gap-3", className)}>
       <Button
         type="button"
-        size="lg"
         disabled={disabled}
         onClick={() => router.push("/checkout/")}
-        className="h-11 w-full"
+        className={cn(brandButtonSize, "w-full")}
       >
         Оформить заказ
       </Button>

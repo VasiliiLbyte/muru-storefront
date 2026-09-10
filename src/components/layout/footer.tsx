@@ -57,7 +57,7 @@ export async function Footer({ contacts }: { contacts: SiteContacts }) {
     <footer className="mt-auto bg-surface">
       {/* Мобильный вертикальный ритм — один шаг 40px: над «Компанией»,
           между блоками, вокруг вордмарка и до нижней кромки (макет 2026-09-10). */}
-      <div className="mx-auto w-full max-w-[1564px] px-4 max-lg:pt-10 max-lg:pb-10 sm:px-8 lg:pt-20 lg:pb-12">
+      <div className="mx-auto w-full max-w-[1564px] px-4 max-lg:pt-10 max-lg:pb-10 sm:px-8 lg:pt-12 lg:pb-12">
         <div className="relative max-lg:pb-10 lg:pb-20">
           <div className="grid grid-cols-2 gap-x-4 gap-y-10 md:grid-cols-3 md:gap-8">
             <nav aria-label="Компания">

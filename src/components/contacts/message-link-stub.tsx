@@ -3,6 +3,8 @@
 import { useState } from "react";
 
 import { Button } from "@/components/ui/button";
+import { brandButtonSize } from "@/components/ui/brand-button-class";
+import { cn } from "@/lib/utils";
 
 export function MessageLinkStub() {
   const [clicked, setClicked] = useState(false);
@@ -11,8 +13,10 @@ export function MessageLinkStub() {
     <div className="flex flex-col gap-3">
       <Button
         type="button"
-        size="lg"
-        className="h-11 w-full bg-brand px-8 text-body text-text-inverse hover:bg-brand-hover"
+        className={cn(
+          brandButtonSize,
+          "w-full bg-brand text-text-inverse hover:bg-brand-hover",
+        )}
         onClick={() => setClicked(true)}
       >
         Написать сообщение

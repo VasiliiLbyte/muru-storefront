@@ -88,11 +88,16 @@ export function SiteMenuDesktop({
         </div>
       </div>
 
-      {/* Вторичная навигация — прижата к низу панели */}
+      {/* Вторичная навигация — прижата к низу панели. Вертикальная полоска
+          продолжает серую линию вниз по границе колонок (макет 2026-09-10). */}
       <nav
         aria-label="Разделы сайта"
-        className="mt-10 flex flex-col gap-1 border-t border-border pt-6"
+        className="relative mt-10 flex flex-col gap-1 border-t border-border pt-6"
       >
+        <span
+          aria-hidden
+          className="absolute top-0 bottom-0 left-1/2 w-px bg-border"
+        />
         {mainNav.map((item) => (
           <Link
             key={item.href}

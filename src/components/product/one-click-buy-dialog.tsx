@@ -24,6 +24,8 @@ import {
 import { formatPrice } from "@/lib/format";
 import { staticBlurProps } from "@/lib/images";
 import type { Product } from "@/lib/schemas";
+import { brandButtonSize } from "@/components/ui/brand-button-class";
+import { cn } from "@/lib/utils";
 
 const textareaClassName =
   "flex min-h-20 w-full min-w-0 rounded-sm border border-input bg-background px-2 py-2 text-base text-foreground transition-[color,border-color,box-shadow] outline-none placeholder:text-muted-foreground focus-visible:border-ring focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-70";
@@ -270,9 +272,11 @@ export function OneClickBuyDialog({
 
             <Button
               type="submit"
-              size="lg"
               disabled={!canSubmit}
-              className="h-11 w-full bg-brand text-body text-text-inverse hover:bg-brand-hover"
+              className={cn(
+                brandButtonSize,
+                "w-full bg-brand text-text-inverse hover:bg-brand-hover",
+              )}
             >
               {submitting ? "Переход к оплате…" : "Оплатить"}
             </Button>

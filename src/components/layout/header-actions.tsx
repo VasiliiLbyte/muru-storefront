@@ -37,7 +37,7 @@ const actionTriggerStyle = {
 const actionGlyphClass = "size-[21px] lg:size-5";
 
 const actionIconBoxClass =
-  "relative inline-flex size-[21px] items-center justify-center lg:size-5";
+  "relative inline-flex size-[21px] items-center justify-center lg:size-6";
 
 const badgeClass =
   "absolute -top-1 -right-1 inline-flex h-4 min-w-4 items-center justify-center rounded-full bg-brand px-0.5 text-[10px] leading-none font-medium text-text-inverse";
