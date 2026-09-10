@@ -308,11 +308,15 @@ html[data-footer-visible] body:has(main[data-home-snap]) [data-app-header] img[a
     justify-content: space-between;
   }
 
-  /* Иконки — фиксированный ряд по низу экрана, поверх фото */
+  /* Иконки — фиксированный ряд по низу экрана, поверх фото.
+     6px + половина «воздуха» кнопки (44−21)/2 = 17,5px под глифом —
+     ровно столько же, сколько над вордмарком в шапке (h-14, лого 24px).
+     safe-area здесь намеренно не добавляем: дизайнер меряет просвет
+     от физического края экрана. */
   body:has(main[data-home-snap]) [data-header-actions] {
     position: fixed;
     inset-inline: 0;
-    bottom: env(safe-area-inset-bottom, 0px);
+    bottom: 6px;
     z-index: 45;
     margin: 0;
     justify-content: space-evenly;

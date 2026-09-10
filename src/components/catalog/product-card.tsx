@@ -32,8 +32,10 @@ export function ProductCard({
         />
 
         {/* Сердце — слева сверху, корзина — справа сверху, скидка — снизу
-            справа (макет `сайт_2.pdf` / CARD-001). Всё без подложек. */}
-        <div className="absolute top-1 left-1 z-20">
+            справа (макет `сайт_2.pdf` / CARD-001). Всё без подложек.
+            4.5px + половина «воздуха» хит-таргета (44−21)/2 = ровно 16px
+            от края фото до глифа — как боковой отступ страницы. */}
+        <div className="absolute top-[4.5px] left-[4.5px] z-20 lg:top-1 lg:left-1">
           <FavoriteToggle
             sku={product.sku}
             productTitle={product.title}
@@ -41,7 +43,7 @@ export function ProductCard({
           />
         </div>
 
-        <div className="absolute top-1 right-1 z-20">
+        <div className="absolute top-[4.5px] right-[4.5px] z-20 lg:top-1 lg:right-1">
           <AddToCartButton
             sku={product.sku}
             productTitle={product.title}

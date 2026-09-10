@@ -9,8 +9,8 @@ import { cn } from "@/lib/utils";
 
 export type FavoriteToggleVariant = "plaque" | "bare";
 
-/** Глиф на карточке: 18px на мобиле (−20% к прежним 22px), 22px от `lg`. */
-export const cardGlyphClass = "size-[18px] lg:size-[22px]";
+/** Глиф на карточке: 21px на мобиле (вровень с иконками шапки), 22px от `lg`. */
+export const cardGlyphClass = "size-[21px] lg:size-[22px]";
 
 /**
  * Тоггл избранного на карточке / PDP (auth → server, guest → local).
@@ -53,7 +53,7 @@ export function FavoriteToggle({
       className={cn(
         "inline-flex size-11 items-center justify-center transition-colors focus-visible:ring-1 focus-visible:ring-ring focus-visible:outline-none",
         isBare
-          ? "text-white drop-shadow-[0_1px_2px_rgba(0,0,0,0.45)] hover:text-brand"
+          ? "text-white drop-shadow-[0_1px_2px_rgba(0,0,0,0.1)] hover:text-brand"
           : cn(
               "rounded-sm bg-background/80 text-text-secondary backdrop-blur-sm hover:text-brand",
               active && "text-brand",

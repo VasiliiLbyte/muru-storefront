@@ -23,7 +23,7 @@ export function Logo({ className }: { className?: string }) {
         width={206}
         height={40}
         sizes="206px"
-        className="h-10 w-auto"
+        className="h-10 w-auto max-w-full object-contain"
       />
     </Link>
   );

@@ -55,8 +55,10 @@ export async function Footer({ contacts }: { contacts: SiteContacts }) {
 
   return (
     <footer className="mt-auto bg-surface">
-      <div className="mx-auto w-full max-w-[1564px] px-4 pt-20 pb-12 sm:px-8">
-        <div className="relative pb-20">
+      {/* Мобильный вертикальный ритм — один шаг 40px: над «Компанией»,
+          между блоками, вокруг вордмарка и до нижней кромки (макет 2026-09-10). */}
+      <div className="mx-auto w-full max-w-[1564px] px-4 max-lg:pt-10 max-lg:pb-10 sm:px-8 lg:pt-20 lg:pb-12">
+        <div className="relative max-lg:pb-10 lg:pb-20">
           <div className="grid grid-cols-2 gap-x-4 gap-y-10 md:grid-cols-3 md:gap-8">
             <nav aria-label="Компания">
               <p className={columnHeadingClass}>Компания</p>
@@ -98,17 +100,17 @@ export async function Footer({ contacts }: { contacts: SiteContacts }) {
                 <div className="flex flex-col">
                   <a
                     href={contacts.phoneHref}
-                    className="inline-flex items-center font-medium text-text-primary transition-colors hover:text-brand max-lg:min-h-6 lg:min-h-11"
+                    className="inline-flex font-medium text-text-primary transition-colors hover:text-brand max-lg:min-h-6 max-lg:items-start max-lg:leading-[1.5] lg:min-h-11 lg:items-center"
                   >
                     {contacts.phoneDisplay}
                   </a>
                   <a
                     href={contacts.emailHref}
-                    className="inline-flex items-center transition-colors hover:text-brand max-lg:min-h-6 lg:min-h-11"
+                    className="inline-flex transition-colors hover:text-brand max-lg:min-h-6 max-lg:items-start max-lg:leading-[1.5] lg:min-h-11 lg:items-center"
                   >
                     {contacts.email}
                   </a>
-                  <span className="text-text-secondary max-lg:py-0.5 lg:py-2">
+                  <span className="text-text-secondary max-lg:min-h-6 max-lg:leading-[1.5] lg:py-2">
                     {contacts.hours}
                   </span>
                 </div>
@@ -118,8 +120,8 @@ export async function Footer({ contacts }: { contacts: SiteContacts }) {
 
           <div
             aria-hidden="true"
-            /* Размер ровно как у логотипа в шапке: 72×20 на мобиле, 124×24 на десктопе */
-            className="pointer-events-none absolute right-0 bottom-0 h-5 w-[72px] bg-text-muted lg:h-6 lg:w-[124px]"
+            /* Размер ровно как у логотипа в шапке: 86×24 на мобиле, 124×24 на десктопе */
+            className="pointer-events-none absolute right-0 bottom-0 h-6 w-[86px] bg-text-muted lg:w-[124px]"
             style={{
               WebkitMaskImage: "url(/brand/muru-logo.svg)",
               maskImage: "url(/brand/muru-logo.svg)",
@@ -133,7 +135,7 @@ export async function Footer({ contacts }: { contacts: SiteContacts }) {
           />
         </div>
 
-        <div className="mt-10 flex flex-row items-start justify-between gap-4 pt-6 sm:items-center">
+        <div className="mt-10 flex flex-row items-start justify-between gap-4 max-lg:pt-0 sm:items-center lg:pt-6">
           <p className="inline-flex items-center leading-5 text-text-secondary max-lg:min-h-8 max-lg:text-[12px] lg:min-h-11 lg:text-small">
             © {year} MURU
           </p>

@@ -30,37 +30,39 @@ describe("normalizeContactAddress", () => {
 });
 
 describe("splitContactAddress", () => {
-  it("splits fallback into city line and street line", () => {
-    expect(splitContactAddress(FALLBACK_RAW)).toEqual({
-      line1: "192102, г. Санкт-Петербург,",
-      line2: "ул. Дубровская д. 13,",
-      line3: "литера А, пом. 27",
-    });
+  it("splits fallback into index / city / street / building", () => {
+    expect(splitContactAddress(FALLBACK_RAW)).toEqual([
+      "192102,",
+      "г. Санкт-Петербург,",
+      "ул. Дубровская д. 13,",
+      "литера А, пом. 27",
+    ]);
   });
 
   it("normalizes CMS strings without spaces before split", () => {
-    expect(splitContactAddress(FALLBACK_RAW)).toEqual({
-      line1: "192102, г. Санкт-Петербург,",
-      line2: "ул. Дубровская д. 13,",
-      line3: "литера А, пом. 27",
-    });
+    expect(splitContactAddress(FALLBACK_NORMALIZED)).toEqual([
+      "192102,",
+      "г. Санкт-Петербург,",
+      "ул. Дубровская д. 13,",
+      "литера А, пом. 27",
+    ]);
   });
 
-  it("keeps the street on one line when there is no «литера»", () => {
+  it("keeps street on one line when there is no building part", () => {
     expect(
       splitContactAddress("192102, г. Санкт-Петербург, ул. Дубровская д. 13"),
-    ).toEqual({
-      line1: "192102, г. Санкт-Петербург,",
-      line2: "ул. Дубровская д. 13",
-      line3: "",
-    });
+    ).toEqual(["192102,", "г. Санкт-Петербург,", "ул. Дубровская д. 13"]);
   });
 
-  it("returns single line when no street marker", () => {
-    expect(splitContactAddress("192102, г. Санкт-Петербург")).toEqual({
-      line1: "192102, г. Санкт-Петербург",
-      line2: "",
-      line3: "",
-    });
+  it("returns single line when there is nothing to split", () => {
+    expect(splitContactAddress("г. Санкт-Петербург")).toEqual([
+      "г. Санкт-Петербург",
+    ]);
+  });
+
+  it("glues unknown parts to the previous line", () => {
+    expect(
+      splitContactAddress("г. Москва, Пресненская наб. 12, башня Федерация"),
+    ).toEqual(["г. Москва,", "Пресненская наб. 12, башня Федерация"]);
   });
 });

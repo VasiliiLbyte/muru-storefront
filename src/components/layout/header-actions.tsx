@@ -16,29 +16,28 @@ import { cn } from "@/lib/utils";
 const actionTriggerClass =
   "relative inline-flex flex-col items-center justify-center text-text-secondary transition-colors hover:text-text-heading focus-visible:ring-1 focus-visible:ring-ring focus-visible:outline-none lg:min-h-0 lg:min-w-0 lg:w-auto lg:gap-1 lg:!min-w-0 lg:!w-auto lg:!h-auto";
 
+/**
+ * Хит-таргет иконки. Ширина 40 (не 44): при 21px глифе и целом логотипе
+ * пять кнопок + вордмарк иначе не помещаются в 358px мобильной шапки.
+ * Высота остаётся 44.
+ */
 const actionTriggerStyle = {
-  width: 44,
+  width: 40,
   height: 44,
-  minWidth: 44,
+  minWidth: 40,
   minHeight: 44,
 } as const;
 
 /**
- * Единый размер глифа для всей шапки: 16px на мобиле (на 20% меньше
- * прежних 20px — на телефоне иконки были слишком крупными) и 20px от `lg`.
+ * Единый размер глифа для всей шапки. На мобиле 21px — ровно видимая высота
+ * вордмарка MURU при боксе логотипа 24px (ink = 175/199 бокса), чтобы иконки
+ * и логотип стояли вровень по высоте. От `lg` — прежние 20px.
  * Бокс совпадает с глифом, поэтому счётчик садится на угол самой иконки.
  */
-const actionGlyphClass = "size-4 lg:size-5";
+const actionGlyphClass = "size-[21px] lg:size-5";
 
 const actionIconBoxClass =
-  "relative inline-flex size-4 items-center justify-center lg:size-5";
-
-/**
- * Лупа — замкнутое кольцо во всю сетку 26×26, поэтому при одинаковом боксе
- * она читается крупнее сердца и корзины. На мобиле гасим это оптически:
- * 14px вместо 16px.
- */
-const actionGlyphSearchClass = "size-[14px] lg:size-5";
+  "relative inline-flex size-[21px] items-center justify-center lg:size-5";
 
 const badgeClass =
   "absolute -top-1 -right-1 inline-flex h-4 min-w-4 items-center justify-center rounded-full bg-brand px-0.5 text-[10px] leading-none font-medium text-text-inverse";
@@ -102,7 +101,6 @@ export function HeaderActions({ className }: { className?: string }) {
 export {
   actionTriggerClass,
   actionGlyphClass,
-  actionGlyphSearchClass,
   actionIconBoxClass,
   badgeClass,
   actionTriggerStyle,

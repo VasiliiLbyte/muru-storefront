@@ -62,7 +62,10 @@ export async function Header({ contacts }: { contacts: SiteContacts }) {
                 ряду, там порядок задаётся в globals.css. */}
             <HeaderActions className="order-2 ml-2 shrink-0 max-lg:order-1 lg:order-3 lg:mr-[-2px] lg:ml-auto" />
 
-            <Logo className="order-3 ml-auto min-w-0 max-w-[4.5rem] shrink max-lg:order-2 lg:order-2 lg:ml-0 lg:max-w-none lg:shrink-0 [&_img]:h-5 [&_img]:w-auto lg:[&_img]:h-6" />
+            {/* max-w на мобиле не ставим: бокс 72px сплющивал вордмарк
+                (натуральные пропорции 103:19). object-contain в `Logo`
+                страхует на узких экранах — сжимается, но не искажается. */}
+            <Logo className="order-3 ml-auto min-w-0 shrink max-lg:order-2 max-lg:pl-2 lg:order-2 lg:ml-0 lg:shrink-0 [&_img]:h-6 [&_img]:w-auto" />
           </div>
         </div>
       </header>

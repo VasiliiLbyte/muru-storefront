@@ -15,7 +15,7 @@ import { Clock, Loader2, Tag, X } from "lucide-react";
 
 import { IconSearch } from "@/components/icons";
 import {
-  actionGlyphSearchClass,
+  actionGlyphClass,
   actionIconBoxClass,
   actionTriggerClass,
   actionTriggerStyle,
@@ -610,7 +610,7 @@ export function HeaderMobileSearch() {
         {/* Обёртка общая с остальными иконками HeaderActions, иначе бокс
             поиска уже соседних и промежуток не совпадает */}
         <span className={actionIconBoxClass}>
-          <IconSearch className={actionGlyphSearchClass} aria-hidden />
+          <IconSearch className={actionGlyphClass} aria-hidden />
         </span>
       </button>
       {open ? (
