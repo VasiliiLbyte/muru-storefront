@@ -43,9 +43,7 @@ export function MobileMenu({
         className="inline-flex items-center justify-center text-text-secondary transition-colors hover:text-text-heading focus-visible:ring-1 focus-visible:ring-ring focus-visible:outline-none"
         style={{ width: 44, height: 44, minWidth: 44, minHeight: 44 }}
       >
-        {/* На мобиле бургер вровень с остальными иконками (21px). На десктопе
-            оставляем прежний оптический размер: там его не увеличивали. */}
-        <IconBurger className="size-[21px] lg:size-[15px]" />
+        <IconBurger className="size-[21px] lg:size-5" />
       </SheetTrigger>
       <SheetContent
         side="left"

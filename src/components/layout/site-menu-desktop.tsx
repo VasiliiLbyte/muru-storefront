@@ -28,7 +28,13 @@ export function SiteMenuDesktop({
 
   return (
     <div className="hidden min-h-0 flex-1 flex-col lg:flex">
-      <div className="grid min-h-0 flex-1 grid-cols-2 gap-10">
+      {/* Вертикальная полоска по границе колонок — продолжение серой линии
+          над нижним блоком вверх (макет 2026-09-10). */}
+      <div className="relative grid min-h-0 flex-1 grid-cols-2 gap-10">
+        <span
+          aria-hidden
+          className="absolute top-0 bottom-0 left-1/2 w-px bg-border"
+        />
         {/* Каталог */}
         <nav aria-label="Каталог" className="flex flex-col gap-1 overflow-y-auto">
           <Link
@@ -88,16 +94,11 @@ export function SiteMenuDesktop({
         </div>
       </div>
 
-      {/* Вторичная навигация — прижата к низу панели. Вертикальная полоска
-          продолжает серую линию вниз по границе колонок (макет 2026-09-10). */}
+      {/* Вторичная навигация — прижата к низу панели */}
       <nav
         aria-label="Разделы сайта"
-        className="relative mt-10 flex flex-col gap-1 border-t border-border pt-6"
+        className="mt-10 flex flex-col gap-1 border-t border-border pt-6"
       >
-        <span
-          aria-hidden
-          className="absolute top-0 bottom-0 left-1/2 w-px bg-border"
-        />
         {mainNav.map((item) => (
           <Link
             key={item.href}
