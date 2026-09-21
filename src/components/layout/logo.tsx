@@ -12,7 +12,7 @@ export function Logo({ className }: { className?: string }) {
       href="/"
       aria-label="MURU — на главную"
       className={cn(
-        "inline-flex min-h-11 min-w-11 shrink-0 items-center transition-opacity hover:opacity-80 focus-visible:ring-1 focus-visible:ring-ring focus-visible:outline-none",
+        "inline-flex min-h-11 min-w-11 shrink-0 select-none items-center transition-opacity hover:opacity-80 focus-visible:ring-1 focus-visible:ring-ring focus-visible:outline-none",
         className,
       )}
       style={{ minHeight: 44, minWidth: 44 }}
@@ -23,7 +23,8 @@ export function Logo({ className }: { className?: string }) {
         width={206}
         height={40}
         sizes="206px"
-        className="h-10 w-auto max-w-full object-contain"
+        draggable={false}
+        className="h-10 w-auto max-w-full select-none object-contain [-webkit-user-drag:none]"
       />
     </Link>
   );
