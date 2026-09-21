@@ -15,8 +15,10 @@ import {
   SheetTrigger,
 } from "@/components/ui/sheet";
 import type { CatalogNavNode } from "@/lib/catalog/catalog-nav";
+import { isSaleCategorySlug } from "@/lib/catalog/sale-category";
 import { toSentenceCaseRu } from "@/lib/content/breadcrumbs";
 import { catalogHref, mainNav, type SiteContacts } from "@/lib/site";
+import { cn } from "@/lib/utils";
 
 import { Logo } from "./logo";
 import { SiteMenuDesktop } from "./site-menu-desktop";
@@ -108,7 +110,10 @@ export function MobileMenu({
                   <Link
                     href={catalogHref.top(top.slug)}
                     onClick={close}
-                    className="block min-h-9 py-2 text-body text-text-heading transition-colors hover:text-brand"
+                    className={cn(
+                      "block min-h-9 py-2 text-body text-text-heading transition-colors hover:text-brand",
+                      isSaleCategorySlug(top.slug) && "font-bold text-brand",
+                    )}
                   >
                     {toSentenceCaseRu(top.title)}
                   </Link>

@@ -5,6 +5,7 @@ import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 
 import type { CatalogNavNode } from "@/lib/catalog/catalog-nav";
+import { isSaleCategorySlug } from "@/lib/catalog/sale-category";
 import { catalogHref, mainNav } from "@/lib/site";
 import { cn } from "@/lib/utils";
 
@@ -47,6 +48,7 @@ export function SiteMenuDesktop({
 
           {catalogTree.map((node) => {
             const isActive = active?.slug === node.slug;
+            const isSale = isSaleCategorySlug(node.slug);
             return (
               <Link
                 key={node.slug}
@@ -57,6 +59,7 @@ export function SiteMenuDesktop({
                 className={cn(
                   "flex items-center justify-between gap-3 py-1.5 text-[13px] leading-5 tracking-[0.08em] uppercase transition-colors",
                   isActive ? "text-brand" : "text-text-primary hover:text-brand",
+                  isSale && "font-bold text-brand hover:text-brand",
                 )}
               >
                 {node.title}
