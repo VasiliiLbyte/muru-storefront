@@ -14,6 +14,7 @@ const PUBLIC_LATIN_CATEGORIES = [
   "kompleksnye-nabory",
   "kukhnya-i-stolovaya",
   "naturalnyy-dekor",
+  "podarochnye-karty",
   "rasprodazha",
   "tekstil",
   "vazy-i-aksessuary",
@@ -22,10 +23,10 @@ const PUBLIC_LATIN_CATEGORIES = [
 describe("REDIRECT_MAP integrity", () => {
   it("has expected S0 group counts (±0 drops; D2 +2 category keys)", () => {
     expect(REDIRECT_MAP_STATS.a).toBe(184);
-    expect(REDIRECT_MAP_STATS.b).toBe(1);
+    expect(REDIRECT_MAP_STATS.b).toBe(0);
     expect(REDIRECT_MAP_STATS.c).toBe(291);
-    expect(REDIRECT_MAP_STATS.total).toBe(476);
-    expect(REDIRECT_MAP.size).toBe(476);
+    expect(REDIRECT_MAP_STATS.total).toBe(475);
+    expect(REDIRECT_MAP.size).toBe(475);
   });
 
   it("has no duplicate old keys (Map size === unique)", () => {
@@ -59,15 +60,16 @@ describe("REDIRECT_MAP integrity", () => {
     }
   });
 
-  it("9 muru.ru categories: 8 public not in map; podarochnye-karty → /catalog/", () => {
+  it("9 muru.ru categories: all public, latin not in map; cyrillic podarochnye-karty → latin canonical", () => {
     for (const slug of PUBLIC_LATIN_CATEGORIES) {
       expect(
         REDIRECT_MAP.has(`/catalog/${slug}/`),
         `${slug} must remain canonical 200`,
       ).toBe(false);
     }
-    expect(REDIRECT_MAP.get("/catalog/podarochnye-karty/")).toBe("/catalog/");
-    expect(REDIRECT_MAP.get("/catalog/подарочные-карты/")).toBe("/catalog/");
+    expect(REDIRECT_MAP.get("/catalog/подарочные-карты/")).toBe(
+      "/catalog/podarochnye-karty/",
+    );
   });
 });
 
@@ -96,19 +98,17 @@ describe("decideCatalogRedirect", () => {
     });
   });
 
-  it("D2/D3: gift-card Cyrillic category without slash → /catalog/", () => {
+  it("D3: gift-card Cyrillic category without slash → one hop to latin target", () => {
     expect(decideCatalogRedirect("/catalog/подарочные-карты")).toEqual({
       type: "redirect",
-      location: "/catalog/",
+      location: "/catalog/podarochnye-karty/",
       status: 301,
     });
   });
 
-  it("D2: latin podarochnye-karty → /catalog/", () => {
+  it("latin podarochnye-karty is canonical (no redirect)", () => {
     expect(decideCatalogRedirect("/catalog/podarochnye-karty/")).toEqual({
-      type: "redirect",
-      location: "/catalog/",
-      status: 301,
+      type: "next",
     });
   });
 
