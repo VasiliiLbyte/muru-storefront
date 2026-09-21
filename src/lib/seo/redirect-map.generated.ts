@@ -6,9 +6,9 @@
  */
 export const REDIRECT_MAP_STATS = {
   a: 184,
-  b: 1,
+  b: 0,
   c: 291,
-  total: 476,
+  total: 475,
 } as const;
 
 export const REDIRECT_MAP: ReadonlyMap<string, string> = new Map([
@@ -462,7 +462,7 @@ export const REDIRECT_MAP: ReadonlyMap<string, string> = new Map([
   ["/catalog/комплексные-наборы/корпоративные-подарки/mu0259/", "/catalog/kompleksnye-nabory/korporativnye-podarki/korporativnye-podarki-s/"],
   ["/catalog/комплексные-наборы/корпоративные-подарки/mu0260/", "/catalog/kompleksnye-nabory/korporativnye-podarki/korporativnye-podarki-m/"],
   ["/catalog/комплексные-наборы/корпоративные-подарки/mu0261/", "/catalog/kompleksnye-nabory/korporativnye-podarki/korporativnye-podarki-l/"],
-  ["/catalog/подарочные-карты/", "/catalog/"],
+  ["/catalog/подарочные-карты/", "/catalog/podarochnye-karty/"],
   ["/catalog/подарочные-карты/подарочные-карты/mu0262/", "/catalog/"],
   ["/catalog/подарочные-карты/подарочные-карты/mu0263/", "/catalog/"],
   ["/catalog/подарочные-карты/подарочные-карты/mu0264/", "/catalog/"],
@@ -487,7 +487,6 @@ export const REDIRECT_MAP: ReadonlyMap<string, string> = new Map([
   ["/catalog/вазы-и-аксессуары/вазы-и-кувшины/mu0293/", "/catalog/vazy-i-aksessuary/vazy-i-kuvshiny/vaza-keramicheskaya-bolshaya/"],
   ["/catalog/вазы-и-аксессуары/вазы-и-кувшины/mu0294/", "/catalog/vazy-i-aksessuary/vazy-i-kuvshiny/vaza-keramicheskaya-malaya/"],
   ["/catalog/вазы-и-аксессуары/держатели-и-кензаны-для-цветов/mu0295/", "/catalog/vazy-i-aksessuary/derzhateli-i-kenzany-dlya-tsvetov/flovestoun/"],
-  ["/catalog/podarochnye-karty/", "/catalog/"],
 ]);
 
 /** Reserved for 410 Gone; S0 map had none. */
