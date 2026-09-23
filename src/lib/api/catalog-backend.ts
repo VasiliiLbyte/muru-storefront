@@ -279,7 +279,7 @@ export function adaptProduct(
       .filter((url): url is string => Boolean(url))
       .map((url) => ({ url, alt: b.name })),
     categorySlugs,
-    description: detail.description ?? undefined,
+    description: nonEmpty(detail.description),
     specs: (() => {
       const specs: Record<string, string> = Object.fromEntries(
         Object.entries(detail.specs ?? {}).filter(

@@ -58,13 +58,21 @@ const DEFS: {
   title: string;
   body?: string;
   sections?: StaticPage["sections"];
+  seoTitle?: string;
+  seoDescription?: string;
 }[] = [
   { slug: "company", title: "О нас", sections: null },
   { slug: "contacts", title: "Контакты" },
   { slug: "requisites", title: "Реквизиты" },
   { slug: "vacancy", title: "Вакансии" },
   { slug: "partners", title: "Стать партнёром" },
-  { slug: "help", title: "Клиентам" },
+  {
+    slug: "help",
+    title: "Клиентам",
+    seoTitle: "Клиентам — MURU",
+    seoDescription:
+      "Доставка, оплата, возврат и условия обслуживания в интернет-магазине MURU.",
+  },
   { slug: "gifts", title: "Гид по подаркам" },
   { slug: "new", title: "Новинки" },
   {
@@ -73,7 +81,13 @@ const DEFS: {
     body: LEGAL_PRIVACY_BODY,
   },
   { slug: "offer", title: "Публичная оферта", body: LEGAL_OFFER_BODY },
-  { slug: "delivery", title: "Доставка" },
+  {
+    slug: "delivery",
+    title: "Доставка",
+    seoTitle: "Доставка и оплата — MURU",
+    seoDescription:
+      "Условия доставки по России и способы оплаты в интернет-магазине MURU.",
+  },
   { slug: "refund", title: "Возврат" },
   { slug: "terms", title: "Условия обслуживания" },
   {
@@ -91,8 +105,8 @@ export const staticPages: StaticPage[] = DEFS.map((def) => ({
   heroImage: null,
   sections: def.sections,
   seo: {
-    title: `${def.title} — MURU`,
-    description: `${def.title}: страница MURU.`,
+    title: def.seoTitle ?? `${def.title} — MURU`,
+    description: def.seoDescription ?? `${def.title}: страница MURU.`,
   },
   updatedAt: "2026-01-01T00:00:00.000Z",
 }));
