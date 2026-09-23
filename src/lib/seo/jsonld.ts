@@ -66,6 +66,35 @@ export function collectOrganizationSameAs(
   return [...new Set(urls)];
 }
 
+/** First non-empty trimmed string; empty string does not win over later candidates. */
+function firstMeaningful(
+  ...candidates: Array<string | null | undefined>
+): string | undefined {
+  for (const value of candidates) {
+    if (typeof value !== "string") continue;
+    const trimmed = value.trim();
+    if (trimmed.length > 0) return trimmed;
+  }
+  return undefined;
+}
+
+/**
+ * Product JSON-LD description: prefer real copy, never emit "" and never
+ * duplicate the product title when seo.description fell back to the name.
+ */
+export function resolveProductJsonLdDescription(product: Product): string | undefined {
+  const seoDesc = product.seo.description?.trim();
+  const seoIfNotTitle =
+    seoDesc && seoDesc !== product.title.trim() ? seoDesc : undefined;
+  const material = product.attributes?.material?.trim();
+  return firstMeaningful(
+    product.description,
+    product.shortDescription,
+    seoIfNotTitle,
+    material ? `Материал: ${material}` : undefined,
+  );
+}
+
 export function breadcrumbJsonLd(items: BreadcrumbItem[]) {
   return {
     "@context": "https://schema.org",
@@ -130,13 +159,13 @@ export function organizationJsonLd(contacts: SiteContacts = SITE_CONTACTS_FALLBA
 export function productJsonLd(product: Product) {
   const url = absoluteUrl(productHref(product));
   const images = product.images.map((img) => absoluteAssetUrl(img.url));
+  const description = resolveProductJsonLdDescription(product);
 
   return {
     "@context": "https://schema.org",
     "@type": "Product",
     name: product.title,
-    description:
-      product.description ?? product.shortDescription ?? product.seo.description,
+    ...(description ? { description } : {}),
     sku: product.sku,
     image: images.length === 1 ? images[0] : images,
     offers: {

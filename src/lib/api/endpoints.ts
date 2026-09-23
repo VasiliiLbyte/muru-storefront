@@ -47,6 +47,10 @@ import {
   normalizeTelHref,
 } from "@/lib/contact-href";
 import {
+  isPlaceholderPhone,
+  scrubPlaceholderPhones,
+} from "@/lib/content/placeholder-phones";
+import {
   SITE_CONTACTS_FALLBACK,
   type SiteContacts,
 } from "@/lib/site";
@@ -201,11 +205,40 @@ export async function getLookbook(slug: string): Promise<Lookbook> {
   return item;
 }
 
+/**
+ * Merge CMS page with static fallback: empty seo_* fields and known fake
+ * 8(800) placeholder phones must not win over real NAP / static SEO.
+ */
+export function mergeStaticPageWithFallback(
+  page: StaticPage,
+  fallback: StaticPage | undefined,
+): StaticPage {
+  const canonicalPhone = SITE_CONTACTS_FALLBACK.phoneDisplay;
+  const seoTitle = coalesceString(
+    page.seo.title,
+    fallback?.seo.title ?? `${page.title} — MURU`,
+  );
+  const seoDescription = coalesceString(
+    page.seo.description,
+    fallback?.seo.description ?? `${page.title}: страница MURU.`,
+  );
+  return {
+    ...page,
+    body: scrubPlaceholderPhones(page.body, canonicalPhone),
+    seo: {
+      title: seoTitle,
+      description: seoDescription,
+    },
+  };
+}
+
 /** Статическая страница по slug. */
 export async function getStaticPage(slug: string): Promise<StaticPage> {
+  const fallback = staticPageBySlug.get(slug);
   if (isContentBackendEnabled()) {
     try {
-      return await fetchContentPage(slug);
+      const page = await fetchContentPage(slug);
+      return mergeStaticPageWithFallback(page, fallback);
     } catch (err) {
       console.warn(
         `[content] page "${slug}" fetch failed, using static fallback`,
@@ -213,9 +246,8 @@ export async function getStaticPage(slug: string): Promise<StaticPage> {
       );
     }
   }
-  const page = staticPageBySlug.get(slug);
-  if (!page) throw new ApiError(404, slug);
-  return page;
+  if (!fallback) throw new ApiError(404, slug);
+  return mergeStaticPageWithFallback(fallback, undefined);
 }
 
 /** Баннеры главной страницы. */
@@ -306,8 +338,8 @@ const REQUISITES_FALLBACK: RequisiteRow[] = [
     label: "Фактический адрес",
     value: "192102, г. Санкт-Петербург, ул. Дубровская д.13, литера А, пом.27",
   },
-  { label: "Телефон, факс", value: "+7 (812) 000-00-00" },
-  { label: "Электронная почта", value: "hello@muru.ru" },
+  { label: "Телефон, факс", value: SITE_CONTACTS_FALLBACK.phoneDisplay },
+  { label: "Электронная почта", value: SITE_CONTACTS_FALLBACK.email },
   { label: "Сайт", value: "muru.ru" },
   {
     label: "Банковские реквизиты",
@@ -329,12 +361,27 @@ const REQUISITE_FIELD_BY_LABEL: Record<string, keyof PublicRequisites> = {
   "Банковские реквизиты": "reqBankDetails",
 };
 
-function adaptPublicRequisites(dto: PublicRequisites): RequisiteRow[] {
+function coalesceRequisiteValue(
+  field: keyof PublicRequisites,
+  apiValue: string | null | undefined,
+  fallback: string,
+): string {
+  const coalesced = coalesceString(apiValue, fallback);
+  if (field === "reqPhone" && isPlaceholderPhone(coalesced)) {
+    return SITE_CONTACTS_FALLBACK.phoneDisplay;
+  }
+  return coalesced;
+}
+
+/** @internal exported for unit tests */
+export function adaptPublicRequisites(dto: PublicRequisites): RequisiteRow[] {
   return REQUISITES_FALLBACK.map((row) => {
     const field = REQUISITE_FIELD_BY_LABEL[row.label];
     return {
       label: row.label,
-      value: field ? coalesceString(dto[field], row.value) : row.value,
+      value: field
+        ? coalesceRequisiteValue(field, dto[field], row.value)
+        : row.value,
     };
   });
 }
