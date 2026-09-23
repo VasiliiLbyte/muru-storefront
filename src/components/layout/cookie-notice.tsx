@@ -31,8 +31,14 @@ export function CookieNotice() {
 
     // Prefer idle; hard timeout keeps consent discoverable if the main
     // thread stays busy (Lighthouse mobile typically stays busy >2s).
-    if ("requestIdleCallback" in window) {
-      const id = window.requestIdleCallback(show, { timeout: 4000 });
+    // Check typeof, not `in window` — TS otherwise narrows window to never
+    // in the else branch (requestIdleCallback is non-optional on Window).
+    const ric =
+      typeof window.requestIdleCallback === "function"
+        ? window.requestIdleCallback.bind(window)
+        : null;
+    if (ric) {
+      const id = ric(show, { timeout: 4000 });
       return () => {
         cancelled = true;
         window.cancelIdleCallback(id);

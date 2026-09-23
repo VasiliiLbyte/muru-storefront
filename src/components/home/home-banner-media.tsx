@@ -51,8 +51,14 @@ export function HomeBannerMedia({
     const mount = () => {
       if (!cancelled) setVideoMounted(true);
     };
-    if ("requestIdleCallback" in window) {
-      const id = window.requestIdleCallback(mount, { timeout: 2500 });
+    // Check typeof, not `in window` — TS otherwise narrows window to never
+    // in the else branch (requestIdleCallback is non-optional on Window).
+    const ric =
+      typeof window.requestIdleCallback === "function"
+        ? window.requestIdleCallback.bind(window)
+        : null;
+    if (ric) {
+      const id = ric(mount, { timeout: 2500 });
       return () => {
         cancelled = true;
         window.cancelIdleCallback(id);
