@@ -12,14 +12,37 @@ import {
 
 /**
  * Cookie consent bar: technical cookies always; analytics (Yandex Metrika) only after accept.
+ *
+ * Visibility is deferred past the LCP window. PSI (2026-09-23) named this
+ * dialog copy as the LCP element on home and category pages
+ * (`lcp-breakdown-insight`: ~2.3s / ~1.3s element render delay on the
+ * cookie <p>), which blocked hero/category paint metrics.
  */
 export function CookieNotice() {
   const [visible, setVisible] = useState(false);
 
   useEffect(() => {
-    if (!hasCookieConsentChoice()) {
-      setVisible(true);
+    if (hasCookieConsentChoice()) return;
+
+    let cancelled = false;
+    const show = () => {
+      if (!cancelled) setVisible(true);
+    };
+
+    // Prefer idle; hard timeout keeps consent discoverable if the main
+    // thread stays busy (Lighthouse mobile typically stays busy >2s).
+    if ("requestIdleCallback" in window) {
+      const id = window.requestIdleCallback(show, { timeout: 4000 });
+      return () => {
+        cancelled = true;
+        window.cancelIdleCallback(id);
+      };
     }
+    const t = window.setTimeout(show, 3500);
+    return () => {
+      cancelled = true;
+      window.clearTimeout(t);
+    };
   }, []);
 
   if (!visible) return null;

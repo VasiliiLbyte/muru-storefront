@@ -28,8 +28,9 @@ export type HomeBannerMediaProps = {
 };
 
 /**
- * Banner media slot: muted looping video when allowed, else poster Image.
- * Client-only so autoplay does not flash for prefers-reduced-motion users.
+ * Banner media: priority poster Image is always the LCP candidate.
+ * Heavy MP4 (PSI saw ~7MB with preload=auto) mounts only after idle and
+ * uses preload="none" so it cannot steal LCP from the poster.
  */
 export function HomeBannerMedia({
   imageUrl,
@@ -38,34 +39,57 @@ export function HomeBannerMedia({
   priority = false,
 }: HomeBannerMediaProps) {
   const reducedMotion = usePrefersReducedMotion();
-  const showVideo = Boolean(videoUrl) && !reducedMotion;
+  const allowVideo = Boolean(videoUrl) && !reducedMotion;
+  const [videoMounted, setVideoMounted] = useState(false);
 
-  if (showVideo && videoUrl) {
-    return (
-      <video
-        className="absolute inset-0 h-full w-full object-cover"
-        src={videoUrl}
-        poster={imageUrl}
-        muted
-        loop
-        playsInline
-        autoPlay
-        preload={priority ? "auto" : "metadata"}
-        aria-hidden={alt ? undefined : true}
-        aria-label={alt || undefined}
-      />
-    );
-  }
+  useEffect(() => {
+    if (!allowVideo) {
+      setVideoMounted(false);
+      return;
+    }
+    let cancelled = false;
+    const mount = () => {
+      if (!cancelled) setVideoMounted(true);
+    };
+    if ("requestIdleCallback" in window) {
+      const id = window.requestIdleCallback(mount, { timeout: 2500 });
+      return () => {
+        cancelled = true;
+        window.cancelIdleCallback(id);
+      };
+    }
+    const t = window.setTimeout(mount, 1500);
+    return () => {
+      cancelled = true;
+      window.clearTimeout(t);
+    };
+  }, [allowVideo]);
 
   return (
-    <Image
-      src={imageUrl}
-      alt={alt}
-      fill
-      priority={priority}
-      sizes="100vw"
-      {...staticBlurProps()}
-      className="object-cover"
-    />
+    <>
+      <Image
+        src={imageUrl}
+        alt={alt}
+        fill
+        priority={priority}
+        sizes="100vw"
+        {...staticBlurProps()}
+        className="object-cover"
+      />
+      {allowVideo && videoMounted && videoUrl ? (
+        <video
+          className="absolute inset-0 h-full w-full object-cover"
+          src={videoUrl}
+          poster={imageUrl}
+          muted
+          loop
+          playsInline
+          autoPlay
+          preload="none"
+          aria-hidden={alt ? undefined : true}
+          aria-label={alt || undefined}
+        />
+      ) : null}
+    </>
   );
 }
