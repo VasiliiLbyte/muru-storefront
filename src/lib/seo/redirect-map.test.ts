@@ -8,25 +8,27 @@ import {
   REDIRECT_MAP_STATS,
 } from "@/lib/seo/redirect-map.generated";
 
+/** Live top-level latin categories on muru.ru (2026-09-23 sitemap). */
 const PUBLIC_LATIN_CATEGORIES = [
   "floristika-dlya-doma",
   "interer",
   "kompleksnye-nabory",
   "kukhnya-i-stolovaya",
+  "mebel-i-svet",
   "naturalnyy-dekor",
   "podarochnye-karty",
+  "postelnoe-bele-i-pledy",
   "rasprodazha",
   "tekstil",
-  "vazy-i-aksessuary",
 ] as const;
 
 describe("REDIRECT_MAP integrity", () => {
-  it("has expected S0 group counts (±0 drops; D2 +2 category keys)", () => {
-    expect(REDIRECT_MAP_STATS.a).toBe(184);
+  it("has expected S0 group counts after SEO-012 hub remaps", () => {
+    expect(REDIRECT_MAP_STATS.a).toBe(189);
     expect(REDIRECT_MAP_STATS.b).toBe(0);
     expect(REDIRECT_MAP_STATS.c).toBe(291);
-    expect(REDIRECT_MAP_STATS.total).toBe(475);
-    expect(REDIRECT_MAP.size).toBe(475);
+    expect(REDIRECT_MAP_STATS.total).toBe(480);
+    expect(REDIRECT_MAP.size).toBe(480);
   });
 
   it("has no duplicate old keys (Map size === unique)", () => {
@@ -60,7 +62,7 @@ describe("REDIRECT_MAP integrity", () => {
     }
   });
 
-  it("9 muru.ru categories: all public, latin not in map; cyrillic podarochnye-karty → latin canonical", () => {
+  it("live latin top categories stay canonical; retired vase hub is remapped", () => {
     for (const slug of PUBLIC_LATIN_CATEGORIES) {
       expect(
         REDIRECT_MAP.has(`/catalog/${slug}/`),
@@ -69,6 +71,9 @@ describe("REDIRECT_MAP integrity", () => {
     }
     expect(REDIRECT_MAP.get("/catalog/подарочные-карты/")).toBe(
       "/catalog/podarochnye-karty/",
+    );
+    expect(REDIRECT_MAP.get("/catalog/vazy-i-aksessuary/")).toBe(
+      "/catalog/mebel-i-svet/svet/",
     );
   });
 });
@@ -90,10 +95,11 @@ describe("normalizeRedirectPath", () => {
 });
 
 describe("decideCatalogRedirect", () => {
-  it("D3: Cyrillic without trailing slash → one hop to latin target", () => {
+  it("D3: Cyrillic without trailing slash → one hop to live vase hub", () => {
+    // Retired top category vazy-i-aksessuary; SEO-012 remaps to live mebel-i-svet/svet.
     expect(decideCatalogRedirect("/catalog/вазы-и-аксессуары")).toEqual({
       type: "redirect",
-      location: "/catalog/vazy-i-aksessuary/",
+      location: "/catalog/mebel-i-svet/svet/",
       status: 301,
     });
   });
@@ -124,17 +130,19 @@ describe("decideCatalogRedirect", () => {
     ).toEqual({ type: "next" });
   });
 
-  it("D4: uppercase latin category → lowercase canonical key", () => {
+  it("D4: uppercase latin retired category → live vase hub", () => {
     expect(decideCatalogRedirect("/catalog/VAZY-I-AKSESSUARY/")).toEqual({
       type: "redirect",
-      location: "/catalog/vazy-i-aksessuary/",
+      location: "/catalog/mebel-i-svet/svet/",
       status: 301,
     });
   });
 
-  it("canonical latin with slash → next", () => {
+  it("retired latin vase hub redirects to live mebel-i-svet/svet", () => {
     expect(decideCatalogRedirect("/catalog/vazy-i-aksessuary/")).toEqual({
-      type: "next",
+      type: "redirect",
+      location: "/catalog/mebel-i-svet/svet/",
+      status: 301,
     });
   });
 });
