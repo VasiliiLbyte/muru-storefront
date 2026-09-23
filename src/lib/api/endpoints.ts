@@ -264,6 +264,9 @@ function adaptPublicSiteContacts(dto: PublicSiteContacts): SiteContacts {
         ? { lat, lng }
         : { ...fb.coordinates },
     mapZoom: dto.contactMapZoom ?? fb.mapZoom,
+    socialTelegram: dto.socialTelegram,
+    socialWhatsapp: dto.socialWhatsapp,
+    socialVk: dto.socialVk,
   };
 }
 

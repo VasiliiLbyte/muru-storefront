@@ -46,6 +46,10 @@ export type SiteContacts = {
   /** Координаты офиса для карты на Контактах. */
   coordinates: { lat: number; lng: number };
   mapZoom: number;
+  /** Live social/marketplace profile URLs or host/path stubs (e.g. t.me/...). */
+  socialTelegram?: string | null;
+  socialWhatsapp?: string | null;
+  socialVk?: string | null;
 };
 
 /** Статический fallback при выключенном backend / ошибке / null-полях API. */
