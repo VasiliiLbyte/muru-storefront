@@ -90,10 +90,11 @@ describe("normalizeRedirectPath", () => {
 });
 
 describe("decideCatalogRedirect", () => {
-  it("D3: Cyrillic without trailing slash → one hop to latin target", () => {
+  it("D3: Cyrillic without trailing slash → one hop to live vase hub", () => {
+    // Retired top category vazy-i-aksessuary; SEO-012 remaps to live mebel-i-svet/svet.
     expect(decideCatalogRedirect("/catalog/вазы-и-аксессуары")).toEqual({
       type: "redirect",
-      location: "/catalog/vazy-i-aksessuary/",
+      location: "/catalog/mebel-i-svet/svet/",
       status: 301,
     });
   });
