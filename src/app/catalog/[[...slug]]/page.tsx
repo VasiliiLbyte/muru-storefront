@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { notFound } from "next/navigation";
+import { notFound, permanentRedirect } from "next/navigation";
 
 import {
   Breadcrumbs,
@@ -23,6 +23,7 @@ import { parseListingSearchParams } from "@/lib/catalog/search-params";
 import { isSaleCategorySlug } from "@/lib/catalog/sale-category";
 import { resolveCatalogRoute } from "@/lib/catalog/resolve-route";
 import {
+  appendSearchToPath,
   productCategorySlugs,
   productHref,
   productPathMatches,
@@ -86,7 +87,7 @@ export async function generateMetadata({
     try {
       const product = await getProduct(route.productSlug);
       if (!decodedSlug || !productPathMatches(product, decodedSlug)) {
-        return { title: "Страница не найдена" };
+        permanentRedirect(productHref(product));
       }
       return buildPageMetadata({
         title: product.seo.title,
@@ -143,7 +144,9 @@ export default async function CatalogPage({ params, searchParams }: PageProps) {
     } catch {
       notFound();
     }
-    if (!decodedSlug || !productPathMatches(product, decodedSlug)) notFound();
+    if (!decodedSlug || !productPathMatches(product, decodedSlug)) {
+      permanentRedirect(appendSearchToPath(productHref(product), sp));
+    }
 
     const allCategories = await getCategories();
     const { leaf } = productCategorySlugs(product, allCategories);

@@ -58,7 +58,7 @@ function parseCsv(text) {
 function main() {
   const rows = parseCsv(readFileSync(csvPath, "utf8"));
   const entries = new Map();
-  const stats = { a: 0, b: 0, c: 0, total: 0 };
+  const stats = { a: 0, b: 0, c: 0, d: 0, total: 0 };
 
   for (const row of rows) {
     const oldPath = normalizeRedirectPath(row.old_url);
@@ -82,6 +82,7 @@ function main() {
     if (row.group === "a-muru-ru") stats.a += 1;
     else if (row.group === "b-orphan-muru-ru") stats.b += 1;
     else if (row.group === "c-cyrillic-staging") stats.c += 1;
+    else if (row.group === "d-seo018") stats.d += 1;
     else throw new Error(`Unknown group: ${row.group}`);
   }
 
@@ -107,6 +108,7 @@ export const REDIRECT_MAP_STATS = {
   a: ${stats.a},
   b: ${stats.b},
   c: ${stats.c},
+  d: ${stats.d},
   total: ${stats.total},
 } as const;
 
@@ -120,7 +122,7 @@ export const GONE_PATHS: ReadonlySet<string> = new Set();
 
   writeFileSync(outPath, body, "utf8");
   console.log(
-    `Wrote ${outPath} — total=${stats.total} a=${stats.a} b=${stats.b} c=${stats.c}`,
+    `Wrote ${outPath} — total=${stats.total} a=${stats.a} b=${stats.b} c=${stats.c} d=${stats.d}`,
   );
 }
 

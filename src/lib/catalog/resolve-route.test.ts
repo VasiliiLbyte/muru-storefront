@@ -76,3 +76,28 @@ describe("resolveCatalogSegments slug collision", () => {
     expect(route.children).toHaveLength(1);
   });
 });
+
+describe("resolveCatalogSegments 3-seg product fallback (SEO-018)", () => {
+  it("returns product even when top/leaf are absent from the tree", () => {
+    const route = resolveCatalogSegments(
+      ["vazy-i-aksessuary", "vazy-i-kuvshiny", "vaza-steklyannaya-vsplesk"],
+      COLLISION_TREE,
+    );
+    expect(route).toEqual({
+      type: "product",
+      parentSlug: "vazy-i-aksessuary",
+      subSlug: "vazy-i-kuvshiny",
+      productSlug: "vaza-steklyannaya-vsplesk",
+    });
+  });
+
+  it("still returns product for a valid tree path", () => {
+    const route = resolveCatalogSegments(
+      ["kukhnya-i-stolovaya", "posuda", "some-plate"],
+      COLLISION_TREE,
+    );
+    expect(route?.type).toBe("product");
+    if (!route || route.type !== "product") throw new Error("expected product");
+    expect(route.productSlug).toBe("some-plate");
+  });
+});

@@ -45,6 +45,49 @@ describe("adaptProduct webSubcategorySlugs", () => {
 
     expect(product.categorySlugs).toContain("podsvechniki");
     expect(product.categorySlugs).toContain("dekor");
+    // Primary path uses membership leaf under top, not a later cross hub.
+    expect(product.categorySlugs[0]).toBe("dekor");
+    expect(product.categorySlugs[1]).toBe("podsvechniki");
+  });
+
+  it("uses flat top===top before cross-placement for gift certificates", () => {
+    const maps = buildCategorySlugMaps([
+      { name: "Подарочные карты", slug: "podarochnye-karty", children: [] },
+      {
+        name: "Наборы и корпоративные подарки",
+        slug: "kompleksnye-nabory",
+        children: [
+          {
+            name: "Корпоративные подарки",
+            slug: "korporativnye-podarki",
+            children: [],
+          },
+        ],
+      },
+    ]);
+
+    const product = adaptProduct(
+      stubBackendProduct({
+        sku: "MU0264",
+        slug: "podarochnyy-sertifikat-15000",
+        name: "Подарочный сертификат 15000",
+        category: "Подарочные карты",
+        subcategorySlug: undefined,
+        webPrimarySubcategory: undefined,
+        webCrossPlacement: {
+          category: "Наборы и корпоративные подарки",
+          categorySlug: "kompleksnye-nabory",
+          subcategoryName: "Корпоративные подарки",
+          subcategorySlug: "korporativnye-podarki",
+        },
+      }),
+      maps,
+    );
+
+    expect(product.categorySlugs[0]).toBe("podarochnye-karty");
+    expect(product.categorySlugs[1]).toBe("podarochnye-karty");
+    expect(product.categorySlugs).toContain("kompleksnye-nabory");
+    expect(product.categorySlugs).toContain("korporativnye-podarki");
   });
 
   it("dedupes primary leaf that also appears in webSubcategorySlugs", () => {

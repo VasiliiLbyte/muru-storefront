@@ -206,11 +206,8 @@ function resolveCategorySlugs(
   const topFromName = maps
     ? maps.topByName.get(b.category.trim().toLowerCase())
     : undefined;
-  const top =
-    topFromLeaf ??
-    topFromName ??
-    b.webCrossPlacement?.categorySlug ??
-    undefined;
+  // Primary top from leaf/name only — never seed [0] from cross-placement.
+  const top = topFromLeaf ?? topFromName ?? undefined;
 
   const ordered: string[] = [];
   const seen = new Set<string>();
@@ -221,7 +218,24 @@ function resolveCategorySlugs(
   };
 
   add(top);
-  add(leaf);
+  if (leaf) {
+    add(leaf);
+  } else if (top) {
+    // No primary leaf: prefer a membership slug under this top, else flat
+    // top===top so cross-placement cannot steal categorySlugs[1].
+    const membershipLeaf = (b.webSubcategorySlugs ?? []).find(
+      (s) => maps?.topByLeaf.get(s) === top,
+    );
+    if (membershipLeaf) {
+      add(membershipLeaf);
+    } else {
+      ordered.push(top); // allow duplicate for flat /catalog/{top}/{top}/
+    }
+  } else {
+    // Orphan: fall back to cross category as sole hub (legacy / no name map).
+    add(b.webCrossPlacement?.categorySlug);
+  }
+
   for (const s of b.webSubcategorySlugs ?? []) {
     add(s);
     if (maps) add(maps.topByLeaf.get(s));

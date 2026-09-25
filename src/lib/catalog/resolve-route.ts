@@ -2,7 +2,6 @@ import { getCategories } from "@/lib/api/endpoints";
 import {
   categoriesToNavTree,
   childNavOf,
-  findNavNodeBySlug,
   isTopLevelNavSlug,
   type CatalogNavNode,
 } from "@/lib/catalog/catalog-nav";
@@ -71,14 +70,12 @@ export function resolveCatalogSegments(
   }
 
   if (segments.length === 3) {
+    // Always treat 3 segments as a product candidate (SEO-018).
+    // Tree mismatch is handled later: getProduct + productPathMatches →
+    // permanentRedirect to canonical productHref, or notFound if missing.
     const parentSlug = segments[0];
     const subSlug = segments[1];
     const productSlug = segments[2];
-    if (!isTopLevelNavSlug(parentSlug, tree)) return null;
-    const subNode = childNavOf(parentSlug, subSlug, tree);
-    const isTopLeaf =
-      parentSlug === subSlug && findNavNodeBySlug(parentSlug, tree);
-    if (!subNode && !isTopLeaf) return null;
     return { type: "product", parentSlug, subSlug, productSlug };
   }
 

@@ -23,12 +23,13 @@ const PUBLIC_LATIN_CATEGORIES = [
 ] as const;
 
 describe("REDIRECT_MAP integrity", () => {
-  it("has expected S0 group counts after SEO-012 hub remaps", () => {
+  it("has expected S0 group counts after SEO-012 hub remaps + SEO-018", () => {
     expect(REDIRECT_MAP_STATS.a).toBe(189);
     expect(REDIRECT_MAP_STATS.b).toBe(0);
     expect(REDIRECT_MAP_STATS.c).toBe(291);
-    expect(REDIRECT_MAP_STATS.total).toBe(480);
-    expect(REDIRECT_MAP.size).toBe(480);
+    expect(REDIRECT_MAP_STATS.d).toBe(71);
+    expect(REDIRECT_MAP_STATS.total).toBe(551);
+    expect(REDIRECT_MAP.size).toBe(551);
   });
 
   it("has no duplicate old keys (Map size === unique)", () => {
@@ -142,6 +143,64 @@ describe("decideCatalogRedirect", () => {
     expect(decideCatalogRedirect("/catalog/vazy-i-aksessuary/")).toEqual({
       type: "redirect",
       location: "/catalog/mebel-i-svet/svet/",
+      status: 301,
+    });
+  });
+
+  it("SEO-018: moved product → one-hop 301", () => {
+    expect(
+      decideCatalogRedirect(
+        "/catalog/vazy-i-aksessuary/vazy-i-kuvshiny/vaza-steklyannaya-vsplesk/",
+      ),
+    ).toEqual({
+      type: "redirect",
+      location: "/catalog/mebel-i-svet/svet/vaza-steklyannaya-vsplesk/",
+      status: 301,
+    });
+  });
+
+  it("SEO-018: moved subcategory derzhateli → floristika", () => {
+    expect(
+      decideCatalogRedirect(
+        "/catalog/vazy-i-aksessuary/derzhateli-i-kenzany-dlya-tsvetov/",
+      ),
+    ).toEqual({
+      type: "redirect",
+      location:
+        "/catalog/floristika-dlya-doma/kenzany-i-derzhateli-dlya-tsvetov/",
+      status: 301,
+    });
+  });
+
+  it("SEO-018: landing typo tyeplyy → teplyy", () => {
+    expect(decideCatalogRedirect("/landings/tyeplyy-pesok/")).toEqual({
+      type: "redirect",
+      location: "/landings/teplyy-pesok/",
+      status: 301,
+    });
+  });
+
+  it("SEO-018: gift cert broken href → flat hub", () => {
+    expect(
+      decideCatalogRedirect(
+        "/catalog/podarochnye-karty/kompleksnye-nabory/podarochnyy-sertifikat-5000/",
+      ),
+    ).toEqual({
+      type: "redirect",
+      location:
+        "/catalog/podarochnye-karty/podarochnye-karty/podarochnyy-sertifikat-5000/",
+      status: 301,
+    });
+  });
+
+  it("SEO-018: dead naturalnyy-dekor korziny hub → interer (supersede)", () => {
+    expect(
+      decideCatalogRedirect(
+        "/catalog/naturalnyy-dekor/korziny-i-pletenye-izdeliya/",
+      ),
+    ).toEqual({
+      type: "redirect",
+      location: "/catalog/interer/korziny-i-pletenye-izdeliya/",
       status: 301,
     });
   });
