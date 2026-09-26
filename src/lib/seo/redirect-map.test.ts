@@ -24,12 +24,12 @@ const PUBLIC_LATIN_CATEGORIES = [
 
 describe("REDIRECT_MAP integrity", () => {
   it("has expected S0 group counts after SEO-012 hub remaps + SEO-018", () => {
-    expect(REDIRECT_MAP_STATS.a).toBe(189);
+    expect(REDIRECT_MAP_STATS.a).toBe(190);
     expect(REDIRECT_MAP_STATS.b).toBe(0);
     expect(REDIRECT_MAP_STATS.c).toBe(291);
     expect(REDIRECT_MAP_STATS.d).toBe(71);
-    expect(REDIRECT_MAP_STATS.total).toBe(551);
-    expect(REDIRECT_MAP.size).toBe(551);
+    expect(REDIRECT_MAP_STATS.total).toBe(552);
+    expect(REDIRECT_MAP.size).toBe(552);
   });
 
   it("has no duplicate old keys (Map size === unique)", () => {
@@ -74,7 +74,7 @@ describe("REDIRECT_MAP integrity", () => {
       "/catalog/podarochnye-karty/",
     );
     expect(REDIRECT_MAP.get("/catalog/vazy-i-aksessuary/")).toBe(
-      "/catalog/mebel-i-svet/svet/",
+      "/catalog/interer/vazy-i-kuvshiny/",
     );
   });
 });
@@ -97,10 +97,10 @@ describe("normalizeRedirectPath", () => {
 
 describe("decideCatalogRedirect", () => {
   it("D3: Cyrillic without trailing slash → one hop to live vase hub", () => {
-    // Retired top category vazy-i-aksessuary; SEO-012 remaps to live mebel-i-svet/svet.
+    // Retired top category vazy-i-aksessuary → live interer/vazy-i-kuvshiny.
     expect(decideCatalogRedirect("/catalog/вазы-и-аксессуары")).toEqual({
       type: "redirect",
-      location: "/catalog/mebel-i-svet/svet/",
+      location: "/catalog/interer/vazy-i-kuvshiny/",
       status: 301,
     });
   });
@@ -134,15 +134,15 @@ describe("decideCatalogRedirect", () => {
   it("D4: uppercase latin retired category → live vase hub", () => {
     expect(decideCatalogRedirect("/catalog/VAZY-I-AKSESSUARY/")).toEqual({
       type: "redirect",
-      location: "/catalog/mebel-i-svet/svet/",
+      location: "/catalog/interer/vazy-i-kuvshiny/",
       status: 301,
     });
   });
 
-  it("retired latin vase hub redirects to live mebel-i-svet/svet", () => {
+  it("retired latin vase hub redirects to live interer/vazy-i-kuvshiny", () => {
     expect(decideCatalogRedirect("/catalog/vazy-i-aksessuary/")).toEqual({
       type: "redirect",
-      location: "/catalog/mebel-i-svet/svet/",
+      location: "/catalog/interer/vazy-i-kuvshiny/",
       status: 301,
     });
   });
@@ -154,9 +154,21 @@ describe("decideCatalogRedirect", () => {
       ),
     ).toEqual({
       type: "redirect",
-      location: "/catalog/mebel-i-svet/svet/vaza-steklyannaya-vsplesk/",
+      location: "/catalog/interer/vazy-i-kuvshiny/vaza-steklyannaya-vsplesk/",
       status: 301,
     });
+  });
+
+  // Regression (2026-09-26): a duplicate `svet` subcategory slug made SEO-012/018 point vases
+  // at mebel-i-svet/svet. Vases live in interer/vazy-i-kuvshiny; only lamps stay in svet.
+  it("svet-slug-fix: old interer lamps hub → mebel-i-svet/svet, vases never target svet", () => {
+    expect(REDIRECT_MAP.get("/catalog/interer/svet/")).toBe("/catalog/mebel-i-svet/svet/");
+    expect(REDIRECT_MAP.get("/catalog/интерьер/свет/")).toBe("/catalog/mebel-i-svet/svet/");
+    for (const [from, to] of REDIRECT_MAP) {
+      if (to.startsWith("/catalog/mebel-i-svet/svet/")) {
+        expect(to, `${from} → ${to}`).not.toMatch(/vaza|blyudo/);
+      }
+    }
   });
 
   it("SEO-018: moved subcategory derzhateli → floristika", () => {

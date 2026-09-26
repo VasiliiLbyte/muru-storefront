@@ -1,5 +1,5 @@
 group,old_url,new_url,note
-c-cyrillic-staging,/catalog/вазы-и-аксессуары/,/catalog/mebel-i-svet/svet/,seo012:parent-category; seo012:hub-remap
+c-cyrillic-staging,/catalog/вазы-и-аксессуары/,/catalog/interer/vazy-i-kuvshiny/,seo012:parent-category; seo012:hub-remap; svet-slug-fix-052
 c-cyrillic-staging,/catalog/интерьер/,/catalog/interer/,
 c-cyrillic-staging,/catalog/комплексные-наборы/,/catalog/kompleksnye-nabory/,
 c-cyrillic-staging,/catalog/кухня-и-столовая/,/catalog/kukhnya-i-stolovaya/,
@@ -12,7 +12,7 @@ c-cyrillic-staging,/catalog/флористика/флористический-и
 c-cyrillic-staging,/catalog/натуральный-декор/корзины-и-плетеные-изделия/,/catalog/naturalnyy-dekor/,seo012:leaf-match; seo012:hub-remap
 c-cyrillic-staging,/catalog/натуральный-декор/свечи/,/catalog/naturalnyy-dekor/svechi/,
 c-cyrillic-staging,/catalog/натуральный-декор/сухоцветы/,/catalog/floristika-dlya-doma/sukhotsvety/,seo012:leaf-match
-c-cyrillic-staging,/catalog/вазы-и-аксессуары/вазы-и-кувшины/,/catalog/mebel-i-svet/svet/,seo012:parent-category; seo012:hub-remap
+c-cyrillic-staging,/catalog/вазы-и-аксессуары/вазы-и-кувшины/,/catalog/interer/vazy-i-kuvshiny/,seo012:parent-category; seo012:hub-remap; svet-slug-fix-052
 c-cyrillic-staging,/catalog/вазы-и-аксессуары/держатели-и-кензаны-для-цветов/,/catalog/floristika-dlya-doma/kenzany-i-derzhateli-dlya-tsvetov/,seo012:parent-category; seo012:hub-remap
 c-cyrillic-staging,/catalog/вазы-и-аксессуары/подсвечники/,/catalog/interer/podsvechniki/,seo012:leaf-match
 c-cyrillic-staging,/catalog/текстиль/ванная-комната/,/catalog/tekstil/vannaya-komnata/,
@@ -22,7 +22,7 @@ c-cyrillic-staging,/catalog/кухня-и-столовая/посуда/,/catalo
 c-cyrillic-staging,/catalog/кухня-и-столовая/сервировка/,/catalog/kukhnya-i-stolovaya/servirovka/,
 c-cyrillic-staging,/catalog/кухня-и-столовая/текстиль-для-кухни-и-столовой/,/catalog/kukhnya-i-stolovaya/tekstil-dlya-kukhni-i-stolovoy/,
 c-cyrillic-staging,/catalog/интерьер/постеры/,/catalog/interer/postery/,
-c-cyrillic-staging,/catalog/интерьер/свет/,/catalog/interer/svet/,
+c-cyrillic-staging,/catalog/интерьер/свет/,/catalog/mebel-i-svet/svet/,svet-slug-fix-052
 c-cyrillic-staging,/catalog/интерьер/тест-подкатегория/,/catalog/interer/,seo012:parent-category
 c-cyrillic-staging,/catalog/комплексные-наборы/корпоративные-подарки/,/catalog/kompleksnye-nabory/korporativnye-podarki/,
 a-muru-ru,/catalog/vazy-i-aksessuary/podsvechniki/keramicheskiy-podsvechnik-tikhaya-zemlya/,/catalog/interer/podsvechniki/keramicheskiy-podsvechnik-tikhaya-zemlya-malyy/,seo012:leaf-match
@@ -33,22 +33,22 @@ a-muru-ru,/catalog/vazy-i-aksessuary/podsvechniki/micheskiy-podsvechnik-tikhaya-
 c-cyrillic-staging,/catalog/вазы-и-аксессуары/подсвечники/MU0003/,/catalog/interer/podsvechniki/kemicheskiy-podsvechnik-tikhaya-zemlya-bolshoy-2/,seo012:leaf-match
 a-muru-ru,/catalog/vazy-i-aksessuary/podsvechniki/micheskiy-podsvechnik-tikhaya-zemlya-1872192570/,/catalog/interer/podsvechniki/keramicheskiy-podsvechnik-tikhaya-zemlya-malyy-2/,seo012:leaf-match
 c-cyrillic-staging,/catalog/вазы-и-аксессуары/подсвечники/MU0004/,/catalog/interer/podsvechniki/keramicheskiy-podsvechnik-tikhaya-zemlya-malyy-2/,seo012:leaf-match
-a-muru-ru,/catalog/vazy-i-aksessuary/vazy-i-kuvshiny/keramicheskiy-podsvechnik/,/catalog/mebel-i-svet/svet/keramicheskaya-vaza-tikhaya-zemlya/,seo012:leaf-match
-c-cyrillic-staging,/catalog/вазы-и-аксессуары/вазы-и-кувшины/MU0005/,/catalog/mebel-i-svet/svet/keramicheskaya-vaza-tikhaya-zemlya/,seo012:leaf-match
-a-muru-ru,/catalog/vazy-i-aksessuary/vazy-i-kuvshiny/keramicheskiy-podsvechnik-1839148241/,/catalog/mebel-i-svet/svet/keramicheskaya-vaza-tikhaya-zemlya-2/,seo012:leaf-match
-c-cyrillic-staging,/catalog/вазы-и-аксессуары/вазы-и-кувшины/MU0006/,/catalog/mebel-i-svet/svet/keramicheskaya-vaza-tikhaya-zemlya-2/,seo012:leaf-match
-a-muru-ru,/catalog/vazy-i-aksessuary/vazy-i-kuvshiny/keramicheskiy-podsvechnik-1929190593/,/catalog/mebel-i-svet/svet/keramicheskaya-vaza-tikhaya-zemlya-3/,seo012:leaf-match
-c-cyrillic-staging,/catalog/вазы-и-аксессуары/вазы-и-кувшины/MU0007/,/catalog/mebel-i-svet/svet/keramicheskaya-vaza-tikhaya-zemlya-3/,seo012:leaf-match
-a-muru-ru,/catalog/vazy-i-aksessuary/vazy-i-kuvshiny/keramicheskiy-podsvechnik-792922840/,/catalog/mebel-i-svet/svet/keramicheskaya-vaza-tikhaya-zemlya-4/,seo012:leaf-match
-c-cyrillic-staging,/catalog/вазы-и-аксессуары/вазы-и-кувшины/MU0008/,/catalog/mebel-i-svet/svet/keramicheskaya-vaza-tikhaya-zemlya-4/,seo012:leaf-match
-a-muru-ru,/catalog/vazy-i-aksessuary/vazy-i-kuvshiny/keramicheskiy-podsvechnik-1317933197/,/catalog/mebel-i-svet/svet/keramicheskaya-vaza-forma-sveta/,seo012:leaf-match
-c-cyrillic-staging,/catalog/вазы-и-аксессуары/вазы-и-кувшины/MU0009/,/catalog/mebel-i-svet/svet/keramicheskaya-vaza-forma-sveta/,seo012:leaf-match
-a-muru-ru,/catalog/vazy-i-aksessuary/vazy-i-kuvshiny/keramicheskiy-podsvechnik-2134917596/,/catalog/mebel-i-svet/svet/keramicheskaya-vaza-forma-sveta-2/,seo012:leaf-match
-c-cyrillic-staging,/catalog/вазы-и-аксессуары/вазы-и-кувшины/MU0010/,/catalog/mebel-i-svet/svet/keramicheskaya-vaza-forma-sveta-2/,seo012:leaf-match
-a-muru-ru,/catalog/vazy-i-aksessuary/vazy-i-kuvshiny/keramicheskiy-podsvechnik-1985720063/,/catalog/mebel-i-svet/svet/keramicheskaya-vaza-forma-sveta-3/,seo012:leaf-match
-c-cyrillic-staging,/catalog/вазы-и-аксессуары/вазы-и-кувшины/MU0011/,/catalog/mebel-i-svet/svet/keramicheskaya-vaza-forma-sveta-3/,seo012:leaf-match
-a-muru-ru,/catalog/vazy-i-aksessuary/vazy-i-kuvshiny/keramicheskaya-vaza/,/catalog/mebel-i-svet/svet/keramicheskaya-vaza-forma-sveta-4/,seo012:leaf-match
-c-cyrillic-staging,/catalog/вазы-и-аксессуары/вазы-и-кувшины/MU0012/,/catalog/mebel-i-svet/svet/keramicheskaya-vaza-forma-sveta-4/,seo012:leaf-match
+a-muru-ru,/catalog/vazy-i-aksessuary/vazy-i-kuvshiny/keramicheskiy-podsvechnik/,/catalog/interer/vazy-i-kuvshiny/keramicheskaya-vaza-tikhaya-zemlya/,seo012:leaf-match; svet-slug-fix-052
+c-cyrillic-staging,/catalog/вазы-и-аксессуары/вазы-и-кувшины/MU0005/,/catalog/interer/vazy-i-kuvshiny/keramicheskaya-vaza-tikhaya-zemlya/,seo012:leaf-match; svet-slug-fix-052
+a-muru-ru,/catalog/vazy-i-aksessuary/vazy-i-kuvshiny/keramicheskiy-podsvechnik-1839148241/,/catalog/interer/vazy-i-kuvshiny/keramicheskaya-vaza-tikhaya-zemlya-2/,seo012:leaf-match; svet-slug-fix-052
+c-cyrillic-staging,/catalog/вазы-и-аксессуары/вазы-и-кувшины/MU0006/,/catalog/interer/vazy-i-kuvshiny/keramicheskaya-vaza-tikhaya-zemlya-2/,seo012:leaf-match; svet-slug-fix-052
+a-muru-ru,/catalog/vazy-i-aksessuary/vazy-i-kuvshiny/keramicheskiy-podsvechnik-1929190593/,/catalog/interer/vazy-i-kuvshiny/keramicheskaya-vaza-tikhaya-zemlya-3/,seo012:leaf-match; svet-slug-fix-052
+c-cyrillic-staging,/catalog/вазы-и-аксессуары/вазы-и-кувшины/MU0007/,/catalog/interer/vazy-i-kuvshiny/keramicheskaya-vaza-tikhaya-zemlya-3/,seo012:leaf-match; svet-slug-fix-052
+a-muru-ru,/catalog/vazy-i-aksessuary/vazy-i-kuvshiny/keramicheskiy-podsvechnik-792922840/,/catalog/interer/vazy-i-kuvshiny/keramicheskaya-vaza-tikhaya-zemlya-4/,seo012:leaf-match; svet-slug-fix-052
+c-cyrillic-staging,/catalog/вазы-и-аксессуары/вазы-и-кувшины/MU0008/,/catalog/interer/vazy-i-kuvshiny/keramicheskaya-vaza-tikhaya-zemlya-4/,seo012:leaf-match; svet-slug-fix-052
+a-muru-ru,/catalog/vazy-i-aksessuary/vazy-i-kuvshiny/keramicheskiy-podsvechnik-1317933197/,/catalog/interer/vazy-i-kuvshiny/keramicheskaya-vaza-forma-sveta/,seo012:leaf-match; svet-slug-fix-052
+c-cyrillic-staging,/catalog/вазы-и-аксессуары/вазы-и-кувшины/MU0009/,/catalog/interer/vazy-i-kuvshiny/keramicheskaya-vaza-forma-sveta/,seo012:leaf-match; svet-slug-fix-052
+a-muru-ru,/catalog/vazy-i-aksessuary/vazy-i-kuvshiny/keramicheskiy-podsvechnik-2134917596/,/catalog/interer/vazy-i-kuvshiny/keramicheskaya-vaza-forma-sveta-2/,seo012:leaf-match; svet-slug-fix-052
+c-cyrillic-staging,/catalog/вазы-и-аксессуары/вазы-и-кувшины/MU0010/,/catalog/interer/vazy-i-kuvshiny/keramicheskaya-vaza-forma-sveta-2/,seo012:leaf-match; svet-slug-fix-052
+a-muru-ru,/catalog/vazy-i-aksessuary/vazy-i-kuvshiny/keramicheskiy-podsvechnik-1985720063/,/catalog/interer/vazy-i-kuvshiny/keramicheskaya-vaza-forma-sveta-3/,seo012:leaf-match; svet-slug-fix-052
+c-cyrillic-staging,/catalog/вазы-и-аксессуары/вазы-и-кувшины/MU0011/,/catalog/interer/vazy-i-kuvshiny/keramicheskaya-vaza-forma-sveta-3/,seo012:leaf-match; svet-slug-fix-052
+a-muru-ru,/catalog/vazy-i-aksessuary/vazy-i-kuvshiny/keramicheskaya-vaza/,/catalog/interer/vazy-i-kuvshiny/keramicheskaya-vaza-forma-sveta-4/,seo012:leaf-match; svet-slug-fix-052
+c-cyrillic-staging,/catalog/вазы-и-аксессуары/вазы-и-кувшины/MU0012/,/catalog/interer/vazy-i-kuvshiny/keramicheskaya-vaza-forma-sveta-4/,seo012:leaf-match; svet-slug-fix-052
 a-muru-ru,/catalog/kukhnya-i-stolovaya/posuda/keramicheskaya-vaza-2085762297/,/catalog/kukhnya-i-stolovaya/posuda/keramicheskiy-salatnik-zhivaya-forma/,
 c-cyrillic-staging,/catalog/кухня-и-столовая/посуда/MU0013/,/catalog/kukhnya-i-stolovaya/posuda/keramicheskiy-salatnik-zhivaya-forma/,
 a-muru-ru,/catalog/kukhnya-i-stolovaya/posuda/keramicheskaya-vaza-437262777/,/catalog/kukhnya-i-stolovaya/posuda/supovoe-blyudo-keramicheskoe-zhivaya-forma/,
@@ -93,8 +93,8 @@ c-cyrillic-staging,/catalog/кухня-и-столовая/посуда/MU0034/,
 c-cyrillic-staging,/catalog/кухня-и-столовая/посуда/MU0035/,/catalog/kukhnya-i-stolovaya/posuda/keramicheskoe-servirovochnoe-blyudo-liniya/,
 c-cyrillic-staging,/catalog/кухня-и-столовая/посуда/MU0036/,/catalog/kukhnya-i-stolovaya/posuda/keramicheskoe-glubokoe-blyudo-liniya/,
 c-cyrillic-staging,/catalog/кухня-и-столовая/посуда/MU0037/,/catalog/kukhnya-i-stolovaya/posuda/keramicheskiy-salatnik-liniya/,
-a-muru-ru,/catalog/vazy-i-aksessuary/vazy-i-kuvshiny/keramicheskaya-tarelka-glubina/,/catalog/mebel-i-svet/svet/keramicheskaya-vaza-glina/,seo012:leaf-match
-c-cyrillic-staging,/catalog/вазы-и-аксессуары/вазы-и-кувшины/MU0038/,/catalog/mebel-i-svet/svet/keramicheskaya-vaza-glina/,seo012:leaf-match
+a-muru-ru,/catalog/vazy-i-aksessuary/vazy-i-kuvshiny/keramicheskaya-tarelka-glubina/,/catalog/interer/vazy-i-kuvshiny/keramicheskaya-vaza-glina/,seo012:leaf-match; svet-slug-fix-052
+c-cyrillic-staging,/catalog/вазы-и-аксессуары/вазы-и-кувшины/MU0038/,/catalog/interer/vazy-i-kuvshiny/keramicheskaya-vaza-glina/,seo012:leaf-match; svet-slug-fix-052
 a-muru-ru,/catalog/kukhnya-i-stolovaya/posuda/keramicheskaya-tarelka-glubina-704636890/,/catalog/kukhnya-i-stolovaya/posuda/keramicheskoe-servirovochnoe-blyudo-glina/,
 c-cyrillic-staging,/catalog/кухня-и-столовая/посуда/MU0039/,/catalog/kukhnya-i-stolovaya/posuda/keramicheskoe-servirovochnoe-blyudo-glina/,
 c-cyrillic-staging,/catalog/кухня-и-столовая/посуда/MU0040/,/catalog/kukhnya-i-stolovaya/posuda/keramicheskiy-salatnik/,
@@ -135,21 +135,21 @@ a-muru-ru,/catalog/tekstil/spalnya/nastolnaya-lampa-s-tkanevym-abazhurom/,/catal
 c-cyrillic-staging,/catalog/текстиль/спальня/MU0059/,/catalog/postelnoe-bele-i-pledy/postelnoe-bele/postelnoe-bele-tishina-naturalnyy-neokrashennyy-khlopok-5/,seo012:leaf-match
 a-muru-ru,/catalog/tekstil/spalnya/nastolnaya-lampa-s-keramicheskim-osnovaniem/,/catalog/postelnoe-bele-i-pledy/postelnoe-bele/postelnoe-bele-tishina-naturalnyy-neokrashennyy-khlopok-6/,seo012:leaf-match
 c-cyrillic-staging,/catalog/текстиль/спальня/MU0060/,/catalog/postelnoe-bele-i-pledy/postelnoe-bele/postelnoe-bele-tishina-naturalnyy-neokrashennyy-khlopok-6/,seo012:leaf-match
-c-cyrillic-staging,/catalog/вазы-и-аксессуары/вазы-и-кувшины/MU0061/,/catalog/mebel-i-svet/svet/vaza-steklyannaya-blown/,seo012:leaf-match
-a-muru-ru,/catalog/vazy-i-aksessuary/vazy-i-kuvshiny/keramicheskoe-servirovochnoe-blyudo-glina/,/catalog/mebel-i-svet/svet/vaza-steklyannaya-batter/,seo012:leaf-match
-c-cyrillic-staging,/catalog/вазы-и-аксессуары/вазы-и-кувшины/MU0062/,/catalog/mebel-i-svet/svet/vaza-steklyannaya-batter/,seo012:leaf-match
-a-muru-ru,/catalog/vazy-i-aksessuary/vazy-i-kuvshiny/vaza-steklyannaya-grey-644222884/,/catalog/mebel-i-svet/svet/vaza-steklyannaya-grey/,seo012:leaf-match
-c-cyrillic-staging,/catalog/вазы-и-аксессуары/вазы-и-кувшины/MU0063/,/catalog/mebel-i-svet/svet/vaza-steklyannaya-grey/,seo012:leaf-match
-a-muru-ru,/catalog/vazy-i-aksessuary/vazy-i-kuvshiny/vaza-steklyannaya-grey-833320905/,/catalog/mebel-i-svet/svet/vaza-steklyannaya-grey/,seo012:leaf-base-match
-c-cyrillic-staging,/catalog/вазы-и-аксессуары/вазы-и-кувшины/MU0064/,/catalog/mebel-i-svet/svet/vaza-steklyannaya-grey/,seo012:leaf-base-match
-a-muru-ru,/catalog/vazy-i-aksessuary/vazy-i-kuvshiny/vaza-steklyannaya-vsplesk-103139271/,/catalog/mebel-i-svet/svet/vaza-steklyannaya-vsplesk/,seo012:leaf-match
-c-cyrillic-staging,/catalog/вазы-и-аксессуары/вазы-и-кувшины/MU0065/,/catalog/mebel-i-svet/svet/vaza-steklyannaya-vsplesk/,seo012:leaf-match
-a-muru-ru,/catalog/vazy-i-aksessuary/vazy-i-kuvshiny/vaza-steklyannaya-tyulpan-424813474/,/catalog/mebel-i-svet/svet/vaza-steklyannaya-tyulpan/,seo012:leaf-match
-c-cyrillic-staging,/catalog/вазы-и-аксессуары/вазы-и-кувшины/MU0066/,/catalog/mebel-i-svet/svet/vaza-steklyannaya-tyulpan/,seo012:leaf-match
-a-muru-ru,/catalog/vazy-i-aksessuary/vazy-i-kuvshiny/vaza-steklyannaya-tyulpan-1140600954/,/catalog/mebel-i-svet/svet/vaza-steklyannaya-tyulpan-2/,seo012:leaf-match
-c-cyrillic-staging,/catalog/вазы-и-аксессуары/вазы-и-кувшины/MU0067/,/catalog/mebel-i-svet/svet/vaza-steklyannaya-tyulpan-2/,seo012:leaf-match
-a-muru-ru,/catalog/vazy-i-aksessuary/vazy-i-kuvshiny/derzhatel-dlya-salfetok/,/catalog/mebel-i-svet/svet/,seo012:parent-category; seo012:hub-remap
-c-cyrillic-staging,/catalog/вазы-и-аксессуары/вазы-и-кувшины/MU0068/,/catalog/mebel-i-svet/svet/,seo012:parent-category; seo012:hub-remap
+c-cyrillic-staging,/catalog/вазы-и-аксессуары/вазы-и-кувшины/MU0061/,/catalog/interer/vazy-i-kuvshiny/vaza-steklyannaya-blown/,seo012:leaf-match; svet-slug-fix-052
+a-muru-ru,/catalog/vazy-i-aksessuary/vazy-i-kuvshiny/keramicheskoe-servirovochnoe-blyudo-glina/,/catalog/interer/vazy-i-kuvshiny/vaza-steklyannaya-batter/,seo012:leaf-match; svet-slug-fix-052
+c-cyrillic-staging,/catalog/вазы-и-аксессуары/вазы-и-кувшины/MU0062/,/catalog/interer/vazy-i-kuvshiny/vaza-steklyannaya-batter/,seo012:leaf-match; svet-slug-fix-052
+a-muru-ru,/catalog/vazy-i-aksessuary/vazy-i-kuvshiny/vaza-steklyannaya-grey-644222884/,/catalog/interer/vazy-i-kuvshiny/vaza-steklyannaya-grey/,seo012:leaf-match; svet-slug-fix-052
+c-cyrillic-staging,/catalog/вазы-и-аксессуары/вазы-и-кувшины/MU0063/,/catalog/interer/vazy-i-kuvshiny/vaza-steklyannaya-grey/,seo012:leaf-match; svet-slug-fix-052
+a-muru-ru,/catalog/vazy-i-aksessuary/vazy-i-kuvshiny/vaza-steklyannaya-grey-833320905/,/catalog/interer/vazy-i-kuvshiny/vaza-steklyannaya-grey/,seo012:leaf-base-match; svet-slug-fix-052
+c-cyrillic-staging,/catalog/вазы-и-аксессуары/вазы-и-кувшины/MU0064/,/catalog/interer/vazy-i-kuvshiny/vaza-steklyannaya-grey/,seo012:leaf-base-match; svet-slug-fix-052
+a-muru-ru,/catalog/vazy-i-aksessuary/vazy-i-kuvshiny/vaza-steklyannaya-vsplesk-103139271/,/catalog/interer/vazy-i-kuvshiny/vaza-steklyannaya-vsplesk/,seo012:leaf-match; svet-slug-fix-052
+c-cyrillic-staging,/catalog/вазы-и-аксессуары/вазы-и-кувшины/MU0065/,/catalog/interer/vazy-i-kuvshiny/vaza-steklyannaya-vsplesk/,seo012:leaf-match; svet-slug-fix-052
+a-muru-ru,/catalog/vazy-i-aksessuary/vazy-i-kuvshiny/vaza-steklyannaya-tyulpan-424813474/,/catalog/interer/vazy-i-kuvshiny/vaza-steklyannaya-tyulpan/,seo012:leaf-match; svet-slug-fix-052
+c-cyrillic-staging,/catalog/вазы-и-аксессуары/вазы-и-кувшины/MU0066/,/catalog/interer/vazy-i-kuvshiny/vaza-steklyannaya-tyulpan/,seo012:leaf-match; svet-slug-fix-052
+a-muru-ru,/catalog/vazy-i-aksessuary/vazy-i-kuvshiny/vaza-steklyannaya-tyulpan-1140600954/,/catalog/interer/vazy-i-kuvshiny/vaza-steklyannaya-tyulpan-2/,seo012:leaf-match; svet-slug-fix-052
+c-cyrillic-staging,/catalog/вазы-и-аксессуары/вазы-и-кувшины/MU0067/,/catalog/interer/vazy-i-kuvshiny/vaza-steklyannaya-tyulpan-2/,seo012:leaf-match; svet-slug-fix-052
+a-muru-ru,/catalog/vazy-i-aksessuary/vazy-i-kuvshiny/derzhatel-dlya-salfetok/,/catalog/interer/vazy-i-kuvshiny/,seo012:parent-category; seo012:hub-remap; svet-slug-fix-052
+c-cyrillic-staging,/catalog/вазы-и-аксессуары/вазы-и-кувшины/MU0068/,/catalog/interer/vazy-i-kuvshiny/,seo012:parent-category; seo012:hub-remap; svet-slug-fix-052
 a-muru-ru,/catalog/floristika-dlya-doma/gorshki-i-kashpo/derzhatel-dlya-salfetok-1469644078/,/catalog/floristika-dlya-doma/gorshki-i-kashpo/,seo012:parent-category
 c-cyrillic-staging,/catalog/флористика/горшки-и-кашпо/MU0069/,/catalog/floristika-dlya-doma/gorshki-i-kashpo/,seo012:parent-category
 a-muru-ru,/catalog/floristika-dlya-doma/gorshki-i-kashpo/lnyanaya-salfetka-dlya-servirovki-tikhiy-dom/,/catalog/floristika-dlya-doma/gorshki-i-kashpo/,seo012:parent-category
@@ -164,20 +164,20 @@ a-muru-ru,/catalog/vazy-i-aksessuary/podsvechniki/podsvechnik-metallicheskiy-kuv
 c-cyrillic-staging,/catalog/вазы-и-аксессуары/подсвечники/MU0074/,/catalog/interer/podsvechniki/podsvechnik-metallicheskiy-kuvshinka-2/,seo012:leaf-match
 a-muru-ru,/catalog/vazy-i-aksessuary/podsvechniki/lnyanaya-skatert-tikhiy-dom/,/catalog/interer/podsvechniki/podsvechnik-keramicheskiy-kuvshinka/,seo012:leaf-match
 c-cyrillic-staging,/catalog/вазы-и-аксессуары/подсвечники/MU0075/,/catalog/interer/podsvechniki/podsvechnik-keramicheskiy-kuvshinka/,seo012:leaf-match
-a-muru-ru,/catalog/vazy-i-aksessuary/vazy-i-kuvshiny/lnyanaya-skatert-tikhiy-dom-76750412/,/catalog/mebel-i-svet/svet/vaza-steklyannaya-ritm/,seo012:leaf-match
-c-cyrillic-staging,/catalog/вазы-и-аксессуары/вазы-и-кувшины/MU0076/,/catalog/mebel-i-svet/svet/vaza-steklyannaya-ritm/,seo012:leaf-match
-a-muru-ru,/catalog/vazy-i-aksessuary/vazy-i-kuvshiny/lnyanaya-skatert-tikhiy-dom-1139312163/,/catalog/mebel-i-svet/svet/vaza-steklyannaya-vsplesk-2/,seo012:leaf-match
-c-cyrillic-staging,/catalog/вазы-и-аксессуары/вазы-и-кувшины/MU0077/,/catalog/mebel-i-svet/svet/vaza-steklyannaya-vsplesk-2/,seo012:leaf-match
-a-muru-ru,/catalog/vazy-i-aksessuary/vazy-i-kuvshiny/lnyanaya-skatert-tikhiy-dom-884540452/,/catalog/mebel-i-svet/svet/vaza-steklyannaya-wabi-sabi/,seo012:leaf-match
-c-cyrillic-staging,/catalog/вазы-и-аксессуары/вазы-и-кувшины/MU0078/,/catalog/mebel-i-svet/svet/vaza-steklyannaya-wabi-sabi/,seo012:leaf-match
-a-muru-ru,/catalog/vazy-i-aksessuary/vazy-i-kuvshiny/lnyanaya-skatert-tikhiy-dom-1943166319/,/catalog/mebel-i-svet/svet/vaza-steklyannaya-wabi-sabi-2/,seo012:leaf-match
-c-cyrillic-staging,/catalog/вазы-и-аксессуары/вазы-и-кувшины/MU0079/,/catalog/mebel-i-svet/svet/vaza-steklyannaya-wabi-sabi-2/,seo012:leaf-match
-a-muru-ru,/catalog/vazy-i-aksessuary/vazy-i-kuvshiny/postelnoe-belye-shiro-myagkiy-khlopok/,/catalog/mebel-i-svet/svet/,seo012:parent-category; seo012:hub-remap
-c-cyrillic-staging,/catalog/вазы-и-аксессуары/вазы-и-кувшины/MU0080/,/catalog/mebel-i-svet/svet/,seo012:parent-category; seo012:hub-remap
-a-muru-ru,/catalog/vazy-i-aksessuary/vazy-i-kuvshiny/postelnoe-belye-tishina-naturalnyy-neokrashennyy-khlopok/,/catalog/mebel-i-svet/svet/,seo012:parent-category; seo012:hub-remap
-c-cyrillic-staging,/catalog/вазы-и-аксессуары/вазы-и-кувшины/MU0081/,/catalog/mebel-i-svet/svet/,seo012:parent-category; seo012:hub-remap
-a-muru-ru,/catalog/vazy-i-aksessuary/vazy-i-kuvshiny/postelnoe-belye-tishina-naturalnyy-neokrashennyy-khlopok-1776956308/,/catalog/mebel-i-svet/svet/vaza-keramicheskaya-pesok-3/,seo012:leaf-match
-c-cyrillic-staging,/catalog/вазы-и-аксессуары/вазы-и-кувшины/MU0082/,/catalog/mebel-i-svet/svet/vaza-keramicheskaya-pesok-3/,seo012:leaf-match
+a-muru-ru,/catalog/vazy-i-aksessuary/vazy-i-kuvshiny/lnyanaya-skatert-tikhiy-dom-76750412/,/catalog/interer/vazy-i-kuvshiny/vaza-steklyannaya-ritm/,seo012:leaf-match; svet-slug-fix-052
+c-cyrillic-staging,/catalog/вазы-и-аксессуары/вазы-и-кувшины/MU0076/,/catalog/interer/vazy-i-kuvshiny/vaza-steklyannaya-ritm/,seo012:leaf-match; svet-slug-fix-052
+a-muru-ru,/catalog/vazy-i-aksessuary/vazy-i-kuvshiny/lnyanaya-skatert-tikhiy-dom-1139312163/,/catalog/interer/vazy-i-kuvshiny/vaza-steklyannaya-vsplesk-2/,seo012:leaf-match; svet-slug-fix-052
+c-cyrillic-staging,/catalog/вазы-и-аксессуары/вазы-и-кувшины/MU0077/,/catalog/interer/vazy-i-kuvshiny/vaza-steklyannaya-vsplesk-2/,seo012:leaf-match; svet-slug-fix-052
+a-muru-ru,/catalog/vazy-i-aksessuary/vazy-i-kuvshiny/lnyanaya-skatert-tikhiy-dom-884540452/,/catalog/interer/vazy-i-kuvshiny/vaza-steklyannaya-wabi-sabi/,seo012:leaf-match; svet-slug-fix-052
+c-cyrillic-staging,/catalog/вазы-и-аксессуары/вазы-и-кувшины/MU0078/,/catalog/interer/vazy-i-kuvshiny/vaza-steklyannaya-wabi-sabi/,seo012:leaf-match; svet-slug-fix-052
+a-muru-ru,/catalog/vazy-i-aksessuary/vazy-i-kuvshiny/lnyanaya-skatert-tikhiy-dom-1943166319/,/catalog/interer/vazy-i-kuvshiny/vaza-steklyannaya-wabi-sabi-2/,seo012:leaf-match; svet-slug-fix-052
+c-cyrillic-staging,/catalog/вазы-и-аксессуары/вазы-и-кувшины/MU0079/,/catalog/interer/vazy-i-kuvshiny/vaza-steklyannaya-wabi-sabi-2/,seo012:leaf-match; svet-slug-fix-052
+a-muru-ru,/catalog/vazy-i-aksessuary/vazy-i-kuvshiny/postelnoe-belye-shiro-myagkiy-khlopok/,/catalog/interer/vazy-i-kuvshiny/,seo012:parent-category; seo012:hub-remap; svet-slug-fix-052
+c-cyrillic-staging,/catalog/вазы-и-аксессуары/вазы-и-кувшины/MU0080/,/catalog/interer/vazy-i-kuvshiny/,seo012:parent-category; seo012:hub-remap; svet-slug-fix-052
+a-muru-ru,/catalog/vazy-i-aksessuary/vazy-i-kuvshiny/postelnoe-belye-tishina-naturalnyy-neokrashennyy-khlopok/,/catalog/interer/vazy-i-kuvshiny/,seo012:parent-category; seo012:hub-remap; svet-slug-fix-052
+c-cyrillic-staging,/catalog/вазы-и-аксессуары/вазы-и-кувшины/MU0081/,/catalog/interer/vazy-i-kuvshiny/,seo012:parent-category; seo012:hub-remap; svet-slug-fix-052
+a-muru-ru,/catalog/vazy-i-aksessuary/vazy-i-kuvshiny/postelnoe-belye-tishina-naturalnyy-neokrashennyy-khlopok-1776956308/,/catalog/interer/vazy-i-kuvshiny/vaza-keramicheskaya-pesok-3/,seo012:leaf-match; svet-slug-fix-052
+c-cyrillic-staging,/catalog/вазы-и-аксессуары/вазы-и-кувшины/MU0082/,/catalog/interer/vazy-i-kuvshiny/vaza-keramicheskaya-pesok-3/,seo012:leaf-match; svet-slug-fix-052
 a-muru-ru,/catalog/floristika-dlya-doma/floristicheskiy-instrument/postelnoe-belye-tishina-naturalnyy-neokrashennyy-khlopok-1826246095/,/catalog/floristika-dlya-doma/floristicheskiy-instrument/,seo012:parent-category
 c-cyrillic-staging,/catalog/флористика/флористический-инструмент/MU0084/,/catalog/floristika-dlya-doma/floristicheskiy-instrument/,seo012:parent-category
 a-muru-ru,/catalog/floristika-dlya-doma/floristicheskiy-instrument/postelnoe-belye-tishina-naturalnyy-neokrashennyy-khlopok-1221413552/,/catalog/floristika-dlya-doma/floristicheskiy-instrument/osnova-pod-venok/,
@@ -218,8 +218,8 @@ a-muru-ru,/catalog/floristika-dlya-doma/floristicheskiy-instrument/vaza-steklyan
 c-cyrillic-staging,/catalog/флористика/флористический-инструмент/MU0102/,/catalog/floristika-dlya-doma/floristicheskiy-instrument/sekator/,
 a-muru-ru,/catalog/floristika-dlya-doma/floristicheskiy-instrument/vaza-steklyannaya-chloe-1556590875/,/catalog/floristika-dlya-doma/floristicheskiy-instrument/sekator-2/,
 c-cyrillic-staging,/catalog/флористика/флористический-инструмент/MU0103/,/catalog/floristika-dlya-doma/floristicheskiy-instrument/sekator-2/,
-a-muru-ru,/catalog/kukhnya-i-stolovaya/posuda/dekorativnoe-blyudo-keramicheskoe-1972646161/,/catalog/mebel-i-svet/svet/dekorativnoe-blyudo-keramicheskoe/,seo012:leaf-match
-c-cyrillic-staging,/catalog/кухня-и-столовая/посуда/MU0104/,/catalog/mebel-i-svet/svet/dekorativnoe-blyudo-keramicheskoe/,seo012:leaf-match
+a-muru-ru,/catalog/kukhnya-i-stolovaya/posuda/dekorativnoe-blyudo-keramicheskoe-1972646161/,/catalog/interer/vazy-i-kuvshiny/dekorativnoe-blyudo-keramicheskoe/,seo012:leaf-match; svet-slug-fix-052
+c-cyrillic-staging,/catalog/кухня-и-столовая/посуда/MU0104/,/catalog/interer/vazy-i-kuvshiny/dekorativnoe-blyudo-keramicheskoe/,seo012:leaf-match; svet-slug-fix-052
 a-muru-ru,/catalog/kukhnya-i-stolovaya/posuda/vaza-steklyannaya-vsplesk-784163062/,/catalog/interer/predmety-dekora/dekorativnoe-blyudo-na-nozhke-keramicheskoe/,seo012:leaf-match
 c-cyrillic-staging,/catalog/кухня-и-столовая/посуда/MU0105/,/catalog/interer/predmety-dekora/dekorativnoe-blyudo-na-nozhke-keramicheskoe/,seo012:leaf-match
 c-cyrillic-staging,/catalog/натуральный-декор/сухоцветы/MU0107/,/catalog/floristika-dlya-doma/sukhotsvety/sukhotsvety-evkalipt/,seo012:leaf-match
@@ -310,18 +310,18 @@ a-muru-ru,/catalog/interer/postery/poster-abstraktsiya-peyzazh-1179082607/,/cata
 c-cyrillic-staging,/catalog/интерьер/постеры/MU0164/,/catalog/interer/postery/poster-abstraktsiya-peyzazh-sredniy/,
 a-muru-ru,/catalog/interer/postery/poster-abstraktsiya-peyzazh-398797209/,/catalog/interer/postery/poster-abstraktsiya-peyzazh-bolshoy/,
 c-cyrillic-staging,/catalog/интерьер/постеры/MU0165/,/catalog/interer/postery/poster-abstraktsiya-peyzazh-bolshoy/,
-a-muru-ru,/catalog/vazy-i-aksessuary/vazy-i-kuvshiny/poster-chin-chin-1855289091/,/catalog/mebel-i-svet/svet/vaza-steklyannaya/,seo012:leaf-match
-c-cyrillic-staging,/catalog/вазы-и-аксессуары/вазы-и-кувшины/MU0167/,/catalog/mebel-i-svet/svet/vaza-steklyannaya/,seo012:leaf-match
-a-muru-ru,/catalog/vazy-i-aksessuary/vazy-i-kuvshiny/poster-chin-chin-1092053209/,/catalog/mebel-i-svet/svet/vaza-keramicheskaya/,seo012:leaf-match
-c-cyrillic-staging,/catalog/вазы-и-аксессуары/вазы-и-кувшины/MU0168/,/catalog/mebel-i-svet/svet/vaza-keramicheskaya/,seo012:leaf-match
-a-muru-ru,/catalog/vazy-i-aksessuary/vazy-i-kuvshiny/poster-ty/,/catalog/mebel-i-svet/svet/vaza-keramicheskaya-2/,seo012:leaf-match
-c-cyrillic-staging,/catalog/вазы-и-аксессуары/вазы-и-кувшины/MU0169/,/catalog/mebel-i-svet/svet/vaza-keramicheskaya-2/,seo012:leaf-match
-a-muru-ru,/catalog/vazy-i-aksessuary/vazy-i-kuvshiny/poster-ty-683178112/,/catalog/mebel-i-svet/svet/vaza-keramicheskaya-3/,seo012:leaf-match
-c-cyrillic-staging,/catalog/вазы-и-аксессуары/вазы-и-кувшины/MU0170/,/catalog/mebel-i-svet/svet/vaza-keramicheskaya-3/,seo012:leaf-match
-a-muru-ru,/catalog/vazy-i-aksessuary/vazy-i-kuvshiny/poster-ty-1414275150/,/catalog/mebel-i-svet/svet/vaza-steklyannaya/,seo012:leaf-base-match
-c-cyrillic-staging,/catalog/вазы-и-аксессуары/вазы-и-кувшины/MU0171/,/catalog/mebel-i-svet/svet/vaza-steklyannaya/,seo012:leaf-base-match
-a-muru-ru,/catalog/vazy-i-aksessuary/vazy-i-kuvshiny/poster-lyubov-vitaet-v-vozdukhe/,/catalog/mebel-i-svet/svet/vaza-steklyannaya-3/,seo012:leaf-match
-c-cyrillic-staging,/catalog/вазы-и-аксессуары/вазы-и-кувшины/MU0172/,/catalog/mebel-i-svet/svet/vaza-steklyannaya-3/,seo012:leaf-match
+a-muru-ru,/catalog/vazy-i-aksessuary/vazy-i-kuvshiny/poster-chin-chin-1855289091/,/catalog/interer/vazy-i-kuvshiny/vaza-steklyannaya/,seo012:leaf-match; svet-slug-fix-052
+c-cyrillic-staging,/catalog/вазы-и-аксессуары/вазы-и-кувшины/MU0167/,/catalog/interer/vazy-i-kuvshiny/vaza-steklyannaya/,seo012:leaf-match; svet-slug-fix-052
+a-muru-ru,/catalog/vazy-i-aksessuary/vazy-i-kuvshiny/poster-chin-chin-1092053209/,/catalog/interer/vazy-i-kuvshiny/vaza-keramicheskaya/,seo012:leaf-match; svet-slug-fix-052
+c-cyrillic-staging,/catalog/вазы-и-аксессуары/вазы-и-кувшины/MU0168/,/catalog/interer/vazy-i-kuvshiny/vaza-keramicheskaya/,seo012:leaf-match; svet-slug-fix-052
+a-muru-ru,/catalog/vazy-i-aksessuary/vazy-i-kuvshiny/poster-ty/,/catalog/interer/vazy-i-kuvshiny/vaza-keramicheskaya-2/,seo012:leaf-match; svet-slug-fix-052
+c-cyrillic-staging,/catalog/вазы-и-аксессуары/вазы-и-кувшины/MU0169/,/catalog/interer/vazy-i-kuvshiny/vaza-keramicheskaya-2/,seo012:leaf-match; svet-slug-fix-052
+a-muru-ru,/catalog/vazy-i-aksessuary/vazy-i-kuvshiny/poster-ty-683178112/,/catalog/interer/vazy-i-kuvshiny/vaza-keramicheskaya-3/,seo012:leaf-match; svet-slug-fix-052
+c-cyrillic-staging,/catalog/вазы-и-аксессуары/вазы-и-кувшины/MU0170/,/catalog/interer/vazy-i-kuvshiny/vaza-keramicheskaya-3/,seo012:leaf-match; svet-slug-fix-052
+a-muru-ru,/catalog/vazy-i-aksessuary/vazy-i-kuvshiny/poster-ty-1414275150/,/catalog/interer/vazy-i-kuvshiny/vaza-steklyannaya/,seo012:leaf-base-match; svet-slug-fix-052
+c-cyrillic-staging,/catalog/вазы-и-аксессуары/вазы-и-кувшины/MU0171/,/catalog/interer/vazy-i-kuvshiny/vaza-steklyannaya/,seo012:leaf-base-match; svet-slug-fix-052
+a-muru-ru,/catalog/vazy-i-aksessuary/vazy-i-kuvshiny/poster-lyubov-vitaet-v-vozdukhe/,/catalog/interer/vazy-i-kuvshiny/vaza-steklyannaya-3/,seo012:leaf-match; svet-slug-fix-052
+c-cyrillic-staging,/catalog/вазы-и-аксессуары/вазы-и-кувшины/MU0172/,/catalog/interer/vazy-i-kuvshiny/vaza-steklyannaya-3/,seo012:leaf-match; svet-slug-fix-052
 c-cyrillic-staging,/catalog/флористика/горшки-и-кашпо/MU0173/,/catalog/floristika-dlya-doma/gorshki-i-kashpo/,seo012:parent-category
 a-muru-ru,/catalog/floristika-dlya-doma/gorshki-i-kashpo/kashpo-1480161548/,/catalog/floristika-dlya-doma/gorshki-i-kashpo/,seo012:parent-category
 c-cyrillic-staging,/catalog/флористика/горшки-и-кашпо/MU0174/,/catalog/floristika-dlya-doma/gorshki-i-kashpo/,seo012:parent-category
@@ -342,16 +342,16 @@ c-cyrillic-staging,/catalog/без-категории/без-категории/
 c-cyrillic-staging,/catalog/без-категории/без-категории/MU0189/,/catalog/,target product has no public category — retargeted to /catalog/
 c-cyrillic-staging,/catalog/без-категории/без-категории/MU0190/,/catalog/,target product has no public category — retargeted to /catalog/
 c-cyrillic-staging,/catalog/без-категории/без-категории/MU0193/,/catalog/,target product has no public category — retargeted to /catalog/
-a-muru-ru,/catalog/vazy-i-aksessuary/vazy-i-kuvshiny/poster-abstraktsiya-obyatie-1925175868/,/catalog/mebel-i-svet/svet/,seo012:parent-category; seo012:hub-remap
-c-cyrillic-staging,/catalog/вазы-и-аксессуары/вазы-и-кувшины/MU0198/,/catalog/mebel-i-svet/svet/,seo012:parent-category; seo012:hub-remap
-a-muru-ru,/catalog/vazy-i-aksessuary/vazy-i-kuvshiny/poster-abstraktsiya-peyzazh/,/catalog/mebel-i-svet/svet/,seo012:parent-category; seo012:hub-remap
-c-cyrillic-staging,/catalog/вазы-и-аксессуары/вазы-и-кувшины/MU0199/,/catalog/mebel-i-svet/svet/,seo012:parent-category; seo012:hub-remap
+a-muru-ru,/catalog/vazy-i-aksessuary/vazy-i-kuvshiny/poster-abstraktsiya-obyatie-1925175868/,/catalog/interer/vazy-i-kuvshiny/,seo012:parent-category; seo012:hub-remap; svet-slug-fix-052
+c-cyrillic-staging,/catalog/вазы-и-аксессуары/вазы-и-кувшины/MU0198/,/catalog/interer/vazy-i-kuvshiny/,seo012:parent-category; seo012:hub-remap; svet-slug-fix-052
+a-muru-ru,/catalog/vazy-i-aksessuary/vazy-i-kuvshiny/poster-abstraktsiya-peyzazh/,/catalog/interer/vazy-i-kuvshiny/,seo012:parent-category; seo012:hub-remap; svet-slug-fix-052
+c-cyrillic-staging,/catalog/вазы-и-аксессуары/вазы-и-кувшины/MU0199/,/catalog/interer/vazy-i-kuvshiny/,seo012:parent-category; seo012:hub-remap; svet-slug-fix-052
 c-cyrillic-staging,/catalog/без-категории/без-категории/MU0200/,/catalog/,target product has no public category — retargeted to /catalog/
-a-muru-ru,/catalog/vazy-i-aksessuary/vazy-i-kuvshiny/vaza-steklyannaya-26726449/,/catalog/mebel-i-svet/svet/,seo012:parent-category; seo012:hub-remap
-c-cyrillic-staging,/catalog/вазы-и-аксессуары/вазы-и-кувшины/MU0203/,/catalog/mebel-i-svet/svet/,seo012:parent-category; seo012:hub-remap
-c-cyrillic-staging,/catalog/вазы-и-аксессуары/вазы-и-кувшины/MU0204/,/catalog/mebel-i-svet/svet/,seo012:parent-category; seo012:hub-remap
-a-muru-ru,/catalog/vazy-i-aksessuary/vazy-i-kuvshiny/vaza-keramicheskaya-771415311/,/catalog/mebel-i-svet/svet/,seo012:parent-category; seo012:hub-remap
-c-cyrillic-staging,/catalog/вазы-и-аксессуары/вазы-и-кувшины/MU0205/,/catalog/mebel-i-svet/svet/,seo012:parent-category; seo012:hub-remap
+a-muru-ru,/catalog/vazy-i-aksessuary/vazy-i-kuvshiny/vaza-steklyannaya-26726449/,/catalog/interer/vazy-i-kuvshiny/,seo012:parent-category; seo012:hub-remap; svet-slug-fix-052
+c-cyrillic-staging,/catalog/вазы-и-аксессуары/вазы-и-кувшины/MU0203/,/catalog/interer/vazy-i-kuvshiny/,seo012:parent-category; seo012:hub-remap; svet-slug-fix-052
+c-cyrillic-staging,/catalog/вазы-и-аксессуары/вазы-и-кувшины/MU0204/,/catalog/interer/vazy-i-kuvshiny/,seo012:parent-category; seo012:hub-remap; svet-slug-fix-052
+a-muru-ru,/catalog/vazy-i-aksessuary/vazy-i-kuvshiny/vaza-keramicheskaya-771415311/,/catalog/interer/vazy-i-kuvshiny/,seo012:parent-category; seo012:hub-remap; svet-slug-fix-052
+c-cyrillic-staging,/catalog/вазы-и-аксессуары/вазы-и-кувшины/MU0205/,/catalog/interer/vazy-i-kuvshiny/,seo012:parent-category; seo012:hub-remap; svet-slug-fix-052
 a-muru-ru,/catalog/naturalnyy-dekor/svechi/vaza-keramicheskaya-96697980/,/catalog/naturalnyy-dekor/svechi/aromaticheskaya-svecha-v-stekle-bolshaya/,
 c-cyrillic-staging,/catalog/натуральный-декор/свечи/MU0206/,/catalog/naturalnyy-dekor/svechi/aromaticheskaya-svecha-v-stekle-bolshaya/,
 a-muru-ru,/catalog/naturalnyy-dekor/svechi/vaza-steklyannaya-1076971271/,/catalog/naturalnyy-dekor/svechi/aromaticheskaya-svecha-v-stekle-bolshaya-2/,
@@ -440,12 +440,12 @@ a-muru-ru,/catalog/kukhnya-i-stolovaya/kukhonnye-aksessuary/chekhol-na-butyl-19-
 c-cyrillic-staging,/catalog/кухня-и-столовая/кухонные-аксессуары/MU0252/,/catalog/kukhnya-i-stolovaya/kukhonnye-aksessuary/chekhol-na-butyl-19-l-pape-mashe-2/,
 c-cyrillic-staging,/catalog/интерьер/свет/MU0253/,/catalog/mebel-i-svet/svet/svetilnik-bolshoy-pape-mashe/,seo012:leaf-match
 c-cyrillic-staging,/catalog/интерьер/свет/MU0254/,/catalog/mebel-i-svet/mebel/svetilnik-malyy-pape-mashe/,seo012:leaf-match
-c-cyrillic-staging,/catalog/вазы-и-аксессуары/вазы-и-кувшины/MU0255/,/catalog/mebel-i-svet/svet/vaza-bolshaya-pape-mashe/,seo012:leaf-match
-c-cyrillic-staging,/catalog/вазы-и-аксессуары/вазы-и-кувшины/MU0256/,/catalog/mebel-i-svet/svet/vaza-malaya-pape-mashe/,seo012:leaf-match
-a-muru-ru,/catalog/vazy-i-aksessuary/vazy-i-kuvshiny/vaza-bolshaya-pape-mashe-140962511/,/catalog/mebel-i-svet/svet/vaza-bolshaya-pape-mashe-2/,seo012:leaf-match
-c-cyrillic-staging,/catalog/вазы-и-аксессуары/вазы-и-кувшины/MU0257/,/catalog/mebel-i-svet/svet/vaza-bolshaya-pape-mashe-2/,seo012:leaf-match
-a-muru-ru,/catalog/vazy-i-aksessuary/vazy-i-kuvshiny/vaza-malaya-pape-mashe-38834364/,/catalog/mebel-i-svet/svet/vaza-malaya-pape-mashe-2/,seo012:leaf-match
-c-cyrillic-staging,/catalog/вазы-и-аксессуары/вазы-и-кувшины/MU0258/,/catalog/mebel-i-svet/svet/vaza-malaya-pape-mashe-2/,seo012:leaf-match
+c-cyrillic-staging,/catalog/вазы-и-аксессуары/вазы-и-кувшины/MU0255/,/catalog/interer/vazy-i-kuvshiny/vaza-bolshaya-pape-mashe/,seo012:leaf-match; svet-slug-fix-052
+c-cyrillic-staging,/catalog/вазы-и-аксессуары/вазы-и-кувшины/MU0256/,/catalog/interer/vazy-i-kuvshiny/vaza-malaya-pape-mashe/,seo012:leaf-match; svet-slug-fix-052
+a-muru-ru,/catalog/vazy-i-aksessuary/vazy-i-kuvshiny/vaza-bolshaya-pape-mashe-140962511/,/catalog/interer/vazy-i-kuvshiny/vaza-bolshaya-pape-mashe-2/,seo012:leaf-match; svet-slug-fix-052
+c-cyrillic-staging,/catalog/вазы-и-аксессуары/вазы-и-кувшины/MU0257/,/catalog/interer/vazy-i-kuvshiny/vaza-bolshaya-pape-mashe-2/,seo012:leaf-match; svet-slug-fix-052
+a-muru-ru,/catalog/vazy-i-aksessuary/vazy-i-kuvshiny/vaza-malaya-pape-mashe-38834364/,/catalog/interer/vazy-i-kuvshiny/vaza-malaya-pape-mashe-2/,seo012:leaf-match; svet-slug-fix-052
+c-cyrillic-staging,/catalog/вазы-и-аксессуары/вазы-и-кувшины/MU0258/,/catalog/interer/vazy-i-kuvshiny/vaza-malaya-pape-mashe-2/,seo012:leaf-match; svet-slug-fix-052
 c-cyrillic-staging,/catalog/комплексные-наборы/корпоративные-подарки/MU0259/,/catalog/kompleksnye-nabory/korporativnye-podarki/korporativnye-podarki-s/,
 c-cyrillic-staging,/catalog/комплексные-наборы/корпоративные-подарки/MU0260/,/catalog/kompleksnye-nabory/korporativnye-podarki/korporativnye-podarki-m/,
 c-cyrillic-staging,/catalog/комплексные-наборы/корпоративные-подарки/MU0261/,/catalog/kompleksnye-nabory/korporativnye-podarki/korporativnye-podarki-l/,
@@ -471,32 +471,32 @@ c-cyrillic-staging,/catalog/натуральный-декор/свечи/MU0289/
 c-cyrillic-staging,/catalog/натуральный-декор/свечи/MU0290/,/catalog/naturalnyy-dekor/svechi/nabor-stolovykh-svechey-6-sht-7/,
 c-cyrillic-staging,/catalog/натуральный-декор/свечи/MU0291/,/catalog/naturalnyy-dekor/svechi/nabor-stolovykh-svechey-6-sht-8/,
 c-cyrillic-staging,/catalog/кухня-и-столовая/посуда/MU0292/,/catalog/kukhnya-i-stolovaya/posuda/chaynaya-para-kletka/,
-c-cyrillic-staging,/catalog/вазы-и-аксессуары/вазы-и-кувшины/MU0293/,/catalog/mebel-i-svet/svet/vaza-keramicheskaya-bolshaya/,seo012:leaf-match
-c-cyrillic-staging,/catalog/вазы-и-аксессуары/вазы-и-кувшины/MU0294/,/catalog/mebel-i-svet/svet/vaza-keramicheskaya-malaya/,seo012:leaf-match
+c-cyrillic-staging,/catalog/вазы-и-аксессуары/вазы-и-кувшины/MU0293/,/catalog/interer/vazy-i-kuvshiny/vaza-keramicheskaya-bolshaya/,seo012:leaf-match; svet-slug-fix-052
+c-cyrillic-staging,/catalog/вазы-и-аксессуары/вазы-и-кувшины/MU0294/,/catalog/interer/vazy-i-kuvshiny/vaza-keramicheskaya-malaya/,seo012:leaf-match; svet-slug-fix-052
 c-cyrillic-staging,/catalog/вазы-и-аксессуары/держатели-и-кензаны-для-цветов/MU0295/,/catalog/floristika-dlya-doma/kenzany-i-derzhateli-dlya-tsvetov/,seo012:parent-category; seo012:hub-remap
-a-muru-ru,/catalog/vazy-i-aksessuary/,/catalog/mebel-i-svet/svet/,seo012:hub-remap
-a-muru-ru,/catalog/vazy-i-aksessuary/vazy-i-kuvshiny/,/catalog/mebel-i-svet/svet/,seo012:hub-remap
+a-muru-ru,/catalog/vazy-i-aksessuary/,/catalog/interer/vazy-i-kuvshiny/,seo012:hub-remap; svet-slug-fix-052
+a-muru-ru,/catalog/vazy-i-aksessuary/vazy-i-kuvshiny/,/catalog/interer/vazy-i-kuvshiny/,seo012:hub-remap; svet-slug-fix-052
 a-muru-ru,/catalog/vazy-i-aksessuary/podsvechniki/,/catalog/interer/podsvechniki/,seo012:hub-remap
 a-muru-ru,/catalog/naturalnyy-dekor/korziny-i-pletenye-izdeliya/,/catalog/interer/korziny-i-pletenye-izdeliya/,seo018:supersede-dead-hub-remap
 a-muru-ru,/catalog/naturalnyy-dekor/sukhotsvety/,/catalog/floristika-dlya-doma/sukhotsvety/,seo012:hub-remap
-d-seo018,/catalog/kukhnya-i-stolovaya/posuda/dekorativnoe-blyudo-keramicheskoe/,/catalog/mebel-i-svet/svet/dekorativnoe-blyudo-keramicheskoe/,seo018:moved-product
-d-seo018,/catalog/vazy-i-aksessuary/vazy-i-kuvshiny/vaza-steklyannaya-vsplesk/,/catalog/mebel-i-svet/svet/vaza-steklyannaya-vsplesk/,seo018:moved-product
+d-seo018,/catalog/kukhnya-i-stolovaya/posuda/dekorativnoe-blyudo-keramicheskoe/,/catalog/interer/vazy-i-kuvshiny/dekorativnoe-blyudo-keramicheskoe/,seo018:moved-product; svet-slug-fix-052
+d-seo018,/catalog/vazy-i-aksessuary/vazy-i-kuvshiny/vaza-steklyannaya-vsplesk/,/catalog/interer/vazy-i-kuvshiny/vaza-steklyannaya-vsplesk/,seo018:moved-product; svet-slug-fix-052
 d-seo018,/catalog/naturalnyy-dekor/sukhotsvety/sukhotsvety-lavanda/,/catalog/floristika-dlya-doma/sukhotsvety/sukhotsvety-lavanda/,seo018:moved-product
 d-seo018,/catalog/naturalnyy-dekor/sukhotsvety/sukhotsvety-lagurus/,/catalog/floristika-dlya-doma/sukhotsvety/sukhotsvety-lagurus/,seo018:moved-product
-d-seo018,/catalog/vazy-i-aksessuary/vazy-i-kuvshiny/vaza-pinya-s-uzkim-gorlom/,/catalog/mebel-i-svet/svet/vaza-pinya-s-uzkim-gorlom/,seo018:moved-product
-d-seo018,/catalog/vazy-i-aksessuary/vazy-i-kuvshiny/vaza-steklyannaya-grey/,/catalog/mebel-i-svet/svet/vaza-steklyannaya-grey/,seo018:moved-product
-d-seo018,/catalog/vazy-i-aksessuary/vazy-i-kuvshiny/vaza-steklyannaya-vsplesk-2/,/catalog/mebel-i-svet/svet/vaza-steklyannaya-vsplesk-2/,seo018:moved-product
+d-seo018,/catalog/vazy-i-aksessuary/vazy-i-kuvshiny/vaza-pinya-s-uzkim-gorlom/,/catalog/interer/vazy-i-kuvshiny/vaza-pinya-s-uzkim-gorlom/,seo018:moved-product; svet-slug-fix-052
+d-seo018,/catalog/vazy-i-aksessuary/vazy-i-kuvshiny/vaza-steklyannaya-grey/,/catalog/interer/vazy-i-kuvshiny/vaza-steklyannaya-grey/,seo018:moved-product; svet-slug-fix-052
+d-seo018,/catalog/vazy-i-aksessuary/vazy-i-kuvshiny/vaza-steklyannaya-vsplesk-2/,/catalog/interer/vazy-i-kuvshiny/vaza-steklyannaya-vsplesk-2/,seo018:moved-product; svet-slug-fix-052
 d-seo018,/catalog/kukhnya-i-stolovaya/tekstil-dlya-kukhni-i-stolovoy/mu0315-skatert/,/catalog/tekstil/skaterti-i-dorozhi/mu0315-skatert/,seo018:moved-product
 d-seo018,/catalog/kukhnya-i-stolovaya/tekstil-dlya-kukhni-i-stolovoy/lnyanaya-skatert-tikhiy-dom-5/,/catalog/tekstil/skaterti-i-dorozhi/lnyanaya-skatert-tikhiy-dom-5/,seo018:moved-product
 d-seo018,/catalog/tekstil/spalnya/dekorativnaya-podushka-mu0368/,/catalog/tekstil/gostinaya/dekorativnaya-podushka-mu0368/,seo018:moved-product
 d-seo018,/catalog/vazy-i-aksessuary/podsvechniki/podsvechnik-metallicheskiy-kuvshinka/,/catalog/interer/podsvechniki/podsvechnik-metallicheskiy-kuvshinka/,seo018:moved-product
-d-seo018,/catalog/vazy-i-aksessuary/vazy-i-kuvshiny/vaza-keramicheskaya-pesok-3/,/catalog/mebel-i-svet/svet/vaza-keramicheskaya-pesok-3/,seo018:moved-product
+d-seo018,/catalog/vazy-i-aksessuary/vazy-i-kuvshiny/vaza-keramicheskaya-pesok-3/,/catalog/interer/vazy-i-kuvshiny/vaza-keramicheskaya-pesok-3/,seo018:moved-product; svet-slug-fix-052
 d-seo018,/catalog/vazy-i-aksessuary/vazy-i-kuvshiny/dekorativnoe-blyudo-na-nozhke-keramicheskoe/,/catalog/interer/predmety-dekora/dekorativnoe-blyudo-na-nozhke-keramicheskoe/,seo018:moved-product
-d-seo018,/catalog/vazy-i-aksessuary/vazy-i-kuvshiny/vaza-keramicheskaya-pesok-bolshaya/,/catalog/mebel-i-svet/svet/vaza-keramicheskaya-pesok-bolshaya/,seo018:moved-product
+d-seo018,/catalog/vazy-i-aksessuary/vazy-i-kuvshiny/vaza-keramicheskaya-pesok-bolshaya/,/catalog/interer/vazy-i-kuvshiny/vaza-keramicheskaya-pesok-bolshaya/,seo018:moved-product; svet-slug-fix-052
 d-seo018,/catalog/naturalnyy-dekor/sukhotsvety/sukhotsvety-pshenitsa/,/catalog/floristika-dlya-doma/sukhotsvety/sukhotsvety-pshenitsa/,seo018:moved-product
 d-seo018,/catalog/naturalnyy-dekor/sukhotsvety/sukhotsvety-ruskus/,/catalog/floristika-dlya-doma/sukhotsvety/sukhotsvety-ruskus/,seo018:moved-product
 d-seo018,/catalog/vazy-i-aksessuary/derzhateli-i-kenzany-dlya-tsvetov/keramicheskiy-kenzan-/,/catalog/floristika-dlya-doma/kenzany-i-derzhateli-dlya-tsvetov/keramicheskiy-kenzan-/,seo018:moved-product
-d-seo018,/catalog/vazy-i-aksessuary/vazy-i-kuvshiny/vaza-inzhir-korichnevaya/,/catalog/mebel-i-svet/svet/vaza-inzhir-korichnevaya/,seo018:moved-product
+d-seo018,/catalog/vazy-i-aksessuary/vazy-i-kuvshiny/vaza-inzhir-korichnevaya/,/catalog/interer/vazy-i-kuvshiny/vaza-inzhir-korichnevaya/,seo018:moved-product; svet-slug-fix-052
 d-seo018,/catalog/tekstil/spalnya/postelnoe-bele-mu0356/,/catalog/postelnoe-bele-i-pledy/postelnoe-bele/postelnoe-bele-mu0356/,seo018:moved-product
 d-seo018,/catalog/tekstil/gostinaya/pled/,/catalog/postelnoe-bele-i-pledy/pledy/pled/,seo018:moved-product
 d-seo018,/catalog/tekstil/spalnya/pled-iz-shersti-mu0366/,/catalog/postelnoe-bele-i-pledy/pledy/pled-iz-shersti-mu0366/,seo018:moved-product
@@ -509,7 +509,7 @@ d-seo018,/catalog/kompleksnye-nabory/korporativnye-podarki/podarochnyy-sertifika
 d-seo018,/catalog/tekstil/spalnya/postelnoe-bele-naturalnyy-khlopok/,/catalog/postelnoe-bele-i-pledy/postelnoe-bele/postelnoe-bele-naturalnyy-khlopok/,seo018:moved-product
 d-seo018,/catalog/tekstil/gostinaya/pled-mu0353/,/catalog/postelnoe-bele-i-pledy/pledy/pled-mu0353/,seo018:moved-product
 d-seo018,/catalog/tekstil/spalnya/postelnoe-bele-mu0358/,/catalog/postelnoe-bele-i-pledy/postelnoe-bele/postelnoe-bele-mu0358/,seo018:moved-product
-d-seo018,/catalog/vazy-i-aksessuary/vazy-i-kuvshiny/mu0328-vaza-steklyannaya-mars/,/catalog/mebel-i-svet/svet/mu0328-vaza-steklyannaya-mars/,seo018:moved-product
+d-seo018,/catalog/vazy-i-aksessuary/vazy-i-kuvshiny/mu0328-vaza-steklyannaya-mars/,/catalog/interer/vazy-i-kuvshiny/mu0328-vaza-steklyannaya-mars/,seo018:moved-product; svet-slug-fix-052
 d-seo018,/catalog/kukhnya-i-stolovaya/posuda/podstavka-pod-stolovye-pribory/,/catalog/kukhnya-i-stolovaya/servirovka/podstavka-pod-stolovye-pribory/,seo018:moved-product
 d-seo018,/catalog/tekstil/spalnya/pled-iz-shersti/,/catalog/postelnoe-bele-i-pledy/pledy/pled-iz-shersti/,seo018:moved-product
 d-seo018,/catalog/naturalnyy-dekor/korziny-i-pletenye-izdeliya/korzina-pletenaya-3-sht-nabor/,/catalog/interer/korziny-i-pletenye-izdeliya/korzina-pletenaya-3-sht-nabor/,seo018:moved-product
@@ -520,17 +520,17 @@ d-seo018,/catalog/kompleksnye-nabory/korporativnye-podarki/podarochnyy-sertifika
 d-seo018,/catalog/tekstil/gostinaya/pled-iz-khlopka/,/catalog/postelnoe-bele-i-pledy/pledy/pled-iz-khlopka/,seo018:moved-product
 d-seo018,/catalog/kukhnya-i-stolovaya/servirovka/mu0316-dorozhka-dlya-servirovki/,/catalog/tekstil/skaterti-i-dorozhi/mu0316-dorozhka-dlya-servirovki/,seo018:moved-product
 d-seo018,/catalog/tekstil/gostinaya/pled-iz-khlopka-mu0363/,/catalog/postelnoe-bele-i-pledy/pledy/pled-iz-khlopka-mu0363/,seo018:moved-product
-d-seo018,/catalog/vazy-i-aksessuary/vazy-i-kuvshiny/mu0321-vaza-steklyannaya-led/,/catalog/mebel-i-svet/svet/mu0321-vaza-steklyannaya-led/,seo018:moved-product
+d-seo018,/catalog/vazy-i-aksessuary/vazy-i-kuvshiny/mu0321-vaza-steklyannaya-led/,/catalog/interer/vazy-i-kuvshiny/mu0321-vaza-steklyannaya-led/,seo018:moved-product; svet-slug-fix-052
 d-seo018,/catalog/rasprodazha/rasprodazha/keramicheskiy-derzhatel-dlya-salfetok/,/catalog/kukhnya-i-stolovaya/khranenie-i-poryadok/keramicheskiy-derzhatel-dlya-salfetok/,seo018:moved-product
 d-seo018,/catalog/kukhnya-i-stolovaya/posuda/mu0304-chaynaya-lozhka/,/catalog/kukhnya-i-stolovaya/tekstil-dlya-kukhni-i-stolovoy/mu0304-chaynaya-lozhka/,seo018:moved-product
-d-seo018,/catalog/vazy-i-aksessuary/vazy-i-kuvshiny/vaza-keramicheskaya-malay/,/catalog/mebel-i-svet/svet/vaza-keramicheskaya-malay/,seo018:moved-product
+d-seo018,/catalog/vazy-i-aksessuary/vazy-i-kuvshiny/vaza-keramicheskaya-malay/,/catalog/interer/vazy-i-kuvshiny/vaza-keramicheskaya-malay/,seo018:moved-product; svet-slug-fix-052
 d-seo018,/catalog/kukhnya-i-stolovaya/posuda/mu0298-lozhka/,/catalog/kukhnya-i-stolovaya/tekstil-dlya-kukhni-i-stolovoy/mu0298-lozhka/,seo018:moved-product
 d-seo018,/catalog/rasprodazha/rasprodazha/keramicheskiy-podsvechnik/,/catalog/interer/podsvechniki/keramicheskiy-podsvechnik/,seo018:moved-product
-d-seo018,/catalog/vazy-i-aksessuary/vazy-i-kuvshiny/vaza-steklyannaya-ritm/,/catalog/mebel-i-svet/svet/vaza-steklyannaya-ritm/,seo018:moved-product
+d-seo018,/catalog/vazy-i-aksessuary/vazy-i-kuvshiny/vaza-steklyannaya-ritm/,/catalog/interer/vazy-i-kuvshiny/vaza-steklyannaya-ritm/,seo018:moved-product; svet-slug-fix-052
 d-seo018,/catalog/rasprodazha/rasprodazha/keramicheskiy-podsvechnik-4/,/catalog/interer/podsvechniki/keramicheskiy-podsvechnik-4/,seo018:moved-product
 d-seo018,/catalog/tekstil/spalnya/dekorativnaya-podushka-mu0372/,/catalog/tekstil/gostinaya/dekorativnaya-podushka-mu0372/,seo018:moved-product
 d-seo018,/catalog/kukhnya-i-stolovaya/posuda/mu0302-vilka/,/catalog/kukhnya-i-stolovaya/tekstil-dlya-kukhni-i-stolovoy/mu0302-vilka/,seo018:moved-product
-d-seo018,/catalog/vazy-i-aksessuary/vazy-i-kuvshiny/vaza-steklyannaya-tyulpan/,/catalog/mebel-i-svet/svet/vaza-steklyannaya-tyulpan/,seo018:moved-product
+d-seo018,/catalog/vazy-i-aksessuary/vazy-i-kuvshiny/vaza-steklyannaya-tyulpan/,/catalog/interer/vazy-i-kuvshiny/vaza-steklyannaya-tyulpan/,seo018:moved-product; svet-slug-fix-052
 d-seo018,/catalog/rasprodazha/rasprodazha/keramicheskiy-podsvechnik-7/,/catalog/interer/podsvechniki/keramicheskiy-podsvechnik-7/,seo018:moved-product
 d-seo018,/catalog/vazy-i-aksessuary/derzhateli-i-kenzany-dlya-tsvetov/keramicheskiy-kenzan/,/catalog/floristika-dlya-doma/kenzany-i-derzhateli-dlya-tsvetov/keramicheskiy-kenzan/,seo018:moved-product
 d-seo018,/catalog/kukhnya-i-stolovaya/posuda/mu0301-stolovyy-nozh/,/catalog/kukhnya-i-stolovaya/tekstil-dlya-kukhni-i-stolovoy/mu0301-stolovyy-nozh/,seo018:moved-product
@@ -550,3 +550,4 @@ d-seo018,/landings/tyeplyy-pesok/,/landings/teplyy-pesok/,seo018:landing-typo
 d-seo018,/catalog/podarochnye-karty/kompleksnye-nabory/podarochnyy-sertifikat-10000/,/catalog/podarochnye-karty/podarochnye-karty/podarochnyy-sertifikat-10000/,seo018:gift-cert-broken-href
 d-seo018,/catalog/podarochnye-karty/kompleksnye-nabory/podarochnyy-sertifikat-15000/,/catalog/podarochnye-karty/podarochnye-karty/podarochnyy-sertifikat-15000/,seo018:gift-cert-broken-href
 d-seo018,/catalog/podarochnye-karty/kompleksnye-nabory/podarochnyy-sertifikat-5000/,/catalog/podarochnye-karty/podarochnye-karty/podarochnyy-sertifikat-5000/,seo018:gift-cert-broken-href
+a-muru-ru,/catalog/interer/svet/,/catalog/mebel-i-svet/svet/,svet-slug-fix-052: old interer lamps hub

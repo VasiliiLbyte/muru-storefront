@@ -88,10 +88,12 @@ export type BackendProduct = z.infer<typeof BackendProductSchema>;
 export type BackendProductDetail = z.infer<typeof BackendProductDetailSchema>;
 
 export type CategorySlugMaps = {
-  /** leaf slug → top slug */
+  /** leaf slug → top slug; only for leaf slugs that exist under exactly one top */
   topByLeaf: Map<string, string>;
   /** lowercased category name → top slug */
   topByName: Map<string, string>;
+  /** top slug → its leaf slugs (scoped, safe when leaf slugs repeat across tops) */
+  leavesByTop: Map<string, Set<string>>;
 };
 
 export function buildCategorySlugMaps(
@@ -99,17 +101,26 @@ export function buildCategorySlugMaps(
 ): CategorySlugMaps {
   const topByLeaf = new Map<string, string>();
   const topByName = new Map<string, string>();
+  const leavesByTop = new Map<string, Set<string>>();
+  const ambiguousLeaves = new Set<string>();
 
   for (const top of nodes) {
     topByName.set(top.name.trim().toLowerCase(), top.slug);
     topByLeaf.set(top.slug, top.slug);
+    const leaves = new Set<string>();
+    leavesByTop.set(top.slug, leaves);
     for (const child of top.children) {
-      topByLeaf.set(child.slug, top.slug);
+      leaves.add(child.slug);
+      const owner = topByLeaf.get(child.slug);
+      if (owner !== undefined && owner !== top.slug) ambiguousLeaves.add(child.slug);
+      else topByLeaf.set(child.slug, top.slug);
       topByName.set(child.name.trim().toLowerCase(), top.slug);
     }
   }
+  // A leaf slug shared by two tops (e.g. `svet`) must not be resolved by slug alone.
+  for (const slug of ambiguousLeaves) topByLeaf.delete(slug);
 
-  return { topByLeaf, topByName };
+  return { topByLeaf, topByName, leavesByTop };
 }
 
 function nonEmpty(value: unknown): string | undefined {
@@ -207,7 +218,14 @@ function resolveCategorySlugs(
     ? maps.topByName.get(b.category.trim().toLowerCase())
     : undefined;
   // Primary top from leaf/name only — never seed [0] from cross-placement.
-  const top = topFromLeaf ?? topFromName ?? undefined;
+  // The product's own category wins when it actually contains the leaf.
+  const nameTopOwnsLeaf =
+    topFromName !== undefined &&
+    leaf !== undefined &&
+    maps?.leavesByTop.get(topFromName)?.has(leaf) === true;
+  const top = nameTopOwnsLeaf
+    ? topFromName
+    : (topFromLeaf ?? topFromName ?? undefined);
 
   const ordered: string[] = [];
   const seen = new Set<string>();
@@ -224,7 +242,7 @@ function resolveCategorySlugs(
     // No primary leaf: prefer a membership slug under this top, else flat
     // top===top so cross-placement cannot steal categorySlugs[1].
     const membershipLeaf = (b.webSubcategorySlugs ?? []).find(
-      (s) => maps?.topByLeaf.get(s) === top,
+      (s) => maps?.leavesByTop.get(top)?.has(s) === true,
     );
     if (membershipLeaf) {
       add(membershipLeaf);

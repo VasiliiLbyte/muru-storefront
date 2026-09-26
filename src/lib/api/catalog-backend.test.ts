@@ -24,6 +24,44 @@ function stubBackendProduct(
   };
 }
 
+describe("adaptProduct with a leaf slug shared by two tops", () => {
+  const tree: BackendTreeNode[] = [
+    {
+      name: "Интерьер и предметы декора",
+      slug: "interer",
+      children: [{ name: "Вазы и кувшины", slug: "svet", children: [] }],
+    },
+    {
+      name: "Мебель и свет",
+      slug: "mebel-i-svet",
+      children: [{ name: "Свет", slug: "svet", children: [] }],
+    },
+  ];
+
+  it("resolves the top from the product's own category, not last-write-wins", () => {
+    const maps = buildCategorySlugMaps(tree);
+    const vase = adaptProduct(
+      stubBackendProduct({ category: "Интерьер и предметы декора", subcategorySlug: "svet" }),
+      maps,
+    );
+    const lamp = adaptProduct(
+      stubBackendProduct({ category: "Мебель и свет", subcategorySlug: "svet" }),
+      maps,
+    );
+
+    expect(vase.categorySlugs.slice(0, 2)).toEqual(["interer", "svet"]);
+    expect(vase.categorySlugs).not.toContain("mebel-i-svet");
+    expect(lamp.categorySlugs.slice(0, 2)).toEqual(["mebel-i-svet", "svet"]);
+    expect(lamp.categorySlugs).not.toContain("interer");
+  });
+
+  it("does not resolve an ambiguous leaf by slug alone", () => {
+    const maps = buildCategorySlugMaps(tree);
+    expect(maps.topByLeaf.has("svet")).toBe(false);
+    expect(maps.leavesByTop.get("interer")?.has("svet")).toBe(true);
+  });
+});
+
 describe("adaptProduct webSubcategorySlugs", () => {
   it("merges junction membership slugs when primary leaf is missing", () => {
     const maps = buildCategorySlugMaps([
